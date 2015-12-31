@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <title>Maemoh Power Plant</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+        <style>
+            .ui-header .ui-title{
+                margin-left: 10%;
+                margin-right: 10%
+            }
+            #ttd{
+                background-color: white;
+            }
+            #trs{
+                background-color: gainsboro;
+            }
+            #trr{
+                color: white;
+                background-color: #ff0066;
+            }
+            #trh{
+                color: blue;
+            }
+            #button1 {  
+                border: 1px solid #A6A6A6;  
+                color: #000000;  
+                background: #E0E0E0;  
+            }
+            #button1:hover{
+                border: 1px solid #A6A6A6;  
+                color: #000000;  
+                background: #A6A6A6;  
+            }
+        </style>
+    </head>
+    <body>
+        <section id="Boiler" data-role="page">
+            <header data-role="header" data-position="fixed" id="trh">
+                <h3>Maemoh Power Plant Status 8-13</h3>
+            </header>
+            <table border="1" width="100%" id="showdata2">
+                <tr><td align="center"><br>Loading Database<br><br></td></tr>
+            </table>
+            <footer style="text-align: center" data-role="footer" data-fullscreen="true" data-position="fixed">
+                <button onclick="javascript:location.reload()" class="ui-btn ui-btn-inline ui-btn-corner-all" id="button1">Refresh</button>
+                <button onclick="javascript:location.href = 'main.html'" class="ui-btn ui-btn-inline ui-btn-corner-all" id="button1">Home</button>
+            </footer>
+            <script type="text/javascript">
+                var tag_array = ["GEN POWER", "GEN REACTIVE POWER", "TOTAL COAL FLOW", "TURB SPEED", "TOTAL MAIN STM FLOW", "MAIN STM PRESS", "MAIN STM TEMP AVERAGE", "SH SPRAY WATER FLOW", "RH SPRAY WATER FLOW", "HOT RH OUTL TEMP", "HOT RH STM PRESS", "HOT RH STM FLOW", "FEED WATER FLOW", "NORTH SIDE AIR FLOW", "PRECIP #1 GAS OUTL TEMP", "PRECIP #2 GAS OUTL TEMP", "SOUTH SIDE AIR FLOW", "FURNACE PRESS", "TOTAL AIR FLOW", "% O2 North", "% O2 South", "FEED RATE Pulv1", "FEED RATE Pulv2", "FEED RATE Pulv3", "FEED RATE Pulv4", "FEED RATE Pulv5", "IGNITOR FUEL OIL FLOW", "WARMUP OIL FLOW", "LIGNITE BUKER 1 LEVEL", "LIGNITE BUKER 2 LEVEL", "LIGNITE BUKER 3 LEVEL", "LIGNITE BUKER 4 LEVEL", "LIGNITE BUKER 5 LEVEL", "DRY ASH SILO LEVEL", "CONDEN  PRESS", "LP EXH.COND. TEMP 1", "LP EXH.COMD.TEMP 2", "CONDEN BOX1 INL TEMP", "CONDEN BOX2 INL TEMP", "CONDEN BOX1 OUTL TEMP", "CONDEN BOX2 OUTL TEMP", "BFP1 F/W OUTL FLOW", "BFP2 F/W OUTL FLOW", "BFP3 F/W OUTL FLOW", "BFP1 SPEED", "BFP2 SPEED", "BFP3 SPEED", "TURB BRG1 SHAFT VIB", "TURB BRG2 SHAFT VIB", "TURB BRG3 SHAFT VIB", "TURB BRG4 SHAFT VIB", "GEN BRG5 SHAFT VIB", "GEN BRG6 SHAFT VIB", "GEN BRG7 SHAFT VIB", "TURB BRG3 DIFF EXP", "TURB BRG4 DIFF EXP", "HOT AIR FLOW Pulv1", "HOT AIR FLOW Pulv2", "HOT AIR FLOW Pulv3", "HOT AIR FLOW Pulv4", "HOT AIR FLOW Pulv5", "DIFF PRESS Pulv1", "DIFF PRESS Pulv2", "DIFF PRESS Pulv3", "DIFF PRESS Pulv4", "DIFF PRESS Pulv5", "Pulv1 ACTIVE POWER", "Pulv2 ACTIVE POWER", "Pulv3 ACTIVE POWER", "Pulv4 ACTIVE POWER", "Pulv5 ACTIVE POWER", "Pulv1 HOT AIR DMP POS", "Pulv2 HOT AIR DMP POS", "Pulv3 HOT AIR DMP POS", "Pulv4 HOT AIR DMP POS", "Pulv5 HOT AIR DMP POS", "Pulv1 OUTL TEMP", "Pulv2 OUTL TEMP", "Pulv3 OUTL TEMP", "Pulv4 OUTL TEMP", "Pulv5 OUTL TEMP", "Pulv1 THRUST PAD TEMP", "Pulv2 THRUST PAD TEMP", "Pulv3 THRUST PAD TEMP", "Pulv4 THRUST PAD TEMP", "Pulv5 THRUST PAD TEMP", "Pulv1 HOT AIR TEMP", "Pulv2 HOT AIR TEMP", "Pulv3 HOT AIR TEMP", "Pulv4 HOT AIR TEMP", "Pulv5 HOT AIR TEMP", "WIN/FURN.DIFF.PRESS.", "PAH1 AIR OUTL PRESS.", "PAH2 AIR OUTL PRESS.", "CON OPERATE DAY", "LAST MONTH OUTAGE TIME", "LAST MONTH OUTAGE DATE", "HOT AIR CMD Pulv1", "HOT AIR CMD Pulv2", "HOT AIR CMD Pulv3", "HOT AIR CMD Pulv4", "HOT AIR CMD Pulv5", "BOIL STBLWR STM FLOW", "S/H SET POINT", "IDF1 MTR CURRENT", "IDF2 MTR CURRENT", "IDF1 POS VANES INL", "IDF2 POS VANES INL", "FDF1 MTR CURRENT", "FDF2 MTR CURRENT", "FDF1 INL VANES POS", "FDF2 INL VANES POS", "PAF1 CURRENT", "PAF2 CURRENT", "PAF1 INL VANES POS.", "PAF2 INL VANES POS.", "PAF1 MTR BRG TEMP DE", "PAF2 MTR BRG TEMP DE", "PAF1 MTR BRG TEMP NDE", "PAF2 MTR BRG TEMP NDE", "SO2 FGD INLET", "SO2 FLOW INLET", "FGD O2 EMISSION", "FGD NOX EMISSION", "FGD CO EMISSION", "FGD SO2 EMISSION", "FUEL GAS OPACITY (N)", "FUEL GAS OPACITY (S)", "SYSTEM DAY", "SYSTEM MONTH", "SYSTEM YEAR", "SYSTEM HOUR", "SYSTEM MININUTE", "SYSTEM SECCOND", "IDF1 MTR BRG TEMP DE", "IDF1 MTR BRG TEMP NDE", "IDF1 OUTBOARD BRG TEMP", "IDF1 INBOARD BRG TEMP", "IDF2 MTR BRG TEMP DE", "IDF2 MTR BRG TEMP NDE", "IDF2 OUTBOARD BRG TEMP", "IDF2 INBOARD BRG TEMP", "FDF1 MTR BRG TEMP DE", "FDF1 MTR BRG TEMP NDE", "FDF1 OUTBOARD BRG TEMP", "FDF1 INBOARD BRG TEMP", "FDF2 MTR BRG TEMP DE", "FDF2 MTR BRG TEMP NDE", "FDF2 OUTBOARD BRG TEMP", "FDF2 INBOARD BRG TEMP", "PAF1 OUTBOARD BRG TEMP", "PAF1 INBOARD BRG TEMP", "PAF2 OUTBOARD BRG TEMP", "PAF2 INBOARD BRG TEMP", "BURNER TILTING 51 POS", "BURNER TILTING 52 POS", "BURNER TILTING 53 POS", "BURNER TILTING 54 POS", "SH LINE RA10 TEMP1", "SH LINE RA10 TEMP2", "SH LINE RA10 TEMP3", "SH LINE RA10 TEMP4", "SH LINE RA20 TEMP1", "SH LINE RA20 TEMP2", "SH LINE RA20 TEMP3", "SH LINE RA20 TEMP4", "Pulv1 PRESS.", "Pulv2 PRESS.", "Pulv3 PRESS.", "Pulv4 PRESS.", "Pulv5 PRESS.", "SSC DRIVE SPEED", "COLD COND STOR TANK LVL", "LIGHT OIL DAY TANK LEVEL", "O2 FGD INLET", "BMC OUTPUT", "E-room Ambient TEMP", "CNR.51 ELEV.1 FLAME", "CNR.52 ELEV.1 FLAME", "CNR.53 ELEV.1 FLAME", "CNR.54 ELEV.1 FLAME", "CNR.51 WARM-UP FLAME", "CNR.52 WARM-UP FLAME", "CNR.53 WARM-UP FLAME", "CNR.54 WARM-UP FLAME", "CNR.51 ELEV.2 FLAME", "CNR.52 ELEV.2 FLAME", "CNR.53 ELEV.2 FLAME", "CNR.54 ELEV.2 FLAME", "CNR.51 ELEV.3 FLAME", "CNR.52 ELEV.3 FLAME", "CNR.53 ELEV.3 FLAME", "CNR.54 ELEV.3 FLAME", "CNR.51 ELEV.4 FLAME", "CNR.52 ELEV.4 FLAME", "CNR.53 ELEV.4 FLAME", "CNR.54 ELEV.4 FLAME", "CNR.51 ELEV.5 FLAME", "CNR.52 ELEV.5 FLAME", "CNR.53 ELEV.5 FLAME", "CNR.54 ELEV.5 FLAME", "FGD BOOTER FAN POS", "SO2 MASS EMISSION", "TOTAL OIL FLOW", "TURB BRG1 METAL TEMP", "TURB BRG2 METAL TEMP", "TURB BRG3 METAL TEMP", "TURB BRG4 METAL TEMP", "TURB BRG5 METAL TEMP", "TURB BRG6 METAL TEMP", "TURB BRG7 METAL TEMP", "AVG MAIN PRESS", "TURB SHAFT DISPLACEMENT", "PAF1  COMMAND POS", "PAF2  COMMAND POS", "FDF1  COMMAND POS", "FDF2  COMMAND POS", "IDF1  COMMAND POS", "IDF2  COMMAND POS", "IP CSG EXPANSION", "BFP1 COMMAND", "BFP2 COMMAND", "BFP3 COMMAND", "MCWP1 BRG VIB", "MCWP2 BRG VIB", "CTF1 CSG VIB", "CTF2 CSG VIB", "CTF3 CSG VIB", "CTF4 CSG VIB", "CTF5 CSG VIB", "CTF6 CSG VIB", "CTF7 CSG VIB", "CTF8 CSG VIB", "CTF9 CSG VIB", "HP CSG 50% TEMP", "HP CSG EXPANSION", "TURB BRG1 DIFF EXP", "R/H TEMP SP", "HPH 7 OUTL TEMP", "AIR INLET TEMP", "SAH1 AIR INL TEMP", "SAH1 GAS OUTL TEMP", "SAH2 GAS OUTL TEMP", "MAIN STEAM PRESS", "IP TURB INL TEMP (N)", "IP TURB INL TEMP (E)", "PAH1 GAS OUTL TEMP", "PAH2 GAS OUTL TEMP", "SAH2 AIR INL TEMP", "MCWP1 SUGTION PRESS", "MCWP2 SUGTION PRESS", "MCW INTAKE BASIN LEVEL", "BWCP1 DIFF.PRESS", "PAH2 INL AIR TEMP", "PAH2 INL AIR PRESS", "PAH2 GAS OUTL PRESS", "PAH2 AIR OUTL TEMP", "PAH2 GAS INL TEMP", "PAH2 GAS INL PRESS", "PAH1 GAS INL TEMP", "PAH1 INL GAS PRESS", "PAH.1 OUTL AIR TEMP", "PAH.1 OUTLET GAS PRESS", "PAH.1 INLET AIR TEMP", "PAH.1 INLET AIR PRESS", "IDF2 INL PRESS", "IDF1 INL PRESS", "MCWP1 BRG1 TEMP", "MCWP2 BRG2 TEMP", "SAH2 AIR INL  PRESS", "SAH1 AIR INL PRESS", "SAH2 AIR OUTL TEMP", "SAH2 AIR OUTL TEMP", "SAH2 GAS INL TEMP", "SAH1 GAS INL TEMP", "WIN/FURN.DIFF.PRESS(N)", "WIN/FURN.DIFF.PRESS(S)", "MCWP2 BRG1 TEMP", "MCWP2 BRG2 TEMP", "NORTH DRUM PRESS", "SOUTH DRUM LEVEL", "SOUTH DRUM LEVEL", "NORTH DRUM LEVEL", "LTSH OUTL HDR TEMP", "LTSH OUTL HDR TEMP", "DE SH OUTL STM TEMP", "DE SH OUTL STM TEMP", "MAIN STM PRESS", "MAIN STM PRESS", "MAIN STM FLOW", "MAIN STM FLOW", "MAIN STM OUTL PRESS", "MAIN STM OUTL PRESS", "MAIN STM PRESS", "MAIN STEAM PRESS", "HP TURB OUTL PRESS", "HP TURB OUTL TEMP", "HP BYP CONTROL VLV. POS", "HP BYP STM TEMP", "COLD RH DSH INL TEMP", "COLD RH DSH INL TEMP", "RH INL HDR TEMP", "RH INL HDR TEMP", "RH OUTL TEMP E", "HOT RH STM PRESS E", "HOT RH STM FLOW", "HOT RH STM TEMP E", "HOT RH STM TEMP E", "HOT RH STM TEMP", "HOT RH STM TEMP", "LB BYP CV POS", "LB BYP CV POS", "HP EXHAUST TEMP", "LHV", "SULFUR", "SULFUR/LHV", "MAIN STEAM CONDUC", "ECONOMIZER INLET CONDUC", "DRUM DOWNCOMER CONDUC", "DRUM DWONCOMER pH", "DRUM BLOWDOWN pH", "SH1 INL CONDUC", "MAIN CONDENSATE CONDUC", "MAIN CONDENSATE pH", "FEED WATER CONDUC", "FEED WATER  pH", "CONDENSATE CONDUC", "DEAERATOR INLET pH", "FURNACE PRESS. SP", "FURN. PRESS. CMD O/P", "RA 10 MID", "RA 20 MID", "MAIN CONT. VALVE 1", "AIN CONT. VALVE 2", "OVERLOAD VALVE 1", "OVERLOAD VALVE 2", "MAN STEAM PR. SP", "DRUM LEVEL MID", "DRUM LEVEL SP", "FEEDWATER COMM. O/P", "FEED WATER PRESS.", "FEED WATER PRESS SP.", "MAIN CRV COMM.", "BY PASS CRV COMM.", "TOTAL ENERGY", "COAL MAS. O/P", "TOTAL AIR FLOW", "AIR FLOW COMM O/P", "PRESSURE DEV.", "SPRAY VALVE POS", "MAIN STEAM PRESS", "PRIMARY AIR PRESS", "HOT AIR FLOW SP", "PRIMARY AIR COMM", "RB10 MID", "RB20 MID", "COMM. TILTING", "DRUM PRESS.MID", "REHEAT PRESS.", "LP SETPOINT", "LP OUTPUT", "O2 TRIM", "BOILER SOOT CO", "CEP OUTLET TEMP", "NOx Emission(ppm)", "SEAL AIR TO PULV. PRESS", "PAF2 MTR BRG DE VIB", "PAF2 OUTBOARD BRG VIB", "PAF1 MTR BRG DE VIB", "PAF1 OUTBOARD BRG VIB", "PAH.1 HOT AIR RECIR POS", "PAH.2 HOT AIR RECIR POS", "SAH.1 HOT AIR RECIR POS", "SAH.2 HOT AIR RECIR POS", "TURB BRG1 VIB", "TURB BRG2 VIB", "TURB BRG3 VIB", "TURB BRG4 VIB", "SHAFT ECCENTRICITY", "HP OUT CSG TEMP50%U", "HP OUT CSG TEMP50%L", "IP OUT CSG TEMP 50%UF", "IP OUT CSG TEMP50%LF", "HP Casing TEMP 100%", "HP Rotor InnerTEMP", "System Frequency", "Pulv1 MTR CURRENT", "Pulv2 MTR CURRENT", "Pulv3 MTR CURRENT", "Pulv4 MTR CURRENT", "Pulv5 MTR CURRENT"];
+                //console.log(tag_array);
+                var serviceURL1 = "http://maemoh.egat.com/ais/webservice/status813/oclist.php";
+                $(document).on("pageshow", "#Boiler", function (event) {
+                    $.getJSON(serviceURL1, function (data) {
+                        //alert(serviceURL1);
+                        var sta813 = data.items;
+                        $chk = 3;
+                        $.each(sta813, function (index, value) {
+                            if ($chk < 5) {
+                                sta813 = "<tr><td align='center' id='trs'>Name\\Unit</td><td align='center' id='trs'>8</td><td align='center' id='trs'>9</td><td align='center' id='trs'>10</td><td align='center' id='trs'>11</td><td align='center' id='trs'>12</td><td align='center' id='trs'>13";
+                                $chk = 10;
+                            }
+                            if ($chk < 15) {
+                                if (Number(value.u8val).toFixed(0) < 5) {
+                                    sta813 += "<tr><td id='trr'>" + tag_array[index] + "</td><td align='center' id='trr' id='msg'>" + Number(value.u8val).toFixed(0);
+                                } else {
+                                    sta813 += "<tr><td id='ttd'>" + tag_array[index] + "</div></td><td align='center' id='ttd'>" + Number(value.u8val).toFixed(0);
+                                }
+                                if (Number(value.u9val).toFixed(0) < 5) {
+                                    sta813 += "<td align='center' id='trr'>" + Number(value.u9val).toFixed(0) + "</div></td>";
+                                } else {
+                                    sta813 += "<td align='center' id='ttd'>" + Number(value.u9val).toFixed(0) + "</td>";
+                                }
+                                if (Number(value.u10val).toFixed(0) < 5) {
+                                    sta813 += "<td align='center' id='trr'>" + Number(value.u10val).toFixed(0) + "</td>";
+                                } else {
+                                    sta813 += "<td align='center' id='ttd'>" + Number(value.u10val).toFixed(0) + "</td>";
+                                }
+                                if (Number(value.u11val).toFixed(0) < 5) {
+                                    sta813 += "<td align='center' id='trr'>" + Number(value.u11val).toFixed(0) + "</td>";
+                                } else {
+                                    sta813 += "<td align='center' id='ttd'>" + Number(value.u11val).toFixed(0) + "</td>";
+                                }
+                                if (Number(value.u12val).toFixed(0) < 5) {
+                                    sta813 += "<td align='center' id='trr'>" + Number(value.u12val).toFixed(0) + "</td>";
+                                } else {
+                                    sta813 += "<td align='center' id='ttd'>" + Number(value.u12val).toFixed(0) + "</td>";
+                                }
+                                if (Number(value.u13val).toFixed(0) < 5) {
+                                    sta813 += "<td align='center' id='trr'>" + Number(value.u13val).toFixed(0) + "</td>";
+                                } else {
+                                    sta813 += "<td align='center' id='ttd'>" + Number(value.u13val).toFixed(0) + "</td>";
+                                }
+                                $chk = 20;
+                            } else {
+
+                                sta813 += "<tr><td id='ttd'  align='left' >" + tag_array[index] + "</td><td align='center' id='ttd'>" + Number(value.u8val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u9val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u10val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u11val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u12val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u13val).toFixed(0);
+                            }
+                        });
+                        $("#showdata2").html(sta813);
+                    });
+                });
+                function getUrlVars() {
+                    var vars = [], hash;
+                    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    for (var i = 0; i < hashes.length; i++)
+                    {
+                        hash = hashes[i].split('=');
+                        vars.push(hash[0]);
+                        vars[hash[0]] = hash[1];
+                    }
+                    return vars;
+                }
+            </script>
+        </section>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+.ballArea{
+	width:200px;
+	margin:5px;
+}
+.ballArea .ball{
+	float:left;
+	width:50px;
+
+	
+}
+
+
+.ballArea .textBall{
+	float:left;
+	width:150px;
+	padding:5px;
+	padding-left:10px;
+}

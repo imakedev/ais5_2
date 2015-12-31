@@ -1,0 +1,454 @@
+
+#processViewArea {
+    background: black none repeat scroll 0 0;
+}
+.pcvArea {
+    background-image: url("../img/bgProcessView/turbine47.gif");
+    background-repeat: no-repeat;
+    background-size: 950px 533px;
+    font-size: 13px;
+    font-weight: bold;
+    height: 540px;
+    margin: auto;
+    width: 950px;
+}
+.pcvArea #point1 {
+    color: #00ff00;
+    left: 19px;
+    position: relative;
+    top: 47px;
+    z-index: 99;
+}
+#barChart{
+	
+    background: #00ff00 none repeat scroll 0 0;
+    height: 28px;
+    left: 20px;
+    position: relative;
+    top: -803px;
+    width: 150px;
+    
+}
+.pcvArea #point2 {
+    color: #00ff00;
+    left: 290px;
+    position: relative;
+    top: -6px;
+    z-index: 99;
+}
+.pcvArea #point3 {
+    color: #00ff00;
+    left: 415px;
+    position: relative;
+    top: -34px;
+    z-index: 99;
+}
+.pcvArea #point4 {
+    color: #00ff00;
+    left: 497px;
+    position: relative;
+    top: -39px;
+    z-index: 99;
+}
+.pcvArea #point5 {
+    color: #00ff00;
+    left: 629px;
+    position: relative;
+    top: -78px;
+    z-index: 99;
+}
+.pcvArea #point6 {
+    color: #ff0000;
+    left: 641px;
+    position: relative;
+    top: -76px;
+    z-index: 99;
+}
+.pcvArea #point7 {
+    color: #00ff00;
+    left: 738px;
+    position: relative;
+    top: -97px;
+    z-index: 99;
+}
+.pcvArea #point8 {
+    color: #00ff00;
+    left: 832px;
+    position: relative;
+    top: -132px;
+    z-index: 99;
+}
+.pcvArea #point9 {
+    color: #00ff00;
+    left: 778px;
+    position: relative;
+    text-align: right;
+    top: -136px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point10 {
+    color: #00ff00;
+    left: -46px;
+    position: relative;
+    text-align: right;
+    top: -1px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point11 {
+    color: #00ff00;
+    left: 54px;
+    position: relative;
+    text-align: right;
+    top: -21px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point12 {
+    color: #00ff00;
+    left: 53px;
+    position: relative;
+    text-align: right;
+    top: -17px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point13 {
+    color: #00ff00;
+    left: 128px;
+    position: relative;
+    text-align: right;
+    top: -25px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point14 {
+    color: #00ff00;
+    left: 217px;
+    position: relative;
+    text-align: right;
+    top: -66px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point15 {
+    color: #00ff00;
+    left: 336px;
+    position: relative;
+    text-align: right;
+    top: -85px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point16 {
+    color: #00ff00;
+    left: 451px;
+    position: relative;
+    text-align: right;
+    top: -139px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point17 {
+    color: #00ff00;
+    left: 589px;
+    position: relative;
+    text-align: right;
+    top: -124px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point18 {
+    color: #00ff00;
+    left: 589px;
+    position: relative;
+    text-align: right;
+    top: -124px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point19 {
+    color: #00ff00;
+    left: 589px;
+    position: relative;
+    text-align: right;
+    top: -124px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point20 {
+    color: #00ff00;
+    left: 838px;
+    position: relative;
+    top: -181px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point21 {
+    color: #00ff00;
+    left: 771px;
+    position: relative;
+    text-align: right;
+    top: -180px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point22 {
+    color: #00ff00;
+    left: 462px;
+    position: relative;
+    text-align: right;
+    top: -120px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point23 {
+    color: #00ff00;
+    left: 748px;
+    position: relative;
+    text-align: right;
+    top: -156px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point24 {
+    color: #00ff00;
+    left: -17px;
+    position: relative;
+    text-align: right;
+    top: -124px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point25 {
+    color: #00ff00;
+    left: -17px;
+    position: relative;
+    text-align: right;
+    top: -125px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point26 {
+    color: #00ff00;
+    left: 96px;
+    position: relative;
+    text-align: right;
+    top: -177px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point27 {
+    color: #00ff00;
+    left: 96px;
+    position: relative;
+    text-align: right;
+    top: -176px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point28 {
+    color: #00ff00;
+    left: 97px;
+    position: relative;
+    text-align: right;
+    top: -177px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point29 {
+    color: #00ff00;
+    left: 391px;
+    position: relative;
+    text-align: right;
+    top: -189px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point30 {
+    color: #00ff00;
+    left: 578px;
+    position: relative;
+    text-align: right;
+    top: -233px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point31 {
+    color: #00ff00;
+    left: -18px;
+    position: relative;
+    text-align: right;
+    top: -146px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point32 {
+    color: #00ff00;
+    left: -17px;
+    position: relative;
+    text-align: right;
+    top: -148px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point33 {
+    color: #00ff00;
+    left: 84px;
+    position: relative;
+    text-align: right;
+    top: -194px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point34 {
+    color: #00ff00;
+    left: 83px;
+    position: relative;
+    text-align: right;
+    top: -196px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point35 {
+    color: #00ff00;
+    left: 82px;
+    position: relative;
+    text-align: right;
+    top: -198px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point36 {
+    color: #00ff00;
+    left: 321px;
+    position: relative;
+    text-align: right;
+    top: -288px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point37 {
+    color: #00ff00;
+    left: 322px;
+    position: relative;
+    text-align: right;
+    top: -235px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point38 {
+    color: #00ff00;
+    left: 614px;
+    position: relative;
+    text-align: right;
+    top: -323px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point39 {
+    color: #00ff00;
+    left: 615px;
+    position: relative;
+    text-align: right;
+    top: -323px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point40 {
+    color: #00ff00;
+    left: 784px;
+    position: relative;
+    text-align: right;
+    top: -377px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point41 {
+    color: #00ff00;
+    left: -11px;
+    position: relative;
+    text-align: right;
+    top: -261px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point42 {
+    color: #00ff00;
+    left: 95px;
+    position: relative;
+    text-align: right;
+    top: -278px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point43 {
+    color: #00ff00;
+    left: 331px;
+    position: relative;
+    text-align: right;
+    top: -293px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point44 {
+    color: #00ff00;
+    left: 513px;
+    position: relative;
+    text-align: right;
+    top: -309px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point45 {
+    color: #00ff00;
+    left: 583px;
+    position: relative;
+    text-align: right;
+    top: -348px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point46 {
+    color: #00ff00;
+    left: 798px;
+    position: relative;
+    text-align: right;
+    top: -401px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point47 {
+    color: #00ff00;
+    left: 798px;
+    position: relative;
+    text-align: right;
+    top: -395px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point48 {
+    color: #00ff00;
+    left: 798px;
+    position: relative;
+    text-align: right;
+    top: -389px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point49 {
+    color: #00ff00;
+    left: 798px;
+    position: relative;
+    text-align: right;
+    top: -384px;
+    width: 100px;
+    z-index: 99;
+}
+#paramDate{
+	color:white;
+}
+.displaynone{
+	display:none;
+}

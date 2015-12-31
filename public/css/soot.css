@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+.control-label{
+	padding-top:11px;
+}
+.btnSubmit{
+	margin-top:35px;
+	
+}
+.bgSoot{
+	background:#eee;
+}
+.myTooltip{
+	cursor: pointer;
+}

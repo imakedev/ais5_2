@@ -1,0 +1,446 @@
+
+#processViewArea {
+    background: black none repeat scroll 0 0;
+}
+.pcvArea {
+    background-image: url("../img/bgProcessView/pulv.gif");
+    background-repeat: no-repeat;
+    background-size: 950px 531px;
+    font-size: 13px;
+    font-weight: bold;
+    height: 540px;
+    margin: auto;
+    width: 950px;
+}
+.pcvArea #point1 {
+    color: #00ff00;
+    left: 34px;
+    position: relative;
+    top: 80px;
+    z-index: 99;
+}
+#barChart {
+    background: #00ff00 none repeat scroll 0 0;
+    height: 28px;
+    left: 20px;
+    position: relative;
+    top: -803px;
+    width: 150px;
+}
+.pcvArea #point2 {
+    color: #00ff00;
+    left: 100px;
+    position: relative;
+    top: 36px;
+    z-index: 99;
+}
+.pcvArea #point3 {
+    color: #00ff00;
+    left: 123px;
+    position: relative;
+    top: 35px;
+    z-index: 99;
+}
+.pcvArea #point4 {
+    color: #00ff00;
+    left: 105px;
+    position: relative;
+    top: 73px;
+    z-index: 99;
+}
+.pcvArea #point5 {
+    color: #00ff00;
+    left: 105px;
+    position: relative;
+    top: 70px;
+    z-index: 99;
+}
+.pcvArea #point6 {
+    color: #ff0000;
+    left: 297px;
+    position: relative;
+    top: -34px;
+    z-index: 99;
+}
+.pcvArea #point7 {
+    color: #00ff00;
+    left: 306px;
+    position: relative;
+    top: -37px;
+    z-index: 99;
+}
+.pcvArea #point8 {
+    color: #00ff00;
+    left: 369px;
+    position: relative;
+    top: 8px;
+    z-index: 99;
+}
+.pcvArea #point9 {
+    color: #00ff00;
+    left: 313px;
+    position: relative;
+    text-align: right;
+    top: 9px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point10 {
+    color: #00ff00;
+    left: -44px;
+    position: relative;
+    text-align: right;
+    top: 280px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point11 {
+    color: #00ff00;
+    left: 59px;
+    position: relative;
+    text-align: right;
+    top: 203px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point12 {
+    color: #00ff00;
+    left: 59px;
+    position: relative;
+    text-align: right;
+    top: 200px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point13 {
+    color: #00ff00;
+    left: 61px;
+    position: relative;
+    text-align: right;
+    top: 236px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point14 {
+    color: #00ff00;
+    left: 61px;
+    position: relative;
+    text-align: right;
+    top: 232px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point15 {
+    color: #00ff00;
+    left: 244px;
+    position: relative;
+    text-align: right;
+    top: 197px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point16 {
+    color: #00ff00;
+    left: 244px;
+    position: relative;
+    text-align: right;
+    top: 195px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point17 {
+    color: #00ff00;
+    left: 315px;
+    position: relative;
+    text-align: right;
+    top: 80px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point18 {
+    color: #00ff00;
+    left: 315px;
+    position: relative;
+    text-align: right;
+    top: 78px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point19 {
+    color: #00ff00;
+    left: 478px;
+    position: relative;
+    text-align: right;
+    top: -288px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point20 {
+    color: #00ff00;
+    left: 528px;
+    position: relative;
+    top: -290px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point21 {
+    color: #00ff00;
+    left: 581px;
+    position: relative;
+    text-align: right;
+    top: -337px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point22 {
+    color: #00ff00;
+    left: 661px;
+    position: relative;
+    text-align: right;
+    top: -341px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point23 {
+    color: #00ff00;
+    left: 775px;
+    position: relative;
+    text-align: right;
+    top: -310px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point24 {
+    color: #00ff00;
+    left: 471px;
+    position: relative;
+    text-align: right;
+    top: -284px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point25 {
+    color: #00ff00;
+    left: 471px;
+    position: relative;
+    text-align: right;
+    top: -286px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point26 {
+    color: #00ff00;
+    left: 583px;
+    position: relative;
+    text-align: right;
+    top: -324px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point27 {
+    color: #00ff00;
+    left: 660px;
+    position: relative;
+    text-align: right;
+    top: -333px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point28 {
+    color: #00ff00;
+    left: 777px;
+    position: relative;
+    text-align: right;
+    top: -298px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point29 {
+    color: #00ff00;
+    left: 472px;
+    position: relative;
+    text-align: right;
+    top: -274px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point30 {
+    color: #00ff00;
+    left: 471px;
+    position: relative;
+    text-align: right;
+    top: -278px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point31 {
+    color: #00ff00;
+    left: 582px;
+    position: relative;
+    text-align: right;
+    top: -318px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point32 {
+    color: #00ff00;
+    left: 661px;
+    position: relative;
+    text-align: right;
+    top: -323px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point33 {
+    color: #00ff00;
+    left: 774px;
+    position: relative;
+    text-align: right;
+    top: -292px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point34 {
+    color: #00ff00;
+    left: 467px;
+    position: relative;
+    text-align: right;
+    top: -260px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point35 {
+    color: #00ff00;
+    left: 468px;
+    position: relative;
+    text-align: right;
+    top: -264px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point36 {
+    color: #00ff00;
+    left: 584px;
+    position: relative;
+    text-align: right;
+    top: -303px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point37 {
+    color: #00ff00;
+    left: 658px;
+    position: relative;
+    text-align: right;
+    top: -314px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point38 {
+    color: #00ff00;
+    left: 771px;
+    position: relative;
+    text-align: right;
+    top: -281px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point39 {
+    color: #00ff00;
+    left: 493px;
+    position: relative;
+    text-align: right;
+    top: -254px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point40 {
+    color: #00ff00;
+    left: 493px;
+    position: relative;
+    text-align: right;
+    top: -255px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point41 {
+    color: #00ff00;
+    left: 600px;
+    position: relative;
+    text-align: right;
+    top: -301px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point42 {
+    color: #00ff00;
+    left: 663px;
+    position: relative;
+    text-align: right;
+    top: -305px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point43 {
+    color: #00ff00;
+    left: 772px;
+    position: relative;
+    text-align: right;
+    top: -273px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point44 {
+    color: #00ff00;
+    left: 513px;
+    position: relative;
+    text-align: right;
+    top: -309px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point45 {
+    color: #00ff00;
+    left: 583px;
+    position: relative;
+    text-align: right;
+    top: -348px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point46 {
+    color: #00ff00;
+    left: 798px;
+    position: relative;
+    text-align: right;
+    top: -401px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point47 {
+    color: #00ff00;
+    left: 798px;
+    position: relative;
+    text-align: right;
+    top: -395px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point48 {
+    color: #00ff00;
+    left: 798px;
+    position: relative;
+    text-align: right;
+    top: -389px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point49 {
+    color: #00ff00;
+    left: 798px;
+    position: relative;
+    text-align: right;
+    top: -384px;
+    width: 100px;
+    z-index: 99;
+}

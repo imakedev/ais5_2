@@ -1,0 +1,127 @@
+@CHARSET "UTF-8";
+
+.sidebard-panel .feed-element,
+.media-body,
+.sidebard-panel p {
+  font-size: 13px;
+}
+table {
+    font-family: "open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    border-collapse: inherit;
+}
+table td{
+    padding: 0px 0px;
+}
+table tr.btnArea{
+	margin:5px;
+}
+.navbar-top-links .dropdown-messages, .navbar-top-links .dropdown-tasks, .navbar-top-links .dropdown-alerts{
+	width:210px;
+}
+.page-heading {
+    border-top: 0 none;
+    padding: 0 10px 10px;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
+	padding: 3px;
+	
+}
+.k-grid td {
+	padding-left: 5px;
+}
+.k-grid{
+	 border: 1px solid #dfdfdf;
+}
+.listCheckbox{
+	padding-left: 3px;
+}
+
+.float-e-margins .btn {
+    margin-bottom: 0;
+}
+.ibox-content {
+    padding: 5px 20px 50px 20px;
+}
+.inmodal .modal-header {
+    padding: 10px;
+    text-align: center;
+}
+.inmodal .modal-title {
+    font-size: 20px;
+}
+.modal-footer {
+    border-top: 1px solid #e5e5e5;
+    padding: 5px;
+    text-align: right;
+}
+.form-group {
+    margin-bottom: 5px;
+}
+.padding5{
+	padding: 5px;
+}
+.nav > li > a {
+    font-weight: normal;
+}
+.dataTables_wrapper {
+    padding-bottom: 0;
+}
+.ibox {
+    clear: both;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 0;
+}
+.lableDropdownList{
+	padding:5px;
+}
+.lableText{
+	padding:5px;
+}
+.lableDropdownList {
+    padding: 8px;
+    text-align: right;
+}
+.ibox-title{
+	border-width: 1px 0 0;
+}
+.modal-body {
+    padding: 5px 30px 30px;
+}
+.nav.navbar-top-links a {
+    font-size: 13px;
+}
+
+.bgParam{
+	padding-bottom:5px;
+}
+
+.settext{
+    text-align-all: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.center{
+    text-align: center;
+}
+
+.inputWidth{
+
+    background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    /*display: block;*/
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 24%;
+    font-size: 14px;
+    text-align: center;
+    /*box-shadow: none;*/
+}
+.inputWidth:focus, .single-line:focus {
+    border-color: #009900 !important;
+}

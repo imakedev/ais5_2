@@ -1,0 +1,176 @@
+﻿<html>
+    <head>
+        <title>Maemoh Power Plant</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link type="text/css" href="css/ui-lightness/jquery-ui-1.8.10.custom.css" rel="stylesheet" />	
+        <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.8.10.offset.datepicker.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                var d = new Date();
+                var toDay = d.getDate() + '/' + (d.getMonth() + 1) + '/' + (d.getFullYear() + 543);
+
+                $("#datepicker-en").datepicker({changeMonth: true, changeYear: true, dateFormat: 'yy-mm-dd'});
+                $("#inline").datepicker({dateFormat: 'dd/mm/yy', inline: true});
+
+            });
+        </script>
+        <style type="text/css">
+            .demoHeaders { margin-top: 2em; }
+            #dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+            #dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+            ul#icons {margin: 0; padding: 0;}
+            ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
+            ul#icons span.ui-icon {float: left; margin: 0 4px;}
+            ul.test {list-style:none; line-height:30px;}
+            body{
+                background-color: #F0F0F0;
+
+            }
+            #ttd{
+                color: blue;
+                background-color: white;
+            }
+            #tts{
+                color: blue;
+            }
+            #trh{
+                color: blue;
+                background-color: gainsboro;
+            }
+            #button1 {  
+                border: 1px solid #A6A6A6;  
+                color: #000000;  
+                background: #E0E0E0;  
+            }
+            #button1:hover{
+                border: 1px solid #A6A6A6;  
+                color: #000000;  
+                background: #A6A6A6;  
+            }
+        </style>	
+    </head>
+    <body>
+        <div style="text-align: center" data-role="content" >
+            <header data-role="header" data-position="fixed" id="trh">
+                <h3>Search Data Power Plant 8-13</h3>
+            </header>
+            <br><form action="data.html" method="get">
+                <center><table><tr><td width="90"><label>ป้อนวันที่ </label></td><td><input type="text" size="10" id="datepicker-en" name="sdate" placeholder="คลิกเลือกวันที่"/></td></tr>
+                        <tr><td><label>เลือกข้อมูล </label></td><td><select name="id" id="sel2" data-native-menu="false">
+                                        <option value="T200">GEN POWER</option>
+                                        <option value="T9">TOTAL COAL FLOW</option>
+                                        <option value="T61">TURB SPEED</option>
+                                        <option value="T2">TOTAL MAIN STM FLOW</option>
+                                        <option value="T118">MAIN STM PRESS</option>
+                                        <option value="T5">MAIN STM TEMP AVERAGE</option>
+                                        <option value="T10">S/H SPRAY WATER FLOW</option>
+                                        <option value="T53">R/H SPRAY WATER FLOW</option>
+                                        <option value="T7">HOT R/H OUTL TEMP</option>
+                                        <option value="T55">HOT R/H STM FLOW</option>
+                                        <option value="T3">FEED WATER FLOW</option>
+                                        <option value="T54">PRECIP1 GAS OUTL TEMP</option>
+                                        <option value="T110">PRECIP2 GAS OUTL TEMP</option>
+                                        <option value="T99">FURNACE PRESS</option>
+                                        <option value="T8">TOTAL AIR FLOW</option>
+                                        <option value="T34">FEED RATE Pulv1</option>
+                                        <option value="T35">FEED RATE Pulv2</option>
+                                        <option value="T36">FEED RATE Pulv3</option>
+                                        <option value="T37">FEED RATE Pulv4</option>
+                                        <option value="T38">FEED RATE Pulv5</option>
+                                        <option value="T25">LIGNITE BUKER1 LEVEL</option>
+                                        <option value="T26">LIGNITE BUKER2 LEVEL</option>
+                                        <option value="T27">LIGNITE BUKER3 LEVEL</option>
+                                        <option value="T28">LIGNITE BUKER4 LEVEL</option>
+                                        <option value="T29">LIGNITE BUKER5 LEVEL</option>
+                                        <option value="T18">TURB BRG1 SHAFT VIB</option>
+                                        <option value="T19">TURB BRG2 SHAFT VIB</option>
+                                        <option value="T22">TURB BRG3 SHAFT VIB</option>
+                                        <option value="T23">TURB BRG4 SHAFT VIB</option>
+                                        <option value="T39">GEN BRG5 SHAFT VIB</option>
+                                        <option value="T40">GEN BRG6 SHAFT VIB</option>
+                                        <option value="T41">GEN BRG7 SHAFT VIB</option>
+                                        <option value="T59">TURB BRG3 DIFF EXP</option>
+                                        <option value="T60">TURB BRG4 DIFF EXP</option>
+                                        <option value="T186">PAF1 MTR BRG TEMP DE</option>
+                                        <option value="T180">PAF2 MTR BRG TEMP DE</option>
+                                        <option value="T187">PAF1 MTR BRG TEMP NDE</option>
+                                        <option value="T181">PAF2 MTR BRG TEMP NDE</option>
+                                        <option value="T13">SO2 INLET</option>
+                                        <option value="T14">SO2 INLET Flow</option>
+                                        <option value="T173">FGD O2 EMISSION</option>
+                                        <option value="T31">FGD NOX EMISSION</option>
+                                        <option value="T30">FGD CO EMISSION</option>
+                                        <option value="T15">FGD SO2 EMISSION</option>
+                                        <option value="T171">FUEL GAS OPACITY(N)</option>
+                                        <option value="T24">FUEL GAS OPACITY(S)</option>
+                                        <option value="T188">PAF1 OUTB BRG TEMP</option>
+                                        <option value="T189">PAF1 INB BRG TEMP</option>
+                                        <option value="T182">PAF2 OUTB BRG TEMP</option>
+                                        <option value="T183">PAF2 INB BRG TEMP</option>
+                                        <option value="T112">S/H LINE RA10 TEMP3</option>
+                                        <option value="T89">S/H LINE RA10 TEMP4</option>
+                                        <option value="T44">SO2 MASS EMISSION</option>
+                                        <option value="T45">TOTAL OIL FLOW</option>
+                                        <option value="T46">TURB BRG1 METAL TEMP</option>
+                                        <option value="T47">TURB BRG2 METAL TEMP</option>
+                                        <option value="T48">TURB BRG3 METAL TEMP</option>
+                                        <option value="T49">TURB BRG4 METAL TEMP</option>
+                                        <option value="T50">TURB BRG5 METAL TEMP</option>
+                                        <option value="T51">TURB BRG6 METAL TEMP</option>
+                                        <option value="T52">TURB BRG7 METAL TEMP</option>
+                                        <option value="T57">AVG MAIN PRESS</option>
+                                        <option value="T58">TURB SHAFT DISPLACE</option>
+                                        <option value="T144">PAF1 COMMAND POS</option>
+                                        <option value="T145">PAF2 COMMAND POS</option>
+                                        <option value="T134">FDF1 COMMAND POS</option>
+                                        <option value="T135">FDF2 COMMAND POS</option>
+                                        <option value="T102">IDF1 COMMAND POS</option>
+                                        <option value="T103">IDF2 COMMAND POS</option>
+                                        <option value="T62">MCWP1 BEARING VIB</option>
+                                        <option value="T63">MCWP2 BEARING VIB</option>
+                                        <option value="T64">CT FAN1 CSG VIB</option>
+                                        <option value="T65">CT FAN2 CSG VIB</option>
+                                        <option value="T66">CT FAN3 CSG VIB</option>
+                                        <option value="T67">CT FAN4 CSG VIB</option>
+                                        <option value="T68">CT FAN5 CSG VIB</option>
+                                        <option value="T69">CT FAN6 CSG VIB</option>
+                                        <option value="T70">CT FAN7 CSG VIB</option>
+                                        <option value="T71">CT FAN8 CSG VIB</option>
+                                        <option value="T72">CT FAN9 CSG VIB</option>
+                                        <option value="T178">HP CSG 50% TEMP</option>
+                                        <option value="T148">HP CSG EXPANSION</option>
+                                        <option value="T90">MAIN STM PRESS</option>
+                                        <option value="T91">IP TURB INL TEMP(N)</option>
+                                        <option value="T92">IP TURB INL TEMP(E)</option>
+                                        <option value="T95">PAH1 GAS OUTL TEMP</option>
+                                        <option value="T96">PAH2 GAS OUTL TEMP</option>
+                                        <option value="T73">MCWP1 SUCTION PRESS</option>
+                                        <option value="T74">MCWP2 SUCTION PRESS</option>
+                                        <option value="T111">MAIN STM PRESS</option>
+                                        <option value="T115">HP TURB OUTL PRESS</option>
+                                        <option value="T119">HP TURB OUTL TEMP</option>
+                                        <option value="T121">R/H OUTL TEMP E</option>
+                                        <option value="T120">HOT RH STM PRESS E</option>
+                                        <option value="T159">LB BYP 61 CV POS</option>
+                                        <option value="T160">LB BYP 62 CV POS</option>
+                                        <option value="T77">HP EXHAUST TEMP</option>
+                                        <option value="T179">SEAL AIR TO PULV PRESS</option>
+                                        <option value="T184">PAF2 MOTOR BRG DE VIB</option>
+                                        <option value="T185">PAF2 OUTBOARD BRG VIB</option>
+                                        <option value="T190">PAF1 MOTOR BRG DE VIB</option>
+                                        <option value="T191">PAF1 OUTBOARD BRG VIB</option>
+                                        <option value="T116">HP OUT CSG TEMP 50% U</option>
+                                        <option value="T117">HP OUT CSG TEMP 50% L</option>
+                                        <option value="T122">HP EXHAUST STM TEMP</option>
+                                        <option value="T192">HP CSG Temp 100%</option>
+                                        <option value="T193">HP Rotor Inner Temp</option>
+                                </select></td></tr><tr><td colspan="2" align="center"><br/>
+                        <input type="submit"  value="ตกลง"  /> <input type="reset"  value="ยกเลิก"  /></table></center>
+            </form>
+            <footer style="text-align: center" data-role="footer" data-fullscreen="true" data-position="fixed">
+                <button onclick="javascript:location.href = 'main.html'">Home</button>
+            </footer>
+        </div>
+    </body>
+</html>

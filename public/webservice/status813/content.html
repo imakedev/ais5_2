@@ -1,0 +1,97 @@
+﻿<html>
+    <head>
+        <title>Maemoh Power Plant</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" language="th"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+        <style>
+            .ui-header .ui-title{
+                margin-left: 10%;
+                margin-right: 10%
+            }
+            #shadow1{
+                margin-top: 10px;
+                margin-bottom: 8px;
+                border-radius: 5px;
+                box-shadow: 4px 4px 5px #8888aa;
+            }
+            #trh{
+                color: blue;
+            }
+            #tro{
+                color: brown;
+            }
+        </style>
+    </head>
+    <body>
+        <header id="trh" data-role="header" data-position="fixed" >
+            <h3>Maemoh Power Plant Status 8-13</h3>
+        </header>
+        <div data-role="content" class="ui-content">
+            <div style="text-align: center">
+                <img style="border: 1px solid #ccc; padding: 5px;" src="images/sawatdee.jpg" height="90" alt="" id="shadow1"><br>
+                <b>หบอม2-ฟ กบรม2-ฟ อรม.</b>
+            </div>
+            <div style="text-align: center"><center>
+                    <table><tr><td colspan="2">
+                                <div style="text-align: center"><b>จุดประสงค์</b></div>
+                            </td></tr><tr><td colspan="2">
+                                <ul>
+                                    <li>ติดตามงาน</li>
+                                    <li>เช็คความพร้อมอุปกรณ์</li>
+                                    <li>ดูค่าขณะปัจจุบัน</li>
+                                    <li>เช็คค่าได้ตลอดเวลา</li>
+                                    <li>ใช้งานได้กับ Intranet และ Internet</li>
+                                    <li>มีระบบ Login เพื่อความปลอดภัยเบื้องต้น</li>
+                                    <li>มีระบบ Monitor อุปกรณ์ที่จะ Alarm หรือ Trip</li>
+                                    <li>สะดวกการใช้งาน</li>
+                                </ul>
+                            </td></tr><tr><td colspan="2">
+                                <div style="text-align: center"><b>ชื่อย่อ</b></div>
+                            </td></tr><tr><td>
+                                <ul>
+                                    <li>STEAM=STM</li>                   
+                                    <li>BOILER=BOIL</li>
+                                    <li>TURBINE=TURB</li>
+                                    <li>INLET=INL</li>
+                                    <li>OUTLET=OUTL</li>
+                                    <li>COMMAND=CMD</li>
+                                    <li>POSITION=POS</li>
+                                    <li>CONDENSER=CONDEN</li>
+                                    <li>CASING=CSG</li>
+                                </ul>
+                            </td><td>
+                                <ul>
+                                    <li>PRESSURE=PRESS</li>                   
+                                    <li>SUPERHEAT=SH</li>
+                                    <li>REHEAT=RH</li>
+                                    <li>BEARING=BRG</li>
+                                    <li>MOTOR=MTR</li>
+                                    <li>DAMPER=DMP</li>
+                                    <li>VIBRATION=VIB</li>
+                                    <li>EXPANSION=EXP</li>
+                                    <li>HEADER=HDR</li>
+                                </ul>
+                            </td></tr><tr><td colspan="2">
+                                <div style="text-align: center"><b>วิธีใช้</b></div>
+                            </td></tr><tr><td colspan="2">
+                                    <font id="trh">Status </font> ใช้สำหรับดูค่าขณะปัจจุบัน มีดังนี้<br>                   
+                                    <font id="tro">All</font> ดูค่ารวมทั้งหมด<br>
+                                    <font id="tro">Boiler</font> ดูเฉพาะค่าด้าน Boiler<br>
+                                    <font id="tro">Turbine</font> ดูเฉพาะค่าด้าน Turbine<br>
+                                    <font id="trh">Monitor</font> ใช้สำหรับดูค่าและดูแนวโน้มขณะปัจจุบัน มีดังนี้<br>
+                                    <font id="tro">สีขาว</font> ค่าปกติ<br>
+                                    <font id="tro">สีเหลือง</font> ค่าเริ่มต้น Alarm/Trip <br>
+                                    <font id="tro">สีส้ม</font> ค่าไกล้ค่า Alarm/Trip<br>
+                                    <font id="tro">สีแดง</font> ค่า Alarm/Trip<br>
+                                    สีแดงค่า Trip
+                        </tr></table></center>
+            </div>
+            <footer style="text-align: center" data-role="footer" data-fullscreen="true" data-position="fixed" id="trh">
+                By สวรรค์ พรมวิชัย
+            </footer>
+        </div>
+    </body>
+</html>

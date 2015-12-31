@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <title>Maemoh Power Plant</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+        <style>
+            .ui-header .ui-title{
+                margin-left: 10%;
+                margin-right: 10%
+            }
+            #ttd{
+                background-color: white;
+            }
+            #trs{
+                background-color: gainsboro;
+            }
+            #trr{
+                color: white;
+                background-color: #ff0066;
+            }
+            #trh{
+                color: blue;
+            }
+            #button1 {  
+                border: 1px solid #A6A6A6;  
+                color: #000000;  
+                background: #E0E0E0;  
+            }
+            #button1:hover{
+                border: 1px solid #A6A6A6;  
+                color: #000000;  
+                background: #A6A6A6;  
+            }
+        </style>
+    </head>
+    <body>
+        <section id="Boiler" data-role="page">
+            <header data-role="header" data-position="fixed" id="trh">
+                <h3>Turbine Status 8-13</h3>
+            </header>
+            <table border="1" width="100%" id="showdata2">
+                <tr><td align="center"><br>Loading Database<br><br></td></tr>
+            </table>
+            <footer style="text-align: center" data-role="footer" data-fullscreen="true" data-position="fixed">
+                <button onclick="javascript:location.reload()" class="ui-btn ui-btn-inline ui-btn-corner-all" id="button1">Refresh</button>
+                <button onclick="javascript:location.href = 'main.html'" class="ui-btn ui-btn-inline ui-btn-corner-all" id="button1">Home</button>
+            </footer>
+
+            <script type="text/javascript">
+                var tag_array = ["AIR FLOW COMM O/P", "BMC OUTPUT", "BY PASS CRV COMM", "COAL MAS. O/P", "E-Room Ambient Temp.", "FEED WATER COMM O/P", "FEED WATER PRESS", "FEED WATER PRESS SP", "HOT AIR FLOW SP", "MAIN CONT. VALVE1", "MAIN CONT. VALVE2", "MAIN CRV COMM.", "OVERLOAD VALVE1", "OVERLOAD VALVE2", "CON OPERATE DAY", "MAIN STM FLOW", "MAIN STM PRESS", "MAIN STM OUTL PRESS", "MAIN STM PRESS", "MAIN STM PRESS", "SH LINE RA10 TEMP1", "SH LINE RA10 TEMP2", "SH LINE RA10 TEMP3", "SH LINE RA10 TEMP4", "TOTAL MAIN STM FLOW", "AVG MAIN PRESS", "MAIN STM TEMP AVERAGE", "MAIN STM FLOW", "MAIN STM PRESS", "MAIN STM OUTL PRESS", "MAIN STM PRESS", "MAIN STM PRESS", "SH LINE RA20 TEMP1", "SH LINE RA20 TEMP2", "SH LINE RA20 TEMP3", "SH LINE RA20 TEMP4", "HOT R/H STM FLOW", "RB10 MID", "HOT RH STM PRESS E", "REHEAT OUTL TEMP E", "HOT RH STM TEMP E", "HOT RH STM TEMP E", "IP TURB INL TEMP(N)", "HOT RH STM FLOW", "RB20 MID", "HOT RH STM PRESS", "HOT RH OUTL TEMP", "HOT RH STM TEMP", "HOT RH STM TEMP", "IP TURB INL TEMP(E)", "REHEAT PRESS.", "HP TURB OUTL PRESS", "HP TURB OUTL TEMP", "COLD RH DSH INL TEMP", "R/H INL HEADER TEMP", "COLD RH DSH INL TEMP", "R/H INL HEADER TEMP", "HP BYP STM TEMP", "R/H TEMP SP", "BFP1 F/W OUTL FLOW", "BFP1 COMMAND", "BFP1 SPEED", "BFP2 F/W OUTL FLOW", "BFP2 COMMAND", "BFP2 SPEED", "BFP3 F/W OUTL FLOW", "BFP3 COMMAND", "BFP3 SPEED", "HPH7 OUTL TEMP", "CEP OUTL TEMP", "MAIN STM CONDUC", "ECONOMIZER INL CONDUC", "DRUM DOWNCOMER CONDUC", "DRUM DWONCOMER pH", "DRUM BLOWDOWN pH", "SHER 1 INL CONDUC", "MAIN CONDENSATE CONDUC", "MAIN CONDENSATE pH", "FEED WATER CONDUC", "FEED WATER  pH", "CONDENSATE CONDUC", "DEAERATOR INL pH", "COLD COND STOR TANK LVL", "TURB SPEED", "HP CSG 50% TEMP", "HP Casing Temp 100%", "HP OUTER CSG TEMP 50% U", "HP OUTER CSG TEMP 50% L", "HP EXHAUST TEMP", "HP Rotor InnerTemp", "IP OUTER CSG TEMP 50% UF", "IP OUTER CSG TEMP 50% LF", "TURB BRG1 METAL TEMP", "TURB BRG1 VIB", "TURB BRG1 SHAFT VIB", "TURB BRG1 DIFF EXP", "SHAFT ECCENTRICITY", "HP CSG EXPANSION", "TURB BRG2 METAL TEMP", "TURB BRG2 VIB", "TURB BRG2 SHAFT VIB", "IP CSG EXPANSION", "TURB SHAFT DISPLACEMENT", "TURB BRG3 METAL TEMP", "TURB BRG3 VIB", "TURB BRG3 SHAFT VIB", "TURB BRG3 DIFF. EXP", "TURB BRG4 METAL TEMP", "TURB BRG4 VIB", "TURB BRG4 SHAFT VIB", "TURB BRG4 DIFF. EXP", "CONDENSOR  PRESS", "LP EXH.COND. TEMP 1", "LP EXH.COMD.TEMP 2", "LB BYP CV POS", "LB BYP CV POS", "SO2 MASS EMISSION", "BOIL SOOT CO", "GEN POWER", "GEN REACTIVE POWER", "System Frequency", "MAIN STM PRESS", "S/H SET POINT", "RA10 MID", "RA20 MID", "MAN STM PR. SP", "SPRAY LP SP<PV 8%", "SPRAY VALVE POS", "TURB BRG5 METAL TEMP", "GEN BRG5 SHAFT VIB", "TURB BRG6 METAL TEMP", "GEN BRG6 SHAFT VIB", "TURB BRG7 METAL TEMP", "GEN BRG7 SHAFT VIB", "SULFUR", "SYSTEM DAY", "SYSTEM HOUR", "SYSTEM MININUTE", "SYSTEM MONTH", "SYSTEM SECCOND", "SYSTEM YEAR", "COMM. TILTING", "TOTAL AIR FLOW", "TOTAL ENERGY", "MCWP1 SUGTION PRESS", "MCWP1 BRG1 TEMP.", "MCWP1 BRG2 TEMP.", "MCWP1 BRG VIB", "MCWP2 SUGTION PRESS", "MCWP2 BRG1 TEMP", "MCWP2 BRG2 TEMP", "MCWP2 BRG VIB", "CONDEN BOX1 INL TEMP", "CONDEN BOX2 INL TEMP", "CONDEN BOX1 OUTL TEMP", "CONDEN BOX2 OUTL TEMP", "MCW INTAKE BASIN LEVEL", "CTF1 CSG VIB", "CTF2 CSG VIB", "CTF3 CSG VIB", "CTF4 CSG VIB", "CTF5 CSG VIB", "CTF6 CSG VIB", "CTF7 CSG VIB", "CTF8 CSG VIB", "CTF9 CSG VIB", "SO2 FLOW INL", "SO2 FGD INL", "O2 FGD INL", "NOx Emission (ppm)", "FGD BOOTER FAN POS", "FGD SO2 EMISSION", "FGD O2 EMISSION", "FGD NOX EMISSION", "FGD CO EMISSION"];
+                //console.log(tag_array);
+                var serviceURL1 = "http://maemoh.egat.com/ais/webservice/status813/turb.php";
+                $(document).on("pageshow", "#Boiler", function (event) {
+                    $.getJSON(serviceURL1, function (data) {
+                        //alert(serviceURL1);
+                        var sta813 = data.items;
+                        $chk = 3;
+                        $.each(sta813, function (index, value) {
+                            if ($chk < 5) {
+                                sta813 = "<tr><td align='center' id='trs'>Name\\Unit</td><td align='center' id='trs'>8</td><td align='center' id='trs'>9</td><td align='center' id='trs'>10</td><td align='center' id='trs'>11</td><td align='center' id='trs'>12</td><td align='center' id='trs'>13";
+                                $chk = 10;
+                            }
+                            sta813 += "<tr><td id='ttd'  align='left' >" + tag_array[index] + "</td><td align='center' id='ttd'>" + Number(value.u8val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u9val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u10val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u11val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u12val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u13val).toFixed(0);
+                        });
+                        $("#showdata2").html(sta813);
+                    });
+                });
+                function getUrlVars() {
+                    var vars = [], hash;
+                    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    for (var i = 0; i < hashes.length; i++)
+                    {
+                        hash = hashes[i].split('=');
+                        vars.push(hash[0]);
+                        vars[hash[0]] = hash[1];
+                    }
+                    return vars;
+                }
+            </script>
+        </section>
+    </body>
+</html>

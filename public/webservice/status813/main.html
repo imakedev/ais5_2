@@ -1,0 +1,263 @@
+<html>
+    <head>
+        <title>Maemoh Power Plant</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+        <style>
+            .ui-header .ui-title{
+                margin-left: 10%;
+                margin-right: 10%
+            }
+            #ttd{
+                background-color: white;
+            }
+            #trs{
+                background-color: gainsboro;
+            }
+            #trr{
+                color: white;
+                background-color: #ff0066;
+            }
+            #tg{
+                color: green;
+            }
+            #tr{
+                color: red;
+            }
+            #shadow1{
+                margin-top: 8px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                box-shadow: 4px 4px 5px #8888aa;
+            }
+            #trh{
+                color: blue;
+            }
+            #button1 {  
+                border: 1px solid #3300CC;  
+                color: #FFFFFF;  
+                background: #0080C0;  
+            }
+            #button1:hover{
+                border: 1px solid #3300CC;  
+                color: #FFFFFF;  
+                background: #000099;  
+            }
+        </style>
+    </head>
+    <body>
+        <section id="Home" data-role="page">
+            <header data-role="header" data-position="fixed" id="trh">
+                <h3>Maemoh Power Plant 8-13</h3>
+            </header>
+            <table border="" width="100%" id="showdata7">
+                <tr><td align="center">Loading Database</td></tr></table><br>
+            <table border="1" width="100%" id="showdata6">
+                <tr><td align="center">Loading Database</td></tr></table><br>
+            <div style="text-align: center"><b>Show Status and Monitor Plant Unit 8-13</b></div>
+            <div style="text-align: center" data-role="content" class="ui-content">
+                <button onclick="javascript:location.href = ''" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all">Status</button>
+                <button onclick="javascript:location.href = 'status.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">All</button>
+                <button onclick="javascript:location.href = 'boil.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Boiler</button>
+                <button onclick="javascript:location.href = 'turb.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">turbine</button>
+                <hr style="text-align: left; border-bottom-style: solid; color: #cccccc; width: 100%;" />
+                <button onclick="javascript:location.href = ''" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all">Monitor</button>
+                <button onclick="javascript:location.href = 'mboil.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Boiler</button>
+                <button onclick="javascript:location.href = 'mpulv.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Pulverizer</button>
+                <button onclick="javascript:location.href = 'mfan.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Fan</button>
+                <button onclick="javascript:location.href = 'mturb.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Turbine</button>
+                <button onclick="javascript:location.href = 'msup.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Turb Sup.</button>
+                <button onclick="javascript:location.href = 'mmain.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Main Cooling</button>
+                <button onclick="javascript:location.href = 'mctfan.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">CT. Fan</button>
+                <hr style="text-align: left; border-bottom-style: solid; color: #cccccc; width: 100%;" />
+                <button onclick="javascript:location.href = ''" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all">Data</button>
+                <button onclick="javascript:location.href = 'search.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Data</button>
+                <button onclick="javascript:location.href = 'cinput.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Chart</button>
+                <hr style="text-align: left; border-bottom-style: solid; color: #cccccc; width: 100%;" />
+                <button onclick="javascript:location.href = 'index.html#logout'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Logout</button>
+                <button onclick="javascript:location.href = 'content.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">About</button>
+                <button onclick="javascript:location.href = 'map.html'" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Location</button>
+            </div>
+            <script type="text/javascript">
+                var serviceURL2 = "http://maemoh.egat.com/ais/webservice/status813/status.php";
+                $(document).on("pageshow", "#Home", function (event) {
+                    $.getJSON(serviceURL2, function (data) {
+                        //alert(serviceURL2);
+                        var ssta813 = data.items;
+                        $chk8=0;
+                        $chk9=0;
+                        $chk10=0;
+                        $chk11=0;
+                        $chk12=0;
+                        $chk13=0;
+                        $sta8 = 0;
+                        $sta9 = 0;
+                        $sta10 = 0;
+                        $sta11 = 0;
+                        $sta12 = 0;
+                        $sta13 = 0;
+                        $counts = 0;
+                        $.each(ssta813, function (index, value) {
+                            if (Number(value.u8val).toFixed(3) == $chk8) {
+                                    $sta8 ++;
+                                }
+                            if (Number(value.u9val).toFixed(3) == $chk9) {
+                                    $sta9 ++;
+                                }
+                            if (Number(value.u10val).toFixed(3) == $chk10) {
+                                    $sta10 ++;
+                                }
+                            if (Number(value.u11val).toFixed(3) == $chk11) {
+                                    $sta11 ++;
+                                }
+                            if (Number(value.u12val).toFixed(3) == $chk12) {
+                                    $sta12 ++;
+                                }
+                            if (Number(value.u13val).toFixed(3) == $chk13) {
+                                    $sta13 ++;
+                                }
+                                $chk8 = Number(value.u8val).toFixed(3);
+                                $chk9 = Number(value.u9val).toFixed(3);
+                                $chk10 = Number(value.u10val).toFixed(3);
+                                $chk11 = Number(value.u11val).toFixed(3);
+                                $chk12 = Number(value.u12val).toFixed(3);
+                                $chk13 = Number(value.u13val).toFixed(3);
+                                $counts ++;
+//                            ssta813 += "<tr><td align='center' id='tr'>"+$counts+"-"+$chk8+"-"+$chk9+"-"+$chk10+"-"+$chk11+"-"+$chk12+"-"+$chk13;
+                        });
+//                       ssta813 += "<tr><td align='center' id='tr'>"+$sta8+"-"+$sta9+"-"+$sta10+"-"+$sta11+"-"+$sta12+"-"+$sta13;
+                       ssta813 += "<tr><td align='center' id='trs'colspan=6>Status Data Connection Power Plant 8-13</td><tr><td align='center' id='trs'>08</td><td align='center' id='trs'>09</td><td align='center' id='trs'>10</td><td align='center' id='trs'>11</td><td align='center' id='trs'>12</td><td align='center' id='trs'>13";
+                       if ($chk8 < 5) {
+                              ssta813 += "<tr><td align='center' id='tg'><b>Good";
+                          }else
+                        {   
+                            if ($sta8 >= 30) {
+                                  ssta813 += "<tr><td align='center' id='tr'><b>Error";
+                            } else {
+                                  ssta813 += "<tr><td align='center' id='tg'><b>Good";
+                            }
+                        }
+                       if ($chk9 < 5) {
+                              ssta813 += "<td align='center' id='tg'><b>Good";
+                          }else
+                        {   
+                            if ($sta9 >= 30) {
+                                  ssta813 += "<td align='center' id='tr'><b>Error";
+                            } else {
+                                  ssta813 += "<td align='center' id='tg'><b>Good";
+                            }
+                        }
+                       if ($chk10 < 5) {
+                              ssta813 += "<td align='center' id='tg'><b>Good";
+                          }else
+                        {   
+                            if ($sta10 >= 30) {
+                                  ssta813 += "<td align='center' id='tr'><b>Error";
+                            } else {
+                                  ssta813 += "<td align='center' id='tg'><b>Good";
+                            }
+                        }
+                       if ($chk11 < 5) {
+                              ssta813 += "<td align='center' id='tg'><b>Good";
+                          }else
+                        {   
+                            if ($sta11 >= 30) {
+                                  ssta813 += "<td align='center' id='tr'><b>Error";
+                            } else {
+                                  ssta813 += "<td align='center' id='tg'><b>Good";
+                            }
+                        }
+                       if ($chk12 < 5) {
+                              ssta813 += "<td align='center' id='tg'><b>Good";
+                          }else
+                        {   
+                            if ($sta12 >= 30) {
+                                  ssta813 += "<td align='center' id='tr'><b>Error";
+                            } else {
+                                  ssta813 += "<td align='center' id='tg'><b>Good";
+                            }
+                        }
+                       if ($chk13 < 5) {
+                              ssta813 += "<td align='center' id='tg'><b>Good";
+                          }else
+                        {   
+                            if ($sta13 >= 30) {
+                                  ssta813 += "<td align='center' id='tr'><b>Error";
+                            } else {
+                                  ssta813 += "<td align='center' id='tg'><b>Good";
+                            }
+                        }
+                        $("#showdata7").html(ssta813);
+                    });
+                });
+                var tag_array = ["GEN POWER"];
+                var serviceURL1 = "http://maemoh.egat.com/ais/webservice/status813/power.php";
+                $(document).on("pageshow", "#Home", function (event) {
+                    $.getJSON(serviceURL1, function (data) {
+                        //alert(serviceURL1);
+                        var sta813 = data.items;
+                        $chk = 3;
+                        $.each(sta813, function (index, value) {
+                            if ($chk < 5) {
+                                sta813 = "<tr><td align='center' id='trs'>Name\\Unit</td><td align='center' id='trs'>08</td><td align='center' id='trs'>09</td><td align='center' id='trs'>10</td><td align='center' id='trs'>11</td><td align='center' id='trs'>12</td><td align='center' id='trs'>13";
+                                $chk = 10;
+                            }
+                            if ($chk < 15) {
+                                if (Number(value.u8val).toFixed(0) < 5) {
+                                    sta813 += "<tr><td id='trs'>" + tag_array[index] + "</td><td align='center' id='trr' id='msg'>0";
+                                } else {
+                                    sta813 += "<tr><td id='trs'>" + tag_array[index] + "</td><td align='center' id='ttd'>" + Number(value.u8val).toFixed(0);
+                                }
+                                if (Number(value.u9val).toFixed(0) < 5) {
+                                    sta813 += "<td align='center' id='trr'>0</div></td>";
+                                } else {
+                                    sta813 += "<td align='center' id='ttd'>" + Number(value.u9val).toFixed(0) + "</td>";
+                                }
+                                if (Number(value.u10val).toFixed(0) < 5) {
+                                    sta813 += "<td align='center' id='trr'>0</td>";
+                                } else {
+                                    sta813 += "<td align='center' id='ttd'>" + Number(value.u10val).toFixed(0) + "</td>";
+                                }
+                                if (Number(value.u11val).toFixed(0) < 5) {
+                                    sta813 += "<td align='center' id='trr'>0</td>";
+                                } else {
+                                    sta813 += "<td align='center' id='ttd'>" + Number(value.u11val).toFixed(0) + "</td>";
+                                }
+                                if (Number(value.u12val).toFixed(0) < 5) {
+                                    sta813 += "<td align='center' id='trr'>0</td>";
+                                } else {
+                                    sta813 += "<td align='center' id='ttd'>" + Number(value.u12val).toFixed(0) + "</td>";
+                                }
+                                if (Number(value.u13val).toFixed(0) < 5) {
+                                    sta813 += "<td align='center' id='trr'>0</td>";
+                                } else {
+                                    sta813 += "<td align='center' id='ttd'>" + Number(value.u13val).toFixed(0) + "</td>";
+                                }
+                                $chk = 20;
+                            } else {
+
+                                sta813 += "<tr><td id='ttd'  align='left' >" + tag_array[index] + "</td><td align='center' id='ttd'>" + Number(value.u8val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u9val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u10val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u11val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u12val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u13val).toFixed(0);
+                            }
+                        });
+                        $("#showdata6").html(sta813);
+                    });
+                });
+                function getUrlVars() {
+                    var vars = [], hash;
+                    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    for (var i = 0; i < hashes.length; i++)
+                    {
+                        hash = hashes[i].split('=');
+                        vars.push(hash[0]);
+                        vars[hash[0]] = hash[1];
+                    }
+                    return vars;
+                }
+            </script>
+
+        </section>
+    </body>
+</html>

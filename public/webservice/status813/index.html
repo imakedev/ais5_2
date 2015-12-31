@@ -1,0 +1,83 @@
+﻿<html>
+    <head>
+        <title>Maemoh Power Plant</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" language="th"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+        <style>
+            .ui-header .ui-title{
+                margin-left: 10%;
+                margin-right: 10%
+            }
+            #shadow2{
+                margin-top: 10px;
+                margin-bottom: 8px;
+                border-radius: 15px;
+                box-shadow: 4px 4px 5px #8888aa;
+            }
+            #trh{
+                color: blue;
+            }
+            #button1 {  
+                border: 1px solid #3300CC;  
+                color: #FFFFFF;  
+                background: #0080C0;  
+            }
+            #button1:hover{
+                border: 1px solid #3300CC;  
+                color: #FFFFFF;  
+                background: #000099;  
+            }
+        </style>
+    </head>
+    <body>
+        <section data-role="page" id="login">
+            <header data-role="header" data-position="fixed" id="trh">
+                <h3>Maemoh Power Plant 8-13</h3>
+            </header>
+            <div style="text-align: center" data-role="content" class="ui-content">
+                <img style="border: 1px solid #ccc; padding: 5px;" src="images/plant.jpg" alt="" id="shadow2">
+            </div>
+            <div style="text-align: center"><b>Show Status And Monitor Plant Unit 8-13</b><br>โรงไฟฟ้าแม่เมาะ หบอม2-ฟ กบรม2-ฟ อรม.</div>
+            <div data-role="content" class="ui-content" style="text-align: center">
+                <h1>Login</h1>
+                <form id="formlogin">
+                    <input type="text" id="user" name="user" placeholder="ป้อนชื่อ" class="ui-btn-inline">
+                    <input id="pass" type="password" name="pass" placeholder="ป้อนรหัสผ่าน"  class="ui-btn-inline">
+                    <div data-role="content" class="ui-content" style="text-align: center">
+                        <br><button type="submit" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Login</button>
+                        <button type="reset" class="ui-btn ui-mini ui-btn-inline ui-btn-corner-all" id="button1">Clear</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <script type="text/javascript">
+            $("#formlogin").submit(function (e) {
+                var username = $("#user").val();
+                var password = $("#pass").val();
+                if (username == "") {
+                    $("#shows").html("ไม่ได้ป้อน User");
+                    return false;
+                } else if (password == "") {
+                    $("#shows").html("ไม่ได้ป้อน Password");
+                    return false;
+                } else if (username != "status") {
+                    $("#shows").html("User ไม่ถูกต้อง");
+                    return false;
+                } else if (password != "plant813") {
+                    $("#shows").html("Password ไม่ถูกต้อง");
+                    return false;
+                } else {
+                    window.location = "main.html";
+                    return false;
+                }
+            });
+            $("#logout").click(function () {
+                window.localStorage.removeItem("user");
+                window.location = "index.html#login";
+            });
+        </script>
+    </body>
+</html>

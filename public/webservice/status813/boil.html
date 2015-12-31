@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <title>Maemoh Power Plant</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <link href="css/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+        <style>
+            .ui-header .ui-title{
+                margin-left: 10%;
+                margin-right: 10%
+            }
+            #ttd{
+                background-color: white;
+            }
+            #trs{
+                background-color: gainsboro;
+            }
+            #trr{
+                color: white;
+                background-color: #ff0066;
+            }
+            #trh{
+                color: blue;
+            }
+            #button1 {  
+                border: 1px solid #A6A6A6;  
+                color: #000000;  
+                background: #E0E0E0;  
+            }
+            #button1:hover{
+                border: 1px solid #A6A6A6;  
+                color: #000000;  
+                background: #A6A6A6;  
+            }
+        </style>
+    </head>
+    <body>
+        <section id="Boiler" data-role="page">
+            <header data-role="header" data-position="fixed" id="trh">
+                <h3>Boiler Status 8-13</h3>
+            </header>
+            <table border="1" width="100%" id="showdata2">
+                <tr><td align="center"><br>Loading Database<br><br></td></tr>
+            </table>
+            <footer style="text-align: center" data-role="footer" data-fullscreen="true" data-position="fixed">
+                <button onclick="javascript:location.reload()" class="ui-btn ui-btn-inline ui-btn-corner-all" id="button1">Refresh</button>
+                <button onclick="javascript:location.href = 'main.html'" class="ui-btn ui-btn-inline ui-btn-corner-all" id="button1">Home</button>
+            </footer>
+
+            <script type="text/javascript">
+                var tag_array = ["SOUTH DRUM LEVEL", "SOUTH DRUM LEVEL", "NORTH DRUM LEVEL", "LTSH OUTL HDR TEMP", "DE SH OUTL. STM TEMP.", "LTSH OUTL HDR TEMP", "DE SH OUTL. STM TEMP.", "BWCP 1 DIFF.PRESS", "FEED WATER FLOW", "SH SPRAY WATER FLOW", "RH SPRAY WATER FLOW", "NORTH DRUM PRESS", "HP BYP CONTROL VLV. POS", "NORTH SIDE AIR FLOW", "SOUTH SIDE AIR FLOW", "AIR INL TEMP", "TOTAL AIR FLOW", "FDF1 MTR CURRENT", "FDF1 INL VANES POS", "FDF1  COMMAND POS", "FDF1 MTR BRG. TEMP DE", "FDF1 MTR BRG. TEMP NDE", "SAH1 AIR INL PRESS", "SAH1 AIR INL TEMP", "SAH2 AIR OUTL TEMP", "PAH1 HOT AIR RECIR POS", "SAH1 HOT AIR RECIR POS", "FDF2 MTR CURRENT", "FDF2 INL VANES POS", "FDF2  COMMAND POS", "FDF2 MTR BRG. TEMP DE", "FDF2 MTR BRG. TEMP NDE", "SAH2 AIR INL  PRESS", "SAH2 AIR INL TEMP", "SAH2 AIR OUTL TEMP", "PAH2 HOT AIR RECIR POS", "SAH2 HOT AIR RECIR POS", "BURNER TILTING 51 POS", "WIN/FURNACE DIFF. PRESS", "BURNER TILTING 52 POS", "BURNER TILTING 53 POS", "BURNER TILTING 54 POS", "WIN/FURN.DIFF PRESS (N)", "WIN/FURN.DIFF PRESS (S)", "FURNACE   PRESS", "FDF1 OUTBOARD BRG. TEMP", "FDF1 INBOARD BRG. TEMP", "FDF2 OUTBOARD BRG. TEMP", "FDF2 INBOARD BRG. TEMP", "CNR.51 ELEV.1 FLAME INTEN", "CNR.51 WARM-UP FLAME", "CNR.51 ELEV.2 FLAME INTEN", "CNR.51 ELEV.3 FLAME INTEN", "CNR.51 ELEV.4 FLAME INTEN", "CNR.51 ELEV.5 FLAME INTEN", "CNR.52 ELEV.1 FLAME INTEN", "CNR.52 WARM-UP FLAME", "CNR.52 ELEV.2 FLAME INTEN", "CNR.52 ELEV.3 FLAME INTEN", "CNR.52 ELEV.4 FLAME INTEN", "CNR.52 ELEV.5 FLAME INTEN", "CNR.53 ELEV.1 FLAME INTEN", "CNR.53 WARM-UP FLAME", "CNR.53 ELEV.2 FLAME INTEN", "CNR.53 ELEV.3 FLAME INTEN", "CNR.53 ELEV.4 FLAME INTEN", "CNR.53 ELEV.5 FLAME INTEN", "CNR.54 ELEV.1 FLAME INTEN", "CNR.54 WARM-UP FLAME", "CNR.54 ELEV.2 FLAME INTEN", "CNR.54 ELEV.3 FLAME INTEN", "CNR.54 ELEV.4 FLAME INTEN", "CNR.54 ELEV.5 FLAME INTEN", "HOT AIR COMMAND Pulv1", "PAH1 AIR OUTL PRESS", "PAH2 AIR OUTL PRESS", "PAH1 OUTL AIR TEMP", "PAH2 AIR OUTL TEMP", "HOT AIR COMMAND Pulv2", "HOT AIR COMMAND Pulv3", "HOT AIR COMMAND Pulv4", "HOT AIR COMMAND Pulv5", "PAF1 CURRENT", "PAF1 INL VANES POS", "PAF1  COMMAND POS", "PAF1 MTR BRG. TEMP .DE", "PAF1 MTR BRG. TEMP.NDE", "PAF1 MTR BRG DE VIB", "PAF1 OUTBOARD BRG VIB", "PAH1 INL AIR PRESS", "PAH1 INL AIR TEMP", "PA F2 CURRENT", "PAF2 INL VANES POS", "PAF2  COMMAND POS", "PAF2 MTR BRG. TEMP .DE", "PAF2 MTR BRG. TEMP.NDE", "PAF2 MTR BRG DE VIB", "PAF2 OUTBOARD BRG VIB", "PAH2 INL AIR PRESS", "PAH2 INL AIR TEMP", "HOT AIR FLOW Pulv1", "Pulv1 HOT AIR DMP POS", "Pulv1 HOT AIR TEMP", "HOT AIR FLOW Pulv2", "Pulv2 HOT AIR DMP POS", "Pulv2 HOT AIR TEMP", "HOT AIR FLOW Pulv3", "Pulv3 HOT AIR DMP POS", "Pulv3 HOT AIR TEMP", "HOT AIR FLOW Pulv4", "Pulv4 HOT AIR DMP POS", "Pulv4 HOT AIR TEMP", "HOT AIR FLOW Pulv5", "Pulv5 HOT AIR DMP POS", "Pulv5 HOT AIR TEMP", "Pulv1 MTR CURRENT", "Pulv1 ACTIVE POWER", "LIGNITE BUKER1 LEVEL", "FEED RATE Pulv1", "DIFF PRESS Pulv1", "Pulv1  PRESS", "Pulv1 OUT LET TEMP", "TOTAL COAL FLOW", "Pulv2 MTR CURRENT", "Pulv2 ACTIVE POWER", "LIGNITE BUKER2 LEVEL", "FEED RATE Pulv2", "DIFF PRESS Pulv2", "Pulv2  PRESS", "Pulv2 OUT LET TEMP", "Pulv3 MTR CURRENT", "Pulv3 ACTIVE POWER", "LIGNITE BUKER3 LEVEL", "FEED RATE Pulv3", "DIFF PRESS Pulv3", "Pulv3  PRESS", "Pulv3 OUT LET TEMP", "Pulv4 MTR CURRENT", "Pulv4 ACTIVE POWER", "LIGNITE BUKER4 LEVEL", "FEED RATE Pulv4", "DIFF PRESS Pulv4", "Pulv4  PRESS", "Pulv4 OUT LET TEMP", "Pulv5 MTR CURRENT", "Pulv5 ACTIVE POWER", "LIGNITE BUKER5 LEVEL", "FEED RATE Pulv5", "DIFF PRESS Pulv5", "Pulv5  PRESS", "Pulv5 OUT LET TEMP", "Pulv1 THRUST PAD TEMP", "Pulv2 THRUST PAD TEMP", "Pulv3 THRUST PAD TEMP", "Pulv4 THRUST PAD TEMP", "Pulv5 THRUST PAD TEMP", "PAF1 OUTBOARD BRG.TEMP", "PAF1 INBOARD BRG.TEMP", "PAF2 OUTBOARD BRG.TEMP", "PAF2 INBOARD BRG.TEMP", "LIGHT OIL DAY TANK LEVEL", "WARMUP OIL FLOW", "TOTAL OIL FLOW", "IGNITOR FUEL OIL FLOW", "SEAL AIR TO PULV. PRESS", "PAH1 INL GAS PRESS", "% O2 North", "PAH1 GAS INL TEMP", "O2 TRIM", "PAH1 OUTL GAS PRESS", "PAH1 GAS OUTL TEMP", "PAH2 GAS INL PRESS", "% O2 South", "PAH2 GAS INL TEMP", "PAH2 GAS OUTL PRESS", "PAH2 GAS OUTL TEMP", "SAH1 GAS INL TEMP", "SAH1 GAS OUTL TEMP", "IDF1 MTR CURRENT", "IDF1 POS VANES INL", "IDF1 INL PRESS", "FUEL GAS OPACITY(N)", "IDF1  COMMAND POS", "PRECIP1 GAS OUTL TEMP.", "IDF1 MTR BRG. TEMP DE", "IDF1 MTR BRG. TEMP NDE", "FUEL GAS OPACITY(S)", "SAH2 GAS INL TEMP", "SAH2 GAS OUTL TEMP", "IDF2 MTR CURRENT", "IDF2 POS VANES INL", "IDF2 INL PRESS", "IDF2  COMMAND POS", "PRECIP 2 GAS OUTL TEMP.", "IDF2 MTR BRG. TEMP DE", "IDF2 MTR BRG. TEMP NDE", "IDF1 OUTBOARD BRG. TEMP", "IDF1 INBOARD BRG. TEMP", "IDF2 OUTBOARD BRG. TEMP", "IDF2 INBOARD BRG. TEMP"];
+                //console.log(tag_array);
+                var serviceURL1 = "http://maemoh.egat.com/ais/webservice/status813/boil.php";
+                $(document).on("pageshow", "#Boiler", function (event) {
+                    $.getJSON(serviceURL1, function (data) {
+                        //alert(serviceURL1);
+                        var sta813 = data.items;
+                        $chk = 3;
+                        $.each(sta813, function (index, value) {
+                            if ($chk < 5) {
+                                sta813 = "<tr><td align='center' id='trs'>Name\\Unit</td><td align='center' id='trs'>8</td><td align='center' id='trs'>9</td><td align='center' id='trs'>10</td><td align='center' id='trs'>11</td><td align='center' id='trs'>12</td><td align='center' id='trs'>13";
+                                $chk = 10;
+                            }
+                            sta813 += "<tr><td id='ttd'  align='left' >" + tag_array[index] + "</td><td align='center' id='ttd'>" + Number(value.u8val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u9val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u10val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u11val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u12val).toFixed(0) + "</td><td align='center' id='ttd'>" + Number(value.u13val).toFixed(0);
+                        });
+                        $("#showdata2").html(sta813);
+                    });
+                });
+                function getUrlVars() {
+                    var vars = [], hash;
+                    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    for (var i = 0; i < hashes.length; i++)
+                    {
+                        hash = hashes[i].split('=');
+                        vars.push(hash[0]);
+                        vars[hash[0]] = hash[1];
+                    }
+                    return vars;
+                }
+            </script>
+        </section>
+    </body>
+</html>

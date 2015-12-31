@@ -1,0 +1,329 @@
+
+#processViewArea {
+    background: black none repeat scroll 0 0;
+}
+.pcvArea {
+    background-image: url("../img/bgProcessView/Firing.GIF");
+    background-repeat: no-repeat;
+    background-size: 950px 533px;
+    font-size: 13px;
+    font-weight: bold;
+    height: 540px;
+    margin: auto;
+    width: 950px;
+}
+.pcvArea #point1 {
+    color: #00ff00;
+    left: 59px;
+    position: relative;
+    top: 41px;
+    z-index: 99;
+}
+#barChart {
+    background: #00ff00 none repeat scroll 0 0;
+    height: 28px;
+    left: 16px;
+    position: relative;
+    top: -803px;
+    width: 150px;
+}
+.pcvArea #point2 {
+    color: #00ff00;
+    left: 29px;
+    position: relative;
+    top: 435px;
+    z-index: 99;
+}
+.pcvArea #point3 {
+    color: #00ff00;
+    left: 215px;
+    position: relative;
+    top: 63px;
+    z-index: 99;
+}
+.pcvArea #point4 {
+    color: #00ff00;
+    left: 197px;
+    position: relative;
+    top: 63px;
+    z-index: 99;
+}
+.pcvArea #point5 {
+    color: #00ff00;
+    left: 119px;
+    position: relative;
+    top: 132px;
+    z-index: 99;
+}
+.pcvArea #point6 {
+    color: #ff0000;
+    left: 129px;
+    position: relative;
+    top: 131px;
+    z-index: 99;
+}
+.pcvArea #point7 {
+    color: #00ff00;
+    left: 134px;
+    position: relative;
+    top: 167px;
+    z-index: 99;
+}
+.pcvArea #point8 {
+    color: #00ff00;
+    left: 124px;
+    position: relative;
+    top: 168px;
+    z-index: 99;
+}
+.pcvArea #point9 {
+    color: #00ff00;
+    left: 145px;
+    position: relative;
+    text-align: right;
+    top: 247px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point10 {
+    color: #00ff00;
+    left: 145px;
+    position: relative;
+    text-align: right;
+    top: 246px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point11 {
+    color: #00ff00;
+    left: 291px;
+    position: relative;
+    text-align: right;
+    top: -164px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point12 {
+    color: #00ff00;
+    left: 291px;
+    position: relative;
+    text-align: right;
+    top: -168px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point13 {
+    color: #00ff00;
+    left: 290px;
+    position: relative;
+    text-align: right;
+    top: -150px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point14 {
+    color: #00ff00;
+    left: 384px;
+    position: relative;
+    text-align: right;
+    top: -101px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point15 {
+    color: #00ff00;
+    left: 340px;
+    position: relative;
+    text-align: right;
+    top: -52px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point16 {
+    color: #00ff00;
+    left: 341px;
+    position: relative;
+    text-align: right;
+    top: 16px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point17 {
+    color: #00ff00;
+    left: 381px;
+    position: relative;
+    text-align: right;
+    top: 78px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point18 {
+    color: #00ff00;
+    left: 281px;
+    position: relative;
+    text-align: right;
+    top: 110px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point19 {
+    color: #00ff00;
+    left: 281px;
+    position: relative;
+    text-align: right;
+    top: 118px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point20 {
+    color: #00ff00;
+    left: 349px;
+    position: relative;
+    top: 114px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point21 {
+    color: #00ff00;
+    left: 478px;
+    position: relative;
+    text-align: right;
+    top: -300px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point22 {
+    color: #00ff00;
+    left: 587px;
+    position: relative;
+    text-align: right;
+    top: -375px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point23 {
+    color: #00ff00;
+    left: 587px;
+    position: relative;
+    text-align: right;
+    top: -373px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point24 {
+    color: #00ff00;
+    left: 548px;
+    position: relative;
+    text-align: right;
+    top: -305px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point25 {
+    color: #00ff00;
+    left: 548px;
+    position: relative;
+    text-align: right;
+    top: -253px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point26 {
+    color: #00ff00;
+    left: 581px;
+    position: relative;
+    text-align: right;
+    top: -134px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point27 {
+    color: #00ff00;
+    left: 547px;
+    position: relative;
+    text-align: right;
+    top: -76px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point28 {
+    color: #00ff00;
+    left: 460px;
+    position: relative;
+    text-align: right;
+    top: -56px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point29 {
+    color: #00ff00;
+    left: 590px;
+    position: relative;
+    text-align: right;
+    top: -34px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point30 {
+    color: #00ff00;
+    left: 589px;
+    position: relative;
+    text-align: right;
+    top: -36px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point31 {
+    color: #00ff00;
+    left: 674px;
+    position: relative;
+    text-align: right;
+    top: -444px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point32 {
+    color: #00ff00;
+    left: 674px;
+    position: relative;
+    text-align: right;
+    top: -394px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point33 {
+    color: #00ff00;
+    left: 674px;
+    position: relative;
+    text-align: right;
+    top: -355px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point34 {
+    color: #00ff00;
+    left: 674px;
+    position: relative;
+    text-align: right;
+    top: -311px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point35 {
+    color: #00ff00;
+    left: 674px;
+    position: relative;
+    text-align: right;
+    top: -265px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point36 {
+    color: #00ff00;
+    left: 698px;
+    position: relative;
+    text-align: right;
+    top: -210px;
+    width: 100px;
+    z-index: 99;
+}

@@ -1,0 +1,36 @@
+@CHARSET "UTF-8";
+.btnSubmit {
+    margin-top: 23px;
+}
+.slideTop{
+	margin-top: 5px;
+	
+}
+.bgBlack{
+	background:black;
+	color:white;
+	background-image: url("../img/main_01.jpg");
+}
+.k-grid table{
+	 color: white;
+}
+.k-grid-header .k-header{
+	padding:0px;
+}
+.form-control, .single-line{
+	padding: 2px;	
+}
+.k-picker-wrap .k-icon {
+    margin-top: 5px;
+}
+.noUi-connect {
+    background: #3fb8af none repeat scroll 0 0;
+    box-shadow: 0 0 3px rgba(51, 51, 51, 0.45) inset;
+    transition: background 450ms ease 0s;
+}
+#disPlayDateTimeArea{
+	padding:5px;
+}
+.displaynone{
+	display:none;
+}

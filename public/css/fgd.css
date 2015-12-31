@@ -1,0 +1,266 @@
+@CHARSET "UTF-8";
+#processViewArea{
+	background: black none repeat scroll 0 0;
+}
+.fdgArea{
+	 margin:auto;
+	 width:950px;
+	 height:540px;
+	 background-image: url("../img/bgProcessView/fgd45.gif");
+	 background-size: 950px 533px;
+	 /*1000,561 1060,594 950,533*/
+	 background-repeat:no-repeat;
+	 
+}
+.fdgArea #point1 {
+    color: #00ff00;
+    font-weight: normal;
+    left: 15px;
+    position: relative;
+    top: 100px;
+    z-index: 99;
+    font-size: 13px;
+}
+.fdgArea #point2 {
+    color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 15px;
+    position: relative;
+    top: 111px;
+    z-index: 99;
+}
+.fdgArea #point3 {
+  
+  
+  	background: #00ff00 url("../img/bgProcessView/symbols/fanbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    border-radius: 100%;
+    color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    height: 50px;
+    left: 96px;
+    position: relative;
+    top: 70px;
+    width: 50px;
+    z-index: 99;
+    
+    
+}
+.fdgArea #point4 {
+     color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 80px;
+    position: relative;
+    top: 97px;
+    z-index: 99;
+}
+.fdgArea #point5 {
+    color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 18px;
+    position: relative;
+    top: 175px;
+    z-index: 99;
+}
+.fdgArea #point6 {
+    color: #ff0000;
+    font-size: 13px;
+    font-weight: normal;
+    left: 18px;
+    position: relative;
+    top: 190px;
+    z-index: 99;
+
+}
+.fdgArea #point7{
+  
+  
+  	background: #00ff00 url("../img/bgProcessView/symbols/fanbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    border-radius: 100%;
+    color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    height: 50px;
+    left: 101px;
+    position: relative;
+    top: 146px;
+    width: 50px;
+    z-index: 99;
+    
+    
+}
+.fdgArea #point8 {
+	
+    color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 85px;
+    position: relative;
+    top: 175px;
+    z-index: 99;
+
+}
+.fdgArea #point9 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 839px;
+    position: relative;
+    text-align: right;
+    top: -50px;
+    width: 100px;
+    z-index: 99;
+
+}
+.fdgArea #point10 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 839px;
+    position: relative;
+    text-align: right;
+    top: -39px;
+    width: 100px;
+    z-index: 99;
+}
+.fdgArea #point11 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 839px;
+    position: relative;
+    text-align: right;
+    top: -29px;
+    width: 100px;
+    z-index: 99;
+}
+.fdgArea #point12 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 839px;
+    position: relative;
+    text-align: right;
+    top: -19px;
+    width: 100px;
+    z-index: 99;
+}
+.fdgArea #point13 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 839px;
+    position: relative;
+    text-align: right;
+    top: -9px;
+    width: 100px;
+    z-index: 99;
+}
+.fdgArea #point14 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 442px;
+    position: relative;
+    text-align: right;
+    top: 54px;
+    width: 100px;
+    z-index: 99;
+}
+.fdgArea #point15 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 442px;
+    position: relative;
+    text-align: right;
+    top: 68px;
+    width: 100px;
+    z-index: 99;
+}
+.fdgArea #point16 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 442px;
+    position: relative;
+    text-align: right;
+    top: 81px;
+    width: 100px;
+    z-index: 99;
+}
+.fdgArea #point17 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 463px;
+    position: relative;
+    text-align: right;
+    top: 105px;
+    width: 100px;
+    z-index: 99;
+}
+.fdgArea #point18 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 463px;
+    position: relative;
+    text-align: right;
+    top: 105px;
+    width: 100px;
+    z-index: 99;
+}
+.fdgArea #point19 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 463px;
+    position: relative;
+    text-align: right;
+    top: 105px;
+    width: 100px;
+    z-index: 99;
+}
+.fdgArea #point20 {
+	
+    background: #00ff00 url("../img/bgProcessView/symbols/fanbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    border-radius: 100%;
+    color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    height: 50px;
+    left: 764px;
+    position: relative;
+    top: 8px;
+    width: 50px;
+    z-index: 99;
+}
+.fdgArea #point21 {
+	
+   	color: #00ff00;
+    font-size: 13px;
+    font-weight: normal;
+    left: 706px;
+    position: relative;
+    text-align: right;
+    top: 26px;
+    width: 100px;
+    z-index: 99;
+}
+
+

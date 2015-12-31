@@ -1,0 +1,21 @@
+.bgParam {
+	margin-bottom:2px;
+	margin-top:5px;
+}
+.bgParam2 {
+	margin-bottom:2px;
+	margin-top:2px;
+}
+.k-grid td {
+    
+    padding-bottom: 1px;
+    padding-top: 1px;
+}
+
+.displaynone{
+	display:none;
+}
+.input-sm {
+
+    padding: 0 0px;
+}
