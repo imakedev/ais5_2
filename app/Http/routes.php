@@ -297,7 +297,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/ais/processView/destinationSearch/','ParentRegionList@destinationSearch');
 
 
-
 //test 0010
 //test 009
 
