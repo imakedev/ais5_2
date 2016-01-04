@@ -259,7 +259,7 @@
                             </tr>
                             
                         </table>
-                        <button class='btn btn-primary btn-sm  ' type='button'>
+                        <button class='btn btn-primary btn-sm  ' id='downloadData' type='button'>
                             <i class='fa fa-download'></i>
                            Download
                         </button>
