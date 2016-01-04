@@ -10,7 +10,7 @@
    $pwd="ais413";
    $db_name="AIS";
 */
-	$host="localhost";
+   $host="localhost";
    $usr="root";
    //$pwd="p@ssw0rd";
    $pwd="010535546";
