@@ -12,8 +12,8 @@
 */
    $host="localhost";
    $usr="root";
-   //$pwd="p@ssw0rd";
-   $pwd="010535546";
+   $pwd="p@ssw0rd";
+   //$pwd="010535546";
    $db_name="ais";
   //user : Administrator
   //pass ;ais47
