@@ -1,3 +1,4 @@
+var paramTrendID="";
 //function display expand focus start
 	function setScaleDateTimeFn(startDate,endDate,paramTrendID){
 		//default value scaleDateTimeArea start
@@ -595,10 +596,10 @@ function setDefaultPointAndPlan(lastObject,point,paramTrendID){
 var readJsonFilter={
 		
 	//readJsonFilterFileScaleTypeH:function(){
-	scaleTypeH:function(){
+	scaleTypeH:function(paramTrendID){
 		 var jsonFilter = new Array();
 		 $.ajax({
-				url:"/ais/serviceTrend/readDataHru",
+				url:"/ais/serviceTrend/readDataHru/"+paramTrendID+"",
 				type:"get",
 				async:false,
 				dataType:"json",
@@ -611,10 +612,10 @@ var readJsonFilter={
 		 return jsonFilter;
 		 
 	},
-	scaleTypeD:function(){
+	scaleTypeD:function(paramTrendID){
 		 var jsonFilter = new Array();
 		 $.ajax({
-				url:"/ais/serviceTrend/readDataDayu",
+				url:"/ais/serviceTrend/readDataDayu/"+paramTrendID+"",
 				type:"get",
 				async:false,
 				dataType:"json",
@@ -627,10 +628,10 @@ var readJsonFilter={
 		 return jsonFilter;
 		 
 	},
-	scaleTypeMonth:function(){
+	scaleTypeMonth:function(paramTrendID){
 		 var jsonFilter = new Array();
 		 $.ajax({
-				url:"/ais/serviceTrend/readDataMonthu",
+				url:"/ais/serviceTrend/readDataMonthu/"+paramTrendID+"",
 				type:"get",
 				async:false,
 				dataType:"json",
@@ -642,7 +643,7 @@ var readJsonFilter={
 		 });
 		 return jsonFilter;
 		 
-	},scaleTypeSecond:function(paramTrendID,paramEmpID,paramStartTime,paramEndTime){
+	},scaleTypeSecond:function(paramTrendID,paramStartTime,paramEndTime){
 		
 	/*
 		alert(paramStartTime);
@@ -653,7 +654,7 @@ var readJsonFilter={
 		 
 		 $.ajax({
 			 //0820140520/08201405200000
-				url:"/ais/serviceTrend/readDataSecondu/"+paramTrendID+"/"+paramEmpID+"",
+				url:"/ais/serviceTrend/readDataSecondu/"+paramTrendID+"",
 				type:"get",
 				async:false,
 				dataType:"JSON",
@@ -732,7 +733,7 @@ var createFileServiceChart={
 		//alert(paramToDate);
 		
 		$.ajax({
-			url:"/ais/serviceTrend/getDataHru/"+pointDataId+"/0"+pointUnitId+"/"+paramFromDate+"/"+paramToDate+"",
+			url:"/ais/serviceTrend/getDataHru/"+pointDataId+"/0"+pointUnitId+"/"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"",
 			type:"get",
 			dataType:"json",
 			async:false,
@@ -740,7 +741,7 @@ var createFileServiceChart={
 				
 				if(data=='createJsonSuccess'){
 					
-					var data2=readJsonFilter.scaleTypeH();
+					var data2=readJsonFilter.scaleTypeH(paramTrendID);
 					//console.log("data2");
 					//console.log(data2);
 					
@@ -776,7 +777,7 @@ var createFileServiceChart={
 		//alert(paramToDate);
 		
 		$.ajax({
-			url:"/ais/serviceTrend/getDataDayu/"+pointDataId+"/0"+pointUnitId+"/"+paramFromDate+"/"+paramToDate+"",
+			url:"/ais/serviceTrend/getDataDayu/"+pointDataId+"/0"+pointUnitId+"/"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"",
 			type:"get",
 			dataType:"json",
 			async:false,
@@ -784,7 +785,7 @@ var createFileServiceChart={
 				
 				if(data=='createJsonSuccess'){
 					
-					var data2=readJsonFilter.scaleTypeD();
+					var data2=readJsonFilter.scaleTypeD(paramTrendID);
 					//console.log("data2");
 					
 					//console.log(data2);
@@ -816,7 +817,7 @@ var createFileServiceChart={
 		//alert(paramToDate);
 		
 		$.ajax({
-			url:"/ais/serviceTrend/getDataMonthu/"+pointDataId+"/0"+pointUnitId+"/"+paramFromDate+"/"+paramToDate+"",
+			url:"/ais/serviceTrend/getDataMonthu/"+pointDataId+"/0"+pointUnitId+"/"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"",
 			type:"get",
 			dataType:"json",
 			async:false,
@@ -824,7 +825,7 @@ var createFileServiceChart={
 				
 				if(data=='createJsonSuccess'){
 					
-					var data2=readJsonFilter.scaleTypeMonth();
+					var data2=readJsonFilter.scaleTypeMonth(paramTrendID);
 					
 					//console.log(data2);
 					
@@ -888,14 +889,14 @@ var createFileServiceChart={
 		
 		
 		$.ajax({
-			url:"/ais/serviceTrend/createDataSecondu/"+paramEndTime+"/"+pointDataId+"/"+paramTrendID+"/3",
+			url:"/ais/serviceTrend/createDataSecondu/"+paramEndTime+"/"+pointDataId+"/"+paramTrendID,
 			type:"get",
 			dataType:"json",
 			async:false,
 			success:function(data){
 				if(data=='createJsonSuccess'){	
 					//alert("createJsonSuccess");
-					var data2=readJsonFilter.scaleTypeSecond(paramTrendID,'3',paramStartTime,intervalAddFn(paramStartTime,'minute','1'));
+					var data2=readJsonFilter.scaleTypeSecond(paramTrendID,paramStartTime,intervalAddFn(paramStartTime,'minute','1'));
 					if(data2==''){
 						alert("Data is empty!");
 						return false;
@@ -928,8 +929,8 @@ var createFileServiceChart={
 }
 //readJsonFilter.scaleTypeSecond('88','3','2014-05-01 02:00:00','2014-05-01 02:01:00');
 
-var plotGraphFn=function(paramAction,paramTest,paramTrendID){
-	   
+var plotGraphFn=function(paramAction,paramTest,paramTrendID,paramScaleTime){
+	   //alert(paramTrendID);
 	   var point="";
 	   if(paramTest=="Y"){
 		   
@@ -949,17 +950,18 @@ var plotGraphFn=function(paramAction,paramTest,paramTrendID){
 		  }); 
 	   }
 		  
-		  $(".paramPointEmbed-"+paramTrendID+"").remove();
-		  var paramPoint="";
-		  paramPoint+="<input type='hidden' class='paramPointEmbed-"+paramTrendID+"' id='paramPointEmbed-"+paramTrendID+"' name='paramPointEmbed-"+paramTrendID+"' value='"+point+"'>";
-		  paramPoint+="<input type='hidden' class='paramPointEmbed-"+paramTrendID+"' id='paramPointAllEmbed-"+paramTrendID+"' name='paramPointAllEmbed-"+paramTrendID+"' value='"+point+"'>";
 		  
-		  
-		  $("body").append(paramPoint);
 			  
 			
 		  //if plot grach is success crate new tab
 		 if(paramAction!='Edit'){
+			 
+		  $(".paramPointEmbed-"+paramTrendID+"").remove();
+		  var paramPoint="";
+		  paramPoint+="<input type='hidden' class='paramPointEmbed-"+paramTrendID+"' id='paramPointEmbed-"+paramTrendID+"' name='paramPointEmbed-"+paramTrendID+"' value='"+point+"'>";
+		  paramPoint+="<input type='hidden' class='paramPointEmbed-"+paramTrendID+"' id='paramPointAllEmbed-"+paramTrendID+"' name='paramPointAllEmbed-"+paramTrendID+"' value='"+point+"'>";
+		  $("body").append(paramPoint);
+			  
 		  var newTab="";
 		  newTab+="<li class=\"titleTab \" id='tabTrendId-"+paramTrendID+"'><a href=\"#tab-"+paramTrendID+"\" data-toggle=\"tab\" aria-expanded=\"false\"><b>"+$("#trendName").html()+"</b></a></li>";
 		  $("#tabTrendTitle").append(newTab);
@@ -988,14 +990,24 @@ var plotGraphFn=function(paramAction,paramTest,paramTrendID){
 			  
 			 
 			  
-		 }//action 
-		 
+		 }
 			 // $('[data-toggle="popover"]').popover();
 			  $('#editTrendPointModal').modal('hide');
 			  
 			  
 			  //START UP TREND 
-			  startUpFn("Y",paramTrendID); 
+			 
+			 var fromDate="";
+			 var toDate="";
+			 $("#paramToDate-"+paramTrendID).val();
+			 if(($("#paramFromDate-"+paramTrendID).val()!=undefined) ||($("#paramToDate-"+paramTrendID).val()!=undefined)){
+				 fromDate=$("#paramFromDate-"+paramTrendID).val();
+				 toDate=$("#paramToDate-"+paramTrendID).val();
+			 }else{
+				 fromDate=currentDate()+" 00:00:00";
+				 toDate=currentDate()+" 23:59:59";
+			 }
+			  startUpFn("N",paramTrendID,paramScaleTime,$("#paramHour-"+paramTrendID).val(),$("#paramMinate-"+paramTrendID).val(),fromDate,toDate); 
 			  
 }
 
@@ -1009,12 +1021,13 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
  	// var startTime= intervalDelFn(datetimeCurrentHFn($("#paramToDate-"+paramTrendID+"").val()),'hour',5);
 	 var endTime = intervalAddFn(startTime,'hour',scale);
 	 var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+	 
 	 var paramPoint='';
 	 $("#paramPoint").val('');
 	 $(".clickHideShowPoint").removeClass("showPoint");
 	 $(".clickHideShowPoint").addClass("hiddenPoint");
 	 
-	 createTrendChart(getDataByMenute(data2,paramPoint),paramPoint,'',paramTrendID);
+	 createTrendChart("",paramPoint,'',paramTrendID);
 	
 	 
 	 startTime=startTime.split(" ");
@@ -1030,30 +1043,30 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 
 	 if(paramScaleTime=='Second'){
 		 var endTime = intervalAddFn(startTime,'minute',scale);
-		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,'3',startTime,endTime);
+		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
 		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,"10",paramTrendID);
 		 
-	 }if(paramScaleTime=='Hour'){
+	 }else if(paramScaleTime=='Hour'){
 		 /*
 		 var endTime = intervalAddFn(startTime,'minute',scale);
 		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,'3',startTime,endTime);
 		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,"10",paramTrendID);
 		 */
-		 var data2=readJsonFilter.scaleTypeH();
+		 var data2=readJsonFilter.scaleTypeH(paramTrendID);
 		 createTrendChart(getDataByDateHour(data2,paramPoint),paramPoint,"12",paramTrendID);
 		 
 		 
-	 }if(paramScaleTime=='Day'){
+	 }else if(paramScaleTime=='Day'){
 
-		 var data2=readJsonFilter.scaleTypeD();
+		 var data2=readJsonFilter.scaleTypeD(paramTrendID);
 		 createTrendChart(getDataByDateDay(data2,paramPoint),paramPoint,"1",paramTrendID);
 		 
 		 
-	 }if(paramScaleTime=='Month'){
+	 }else if(paramScaleTime=='Month'){
 
 		
 		 
-		 var data2=readJsonFilter.scaleTypeMonth();
+		 var data2=readJsonFilter.scaleTypeMonth(paramTrendID);
 		 createTrendChart(getDataByDateMonth(data2,paramPoint),paramPoint,"1",paramTrendID);
 		 
 		 
@@ -1086,33 +1099,35 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		 
 		
 		 var endTime = intervalAddFn(startTime,'minute',scale);
-		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,'3',startTime,endTime);
+		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
 		 createTrendChart(getDataByDateSecond(data2,point),point,"10",paramTrendID,$colorIndex);
 				
 		
 		 
 		 
-	 }if(paramScaleTime=='Hour'){
-		 
+	 }else if(paramScaleTime=='Hour'){
+		
 		
 
-		 var data2=readJsonFilter.scaleTypeH();
+		 var data2=readJsonFilter.scaleTypeH(paramTrendID);
+		 //console.log("xxxx");
+		 //console.log(data2);
 		 createTrendChart(getDataByDateHour(data2,point),point,"12",paramTrendID,$colorIndex);
-		//createTrendChart(getDataByDateHour(data2,pointDataId),pointDataId,"12",paramTrendID,$colorIndex);		
+		
 		
 		 
 		 
-	 }if(paramScaleTime=='Day'){
+	 }else if(paramScaleTime=='Day'){
 		 
-		 var data2=readJsonFilter.scaleTypeD();
+		 var data2=readJsonFilter.scaleTypeD(paramTrendID);
 		 createTrendChart(getDataByDateDay(data2,point),point,"1",paramTrendID,$colorIndex);
 
 		 
 		 
 		 
-	 }if(paramScaleTime=='Month'){
+	 }else if(paramScaleTime=='Month'){
 		 
-		 var data2=readJsonFilter.scaleTypeMonth();
+		 var data2=readJsonFilter.scaleTypeMonth(paramTrendID);
 		 createTrendChart(getDataByDateMonth(data2,point),point,"1",paramTrendID);
 
 		 
@@ -1125,8 +1140,8 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 	 }
 	 
 	 
-	 startTime=startTime.split(" ");
-	 $("#startTimeForDisplay-"+paramTrendID+"").val(addZeroTOMinute(startTime[1]));
+	 //startTime=startTime.split(" ");
+	 //$("#startTimeForDisplay-"+paramTrendID+"").val(addZeroTOMinute(startTime[1]));
 	
  }
 //read json by hidden or show point start
@@ -1150,7 +1165,7 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		 
 		
 		 paramStep='10';
-		 data2=readJsonFilter.scaleTypeSecond(paramTrendID,'3',startTime,endTime);
+		 data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
 		 setTimeout(function(){
 				createTrendChart(getDataByDateSecond(data2,pointDataId),pointDataId,"10",paramTrendID);
 				var lastObject = data2.pop();
@@ -1195,7 +1210,7 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 	 
 		 var startTime= intervalDelFn(paramStartDateOnProccess,'minute',-seek);
 		 var endTime = intervalAddFn(startTime,'minute',scale);
-		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,'3',startTime,endTime);
+		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
 		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);	 
 		 
 	 }else{
@@ -1233,7 +1248,7 @@ var readJsonIncreaseStartTimeDisplayFn=function(seek,paramTrendID){
 		 
 		 var startTime= intervalDelFn(paramStartDateOnProccess,'minute',-seek);
 	 	 var endTime = intervalAddFn(startTime,'minute',scale);
-	 	 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,'3',startTime,endTime);
+	 	 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
 	 	 /*
 	 	 alert(startTime);
 		 alert(endTime);
@@ -1275,7 +1290,7 @@ var readJsonReduceDayDisplayFn=function(seek,paramTrendID){
 		 alert(startTime);
 		 alert(endTime);
 		 */
-		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,'3',startTime,endTime);
+		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
 		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
 		 
 	 }else{
@@ -1307,7 +1322,7 @@ var readJsonIncreaseDayDisplayFn=function(seek,paramTrendID){
 		alert(startTime);
 		alert(endTime);
 		*/
-		var data2=readJsonFilter.scaleTypeSecond(paramTrendID,'3',startTime,endTime);
+		var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
 		createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
 		 
 	 }else{
@@ -1348,7 +1363,7 @@ $(document).ready(function(){
 					
 					 var startTime= paramStartDateOnProccess;
 					 var endTime = intervalAddFn(startTime,'minute',scale);
-					 var data2=readJsonFilter.scaleTypeSecond($("#trendTabActive").val(),'3',startTime,endTime);
+					 var data2=readJsonFilter.scaleTypeSecond($("#trendTabActive").val(),startTime,endTime);
 					 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',$("#trendTabActive").val());
 					 
 					//createFileServiceChart.createFileBySecondu($("#trendTabActive").val());
@@ -1377,10 +1392,16 @@ $(document).ready(function(){
 	
 	
 	/*click create trend graph start*/
+	$("#downloadData").on("click",function(){
+		alert("อยู่ในระหว่างพัฒนา...");
+		return false;
+	});
+	
 	var countTrendSeting=0;
 	$("[href='#trendSeting']").click(function(){
 	
-		if(countTrendSeting==0){
+		//if(countTrendSeting==0){
+			
 		$.ajax({
 			url:"/View/trend_setting.php",
 			type:"html",
@@ -1391,10 +1412,12 @@ $(document).ready(function(){
 				
 			}
 		});
+		/*
 		}else{
 			alert("อยู่ในระหว่างการปรับปรุง...");
 			return false;
 		}
+		*/
 		countTrendSeting++;
 	});
 	setTimeout(function(){
@@ -1412,6 +1435,27 @@ $(document).ready(function(){
 		id=id[1];
 		$("ul#tabTrendTitle").find("a[href='#tab-"+id+"']").remove();
 		$("#tabTrendContent>#tab-"+id).remove();
+		
+		
+	
+		
+		
+
+		setTimeout(function(){
+			$("[href='#trendSeting']").click();
+			
+			//delete embed param start
+			//alert(id);
+			$("#paramDateEmbed-"+id).remove();
+			$("#paramPointEmbed-"+id).remove();
+			$("#paramTrendNameEmbed-"+id).remove();
+			$("#paramUnitEmbed-"+id).remove();
+			$("#paramTrendIDEmbed-"+id).remove();
+			
+		});
+
+			
+		
 		
 		//delete file ajax start
 		/*
