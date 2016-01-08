@@ -431,7 +431,7 @@ function tooltipCustom(paramTrendID){
 		
 		
 	}
-	function callServiceGetPointByTrend(trendno,_unit,mmunit,starttime,endtime){
+	function callServiceGetPointByTrend1(trendno,_unit,mmunit,starttime,endtime){
 		
 				$.ajax({
 					url:"/webservice/TrendName.php",
@@ -501,6 +501,58 @@ function tooltipCustom(paramTrendID){
 		}else{
 			
 			$.ajax({
+				url:"/ais/serviceTrend/createDataMinuteu/"+point+"/"+mmunit+"/"+paramTrendID+"/"+starttime+"/"+endtime,
+				type:"get",
+				dataType:"json",
+				async:false,
+				/*
+				data:{
+						"starttime":starttime,
+						"endtime":endtime,
+						"mmunit":mmunit,
+						"point":point,
+						"_unit":_unit,
+						"paramTrendID":paramTrendID
+						
+					  
+					 },
+				*/
+				success:function(data){
+					//alert(data);
+					if(data=='createJsonSuccess'){
+						
+						
+						
+						var data2=readJsonFilterFile(startDateTime5HaGoFn(endDatetimeHisFn(endtime)),endDatetimeHisFn(endtime),paramTrendID);
+						//console.log(data2);
+						
+						if(data2==''){
+							alert("Data is empty!");
+							return false;
+						}
+						
+						var minute=startDateTime5HaGoFn(endDatetimeHisFn(endtime)).split(" ");
+						minute=minute[1];
+						$("#startTimeForDisplay-"+paramTrendID+"").val(minute);
+						//embed param startDate On Proccess
+						 $("#paramStartDateOnProccess-"+paramTrendID).remove();
+						 $("body").append("<input type='hidden' name='paramStartDateOnProccess-"+paramTrendID+"' id='paramStartDateOnProccess-"+paramTrendID+"' value='"+startDateTime5HaGoFn(endDatetimeHisFn(endtime))+"'>");
+						 
+						setTimeout(function(){
+							
+							createTrendChart(getDataByMenute(data2,point),point,"60",paramTrendID);
+							
+							var lastObject = data2.pop();
+							setDefaultPointAndPlan(lastObject,point,paramTrendID);
+						},1000);
+						
+						
+					}
+				}
+			});
+		}
+			/*
+			$.ajax({
 				url:"/webservice/createJsonFile.php",
 				type:"get",
 				dataType:"json",
@@ -545,6 +597,9 @@ function tooltipCustom(paramTrendID){
 				}
 			});
 		}
+		
+		*/
+		
 	}
 	
 	
@@ -694,7 +749,8 @@ function tooltipCustom(paramTrendID){
 	
 	$(document).on("click",".btnScaleTimeCancel",function(event){
 	    //$("#btnScaleTimeArea").click();
-		$(".btnScaleTimeArea").click();
+		//$(".btnScaleTimeArea").click();
+		$(".popover").popover('hide');
 	});
 	 
 	 $(document).on("click",".btnScaleTime",function(event){
@@ -703,7 +759,8 @@ function tooltipCustom(paramTrendID){
 		paramTrendID=paramTrendID[1];
 		 
 		startUpFn('N',paramTrendID);
-		$(".btnScaleTimeArea").click();
+		//$(".btnScaleTimeArea").click();
+		$(".popover").popover('hide');
 		
 	 });
 	 
@@ -714,13 +771,19 @@ function tooltipCustom(paramTrendID){
 		 //return ("ok");
 		 var jsonFilter = new Array();
 		 $.ajax({
-				url:"/webservice/readFile.php",
+				url:"/ais/serviceTrend/readDataMinuteu/"+paramTrendID+"",
 				type:"get",
 				async:false,
-				data:{"paramTrendID":paramTrendID},
+				dataType:"json",
+				//data:{"paramTrendID":paramTrendID},
 				success:function(data){
-					//console.log(data);
+					console.log(data);
 					
+					/*
+					 if(data==""){
+						return false;
+					}
+					*/
 					$.each(data,function(index,indexEntry){
 						
 						if((toTimestamp(indexEntry['EvTime'])>=toTimestamp(startTime)) && (toTimestamp(indexEntry['EvTime'])<=toTimestamp(endTime))) {
@@ -843,8 +906,8 @@ function tooltipCustom(paramTrendID){
 		 //set max scale here end.
 		 
 		 
-		 $(".btnSetingPoint-"+id+"").click();
-		 //$(".popover").popover('hide');
+		 //$(".btnSetingPoint-"+id+"").click();
+		 $(".popover").popover('hide');
 		 
 		 
 	 });
@@ -852,10 +915,11 @@ function tooltipCustom(paramTrendID){
 	 
 	 
 	 $(document).on("click",".btnCancelSetingPoint",function(event){
-		// $(".popover").popover('hide');
+		
 		 var id=this.id.split("-");
 		 id=id[1];
-		 $(".btnSetingPoint-"+id+"").click();
+		 //$(".btnSetingPoint-"+id+"").click();
+		 $(".popover").popover('hide');
 	 });
 	 
 	 //get param embed value
@@ -959,10 +1023,11 @@ function tooltipCustom(paramTrendID){
 	 
 	 
 	 
-	 function startUpFn(paramInitail,paramTrendID){
+	 function startUpFn(paramInitail,paramTrendID,paramScaleTime,paramHour,paramMinute,paramFromDate,paramToDate){
 			
 			
-			
+			//alert(paramHour);
+			//alert(paramMinute);
 			
 			var fromDate="";
 			var toDate="";
@@ -972,9 +1037,13 @@ function tooltipCustom(paramTrendID){
 				toDate="2014-05-02 23:59:59";
 				
 			}else{
-				
-				fromDate=$("#dateFrom-"+paramTrendID+"").val()+" 00:00:00";
-				toDate=$("#dateTo-"+paramTrendID+"").val()+" 23:59:59";
+				if((paramFromDate!=undefined) || (paramToDate!=undefined)){
+					fromDate=paramFromDate;
+					toDate=paramToDate;
+				}else{
+					fromDate=$("#dateFrom-"+paramTrendID+"").val()+" 00:00:00";
+					toDate=$("#dateTo-"+paramTrendID+"").val()+" 23:59:59";
+				}
 			}
 			
 
@@ -982,10 +1051,19 @@ function tooltipCustom(paramTrendID){
 			var paramDateEmbed="";
 			paramDateEmbed+="<input type='hidden' name='paramFromDate-"+paramTrendID+"' id='paramFromDate-"+paramTrendID+"' class='paramDateEmbed-"+paramTrendID+"' value='"+fromDate+"'>";
 			paramDateEmbed+="<input type='hidden' name='paramToDate-"+paramTrendID+"' id='paramToDate-"+paramTrendID+"' class='paramDateEmbed-"+paramTrendID+"' value='"+toDate+"'>";
-			paramDateEmbed+="<input type='hidden' name='paramScaleTime-"+paramTrendID+"' id='paramScaleTime-"+paramTrendID+"' class='paramDateEmbed-"+paramTrendID+"' value='"+$("#scaleTime-"+paramTrendID+"").val()+"'>";
-			paramDateEmbed+="<input type='hidden' name='paramHour-"+paramTrendID+"' id='paramHour-"+paramTrendID+"' class='paramDateEmbed-"+paramTrendID+"' value='"+$("#hour-"+paramTrendID+"").val()+"'>";
-			paramDateEmbed+="<input type='hidden' name='paramMinate-"+paramTrendID+"' id='paramMinate-"+paramTrendID+"' class='paramDateEmbed-"+paramTrendID+"' value='"+$("#minute-"+paramTrendID+"").val()+"'>";
 			
+			if(paramScaleTime!=undefined){
+				paramDateEmbed+="<input type='hidden' name='paramScaleTime-"+paramTrendID+"' id='paramScaleTime-"+paramTrendID+"' class='paramDateEmbed-"+paramTrendID+"' value='"+paramScaleTime+"'>";
+			}else{
+				paramDateEmbed+="<input type='hidden' name='paramScaleTime-"+paramTrendID+"' id='paramScaleTime-"+paramTrendID+"' class='paramDateEmbed-"+paramTrendID+"' value='"+$("#scaleTime-"+paramTrendID+"").val()+"'>";
+			}
+			if((paramHour!=undefined) ||(paramMinute!=undefined )){
+				paramDateEmbed+="<input type='hidden' name='paramHour-"+paramTrendID+"' id='paramHour-"+paramTrendID+"' class='paramDateEmbed-"+paramTrendID+"' value='"+paramHour+"'>";
+				paramDateEmbed+="<input type='hidden' name='paramMinate-"+paramTrendID+"' id='paramMinate-"+paramTrendID+"' class='paramDateEmbed-"+paramTrendID+"' value='"+paramMinute+"'>";
+			}else{
+				paramDateEmbed+="<input type='hidden' name='paramHour-"+paramTrendID+"' id='paramHour-"+paramTrendID+"' class='paramDateEmbed-"+paramTrendID+"' value='"+$("#hour-"+paramTrendID+"").val()+"'>";
+				paramDateEmbed+="<input type='hidden' name='paramMinate-"+paramTrendID+"' id='paramMinate-"+paramTrendID+"' class='paramDateEmbed-"+paramTrendID+"' value='"+$("#minute-"+paramTrendID+"").val()+"'>";
+			}
 			$("body").append(paramDateEmbed);
 
 			var pointId =getDataFromPointEmbed("pointId");
@@ -996,7 +1074,10 @@ function tooltipCustom(paramTrendID){
 			//create file for chart
 			
 			var scaleTime=$("#paramScaleTime-"+paramTrendID+"").val();
+			
 			//alert(scaleTime);
+			//alert("2="+scaleTime);
+			
 			if(scaleTime=='Minute'){
 				
 				
@@ -1057,12 +1138,18 @@ function tooltipCustom(paramTrendID){
 				$("#expandFocus-"+paramTrendID).val("4 Hour");
 			}
 			
-			callCreateFileServiceChart(fromDate,toDate,pointDataId,'1',"0"+$("#paramUnitEmbed-"+paramTrendID+"").val(),scaleTime,paramTrendID);
+			
+			
+			
+			callCreateFileServiceChart(fromDate,toDate,pointDataId,mmPlant,"0"+$("#paramUnitEmbed-"+paramTrendID+"").val(),scaleTime,paramTrendID);
+			
+			
 			
 			//set title between for display
 			//alert(fromDate);
 			setScaleDateTimeFn(fromDate,toDate,paramTrendID);
 			//show date for left layout
+			$(".popover").popover('hide');
 			
 			$("#dateInDataDisplay-"+paramTrendID).html(convertDateTh(toDate));
 			
@@ -1168,6 +1255,9 @@ function tooltipCustom(paramTrendID){
 					 		
 					 		//alert("2="+seek);
 					 		
+					 		
+					 		
+					 		
 					 		if($("#paramScaleTime-"+paramTrendID).val()=="Second"){
 					 			// seek=(seek-1);
 					 			
@@ -1208,6 +1298,8 @@ function tooltipCustom(paramTrendID){
 					 	});
 					 	$("#expand-"+paramTrendID+"").off();
 					 	$("#expand-"+paramTrendID+"").on("click",function(){
+					 		
+					 		
 					 		//alert(rangHour.length);
 					 	if($("#paramScaleTime-"+paramTrendID).val()=="Second"){
 					 		
@@ -1311,14 +1403,14 @@ function tooltipCustom(paramTrendID){
 					$(".editTrendPoint").on("click",function(){
 						
 						//alert 
-						alert("อยู่ในระหว่างการปรับปรุง...");
-						return false;
-					
-						var paramTrendName=$("#paramTrendNameEmbed").val();
-						var paramUnit=$("#paramUnitEmbed").val();
+						//alert("อยู่ในระหว่างการปรับปรุง...");
+						//return false;
 						var paramTrendID=$("#trendTabActive").val();
+						var paramTrendName=$("#paramTrendNameEmbed-"+paramTrendID).val();
+						var paramUnit=$("#paramUnitEmbed-"+paramTrendID).val();
 						
-						$("#editTrendName").html(paramTrendName);
+						
+						$("#editTrendName-"+paramTrendID).html(paramTrendName);
 						//editUnit
 						//check selected option
 						var val1 =paramUnit;
@@ -1339,20 +1431,17 @@ function tooltipCustom(paramTrendID){
 						
 						
 						$("select#editUnit").change(function(){
-							editTrendPointFn(paramTrendID,$(this).val());
-							
-							 $("#paramUnitEmbed-"+paramTrendID+"").remove();
+							  editTrendPointFn(paramTrendID,$(this).val());
+							  $("#paramUnitEmbed-"+paramTrendID+"").remove();
 							  var paramUnit="";
 							  paramUnit+="<input type='hidden' id='paramUnitEmbed-"+paramTrendID+"' name='paramUnitEmbed-"+paramTrendID+"' value='"+$(this).val()+"'>";
 							  $("body").append(paramUnit);
-							  
-							
 						});
 						
 						
 						
 						 $("#btnEditPlotGraph").off("click");
-						 $("#btnEditPlotGraph").click(function(){
+						 $("#btnEditPlotGraph").on("click",function(){
 							  // plotGraphFn();
 							  // plotGraphFn('Initial','N',$("#paramTrendIDEmbed").val());
 							 var paramTrendID = $("#trendTabActive").val();
@@ -1382,9 +1471,24 @@ function tooltipCustom(paramTrendID){
 							  $("body").append(paramPoint);
 							  //embed point start
 							  var pointId =getDataFromPointEmbed("pointId");
-							  callDataLayoutPointRight(pointId,paramTrendID);
-							  //alert(scale);
-							  /*Anable start slideScaleFn(paramTrendID,scale); */
+							  
+							  
+							  //Create Data Here Start.
+							 // alert($("#paramScaleTime-"+paramTrendID).val());
+							  
+							
+							  plotGraphFn('Edit','N',paramTrendID,$("#paramScaleTime-"+paramTrendID).val());
+							  /*
+							  if($("#paramScaleTime-"+paramTrendID).val()=="Second"){
+								  alert("Second");
+								  
+							  }else{
+								  alert("Minute");
+								  plotGraphFn('Edit','N',$("#paramTrendIDEmbed").val());
+								  //callDataLayoutPointRight(pointId,paramTrendID);
+							  }
+							  */
+							  //Create Data Here End.
 							  
 							  $('#editTrendPointModal').modal('hide');
 							  
@@ -1394,6 +1498,8 @@ function tooltipCustom(paramTrendID){
 						
 					});
 					//EDIT POINT END
+					
+					
 					
 					 
 		}
