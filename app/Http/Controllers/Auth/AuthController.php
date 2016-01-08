@@ -176,4 +176,5 @@ class AuthController extends Controller
         return redirect()->intended('/ais/login');
 
     }
+    
 }
