@@ -20,15 +20,7 @@ use Log;
 
 
 class processViewController  extends Controller{
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+ 
     public function createDataPCVSteam47($paramPCV,$paramUnit,$paramEmpId,$paramFromDate,$paramToDate){
     
         Log::info("Into createDataPCVSteam47");
@@ -306,13 +298,33 @@ AND (ois_event LIKE '%L8%' or ois_event LIKE '%L4%' or ois_event LIKE '%L5%')
        
     }
  /*################################## PCVPlantow47 END #######################################*/
-    public function testMultiConnection(){
-        Log::info("Into testMultiConnection");
+    public function testMultiConnection(Request $request){
+       Log::info("Into testMultiConnection");
         
-       
+       /*
+      $query="select * from books ";
+      $reslutQuery = DB::connection('mysql_ais_pd')->query($query);
+      */
       $query="select * from books ";
       $reslutQuery = DB::connection('mysql_ais_pd')->select($query);
+     // return $reslutQuery;
+      return json_encode($reslutQuery);
 
     }
+    public function testConnection47(Request $request){
+        Log::info("Into testMultiConnection");
+    
+        /*
+         $query="select * from books ";
+        $reslutQuery = DB::connection('mysql_ais_pd')->query($query);
+        */
+        $query="select * from books ";
+        $reslutQuery = DB::connection('mysql_ais_pd')->select($query);
+        // return $reslutQuery;
+        return json_encode($reslutQuery);
+    
+    }
+    
+    
    
 }
