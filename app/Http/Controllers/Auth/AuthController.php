@@ -99,15 +99,15 @@ class AuthController extends Controller
         } else {
             Log::info("into login->");
             // for LDAP Authen
-           // $user_ldap = LDAPAuth::authen($email, $password);
+          //  $user_ldap = LDAPAuth::authen($email, $password);
 
             // for Test
-            
+
             $email='moooooooooooogle3@gmail.com';
             $user_ldap = [
                 'email' => $email
             ];
-            
+
             // end test
             if (!empty($user_ldap)){
                 Log::info($user_ldap);
