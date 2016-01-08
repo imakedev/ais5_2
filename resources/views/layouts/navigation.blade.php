@@ -5,12 +5,17 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                     <span>
-                        <img alt="image" class="img-circle" src="{{ url('img/profile_small.jpg') }}" />
+                        <!-- <img alt="image" class="img-circle" src="{{ url('img/profile_small.jpg') }}" /> -->
+                         
+                            <img alt="image" width='50' class="img-circle" src="{{ url('/images/logo-egat.png') }}" /> 
+                         
                      </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                     <span class="clear"> <span class="block m-t-xs">
-                            <strong class="font-bold">{{Auth::user()->name}}</strong>
+                            User : <strong class="font-bold">{{Auth::user()->name}}</strong>
+                             <strong class="font-bold">{{Auth::user()->id}}</strong>
 
+                            
                      </span>
 
                     <span class="text-muted text-xs block">
@@ -55,14 +60,14 @@
             <li class="landing_link">
                 <a target="_blank" href="landing.html">
                     <i class="fa fa-star"></i>
-                    <span class="nav-label">วิธีใช้งาน</span>
-                    <span class="label label-warning pull-right">NEW</span>
+                    <span class="nav-label">User Manual</span>
+                   
                 </a>
             </li>
             <li class="special_link">
                 <a href="package.html">
                     <i class="fa fa-sign-out"></i>
-                    <span class="nav-label">ออกจากระบบ</span>
+                    <span class="nav-label">Logout</span>
                 </a>
             </li>
         </ul>
