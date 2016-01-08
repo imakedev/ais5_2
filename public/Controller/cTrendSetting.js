@@ -296,12 +296,59 @@ var bindGridPoinList = function(){
 						var trendID = this.id.split("-");
 						trendID=trendID[1];
 						
-						var unitID=$("#unit").val();
-						$("#paramTrendIDEmbed").remove();
-						$("body").append("<input type='hidden' id='paramTrendIDEmbed' class='' value='"+trendID+"'>");
+						if(trendID==$("#paramTrendIDEmbed-"+trendID).val()){
+							alert("This trend is already");
+							return false;
+							
+						}else{
+							
+						var unitHtml="";
+						unitHtml+="<select class=\"form-control input-sm unit\" id=\"unit-"+trendID+"\" name=\"unit-"+trendID+"\">";
+			                unitHtml+="<option selected value='4'>MM04</option>";
+			                unitHtml+="<option value='5'>MM05</option>";
+			                unitHtml+="<option value='6'>MM06</option>";
+			                unitHtml+="<option value='7'>MM07</option>";
+		                unitHtml+="</select> ";
+		                $("#listAllUnitArea").html(unitHtml);
+		                setTimeout(function(){
+		                	$("#listAllUnitArea").show();
+		                },1000);
+		                
+						 //binding event change select mm
+						   $(".unit").off("change");
+						   $(".unit").on("change",function(){
+							   
+							  var trendID=this.id.split("-");
+							  trendID=trendID[1];
+							  //alert(trendID);
+							  //alert($(this).val());
+							  getPointListFn($("#paramTrendIDEmbed-"+trendID).val(),$(this).val());
+							  $("#paramUnitEmbed-"+trendID).remove();
+							  var paramPoint="";
+							  paramPoint+="<input type='hidden' id='paramUnitEmbed-"+trendID+"' class='paramUnitEmbed' name='paramUnitEmbed-"+trendID+"' value='"+$(this).val()+"'>";
+							  $("body").append(paramPoint);
+							  
+							  
+						   });
+						  
+						   
+						  //binding event plot graph
 						
 						
-						 $(".paramUnitEmbed").remove();
+						
+						
+					
+						//alert(trendID);
+						var unitID=$("#unit-"+trendID).val();
+						//alert(unitID);
+					
+						
+						/*
+						$("#paramTrendIDEmbed-"+trendID).remove();
+						$("body").append("<input type='hidden' id='paramTrendIDEmbed-"+trendID+"' class='paramTrendIDEmbed' value='"+trendID+"'>");
+						*/
+						
+						 $("#paramUnitEmbed-"+trendID).remove();
 						  var paramPoint="";
 						  paramPoint+="<input type='hidden' id='paramUnitEmbed-"+trendID+"' class='paramUnitEmbed' name='paramUnitEmbed-"+trendID+"' value='"+unitID+"'>";
 						  $("body").append(paramPoint);
@@ -318,8 +365,34 @@ var bindGridPoinList = function(){
 						
 						//show element
 						$("#trendNameArea").show();
+						var htmlBtnPlotGraph="";
+						htmlBtnPlotGraph="<div class='col-xs-12'><buton id=\"btnPlotGraph-"+trendID+"\" class=\"btn btn-primary  btn-sm pull-right btnPlotGraph\">Plot Graph </buton></div>";
+						$("#btnPlotGraphArea").html(htmlBtnPlotGraph);
 						$("#btnPlotGraphArea").show();
-						$("#listAllUnitArea").show();
+						
+						
+						
+						
+						$(".btnPlotGraph").off("click");
+						$(".btnPlotGraph").on("click",function(){
+						   var trendID=this.id.split("-");
+						   trendID=trendID[1];
+						   //check value in check box is not null start
+						   //validationPoint();
+						   //check value in check box is not null end
+						   //alert(trendID);
+						   plotGraphFn('Initial','N',trendID);
+						   
+
+							
+							$("#paramTrendIDEmbed-"+trendID).remove();
+							$("body").append("<input type='hidden' id='paramTrendIDEmbed-"+trendID+"' class='paramTrendIDEmbed' value='"+trendID+"'>");
+							
+						   
+						});
+						   
+						}
+						return false;
 
 					});
 			
@@ -369,21 +442,7 @@ var bindGridPoinList = function(){
 			   
 			   
 		   });
-		 //binding event change select mm
-		   $("#unit").change(function(){
-
-			  getPointListFn($("#paramTrendIDEmbed").val(),$(this).val());
-			  
-			  $("#paramUnitEmbed").remove();
-			  var paramPoint="";
-			  paramPoint+="<input type='hidden' id='paramUnitEmbed' name='paramUnitEmbed' value='"+$(this).val()+"'>";
-			  $("body").append(paramPoint);
-			  
-			  
-		   });
-		  
-		   
-		  //binding event plot graph
+		
 		   
 		   //TEST GRAPH START
 		  
@@ -417,14 +476,7 @@ var bindGridPoinList = function(){
 			   
 	
 		 //TEST GRAPH START
-		   
-		   $(".btnPlotGraph").click(function(){
-			   
-			   //check value in check box is not null start
-			   //validationPoint();
-			   //check value in check box is not null end
-			   plotGraphFn('Initial','N',$("#paramTrendIDEmbed").val());
-		   });
+		  
 		
 		
 	});
