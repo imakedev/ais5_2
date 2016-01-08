@@ -41,15 +41,15 @@ class trendSetingController extends Controller
         $query="select * from mmname_table
         WHERE A LIKE '%$trendGroupName%'";
         //mysql
-        $reslutQuery = DB::connection('mysql_ais_47')->select($query);
-        //$reslutQuery = DB::select($query);
+        //$reslutQuery = DB::connection('mysql_ais_47')->select($query);
+        $reslutQuery = DB::select($query);
         Log::info(json_encode($reslutQuery));
         return json_encode($reslutQuery);
         }else{
             //echo "idgroup";
         $query="select * from mmname_table WHERE B='$id'";
-        $trendByGroup = DB::connection('mysql_ais_47')->select($query);
-        //$trendByGroup = DB::select($query);
+        //$trendByGroup = DB::connection('mysql_ais_47')->select($query);
+        $trendByGroup = DB::select($query);
         Log::info(json_encode($trendByGroup));
         return json_encode($trendByGroup);
         }
@@ -65,8 +65,8 @@ class trendSetingController extends Controller
         // Log::info($unitID);
     
         $query="select * from mmtrend_table WHERE ZZ IN($pontID)";
-        //$reslutQuery = DB::select($query);
-        $reslutQuery = DB::connection('mysql_ais_47')->select($query);
+        $reslutQuery = DB::select($query);
+        //$reslutQuery = DB::connection('mysql_ais_47')->select($query);
         Log::info(json_encode($reslutQuery));
 
         return json_encode($reslutQuery);
@@ -84,8 +84,8 @@ class trendSetingController extends Controller
         $query="select * from mmtrend_table where G='$trendID'  
                 AND (B='$unitID' or 'All'='$unitID')";
         
-        //$reslutQuery = DB::select($query);
-        $reslutQuery = DB::connection('mysql_ais_47')->select($query);
+        $reslutQuery = DB::select($query);
+        //$reslutQuery = DB::connection('mysql_ais_47')->select($query);
         Log::info(json_encode($reslutQuery));
         return json_encode($reslutQuery);
         
@@ -99,8 +99,8 @@ class trendSetingController extends Controller
                      ->groupBy('B')
                      ->get();
         */
-        //$mmtrend_group = DB::select($query);
-        $mmtrend_group = DB::connection('mysql_ais_47')->select($query);
+        $mmtrend_group = DB::select($query);
+        //$mmtrend_group = DB::connection('mysql_ais_47')->select($query);
         Log::info(json_encode($mmtrend_group));
     }
     public function getTrendByTrendNameGroup($trendNameGroup){
@@ -109,8 +109,8 @@ class trendSetingController extends Controller
         $query="select * from mmname_table
         WHERE A LIKE '%$trendNameGroup%'";
         
-        //$reslutQuery = DB::select($query);
-        $reslutQuery = DB::connection('mysql_ais_47')->select($query);
+        $reslutQuery = DB::select($query);
+        //$reslutQuery = DB::connection('mysql_ais_47')->select($query);
         Log::info(json_encode($reslutQuery));
         return json_encode($reslutQuery);
         
