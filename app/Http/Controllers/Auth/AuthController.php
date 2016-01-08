@@ -80,6 +80,7 @@ class AuthController extends Controller
     {
         $email  = Input::get('email');
         $password  = Input::get('password');
+        $mmplant  = Input::get('mmplant');
         /*
         $credentials = [
             'email' => 'moooooooooooogle@gmail.com',
@@ -98,15 +99,15 @@ class AuthController extends Controller
         } else {
             Log::info("into login->");
             // for LDAP Authen
-            $user_ldap = LDAPAuth::authen($email, $password);
+          //  $user_ldap = LDAPAuth::authen($email, $password);
 
             // for Test
-            /*
+
             $email='moooooooooooogle3@gmail.com';
             $user_ldap = [
                 'email' => $email
             ];
-            */
+
             // end test
             if (!empty($user_ldap)){
                 Log::info($user_ldap);
@@ -127,6 +128,11 @@ class AuthController extends Controller
 
 
                 Auth::loginUsingId($user_key);
+
+                //set mmplant
+                Auth::user()->mmplant=$mmplant;
+                Session::put('user_mmplant', $mmplant);
+                Log::info('mmplant->'.$mmplant);
             }
             Log::info($user_ldap);
    /*

@@ -27,9 +27,9 @@
                         <input type="password"  name="password" class="form-control" placeholder="รหัสผ่าน" required="">
                     </div>
                     <div class="form-group">
-                        <input type='radio' checked='checked' name='mmplant'> <span class='fa fa-tasks'></span> MM4-7
-                        <input type='radio' name='mmplant'> <span class='fa fa-tasks'></span> MM8-13
-                        <input type='radio' name='mmplant'> <span class='fa fa-tasks'></span> FGD8-13
+                        <input type='radio' checked='checked' name='mmplant' value="1"> <span class='fa fa-tasks'></span> MM4-7
+                        <input type='radio' name='mmplant' value="2"> <span class='fa fa-tasks'></span> MM8-13
+                        <input type='radio' name='mmplant' value="3"> <span class='fa fa-tasks'></span> FGD8-13
                     </div>
                     <div class='row'>
                         <div class='col-md-6'>
