@@ -14,40 +14,147 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
- use Illuminate\Support\Facades\DB;
- use Illuminate\Pagination\LengthAwarePaginator;
- use Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Log;
+use Session;
+use Auth;
 
 class serviceTrendController  extends Controller{
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
+    
+    public function __construct(){
+        $numberHasZero="";
+        //Session::put('sess_emp_id', '00002');
+        //for test local
+        Session::put('sess_mmplant', '0');
+        //for server
+        //Session::put('sess_mmplant', '1');
+        //$sess_emp_id= Session::get('sess_emp_id');
+        
+        
     }
-    public function getDataHru($point,$unit,$startTime,$endTime){
+    /*
+     * 
+    _unit:1
+    endtime:2014-05-06 23:59:59
+    mmunit:04
+    paramTrendID:88
+    point:D32,D223,D131
+    starttime:2014-05-06 00:00:00
+    */
+    public function createDataMinuteu($point,$unit,$trendID,$startTime,$endTime){
+        
+        $sess_emp_id= Auth::user()->id;
+        $sess_mmplant= Session::get('sess_mmplant');
+        
+        $query="SELECT EvTime,".$point." FROM datau".$unit." WHERE EvTime BETWEEN '".$startTime."' and '".$endTime."'";
+        
+        if($sess_mmplant==1){
+            $reslutQuery = DB::connection('mysql_ais_47')->select($query);
+        }else if($sess_mmplant==2){
+            $reslutQuery = DB::connection('mysql_ais_813')->select($query);
+        }else if($sess_mmplant==3){
+            $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
+        }else{
+            $reslutQuery = DB::select($query);
+        }
+       
+       
+        $strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+        $objCreate = fopen($strFileName, 'w');
+        if($objCreate)
+        {
+            //echo '["createJsonSuccess"]';
+        
+        
+            $strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+            $objFopen = fopen($strFileName, 'w');
+            $strText1 = json_encode($reslutQuery);
+            fwrite($objFopen, $strText1);
+            if($objFopen)
+            {
+                echo '["createJsonSuccess"]';
+            }
+            else
+            {
+                echo '["error"]';
+            }
+            fclose($objFopen);
+        
+        
+        
+        }else{
+            echo "File Not Create.";
+        }
+        
+        //http://localhost:9999/ais/serviceTrend/createDataMinuteu/D32,D223,D131,D105,D272/04/88/2014-05-06%2000:00:00/2014-05-06%2020:00:00
+    }
+    public function readDataMinuteu($trendID){
+    
+        Log::info("Into readDataMinuteu");
+    
+        $sess_emp_id= Auth::user()->id;
+        $sess_mmplant= Session::get('sess_mmplant');
+
+        $strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+        $objFopen = fopen($strFileName, 'r');
+        if ($objFopen) {
+            while (!feof($objFopen)) {
+                $file = fgets($objFopen, 4096);
+                echo $file;
+            }
+            fclose($objFopen);
+        }
+        
+       //http://localhost:9999/ais/serviceTrend/readDataMinuteu/88
+    }
+    
+    
+    public function getDataHru($point,$unit,$startTime,$endTime,$trendID){
         
         Log::info("Into getDataHru");
+        
+        $sess_emp_id= Auth::user()->id;
+        $sess_mmplant= Session::get('sess_mmplant');
+        
         $query="select EvTime, $point from datahru$unit 
                 WHERE EvTime BETWEEN  '$startTime' AND '$endTime'";
-        $reslutQuery = DB::select($query);
+        //$reslutQuery = DB::select($query);
+        
+        if($sess_mmplant==1){
+            $reslutQuery = DB::connection('mysql_ais_47')->select($query);
+        }else if($sess_mmplant==2){
+            $reslutQuery = DB::connection('mysql_ais_813')->select($query);
+        }else if($sess_mmplant==3){
+            $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
+        }else{
+            $reslutQuery = DB::select($query);
+        }
         /*write flie here start.*/
         
-        $strFileName = "webservice/fileTrend/trendJsonHru.txt";
-        $objFopen = fopen($strFileName, 'w');
-        $strText1 = json_encode($reslutQuery);
-        fwrite($objFopen, $strText1);
-        if($objFopen)
+        
+        $strFileName = "webservice/fileTrend/trendJsonHru-$trendID-$sess_emp_id-$sess_mmplant.txt";
+        $objCreate = fopen($strFileName, 'w');
+        if($objCreate)
         {
-            echo '["createJsonSuccess"]';
-        }
-        else
-        {
-            echo '["error"]';
+            
+        
+            $strFileName = "webservice/fileTrend/trendJsonHru-$trendID-$sess_emp_id-$sess_mmplant.txt";
+            $objFopen = fopen($strFileName, 'w');
+            $strText1 = json_encode($reslutQuery);
+            fwrite($objFopen, $strText1);
+            if($objFopen)
+            {
+                echo '["createJsonSuccess"]';
+            }
+            else
+            {
+                echo '["error"]';
+            }
+            
+            
+        }else{
+            echo "File Not Create.";
         }
         fclose($objFopen);
         /*write flie here end.*/
@@ -57,11 +164,19 @@ class serviceTrendController  extends Controller{
     //Example http://localhost:9998/ais/serviceTrend/getDataHru/D1,D2,D3/04/2014-05-01%2000:00:00/2014-05-01%2005:00:00
     }
     
-    public function readDataHru(){
+    public function readDataHru($trendID){
     
         Log::info("Into readDataHru");
-        
-        $strFileName = "webservice/fileTrend/trendJsonHru.txt";
+        $sess_emp_id= Auth::user()->id;
+        $sess_mmplant= Session::get('sess_mmplant');
+        /*
+        echo $sess_emp_id;
+        echo",";
+        echo $sess_mmplant;
+        echo",";
+        echo $trendID;
+        */
+        $strFileName = "webservice/fileTrend/trendJsonHru-$trendID-$sess_emp_id-$sess_mmplant.txt";
         $objFopen = fopen($strFileName, 'r');
         if ($objFopen) {
             while (!feof($objFopen)) {
@@ -74,9 +189,14 @@ class serviceTrendController  extends Controller{
                      
     }
     /*##################### GET DATA MONTH SART ######################*/
-    public function getDataMonthu($point,$unit,$startTime,$endTime){
+    public function getDataMonthu($point,$unit,$startTime,$endTime,$trendID){
     
         Log::info("Into getDataMonthu");
+        
+        $sess_emp_id= Auth::user()->id;
+        $sess_mmplant= Session::get('sess_mmplant');
+        
+        
         
         $pointArray=explode(",",$point);
         $pointAvg="";
@@ -91,37 +211,57 @@ class serviceTrendController  extends Controller{
          $query="select EvTime, $point from datahru$unit
         WHERE EvTime BETWEEN   '$startTime' AND '$endTime'
         GROUP BY month(EvTime)";
-         /*
-        $query="select EvTime, $point from datahru$unit
-        WHERE EvTime BETWEEN  '$startTime' AND '$endTime'";*/
-        $reslutQuery = DB::select($query);
-        //write flie here start.
-    
-        $strFileName = "webservice/fileTrend/trendJsonMonthu.txt";
-        $objFopen = fopen($strFileName, 'w');
-            $strText1 = json_encode($reslutQuery);
-            fwrite($objFopen, $strText1);
-        if($objFopen)
-        {
-        echo '["createJsonSuccess"]';
-    }
-    else
-        {
-            echo '["error"]';
-        }
-        fclose($objFopen);
+         
         
-    //write flie here end.
+         if($sess_mmplant==1){
+             $reslutQuery = DB::connection('mysql_ais_47')->select($query);
+         }else if($sess_mmplant==2){
+             $reslutQuery = DB::connection('mysql_ais_813')->select($query);
+         }else if($sess_mmplant==3){
+             $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
+         }else{
+             $reslutQuery = DB::select($query);
+         }
+         
+         $strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+         $objCreate = fopen($strFileName, 'w');
+         if($objCreate)
+         {
+            //write flie here start.
+        
+                $strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+                $objFopen = fopen($strFileName, 'w');
+                    $strText1 = json_encode($reslutQuery);
+                    fwrite($objFopen, $strText1);
+                if($objFopen)
+                {
+                echo '["createJsonSuccess"]';
+                }
+                else
+                {
+                    echo '["error"]';
+                }
+                
+                
+            fclose($objFopen);
+           //write flie here end.
+        }else{
+            echo "File Not Create.";
+        }
+    
+   
     //return json_encode($reslutQuery);         
     //Example http://localhost:9998/ais/serviceTrend/getDataMonthu/D1,D2,D3/04/2014-05-01%2000:00:00/2014-05-01%2005:00:00
 
     }
     
-    public function readDataMonthu(){
+    public function readDataMonthu($trendID){
     
         Log::info("Into readDataMonthu");
+        $sess_emp_id= Auth::user()->id;
+        $sess_mmplant= Session::get('sess_mmplant');
         
-        $strFileName = "webservice/fileTrend/trendJsonMonthu.txt";
+        $strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$sess_mmplant.txt";
             $objFopen = fopen($strFileName, 'r');
             if ($objFopen) {
             while (!feof($objFopen)) {
@@ -169,7 +309,7 @@ class serviceTrendController  extends Controller{
     	//return null;
 	
     }
-    public function createDataSecondu($dateTime,$point,$trendID,$paramEmpId){
+    public function createDataSecondu($dateTime,$point,$trendID){
         Log::info("Into createDataSecondu");
         //0820140520/08201405200000
       
@@ -336,14 +476,20 @@ class serviceTrendController  extends Controller{
         fclose($hd);
         /*Create File*/
         
-        $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$paramEmpId.txt";
+        
+        
+        $sess_emp_id= Auth::user()->id;
+        $sess_mmplant= Session::get('sess_mmplant');
+        
+        
+        $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$sess_emp_id-$sess_mmplant.txt";
         $objCreate = fopen($strFileName, 'w');
         if($objCreate)
         {
             //echo '["createJsonSuccess"]';
     
         
-            $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$paramEmpId.txt";
+            $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$sess_emp_id-$sess_mmplant.txt";
             $objFopen = fopen($strFileName, 'w');
             $strText1 = json_encode($dataJsonObject);
             fwrite($objFopen, $strText1);
@@ -370,11 +516,15 @@ class serviceTrendController  extends Controller{
          //http://localhost:9999/ais/serviceTrend/createDataSecondu/2014-05-01%2002:10:00/D1,D2,D3,D4,D5,D7/88/3
     }
     
-    public function readDataSecondu($trendID,$paramEmpId){
+    public function readDataSecondu($trendID){
         
         Log::info("Into readDataSecondu");
         
-        $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$paramEmpId.txt";
+        $sess_emp_id= Auth::user()->id;
+        $sess_mmplant= Session::get('sess_mmplant');
+        
+        
+        $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$sess_emp_id-$sess_mmplant.txt";
        
         $objFopen = fopen($strFileName, 'r');
         if ($objFopen) {
@@ -484,39 +634,62 @@ class serviceTrendController  extends Controller{
     
     
     
-    public function getDataDayu($point,$unit,$startTime,$endTime){
+    public function getDataDayu($point,$unit,$startTime,$endTime,$trendID){
     
-        Log::info("Into getDataDayu");
-        $query="select EvTime, $point from datadayu$unit
-        WHERE EvTime BETWEEN  '$startTime' AND '$endTime'";
-        $reslutQuery = DB::select($query);
-        /*write flie here start.*/
-    
-        $strFileName = "webservice/fileTrend/trendJsonDayu.txt";
-        $objFopen = fopen($strFileName, 'w');
-        $strText1 = json_encode($reslutQuery);
-        fwrite($objFopen, $strText1);
-        if($objFopen)
-        {
-        echo '["createJsonSuccess"]';
-    }
-    else
-    {
-    echo '["error"]';
-        }
+        
+        
+        
+            $sess_emp_id= Auth::user()->id;
+            $sess_mmplant= Session::get('sess_mmplant');
+            
+            
+            Log::info("Into getDataDayu");
+            $query="select EvTime, $point from datadayu$unit
+            WHERE EvTime BETWEEN  '$startTime' AND '$endTime'";
+            
+            if($sess_mmplant==1){
+                $reslutQuery = DB::connection('mysql_ais_47')->select($query);
+            }else if($sess_mmplant==2){
+                $reslutQuery = DB::connection('mysql_ais_813')->select($query);
+            }else if($sess_mmplant==3){
+                $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
+            }else{
+                $reslutQuery = DB::select($query);
+            }
+            /*write flie here start.*/
+            $strFileName = "webservice/fileTrend/trendJsonDayu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+            $objCreate = fopen($strFileName, 'w');
+            if($objCreate){
+                
+                $strFileName = "webservice/fileTrend/trendJsonDayu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+                $objFopen = fopen($strFileName, 'w');
+                $strText1 = json_encode($reslutQuery);
+                fwrite($objFopen, $strText1);
+                if($objFopen){
+                echo '["createJsonSuccess"]';
+                }
+                else
+                {
+                    echo '["error"]';
+                }
+                
+            }else{
+                echo "File Not Create.";
+            }  
             fclose($objFopen);
             /*write flie here end.*/
-    
-                    //return json_encode($reslutQuery);
+   
                      
  //Example http://localhost:9998/ais/serviceTrend/getDataDayu/D1,D2,D3/04/2014-05-01%2000:00:00/2014-05-05%2005:00:00
     }
     
-  public function readDataDayu(){
-
+  public function readDataDayu($trendID){
+      
   Log::info("Into readDataDayu");
-
-      $strFileName = "webservice/fileTrend/trendJsonDayu.txt";
+      $sess_emp_id= Auth::user()->id;
+      $sess_mmplant= Session::get('sess_mmplant');
+      
+      $strFileName = "webservice/fileTrend/trendJsonDayu-$trendID-$sess_emp_id-$sess_mmplant.txt";
       $objFopen = fopen($strFileName, 'r');
       if ($objFopen) {
       while (!feof($objFopen)) {
@@ -551,6 +724,7 @@ class serviceTrendController  extends Controller{
         $queryTag="select DISTINCT(D) as tagName from mmtrend_table
         WHERE H in($pointNum)
         AND B='$unit'";
+        //$reslutQueryTag = DB::connection('mysql_ais_47')->select($queryTag);
         $reslutQueryTag = DB::select($queryTag);
         //print_r($reslutQueryTag);
         $i=0;
@@ -599,6 +773,8 @@ class serviceTrendController  extends Controller{
                 	and '2014-10-25 01:00:00'
                 )";
         $reslutQuery = DB::select($query);
+        //$reslutQuery = DB::connection('mysql_ais_47')->select($query);
+        
         return json_encode($reslutQuery);
                 
         
@@ -644,6 +820,7 @@ public function readEventDataTrendByEvent($point,$unit,$startTime,$endTime,$even
     $queryTag="select DISTINCT(D) as tagName from mmtrend_table
     WHERE H =$pointNum
     AND B='$unit'";
+    //$reslutQueryTag = DB::connection('mysql_ais_47')->select($queryTag);
     $reslutQueryTag = DB::select($queryTag);
     //print_r($reslutQueryTag);
     $i=0;
@@ -714,6 +891,18 @@ public function readEventDataTrendByEvent($point,$unit,$startTime,$endTime,$even
     /*test*/
      //http://localhost:9999/ais/serviceTrend/readEventDataTrendByEvent/D1/04/2014-05-01%2000:00:00/2014-10-01%2000:00:00/action
 }
+
+public function readSessEmpID( ){
+   
+    //Session::put('sess_emp_id', '00002');
+    $sess_emp_id= Session::get('sess_emp_id');
+    $sess_mmplant= Session::get('sess_mmplant');
+    
+    //echo $sess_emp_id."<br>";
+    //echo $sess_mmplant."<br>";
+    echo Auth::user()->id;
+}
+
   /* read data event for trend end*/
     
     
