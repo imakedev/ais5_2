@@ -122,7 +122,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/designTrend/deleteSelect', 'TrendDesignController@deleteSelect');
 
-
+/*
     Route::get('/ais/designCalculation', function(){
         return view('ais.design_calculation');
     });
@@ -130,6 +130,12 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/ais/formCalculation', function(){
         return view('ais.form_calculation');
     });
+*/
+   Route::resource('/ais/designCalculation', 'CalculationController@search');
+   Route::get('/designCalculation/destroy/{A}', 'CalculationController@destroy');
+   Route::get('/designCalculation/deleteSelect', 'CalculationController@deleteSelect');
+
+  Route::get('/ais/formCalculation/{A}','CalculationController@edit');
     /* End Design Menu */
 
     Route::resource('/ais/soot', 'SootController@search');

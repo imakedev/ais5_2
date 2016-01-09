@@ -34,8 +34,8 @@
             echo "<h1 style='color:lightseagreen;'>  </h1>";
         }
         ?>
-￼{{Auth::user()->name}} , ￼{{Auth::user()->mmplant}},{{Session::get('user_mmplant')}}
-            <!-- Main Content End -->
+￼{{Auth::user()->name}} , {{Session::get('user_mmplant')}} , {{Session::get('user_empId')}} , {{Auth::user()->empId}}
+        <!-- Main Content End -->
     @stop
 
     @section('footer')

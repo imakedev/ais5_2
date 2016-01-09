@@ -183,7 +183,7 @@ class StatisticsController extends Controller
         $datas=$datas->orderBy('user_login_log_id','ASC')->paginate(12);
         Log::info("query->".$query);
         //$datas_list = DB::select($query);
-        $this->testAuth();
+        //$this->testAuth();
         return view('ais/statistics', ['lists'=>$datas]);
     }
 

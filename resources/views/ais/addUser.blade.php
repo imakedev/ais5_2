@@ -60,7 +60,8 @@
                             @foreach($info_employee as $index => $info_emp)
                                 <tr>
                                     <td>
-                                        <div class='listCheckbox'><input type='checkbox' name="checkbox[]" class="ck" data-id="checkbox" value="{{$info_emp->ZZ}}"></div>
+                                        <div class='listCheckbox'>
+                                            <input type='checkbox' name="checkbox[]" class="ck" data-id="checkbox" value="{{$info_emp->ZZ}}"></div>
                                         <input type="hidden" value="{{$info_emp->ZZ}}">
                                     </td>
                                     <td>{{$info_emp->A}}</td>

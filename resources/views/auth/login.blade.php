@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group input-group">
                         <span class="input-group-addon"><span class="fa fa-user"></span></span>
-                        <input type="email"  name="email" class="form-control" placeholder="รหัสประจำตัว" required="">
+                        <input type="empId"  name="empId" class="form-control" placeholder="รหัสประจำตัว" required="">
                     </div>
                     <div class="form-group input-group">
                         <span class="input-group-addon"><span class="fa fa-unlock-alt"></span></span>

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
 use Log;
 use Auth;
 use Session;
@@ -69,6 +70,7 @@ class AuthController extends Controller
     {
 
         return User::create([
+            'empId' => $data['empId'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
@@ -78,7 +80,8 @@ class AuthController extends Controller
 
     public function authenticate()
     {
-        $email  = Input::get('email');
+      //  $email  = Input::get('email');
+        $empId = Input::get('empId');
         $password  = Input::get('password');
         $mmplant  = Input::get('mmplant');
         /*
@@ -88,7 +91,7 @@ class AuthController extends Controller
         ];
         */
         // $remember = $request->has('remember');
-        Log::info("into authenticate->");
+        Log::info("into authenticate->[".$empId."]");
 
         $hasAuthened=false;
 
@@ -99,19 +102,25 @@ class AuthController extends Controller
         } else {
             Log::info("into login->");
             // for LDAP Authen
-          //  $user_ldap = LDAPAuth::authen($email, $password);
+            //$user_ldap = LDAPAuth::authen($empId, $password);
 
             // for Test
 
-            $email='moooooooooooogle3@gmail.com';
+
+            $email='moooooooooooogle6@gmail.com';
             $user_ldap = [
-                'email' => $email
+                'email' => $email,
+                'name' => 'Chatchai Pimtun',
+                'empId' => $empId,
+               // 'id' => '409642',
+                'password' => 'password'
             ];
 
             // end test
             if (!empty($user_ldap)){
                 Log::info($user_ldap);
-                $user_db = User::where('email', $email)
+                //$user_db = User::where('email', $email)
+                $user_db = User::where('empId', $empId)
                     //->get();
                     ->first();
                 Log::info(" user_db->"+sizeof($user_db));
@@ -119,7 +128,8 @@ class AuthController extends Controller
                 if (empty($user_db)){
                     //create user
                     $this->create($user_ldap);
-                    $user_db = User::where('email', $email)
+                    //$user_db = User::where('email', $email)
+                    $user_db = User::where('empId', $empId)
                         //->get();
                         ->first();
                 }
@@ -132,6 +142,18 @@ class AuthController extends Controller
                 //set mmplant
                 Auth::user()->mmplant=$mmplant;
                 Session::put('user_mmplant', $mmplant);
+
+                // set mmemployee_table
+                $mmtrendsM = DB::table("mmemployee_table")
+                    ->where('A',$user_ldap['empId'])// as mmemployee where mmemployee.A='".$user_ldap['empId']."'")
+                    ->orderBy('updated_at','DESC')->get();
+                Log::info("mmemployee_table size=[".sizeof($mmtrendsM)."] empId[".$user_ldap['empId']."]");
+                $user_empId=null;
+                if (!empty($mmtrendsM)) {
+                    Log::info($mmtrendsM[0]->A);
+                    $user_empId=$mmtrendsM[0]->A;
+                }
+                Session::put('user_empId', $user_empId);
                 Log::info('mmplant->'.$mmplant);
             }
             Log::info($user_ldap);
