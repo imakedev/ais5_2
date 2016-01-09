@@ -123,7 +123,7 @@ class AuthController extends Controller
                 $user_db = User::where('empId', $empId)
                     //->get();
                     ->first();
-                Log::info(" user_db->"+sizeof($user_db));
+                Log::info("user_db->"+sizeof($user_db));
                 $user_key=null;
                 if (empty($user_db)){
                     //create user
@@ -198,4 +198,5 @@ class AuthController extends Controller
         return redirect()->intended('/ais/login');
 
     }
+    
 }
