@@ -40,6 +40,7 @@ class CalculationController  extends Controller
         if(Input::has('page')){ // paging
             Log::info("into paging");
             $queryString = session()->get('calculation_keySearch');
+            
 
         }else{
             if (Input::has('calculationKeySearch')) {
