@@ -130,6 +130,12 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/ais/formCalculation', function(){
         return view('ais.form_calculation');
     });
+*/
+   Route::resource('/ais/designCalculation', 'CalculationController@search');
+   Route::get('/designCalculation/destroy/{A}', 'CalculationController@destroy');
+   Route::get('/designCalculation/deleteSelect', 'CalculationController@deleteSelect');
+
+  Route::get('/ais/formCalculation/{A}','CalculationController@edit');
     /* End Design Menu */
 
     Route::resource('/ais/soot', 'SootController@search');
@@ -262,7 +268,7 @@ Route::group(['middleware' => 'web'], function () {
     
     
     Route::get('/ais/serviceTrend/readEventDataTrend/{point}/{unit}/{startTime}/{endTime}/','serviceTrendController@readEventDataTrend');
-    Route::get('/ais/serviceTrend/readEventDataTrendByEvent/{point}/{unit}/{startTime}/{endTime}/{event}/','serviceTrendController@readEventDataTrendByEvent');
+    Route::get('/ais/serviceTrend/readEventDataTrendByEvent/{point}/{unit}/{dateTime}/{event}/','serviceTrendController@readEventDataTrendByEvent');
     
     
     
