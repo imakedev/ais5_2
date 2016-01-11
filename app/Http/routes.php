@@ -122,7 +122,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/designTrend/deleteSelect', 'TrendDesignController@deleteSelect');
 
-
+/*
     Route::get('/ais/designCalculation', function(){
         return view('ais.design_calculation');
     });
