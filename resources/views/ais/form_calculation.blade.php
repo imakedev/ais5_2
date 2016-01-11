@@ -30,7 +30,7 @@
            <!-- btn start -->
              <div class="row bgParam">
 	            <div class="col-xs-8">
-		            <a class="btn btn-primary  btn-sm" href='designCalculation'>Back </a>
+		            <a class="btn btn-primary  btn-sm" href='/ais/designCalculation'>Back </a>
 		            
 	            </div>
 	            <div class="col-xs-4"><h5 class='titleForm'>Calculation Management</h5></div>

@@ -11,13 +11,15 @@ use Log;
 
 class LDAPAuth
 {
-    public static function authen($email,$password){
+   // public static function authen($email,$password){
+    public static function authen($empId,$password){
         $user_ldap=null;
         $adServer = "ldap://10.249.99.50:3268";
-        $email_explode = explode("@", $email);
+        //$email_explode = explode("@", $email);
         $ldap = ldap_connect($adServer);
        // $username = 'assysit@egat.co.th';//$_POST['username'];
-        $username = $email_explode[0];
+       // $username = $email_explode[0];
+        $username = $empId;
        // $password = 'mm.2910mm';//$_POST['password'];
         //$username = 'assysit';//$_POST['username'];
         //$password = 'mm.2910mm';//$_POST['password'];
@@ -40,10 +42,11 @@ class LDAPAuth
                 ldap_sort($ldap,$result,"sn");
                 $info = ldap_get_entries($ldap, $result);
                 Log::info("count->".$info["count"]);
-                $attributes=['mail','cn','c','st','title','description','postofficebox',
+              /*  $attributes=['mail','cn','c','st','title','description','postofficebox',
                     'physicaldeliveryofficename','telephonenumber','distinguishedname','info',
                     'memberof','department','company'];
-
+              */
+                $attributes=['cn'];
                 for ($i=0; $i<$info["count"]; $i++)
                 {
                     if($info['count'] > 1)
@@ -59,8 +62,11 @@ class LDAPAuth
 
                     }
                     $user_ldap = [
-                        'name' => $info[$i]["samaccountname"][0],
+                        //'name' => $info[$i]["samaccountname"][0],
+                        'name' => $info[$i]["cn"][0],
                         'email' => $info[$i]["mail"][0],
+                        'empId' => $info[$i]["samaccountname"][0],
+                      //  'id' => $info[$i]["samaccountname"][0],
                         'password' => 'password'
                     ];
                     //Log::info("givenname->".$info[$i]); // for show attributes

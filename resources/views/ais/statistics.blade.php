@@ -82,16 +82,18 @@
                         <div class='btnSearch'>
                             <button class="btn btn-sm btn-primary pull-left m-t-n-xs"><strong>Search</strong></button>
                         </div>
+                        <!--
                         <div>
                             <button type="button" onclick="mulipleDB()">Call Multiple DB</button>
                         </div>
+                        -->
                         <!-- search btn -->
                     </div>
                 </div>
                 <!-- grid list user -->
                 <div class="row">
                     <div class="col-md-12 table-responsive">
-                        <table id="gridStatistics" class="table table-hover">
+                        <table id="gridStatistics"  class="table table-striped table-bordered table-hover  dataTable">
                             <colgroup>
                                 <col style="width:10%"/>
                                 <col style="width:30%"/>
