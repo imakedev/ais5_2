@@ -7,9 +7,12 @@ function templateFormat(category,series,value) {
 	
 	//set value in right table
 	var point=series.substring("1");
-	//console.log($("#trendTabActive").val());
-	$("#valuePoint-"+point+"-"+$("#trendTabActive").val()).html(addCommas(parseInt(value).toFixed(2)));
 	var trendActive=$("#trendTabActive").val();
+	var paramUnit= $("#paramUnitEmbed-"+trendActive).val();
+	
+	
+	$("#valuePoint-"+point+"-"+$("#trendTabActive").val()).html(addCommas(parseInt(value).toFixed(2)));
+	
 	if($("#paramScaleTime-"+trendActive+"").val()=="Hour"){
 		var dmy="";
 		var dmy2="";
@@ -96,8 +99,45 @@ function templateFormat(category,series,value) {
 	var paramEvent="";
 	var paramAction="";
 	var paramVpser="";
-	//return point+"-"+category;
-/* /ais/serviceTrend/readEventDataTrendByEvent/D1/04/2014-05-01%2000:00:00/2014-10-01%2000:00:00/action */
+	// ### Manage dateTime for get event on tooltip Start ###
+	//varible for minute start
+	 var dateTimeEvent="";
+	 var dateTimeEventTime="";
+	 var dateTimeEventDate="";
+	 //varible for minute end
+	 
+	 if($("#paramScaleTime-"+trendActive+"").val()=='Minute'){
+		 
+		 dateTimeEventDate=$("#paramStartDateOnProccess-"+trendActive).val();
+		 dateTimeEventDate =dateTimeEventDate.split(" ");
+		 
+		 dateTimeEventDate = dateTimeEventDate[0];
+		 dateTimeEventTime= category.split(" ");
+		 dateTimeEventTime=dateTimeEventTime[0];
+		 
+		 dateTimeEvent=dateTimeEventDate+" "+dateTimeEventTime;
+		// console.log(dateTimeEvent);
+		 
+		 
+	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Day'){
+		 //fixed for test
+		 dateTimeEvent="2014-05-01 00:00:33";
+		 
+	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Month'){
+		 //fixed for test
+		 dateTimeEvent="2014-05-01 00:00:34";
+		 
+	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Second'){
+		 //fixed for test
+		 dateTimeEvent="2014-05-01 00:00:35";
+		 
+	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Hour'){
+		 //fixed for test
+		 dateTimeEvent="2014-05-01 00:00:36";
+	 }
+	 
+	// ### Manage dateTime for get event on Tooltip End ###
+	 
 	 if($("#paramevent-"+point+"-"+$("#trendTabActive").val()).val()=="event"){
 		 /*
 		 paramEvent+="event";
@@ -107,7 +147,7 @@ function templateFormat(category,series,value) {
 		 */
 		 
 		 $.ajax({
-				url:"/ais/serviceTrend/readEventDataTrendByEvent/D1/04/2014-05-01%2000:00:00/2014-10-01%2000:00:00/event",
+				url:"/ais/serviceTrend/readEventDataTrendByEvent/"+series+"/"+paramUnit+"/"+dateTimeEvent+"/event",
 				type:"get",
 				dataType:"json",
 				//async:false,
@@ -127,6 +167,12 @@ function templateFormat(category,series,value) {
 		 
 		 
 	 }
+	 
+	 
+	
+	 
+	 
+	 
 	 if($("#paramaction-"+point+"-"+$("#trendTabActive").val()).val()=="action"){
 		 /*
 		 paramAction+="action";
@@ -135,7 +181,7 @@ function templateFormat(category,series,value) {
 		 console.log("---");
 		 */
 		 $.ajax({
-				url:"/ais/serviceTrend/readEventDataTrendByEvent/D1/04/2014-05-01%2000:00:00/2014-10-01%2000:00:00/action",
+				url:"/ais/serviceTrend/readEventDataTrendByEvent/"+series+"/"+paramUnit+"/"+dateTimeEvent+"/action",
 				type:"get",
 				dataType:"json",
 				//async:false,
@@ -160,8 +206,19 @@ function templateFormat(category,series,value) {
 		 console.log(point+"-"+$("#trendTabActive").val()+"-"+category);
 		 console.log("---");
 		 */
+		 	/*
+		 	console.log(paramUnit);
+			console.log("---");
+			console.log(point);
+			console.log("---");
+			console.log(series);
+			*/
+		 console.log(category);
+		 
+		 
+		 
 		 $.ajax({
-				url:"/ais/serviceTrend/readEventDataTrendByEvent/D1/04/2014-05-01%2000:00:00/2014-10-01%2000:00:00/vpser",
+				url:"/ais/serviceTrend/readEventDataTrendByEvent/"+series+"/"+paramUnit+"/"+dateTimeEvent+"/vpser",
 				type:"get",
 				dataType:"json",
 				//async:false,

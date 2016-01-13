@@ -311,9 +311,9 @@ function setFormatDataPointFn(data){
 	$.each(data,function(index2,indexEntry2){
 		//console.log(index2);
 		if(i==0){
-			dataObject+="\""+index2+"\":\""+indexEntry2+"\"";	
+			dataObject+="\""+index2+"\":"+indexEntry2+"";	
 		}else{
-			dataObject+=",\""+index2+"\":\""+indexEntry2+"\"";	
+			dataObject+=",\""+index2+"\":"+indexEntry2+"";	
 		}
 		i++;
 	});

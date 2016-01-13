@@ -55,9 +55,9 @@ return [
         'mysql' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
-            'database'  => env('DB_DATABASE', 'ais'),
+            'database'  => env('DB_DATABASE', 'ais_db'),
             'username'  => env('DB_USERNAME', 'root'),
-            'password'  => env('DB_PASSWORD', 'root'),
+            'password'  => env('DB_PASSWORD', '010535546'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
@@ -73,6 +73,17 @@ return [
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
             'strict'    => false,
+        ],
+        'mysql_ais_47' => [
+        'driver'    => 'mysql',
+        'host'      => env('DB_HOST_47', '10.249.91.96'),
+        'database'  => env('DB_DATABASE_47', 'ais'),
+        'username'  => env('DB_USERNAME_47', 'ais'),
+        'password'  => env('DB_PASSWORD_47', 'ais413'),
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => '',
+        'strict'    => false,
         ],
 
         'pgsql' => [

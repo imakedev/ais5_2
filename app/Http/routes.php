@@ -1,3 +1,4 @@
+
 <?php
 
 /*
@@ -268,7 +269,7 @@ Route::group(['middleware' => 'web'], function () {
     
     
     Route::get('/ais/serviceTrend/readEventDataTrend/{point}/{unit}/{startTime}/{endTime}/','serviceTrendController@readEventDataTrend');
-    Route::get('/ais/serviceTrend/readEventDataTrendByEvent/{point}/{unit}/{startTime}/{endTime}/{event}/','serviceTrendController@readEventDataTrendByEvent');
+    Route::get('/ais/serviceTrend/readEventDataTrendByEvent/{point}/{unit}/{dateTime}/{event}/','serviceTrendController@readEventDataTrendByEvent');
     
     
     
@@ -318,3 +319,4 @@ Route::group(['middleware' => 'web'], function () {
 
 
 });
+

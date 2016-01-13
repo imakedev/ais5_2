@@ -26,10 +26,9 @@ class serviceTrendController  extends Controller{
         $numberHasZero="";
         //Session::put('sess_emp_id', '00002');
         //for test local
-        Session::put('sess_mmplant', '0');
-        //for server
-        //Session::put('sess_mmplant', '1');
-        //$sess_emp_id= Session::get('sess_emp_id');
+        Session::put('user_mmplant', '0');
+     
+       
         
         
     }
@@ -45,29 +44,29 @@ class serviceTrendController  extends Controller{
     public function createDataMinuteu($point,$unit,$trendID,$startTime,$endTime){
         
         $sess_emp_id= Auth::user()->id;
-        $sess_mmplant= Session::get('sess_mmplant');
+        $user_mmplant= Session::get('user_mmplant');
         
         $query="SELECT EvTime,".$point." FROM datau".$unit." WHERE EvTime BETWEEN '".$startTime."' and '".$endTime."'";
         
-        if($sess_mmplant==1){
+        if($user_mmplant==1){
             $reslutQuery = DB::connection('mysql_ais_47')->select($query);
-        }else if($sess_mmplant==2){
+        }else if($user_mmplant==2){
             $reslutQuery = DB::connection('mysql_ais_813')->select($query);
-        }else if($sess_mmplant==3){
+        }else if($user_mmplant==3){
             $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
         }else{
             $reslutQuery = DB::select($query);
         }
        
        
-        $strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+        $strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$user_mmplant.txt";
         $objCreate = fopen($strFileName, 'w');
         if($objCreate)
         {
             //echo '["createJsonSuccess"]';
         
         
-            $strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+            $strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$user_mmplant.txt";
             $objFopen = fopen($strFileName, 'w');
             $strText1 = json_encode($reslutQuery);
             fwrite($objFopen, $strText1);
@@ -94,9 +93,9 @@ class serviceTrendController  extends Controller{
         Log::info("Into readDataMinuteu");
     
         $sess_emp_id= Auth::user()->id;
-        $sess_mmplant= Session::get('sess_mmplant');
+        $user_mmplant= Session::get('user_mmplant');
 
-        $strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+        $strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$user_mmplant.txt";
         $objFopen = fopen($strFileName, 'r');
         if ($objFopen) {
             while (!feof($objFopen)) {
@@ -115,17 +114,17 @@ class serviceTrendController  extends Controller{
         Log::info("Into getDataHru");
         
         $sess_emp_id= Auth::user()->id;
-        $sess_mmplant= Session::get('sess_mmplant');
+        $user_mmplant= Session::get('user_mmplant');
         
         $query="select EvTime, $point from datahru$unit 
                 WHERE EvTime BETWEEN  '$startTime' AND '$endTime'";
         //$reslutQuery = DB::select($query);
         
-        if($sess_mmplant==1){
+        if($user_mmplant==1){
             $reslutQuery = DB::connection('mysql_ais_47')->select($query);
-        }else if($sess_mmplant==2){
+        }else if($user_mmplant==2){
             $reslutQuery = DB::connection('mysql_ais_813')->select($query);
-        }else if($sess_mmplant==3){
+        }else if($user_mmplant==3){
             $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
         }else{
             $reslutQuery = DB::select($query);
@@ -133,13 +132,13 @@ class serviceTrendController  extends Controller{
         /*write flie here start.*/
         
         
-        $strFileName = "webservice/fileTrend/trendJsonHru-$trendID-$sess_emp_id-$sess_mmplant.txt";
+        $strFileName = "webservice/fileTrend/trendJsonHru-$trendID-$sess_emp_id-$user_mmplant.txt";
         $objCreate = fopen($strFileName, 'w');
         if($objCreate)
         {
             
         
-            $strFileName = "webservice/fileTrend/trendJsonHru-$trendID-$sess_emp_id-$sess_mmplant.txt";
+            $strFileName = "webservice/fileTrend/trendJsonHru-$trendID-$sess_emp_id-$user_mmplant.txt";
             $objFopen = fopen($strFileName, 'w');
             $strText1 = json_encode($reslutQuery);
             fwrite($objFopen, $strText1);
@@ -168,15 +167,15 @@ class serviceTrendController  extends Controller{
     
         Log::info("Into readDataHru");
         $sess_emp_id= Auth::user()->id;
-        $sess_mmplant= Session::get('sess_mmplant');
+        $user_mmplant= Session::get('user_mmplant');
         /*
         echo $sess_emp_id;
         echo",";
-        echo $sess_mmplant;
+        echo $user_mmplant;
         echo",";
         echo $trendID;
         */
-        $strFileName = "webservice/fileTrend/trendJsonHru-$trendID-$sess_emp_id-$sess_mmplant.txt";
+        $strFileName = "webservice/fileTrend/trendJsonHru-$trendID-$sess_emp_id-$user_mmplant.txt";
         $objFopen = fopen($strFileName, 'r');
         if ($objFopen) {
             while (!feof($objFopen)) {
@@ -194,7 +193,7 @@ class serviceTrendController  extends Controller{
         Log::info("Into getDataMonthu");
         
         $sess_emp_id= Auth::user()->id;
-        $sess_mmplant= Session::get('sess_mmplant');
+        $user_mmplant= Session::get('user_mmplant');
         
         
         
@@ -213,23 +212,23 @@ class serviceTrendController  extends Controller{
         GROUP BY month(EvTime)";
          
         
-         if($sess_mmplant==1){
+         if($user_mmplant==1){
              $reslutQuery = DB::connection('mysql_ais_47')->select($query);
-         }else if($sess_mmplant==2){
+         }else if($user_mmplant==2){
              $reslutQuery = DB::connection('mysql_ais_813')->select($query);
-         }else if($sess_mmplant==3){
+         }else if($user_mmplant==3){
              $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
          }else{
              $reslutQuery = DB::select($query);
          }
          
-         $strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+         $strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$user_mmplant.txt";
          $objCreate = fopen($strFileName, 'w');
          if($objCreate)
          {
             //write flie here start.
         
-                $strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+                $strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$user_mmplant.txt";
                 $objFopen = fopen($strFileName, 'w');
                     $strText1 = json_encode($reslutQuery);
                     fwrite($objFopen, $strText1);
@@ -259,9 +258,9 @@ class serviceTrendController  extends Controller{
     
         Log::info("Into readDataMonthu");
         $sess_emp_id= Auth::user()->id;
-        $sess_mmplant= Session::get('sess_mmplant');
+        $user_mmplant= Session::get('user_mmplant');
         
-        $strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+        $strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$user_mmplant.txt";
             $objFopen = fopen($strFileName, 'r');
             if ($objFopen) {
             while (!feof($objFopen)) {
@@ -479,17 +478,17 @@ class serviceTrendController  extends Controller{
         
         
         $sess_emp_id= Auth::user()->id;
-        $sess_mmplant= Session::get('sess_mmplant');
+        $user_mmplant= Session::get('user_mmplant');
         
         
-        $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+        $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$sess_emp_id-$user_mmplant.txt";
         $objCreate = fopen($strFileName, 'w');
         if($objCreate)
         {
             //echo '["createJsonSuccess"]';
     
         
-            $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+            $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$sess_emp_id-$user_mmplant.txt";
             $objFopen = fopen($strFileName, 'w');
             $strText1 = json_encode($dataJsonObject);
             fwrite($objFopen, $strText1);
@@ -521,10 +520,10 @@ class serviceTrendController  extends Controller{
         Log::info("Into readDataSecondu");
         
         $sess_emp_id= Auth::user()->id;
-        $sess_mmplant= Session::get('sess_mmplant');
+        $user_mmplant= Session::get('user_mmplant');
         
         
-        $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+        $strFileName = "webservice/fileTrend/trendJsonSecondu-$trendID-$sess_emp_id-$user_mmplant.txt";
        
         $objFopen = fopen($strFileName, 'r');
         if ($objFopen) {
@@ -640,28 +639,28 @@ class serviceTrendController  extends Controller{
         
         
             $sess_emp_id= Auth::user()->id;
-            $sess_mmplant= Session::get('sess_mmplant');
+            $user_mmplant= Session::get('user_mmplant');
             
             
             Log::info("Into getDataDayu");
             $query="select EvTime, $point from datadayu$unit
             WHERE EvTime BETWEEN  '$startTime' AND '$endTime'";
             
-            if($sess_mmplant==1){
+            if($user_mmplant==1){
                 $reslutQuery = DB::connection('mysql_ais_47')->select($query);
-            }else if($sess_mmplant==2){
+            }else if($user_mmplant==2){
                 $reslutQuery = DB::connection('mysql_ais_813')->select($query);
-            }else if($sess_mmplant==3){
+            }else if($user_mmplant==3){
                 $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
             }else{
                 $reslutQuery = DB::select($query);
             }
             /*write flie here start.*/
-            $strFileName = "webservice/fileTrend/trendJsonDayu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+            $strFileName = "webservice/fileTrend/trendJsonDayu-$trendID-$sess_emp_id-$user_mmplant.txt";
             $objCreate = fopen($strFileName, 'w');
             if($objCreate){
                 
-                $strFileName = "webservice/fileTrend/trendJsonDayu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+                $strFileName = "webservice/fileTrend/trendJsonDayu-$trendID-$sess_emp_id-$user_mmplant.txt";
                 $objFopen = fopen($strFileName, 'w');
                 $strText1 = json_encode($reslutQuery);
                 fwrite($objFopen, $strText1);
@@ -687,9 +686,9 @@ class serviceTrendController  extends Controller{
       
   Log::info("Into readDataDayu");
       $sess_emp_id= Auth::user()->id;
-      $sess_mmplant= Session::get('sess_mmplant');
+      $user_mmplant= Session::get('user_mmplant');
       
-      $strFileName = "webservice/fileTrend/trendJsonDayu-$trendID-$sess_emp_id-$sess_mmplant.txt";
+      $strFileName = "webservice/fileTrend/trendJsonDayu-$trendID-$sess_emp_id-$user_mmplant.txt";
       $objFopen = fopen($strFileName, 'r');
       if ($objFopen) {
       while (!feof($objFopen)) {
@@ -706,6 +705,8 @@ class serviceTrendController  extends Controller{
   public function readEventDataTrend($point,$unit,$startTime,$endTime){
         //$unit,$startTime,$endTime
         //echo $point;
+        
+              
         $pointArray=explode(",",$point);
         $pointNum="";
         for($i=0;$i<count($pointArray);$i++){
@@ -772,6 +773,7 @@ class serviceTrendController  extends Controller{
                 	BETWEEN '2014-10-01 00:00:00' 
                 	and '2014-10-25 01:00:00'
                 )";
+        
         $reslutQuery = DB::select($query);
         //$reslutQuery = DB::connection('mysql_ais_47')->select($query);
         
@@ -805,11 +807,14 @@ class serviceTrendController  extends Controller{
         return json_encode($reslutQuery);
         */
 }
-public function readEventDataTrendByEvent($point,$unit,$startTime,$endTime,$event){
+public function readEventDataTrendByEvent($point,$unit,$dateTime,$event){
     //$unit,$startTime,$endTime
     //echo $point;
-   
-      $pointNum="'".substr($point,1)."'";
+    $sess_emp_id= Auth::user()->id;
+    $user_mmplant= Session::get('user_mmplant');
+    
+    
+    $pointNum="'".substr($point,1)."'";
     
         
     //echo $pointNum;
@@ -821,7 +826,19 @@ public function readEventDataTrendByEvent($point,$unit,$startTime,$endTime,$even
     WHERE H =$pointNum
     AND B='$unit'";
     //$reslutQueryTag = DB::connection('mysql_ais_47')->select($queryTag);
-    $reslutQueryTag = DB::select($queryTag);
+    
+    if($user_mmplant==1){
+        $reslutQueryTag = DB::connection('mysql_ais_47')->select($queryTag);
+    }else if($user_mmplant==2){
+        $reslutQueryTag = DB::connection('mysql_ais_813')->select($queryTag);
+    }else if($user_mmplant==3){
+        $reslutQueryTag = DB::connection('mysql_ais_fgd')->select($queryTag);
+    }else{
+        $reslutQueryTag = DB::select($queryTag);
+    }
+    
+    
+    //$reslutQueryTag = DB::select($queryTag);
     //print_r($reslutQueryTag);
     $i=0;
     foreach ($reslutQueryTag as $rs) {
@@ -835,23 +852,57 @@ public function readEventDataTrendByEvent($point,$unit,$startTime,$endTime,$even
     
         $i++;
     }
-    // echo $tagName;
+     //echo $tagName;
     
    
     
     
      if($event=='vpser'){
-    
+        
+         
         $query="
+                select sys_date as 'EvTime',vpser_raw.ois_vpser from vpser_raw
+                where vpser_raw.ois_vpser REGEXP '$tagName'
+                AND 
+            	vpser_raw.sys_date = '$dateTime' 
+            	
+                    	";
+        
+        //$reslutQuery = DB::select($query);
+        
+        if($user_mmplant==1){
+            
+            if($unit==4){
+                $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
+            }else if($unit==5){
+                $reslutQuery = DB::connection('mysql_ais_log_47_5')->select($query);
+            }else if($unit==6){
+                $reslutQuery = DB::connection('mysql_ais_log_47_6')->select($query);
+            }else if($unit==7){
+                $reslutQuery = DB::connection('mysql_ais_log_47_7')->select($query);
+            }
+            
+            
+        }else if($user_mmplant==2){
+            $reslutQuery = DB::connection('mysql_ais_813')->select($query);
+            
+        }else if($user_mmplant==3){
+            $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
+            
+        }else{
+            $query="
                 select '2014-05-01 00:00:00'  as 'EvTime',vpser_raw.ois_vpser from vpser_raw
                 where vpser_raw.ois_vpser like '%VPSER%'
-                AND 
-            	vpser_raw.sys_date 
-            	BETWEEN '2014-10-01 00:00:00' 
+                AND
+            	vpser_raw.sys_date
+            	BETWEEN '2014-10-01 00:00:00'
             	and '2014-10-25 01:00:00'
                 LIMIT 1
                     	";
-        $reslutQuery = DB::select($query);
+            $reslutQuery = DB::select($query);
+        }
+        
+        
         return json_encode($reslutQuery);
     
     
@@ -896,11 +947,12 @@ public function readSessEmpID( ){
    
     //Session::put('sess_emp_id', '00002');
     $sess_emp_id= Session::get('sess_emp_id');
-    $sess_mmplant= Session::get('sess_mmplant');
+    $user_mmplant= Session::get('user_mmplant');
     
     //echo $sess_emp_id."<br>";
-    //echo $sess_mmplant."<br>";
+    //echo $user_mmplant."<br>";
     echo Auth::user()->id;
+    echo Session::get('user_mmplant');
 }
 
   /* read data event for trend end*/
