@@ -643,59 +643,51 @@ var readJsonFilter={
 		 });
 		 return jsonFilter;
 		 
-	},scaleTypeSecond:function(paramTrendID,paramStartTime,paramEndTime){
+	},scaleTypeSecond:function(paramTrendID,paramStartTime,paramEndTime,pointDataId){
 		
-	/*
+		/*
 		alert(paramStartTime);
 		alert(paramEndTime);
-	*/	
-		 var jsonFilter = [];
+		*/
+		 var jsonFilter = "";
 		
+		 	//0820140520/08201405200000
+			//url:"/ais/serviceTrend/readDataSecondu/"+paramTrendID+"",
 		 
 		 $.ajax({
-			 //0820140520/08201405200000
-				url:"/ais/serviceTrend/readDataSecondu/"+paramTrendID+"",
-				type:"get",
-				async:false,
-				dataType:"JSON",
+			 	
+			 	//url:"http://10.249.91.96/trendSecond47/readDataSecondu.php?trendID="+paramTrendID+"&sessEmpId=3&unit=04&callback=?",
+			 	url:"http://localhost:9999/test/trendSecond47/readDataSecondu.php?trendID="+paramTrendID+"&sessEmpId=3&unit=08&callback=?",
+			 	//url:"/ais/serviceTrend/readDataSecondu/"+paramTrendID+"",	
+			 	type:"get",
+				dataType:"jsonp",
+				async: false, //blocks window close
 				success:function(data){
-					//console.log(data);
-					var objectData=eval("("+data+")");
-					//console.log(objectData);
 					
-					//Format [{"EvTime":"2014-05-17 00:00:00","D32":"149.74"},{"EvTime":"2014-05-17 00:01:00","D32":"149.61"}]
-					//var jsonFilter="";
+					
+					
+					
+					
+					var objectData=eval("("+data+")");
 					
 					jsonFilter+="[";
 					var j=0;
 					$.each(objectData,function(index,indexEntry){
-					
 						
 						//var dateTime="2014-05-01 00:00:";
 						
 						var dateTimeArray = index.split("-");
 						var dateTime=convestDateTimeNonDash(dateTimeArray[3]);
 
-						 
-							
 							
 						if((toTimestamp(dateTime)>=toTimestamp(paramStartTime)) && (toTimestamp(dateTime)<=toTimestamp(paramEndTime))) {
-							//jsonFilter.push(indexEntry);
-							//console.log(setFormatDataPointFn(indexEntry[0]));
-							/*
-							console.log("1----------------"+j);
-							console.log(dateTime);
-							console.log(indexEntry);
-							console.log("2----------------"+j);
-							*/
 							
+							//alert("data is filtered");
 							if(j==0){
 								jsonFilter+="{\"EvTime\":\""+dateTime+"\","+setFormatDataPointFn(indexEntry[0])+"";
 							}else{
 								jsonFilter+=",{\"EvTime\":\""+dateTime+"\","+setFormatDataPointFn(indexEntry[0])+"";
 							}
-							
-							
 							jsonFilter+="}";
 							j++;
 							
@@ -708,10 +700,27 @@ var readJsonFilter={
 						
 					});
 					jsonFilter+="]";
-					console.log(jsonFilter);
+					
+					
+					if(jsonFilter=='[]'){
+						alert("Data is empty!");
+						return false;
+					}
+					var data2 = eval("("+jsonFilter+")");
+					setTimeout(function(){
+						//alert(pointDataId);
+						createTrendChart(getDataByDateSecond(data2,pointDataId),pointDataId,"10",paramTrendID);
+						var lastObject = data2.pop();
+						setDefaultPointAndPlan(lastObject,pointDataId,paramTrendID);
+					},1000);
+					
+					
+					
+					
 				}
 		 });
-		 return eval("("+jsonFilter+")");
+		 //console.log("-----------2"+jsonFilter);
+		 //return eval("("+jsonFilter+")");
 		 
 	}
 }
@@ -889,25 +898,35 @@ var createFileServiceChart={
 		
 		
 		$.ajax({
-			url:"/ais/serviceTrend/createDataSecondu/"+paramEndTime+"/"+pointDataId+"/"+paramTrendID,
+			//url:"/ais/serviceTrend/createDataSecondu/"+paramEndTime+"/"+pointDataId+"/"+paramTrendID,
+			url:"http://localhost:9999/test/trendSecond47/createDataSecondu.php?dateTime="+paramEndTime+"&point="+pointDataId+"&trendID="+paramTrendID+"&sessEmpId=3&unit=08&callback=?",
+			//url:"http://10.249.91.96/trendSecond47/createDataSecondu.php?dateTime="+paramEndTime+"&point="+pointDataId+"&trendID="+paramTrendID+"&sessEmpId=3&unit=04&callback=?",
 			type:"get",
-			dataType:"json",
 			async:false,
+			crossDomain: true,
+			dataType:"JSON",
 			success:function(data){
-				if(data=='createJsonSuccess'){	
+				
+				if(data=='createJsonSuccess'){
+					
 					//alert("createJsonSuccess");
+					readJsonFilter.scaleTypeSecond(paramTrendID,paramStartTime,intervalAddFn(paramStartTime,'minute','1'),pointDataId);
+					/*
 					var data2=readJsonFilter.scaleTypeSecond(paramTrendID,paramStartTime,intervalAddFn(paramStartTime,'minute','1'));
 					if(data2==''){
 						alert("Data is empty!");
 						return false;
 					}
+					console.log(data2);
+					alert(data2);
+					
 					
 					setTimeout(function(){
 						createTrendChart(getDataByDateSecond(data2,pointDataId),pointDataId,"10",paramTrendID);
 						var lastObject = data2.pop();
 						setDefaultPointAndPlan(lastObject,pointDataId,paramTrendID);
 					},1000);
-					
+					*/
 				}
 					
 			}
@@ -1043,9 +1062,11 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 
 	 if(paramScaleTime=='Second'){
 		 var endTime = intervalAddFn(startTime,'minute',scale);
-		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+		 readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
+		 /*
+		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
 		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,"10",paramTrendID);
-		 
+		 */
 	 }else if(paramScaleTime=='Hour'){
 		 /*
 		 var endTime = intervalAddFn(startTime,'minute',scale);
@@ -1099,9 +1120,11 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		 
 		
 		 var endTime = intervalAddFn(startTime,'minute',scale);
-		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+		 readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,point);
+		 /*
+		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,point);
 		 createTrendChart(getDataByDateSecond(data2,point),point,"10",paramTrendID,$colorIndex);
-				
+				*/
 		
 		 
 		 
@@ -1165,7 +1188,7 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		 
 		
 		 paramStep='10';
-		 data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+		 data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,pointDataId);
 		 setTimeout(function(){
 				createTrendChart(getDataByDateSecond(data2,pointDataId),pointDataId,"10",paramTrendID);
 				var lastObject = data2.pop();
@@ -1201,6 +1224,8 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 //function dinamic read file json start
  var readJsonReduceStartTimeDisplayFn=function(seek,paramTrendID){
 	 
+	 
+	 
 	 var scale = parseInt($("#expandFocus-"+$("#trendTabActive").val()+"").val());
 	 var paramScaleTime=$("#paramScaleTime-"+paramTrendID).val();
 	 var paramStartDateOnProccess= $("#paramStartDateOnProccess-"+paramTrendID).val();
@@ -1210,9 +1235,12 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 	 
 		 var startTime= intervalDelFn(paramStartDateOnProccess,'minute',-seek);
 		 var endTime = intervalAddFn(startTime,'minute',scale);
-		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
-		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);	 
 		 
+		 readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
+		 /*
+		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
+		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);	 
+		 */
 	 }else{
 	 	 //var startTime= intervalDelFn(datetimeCurrentHFn($("#paramToDate-"+paramTrendID+"").val()),'hour',(scale-seek));
 		 var startTime= intervalDelFn(paramStartDateOnProccess,'hour',-seek);
@@ -1226,12 +1254,12 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 	 
 	 
 	 
-	 //alert(startTime);
+	
 	 $("#paramStartDateOnProccess-"+paramTrendID).remove();
 	 $("body").append("<input type='hidden' name='paramStartDateOnProccess-"+paramTrendID+"' id='paramStartDateOnProccess-"+paramTrendID+"' value='"+startTime+"'>");
 	 startTime=startTime.split(" ");
 	 $("#startTimeForDisplay-"+paramTrendID+"").val(addZeroTOMinute(startTime[1]));
-	 
+	
 	 
 	
 	
@@ -1248,17 +1276,12 @@ var readJsonIncreaseStartTimeDisplayFn=function(seek,paramTrendID){
 		 
 		 var startTime= intervalDelFn(paramStartDateOnProccess,'minute',-seek);
 	 	 var endTime = intervalAddFn(startTime,'minute',scale);
-	 	 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+	 	 
+	 	 readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
 	 	 /*
-	 	 alert(startTime);
-		 alert(endTime);
-		 alert("seek="+seek);
-		 alert("scale="+scale);*/
-		// alert(data2);
-		 //console.log(data2);
-		 
+	 	 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
 		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
-		 
+		 */
 	 }else{
 		 
 		 var startTime= intervalDelFn(paramStartDateOnProccess,'hour',-seek);
@@ -1286,13 +1309,13 @@ var readJsonReduceDayDisplayFn=function(seek,paramTrendID){
 		 
 		 var startTime= $("#initStartTimeSecond-"+paramTrendID).val();
 		 var endTime = intervalAddFn(startTime,'minute',scale);
-		 /*
-		 alert(startTime);
-		 alert(endTime);
-		 */
-		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
-		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
 		 
+		 readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
+		 
+		 /*
+		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
+		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
+		 */
 	 }else{
 		 var startTime= intervalDelFn(paramStartDateOnProccess,'day',-seek);
 		 var endTime = intervalAddFn(startTime,'hour',scale);
@@ -1318,13 +1341,11 @@ var readJsonIncreaseDayDisplayFn=function(seek,paramTrendID){
 	if(paramScaleTime=="Second"){
 		var startTime= intervalDelFn($("#initEndTimeSecond-"+paramTrendID).val(),'minute',scale);
 		var endTime = $("#initEndTimeSecond-"+paramTrendID).val();
+		readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
 		/*
-		alert(startTime);
-		alert(endTime);
-		*/
-		var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+		var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
 		createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
-		 
+		 */
 	 }else{
 		var startTime= intervalDelFn(paramStartDateOnProccess,'day',-seek);
 		var endTime = intervalAddFn(startTime,'hour',scale);
@@ -1363,10 +1384,12 @@ $(document).ready(function(){
 					
 					 var startTime= paramStartDateOnProccess;
 					 var endTime = intervalAddFn(startTime,'minute',scale);
-					 var data2=readJsonFilter.scaleTypeSecond($("#trendTabActive").val(),startTime,endTime);
-					 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',$("#trendTabActive").val());
 					 
-					//createFileServiceChart.createFileBySecondu($("#trendTabActive").val());
+					 readJsonFilter.scaleTypeSecond($("#trendTabActive").val(),startTime,endTime,paramPoint);
+					 /*
+					 var data2=readJsonFilter.scaleTypeSecond($("#trendTabActive").val(),startTime,endTime,paramPoint);
+					 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',$("#trendTabActive").val());
+					*/
 					
 				}else {
 					readJsonExpandFocusFn(scale,$("#trendTabActive").val());
@@ -1476,6 +1499,11 @@ $(document).ready(function(){
 		
 	});
 	//deleate tab end
+	
+	
+	
+	
+
 });
 
 

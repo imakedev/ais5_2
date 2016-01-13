@@ -120,15 +120,19 @@ function templateFormat(category,series,value) {
 		 
 		 
 	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Day'){
+		 //fixed for test
 		 dateTimeEvent="2014-05-01 00:00:33";
 		 
 	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Month'){
+		 //fixed for test
 		 dateTimeEvent="2014-05-01 00:00:34";
 		 
 	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Second'){
+		 //fixed for test
 		 dateTimeEvent="2014-05-01 00:00:35";
 		 
 	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Hour'){
+		 //fixed for test
 		 dateTimeEvent="2014-05-01 00:00:36";
 	 }
 	 

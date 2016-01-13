@@ -1,9 +1,7 @@
 <!-- 
 <script src="/Controller/cTrend.js"></script>
  -->
-<!-- test start -->
 
-<!-- test start -->
 <!-- trend contend area start -->
 <link href="/css/structureDashTrend.css" rel="stylesheet">
 <div id='tooltipData' class='displaynone'>
