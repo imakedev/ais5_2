@@ -37,7 +37,7 @@ class CalculationController  extends Controller
         Log::info("xx->".Input::get('calculationSelection'));
         $queryString=null;
         if(Input::has('page')){ // paging
-            Log::info("into paging");
+            Log::info("into paging xx");
             $queryString = session()->get('calculation_keySearch');
 
         }else{

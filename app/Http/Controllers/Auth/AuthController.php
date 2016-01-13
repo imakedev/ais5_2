@@ -173,8 +173,10 @@ class AuthController extends Controller
         //return redirect()->intended('/home');
         if($hasAuthened)
             return redirect()->intended('/ais/index');
-        else
+        else {
+            session()->flash('error_message', " Invalid Employee id or Password .");
             return redirect()->intended('/ais/login');
+        }
         // check ldap
     }
 

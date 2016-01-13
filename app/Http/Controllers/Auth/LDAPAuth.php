@@ -33,7 +33,7 @@ class LDAPAuth
 
             $bind = @ldap_bind($ldap, $ldaprdn, $password);
 
-
+            Log::info(" is bind ".$bind);
             if ($bind) {
                 // session_start();
                 $filter="(sAMAccountName=$username)";

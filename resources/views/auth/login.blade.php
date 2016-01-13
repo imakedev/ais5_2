@@ -15,6 +15,13 @@
             <div>
                 <form class="m-t ibox-content" role="form"  method="POST" action="{{ url('/login') }}">
                     {!! csrf_field() !!}
+                    @if(session()->has('error_message'))
+                        <div style='text-align: center';>
+                            <div class="alert alert-success" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
+                                <i class="glyphicon glyphicon-ok-sign"></i> {{ session()->get('error_message') }}
+                            </div>
+                        </div>
+                    @endif
                     <div style='text-align: center';>
                         <h3>AIS2015 LOGIN FORM</h3>
                     </div>

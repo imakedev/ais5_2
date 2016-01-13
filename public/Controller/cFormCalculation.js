@@ -1,6 +1,13 @@
 $(document).ready(function(){
-	
 
+
+
+	var cal_slelect_b_hidden=$("#cal_slelect_b_hidden").val();
+	var cal_slelect_e_hidden=$("#cal_slelect_e_hidden").val();
+	var cal_h_hidden=$("#cal_h_hidden").val();
+	$('select[name="cal_slelect_b"]').val(cal_slelect_b_hidden)
+	$('select[name="cal_slelect_e"]').val(cal_slelect_e_hidden)
+	$('select[name="cal_h"]').val(cal_h_hidden)
 	$("#btnAddPoint").click(function(){
 	
 		$.ajax({
@@ -61,3 +68,14 @@ $(document).ready(function(){
 		
 	});
 });
+function clearCalculation(){
+	$("#cal_g").val('');
+}
+function addFormula(){
+	var cal_select=$('input[name="cal"]:checked').val();
+	//alert(cal_select)
+	var old_cal_value=$("#cal_g").val();
+	var select_value=$("#"+cal_select).val();
+//	alert(select_value);
+	$("#cal_g").val(old_cal_value+select_value);
+}
