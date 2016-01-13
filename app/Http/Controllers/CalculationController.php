@@ -135,7 +135,8 @@ class CalculationController  extends Controller
     public function edit($id)
     {
         Log::info("edit [".$id."] ");
-        return view('ais.form_calculation');
+        $mmcalculation =   MmcalculationModel::find($id);
+        return view('ais.form_calculation', ['mmcalculation'=>$mmcalculation]);
     }
 
     /**
