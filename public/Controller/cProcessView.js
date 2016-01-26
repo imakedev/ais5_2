@@ -18,6 +18,8 @@ var bindingGridlistEventFn=function(){
 };
 
 function callReadDataEventPCVBySlideFn(paramPcv,paramUnit,paramEmpId,indexDate){
+	//console.log(paramPcv);
+	
 	
 	if(paramPcv=='steam47'){
 		
@@ -48,6 +50,7 @@ function callReadDataEventPCVBySlideFn(paramPcv,paramUnit,paramEmpId,indexDate){
 	}if(paramPcv=='plantow47'){
 		
 		//Read plantow47 start
+		//alert("plantow47001");
 		plantow47.readDataPCVFn(paramPcv,paramUnit,paramEmpId,indexDate);
 		if($("#eventAction").val()=='showEvent'){
 			
@@ -90,17 +93,19 @@ function slideFucusExpressFn(parmStart,paramMax){
 		});
 		var i=0;
 		slider.noUiSlider.on('update', function( values, handle ) {
-			//alert(i);
-			//alert($("#paramPcvEmbed").val());
+			
+			//alert("test");
+			
 			if(i!=0){
-				
-			console.log(values[handle]);
+			//console.log(values[handle]);
 			var indexDate = values[handle];
 			
 			callReadDataEventPCVBySlideFn($("#paramPcvEmbed").val(),$("#paramUnitEmbed").val(),$("#paramEmpIdEmbed").val(),indexDate);
-			
+			//console.log(i);
+			//console.log($("#paramPcvEmbed").val());
 			
 			}
+			
 			i++;
 		});
 	}

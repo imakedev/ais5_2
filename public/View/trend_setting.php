@@ -2,8 +2,10 @@
 <link href="/css/trendSetting.css" rel="stylesheet">
 
 <!-- test start -->
+<!--  
 <button id='btnCallAjax'>CallAjax</button>
 <button id='btnReadAjax'>btnReadAjax</button>
+-->
 
 <script>
 $("#btnCallAjax").click(function(){

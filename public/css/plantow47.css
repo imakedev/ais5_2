@@ -239,7 +239,7 @@
     z-index: 99;
 }
 .pcvArea #point28 {
-    background: #00ff00 url("../img/bgProcessView/symbols/pumpbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    /*background: #00ff00 url("../img/bgProcessView/symbols/pumpbody.gif") no-repeat scroll 0 0 / 50px 50px;*/
     border-radius: 100%;
     color: #00ff00;
     height: 50px;
@@ -251,7 +251,7 @@
     z-index: 99;
 }
 .pcvArea #point29 {
-    background: #ffffff url("../img/bgProcessView/symbols/pumpbody.gif") no-repeat scroll 0 0 / 50px 50px;
+   /* background: #ffffff url("../img/bgProcessView/symbols/pumpbody.gif") no-repeat scroll 0 0 / 50px 50px;*/
     border-radius: 100%;
     color: #00ff00;
     height: 50px;
@@ -262,8 +262,9 @@
     width: 50px;
     z-index: 99;
 }
+
 .pcvArea #point30 {
-    background: #ffffff url("../img/bgProcessView/symbols/pumptbody.gif") no-repeat scroll 0 0 / 50px 50px;
+  
     border-radius: 100%;
     color: #00ff00;
     height: 50px;
@@ -274,8 +275,51 @@
     width: 50px;
     z-index: 99;
 }
+/*Pumpbody*/
+.pcvArea .pumpbodyHightAlarm {
+    background: #FFFFDD url("../img/bgProcessView/symbols/pumpbody.gif") no-repeat scroll 0 0 / 50px 50px;
+
+}
+.pcvArea .pumpbodyLowAlarm {
+    background: #FF0000 url("../img/bgProcessView/symbols/pumpbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    
+}
+.pcvArea .pumpbodyNormal {
+    background: #00FF00 url("../img/bgProcessView/symbols/pumpbody.gif") no-repeat scroll 0 0 / 50px 50px;
+   
+}
+/*Pumpbody*/
+/*Pumptbody*/
+.pcvArea .pumptbodyHightAlarm {
+    background: #FFFFDD url("../img/bgProcessView/symbols/pumptbody.gif") no-repeat scroll 0 0 / 50px 50px;
+
+}
+.pcvArea .pumptbodyLowAlarm {
+    background: #FF0000 url("../img/bgProcessView/symbols/pumptbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    
+}
+.pcvArea .pumptbodyNormal {
+    background: #00FF00 url("../img/bgProcessView/symbols/pumptbody.gif") no-repeat scroll 0 0 / 50px 50px;
+   
+}
+/*Pumptbody*/
+/*Pumpmask*/
+.pcvArea .pumpmaskHightAlarm {
+    background: #FFFFDD url("../img/bgProcessView/symbols/pumpmask.gif") no-repeat scroll 0 0 / 50px 50px;
+
+}
+.pcvArea .pumpmaskLowAlarm {
+    background: #FF0000 url("../img/bgProcessView/symbols/pumpmask.gif") no-repeat scroll 0 0 / 50px 50px;
+   
+}
+.pcvArea .pumpmaskNormal {
+    background: #00FF00 url("../img/bgProcessView/symbols/pumpmask.gif") no-repeat scroll 0 0 / 50px 50px;
+   
+}
+/*Pumpmask*/
+
 .pcvArea #point31 {
-    background: #00ff00 url("../img/bgProcessView/symbols/pumptbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    /*background: #00ff00 url("../img/bgProcessView/symbols/pumptbody.gif") no-repeat scroll 0 0 / 50px 50px;*/
     border-radius: 100%;
     color: #00ff00;
     height: 50px;
@@ -287,7 +331,7 @@
     z-index: 99;
 }
 .pcvArea #point32 {
-    background: #00ff00 url("../img/bgProcessView/symbols/pumptbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    /*background: #00ff00 url("../img/bgProcessView/symbols/pumptbody.gif") no-repeat scroll 0 0 / 50px 50px;*/
     border-radius: 100%;
     color: #00ff00;
     height: 50px;
@@ -298,6 +342,7 @@
     width: 50px;
     z-index: 99;
 }
+
 .pcvArea #point33 {
     color: #00ff00;
     left: 274px;
@@ -407,6 +452,15 @@
     z-index: 99;
 }
 .pcvArea #point45 {
+    color: #00ff00;
+    left: 462px;
+    position: relative;
+    text-align: right;
+    top: -615px;
+    width: 100px;
+    z-index: 99;
+}
+.pcvArea #point46 {
     color: #00ff00;
     left: 462px;
     position: relative;

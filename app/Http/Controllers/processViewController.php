@@ -164,14 +164,52 @@ AND (ois_event LIKE '%L8%' or ois_event LIKE '%L4%' or ois_event LIKE '%L5%')
       public function createDataPCVPlantow47($paramPCV,$paramUnit,$paramEmpId,$paramFromDate,$paramToDate){
       
           Log::info("Into createDataPCVPlantow47");
-      
-          $query="SELECT EvTime,D1,D2,D3,D4,D5,D6,D7,D8,D9,D10,D11,D12,D13,D2
-          ,D14,D15,D16,D17,D18,D19
-          ,D15,D16,D17,D18,D19,D20
-          ,D21,D22,D23,D24,D25,D26
-		  ,D27,D28,D29,D30,D31,D32
-		  ,D33,D34,D35,D36,D37,D38
-		  ,D39,D40,D41,D42,D43,D44,D45
+          //SELECT DISTINCT H,D FROM mmtrend_table WHERE D IN ('40SP01E141','40SP01E171')
+          $query="SELECT EvTime,
+D32,
+D266,
+0 as 'D1', 
+0 as 'D2', 
+D264,
+D261,
+D272,
+D137,
+D141,
+D253,
+D105,
+D104,
+D103,
+D146,
+D147,
+D14,
+D56,
+D273,
+D267,
+D260,
+D148,
+D145,
+D270,
+D258,
+D114,
+D113,
+D112,
+D131,
+D223,
+D133,
+D16,
+D229,
+D225,
+D269,
+D165,
+D163,
+D161,
+D160,
+D159,
+D158,
+D157,
+D151,
+D150,
+D149
           from datau0$paramUnit
           WHERE EvTime BETWEEN  '$paramFromDate' AND '$paramToDate'";
           $reslutQuery = DB::select($query);
@@ -237,7 +275,7 @@ AND (ois_event LIKE '%L8%' or ois_event LIKE '%L4%' or ois_event LIKE '%L5%')
                   //echo '["createJsonSuccess"]';
                   /*write flie here start.*/
       
-                  $strFileName = "processView/flieProcessView/processViewJson-event-$paramPCV-$paramUnit-$paramEmpId.txt";
+                  //$strFileName = "processView/flieProcessView/processViewJson-event-$paramPCV-$paramUnit-$paramEmpId.txt";
                   $objFopen = fopen($strFileName, 'w');
                       $strText1 = json_encode($reslutQuery);
                       fwrite($objFopen, $strText1);

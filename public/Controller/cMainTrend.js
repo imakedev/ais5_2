@@ -468,7 +468,7 @@ function getDataByDateSecond(data,point){
 			//template: "#= series.name #: #= value #",
 			shared: true
         },
-        /*
+        
         zoomable: {
             mousewheel: {
                 lock: "y"
@@ -477,7 +477,7 @@ function getDataByDateSecond(data,point){
                 lock: "y"
             }
         },
-        */
+        
         pannable: true,
         pannable: {
             lock: "y"
