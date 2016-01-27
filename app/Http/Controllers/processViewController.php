@@ -17,9 +17,17 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Log;
+use Session;
+use Auth;
 
 
 class processViewController  extends Controller{
+    
+    public function __construct(){
+
+        Session::put('user_mmplant', '0');
+
+    }
  
     public function createDataPCVSteam47($paramPCV,$paramUnit,$paramEmpId,$paramFromDate,$paramToDate){
     
@@ -255,13 +263,52 @@ D149
       public function createDataEventPCVPlantow47($paramPCV,$paramUnit,$paramEmpId,$paramFromDate,$paramToDate){
   
       Log::info("Into createDataEventPlantow47");
-  
-      $query="select  '2014-05-01 01:00:00' as 'sys_date' ,ois_event from event_raw
-      WHERE sys_date  BETWEEN '2014-10-07 00:00:00' AND '2014-10-07 16:23:00'
-      AND (ois_event LIKE '%L8%' or ois_event LIKE '%L4%' or ois_event LIKE '%L5%')
-      order by sys_date asc ";
+
       
-      $reslutQuery = DB::select($query);
+      $sess_emp_id= Auth::user()->id;
+      $user_mmplant= Session::get('user_mmplant');
+      
+      
+
+      $query="
+          select   sys_date ,ois_event from event_raw
+          WHERE sys_date  BETWEEN '$paramFromDate' AND '$paramToDate'
+          AND ois_event REGEXP '40SP01E131|40NB01T001|40RM41D001|40RM42D001|40NB01P003|40NB01F001|40NB32F001|40RL11F001|40RL12F001|40RL13F001|40RA03T001|40RA03P002|40RA03F001|40SD11T001|40SD11T002|40VC21T001|40RC22T001|40NB35F001|40NC03P001|40NA40L001|40SD12L001|40SD11P001|40RL64T001|40RF50T00|40RB03T001|40RB03P003|40RB03F001|40NL85M901|40NG01F901|40NM11F001|40VC41T001|40NG14P002|40NG83P003|40RL61T00z|40RH30T001|40RH20T001|40RH12P001|40RM72T001|40RM68T001|40RM64T001|40RM61T001|40RH40T002|40RH40P005|40RH40L001'
+          order by sys_date asc 
+      ";
+    //REGEXP '$tagName'
+      if($user_mmplant==1){
+      
+          if($paramUnit==4){
+              $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
+          }else if($paramUnit==5){
+              $reslutQuery = DB::connection('mysql_ais_log_47_5')->select($query);
+          }else if($paramUnit==6){
+              $reslutQuery = DB::connection('mysql_ais_log_47_6')->select($query);
+          }else if($paramUnit==7){
+              $reslutQuery = DB::connection('mysql_ais_log_47_7')->select($query);
+          }
+      
+      
+      }else if($user_mmplant==2){
+          $reslutQuery = DB::connection('mysql_ais_813')->select($query);
+      
+      }else if($user_mmplant==3){
+          $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
+      
+      }else{
+          
+         $query="select  '2014-05-01 01:00:00' as 'sys_date' ,ois_event from event_raw
+          WHERE sys_date  BETWEEN '2014-10-07 00:00:00' AND '2014-10-07 16:23:00'
+          AND ois_event REGEXP '40SP01E131|40NB01T001|40RM41D001|40RM42D001|40NB01P003|40NB01F001|40NB32F001|40RL11F001|40RL12F001|40RL13F001|40RA03T001|40RA03P002|40RA03F001|40SD11T001|40SD11T002|40VC21T001|40RC22T001|40NB35F001|40NC03P001|40NA40L001|40SD12L001|40SD11P001|40RL64T001|40RF50T00|40RB03T001|40RB03P003|40RB03F001|40NL85M901|40NG01F901|40NM11F001|40VC41T001|40NG14P002|40NG83P003|40RL61T00z|40RH30T001|40RH20T001|40RH12P001|40RM72T001|40RM68T001|40RM64T001|40RM61T001|40RH40T002|40RH40P005|40RH40L001'
+          order by sys_date asc ";
+          $reslutQuery = DB::select($query);
+          
+      }
+      
+      
+  
+      
       
       
       //return json_encode($reslutQuery);
