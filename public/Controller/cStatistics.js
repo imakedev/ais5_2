@@ -30,6 +30,10 @@ $(document).ready(function(){
         autoclose: true,
         format: "dd/mm/yyyy"
     });
+    var sortBy_hidden=$("#sortBy_hidden").val();
+    var orderBy_hidden=$("#orderBy_hidden").val();
+    $('select[name="sortBy"]').val(sortBy_hidden)
+    $('select[name="orderBy"]').val(orderBy_hidden);
     /*
     $('#fromData .input-group.date').datepicker({
         todayBtn: "linked",

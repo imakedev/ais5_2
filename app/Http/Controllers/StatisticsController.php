@@ -116,7 +116,10 @@ class StatisticsController extends Controller
        // $datas = DB::table('user_login_log')
         $fromDate  = Input::get('fromDate');
         $toDate  = Input::get('toDate');
-
+        $sortBy = Input::get('sortBy');
+        $orderBy= Input::get('orderBy');
+        Log::info("sortBy->".$sortBy);
+        Log::info("orderBy->".$orderBy);
         Log::info("fromDate2->".$fromDate);
         Log::info("toDate2->".$toDate);
         Log::info("xx->".Input::has('search'));
@@ -130,6 +133,8 @@ class StatisticsController extends Controller
             $queryString = session()->get('static_search');
             $fromDate = session()->get('static_fromDate');
             $toDate = session()->get('static_toDate');
+            $sortBy = session()->get('sortBy');
+            $orderBy= session()->get('orderBy');
         }else{
             if (Input::has('search')) {
                 $queryString = Input::get('search');
@@ -150,9 +155,12 @@ class StatisticsController extends Controller
         }
         $haveWhere=false;
         if(!empty($queryString)){
-            $datas= $datas->orWhere('first_name', 'LIKE', "%$queryString%")
-                ->orWhere('last_name', 'LIKE', "%$queryString%");
-
+            $datas= $datas->Where(function ($datas) use ($queryString){
+                $datas->orWhere('first_name', 'LIKE', "%$queryString%")
+                      ->orWhere('last_name', 'LIKE',"%$queryString%");
+            });
+            //$datas= $datas->where('( first_name LIKE "%$queryString%" or last_name LIKE "%$queryString%" )');
+               // ->orWhere('last_name', 'LIKE', "%$queryString%");
             $query=$query." where first_name like '%$queryString%' or  last_name like '%$queryString%' ";
             $haveWhere=true;
         }
@@ -180,8 +188,17 @@ class StatisticsController extends Controller
         Log::info("fromDate->".$fromDate);
         Log::info("toDate->".$toDate);
 // ... more clauses from the querystring
-        $datas=$datas->orderBy('user_login_log_id','ASC')->paginate(12);
+        //$datas=$datas->orderBy('user_login_log_id','ASC')->paginate(12);
+
+
+        if(!empty($sortBy) && !empty($orderBy)){
+            $datas=$datas->orderBy($sortBy,$orderBy);
+        }
+        session()->put('sortBy',$sortBy);
+        session()->put('orderBy',$orderBy);
+        $datas=$datas->orderBy('date_created','DESC')->orderBy('login_time','DESC')->paginate(10);
         Log::info("query->".$query);
+
         //$datas_list = DB::select($query);
         //$this->testAuth();
         return view('ais/statistics', ['lists'=>$datas]);

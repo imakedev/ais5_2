@@ -17,7 +17,7 @@
                     {!! csrf_field() !!}
                     @if(session()->has('error_message'))
                         <div style='text-align: center';>
-                            <div class="alert alert-success" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
+                            <div class="alert alert-danger" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
                                 <i class="glyphicon glyphicon-ok-sign"></i> {{ session()->get('error_message') }}
                             </div>
                         </div>

@@ -37,9 +37,11 @@
 	           
             </div>
             <!-- btn end -->
+        {!! Form::open(array('url'=> 'ais/designCalculation/store','id'=>'calculationForm')) !!}
             <!-- form cal start -->
                 <div class='row'>
                     <div class='col-xs-8 bottomMargin5'>
+                        <input type='hidden' id="cal_g_hidden"  name='cal_g_hidden'  />
                         <textarea id="cal_g" name="cal_g" rows="12" style='width: 100%'>{{ $mmcalculation->G }}</textarea>
                     </div>
                     <div class='col-xs-4'>
@@ -51,7 +53,7 @@
                                         <input type='radio' checked  name='cal' value="constant" > Constant
                                      </label>
                                     <div class='pull-right'>
-                                    <button class=" btn btn-primary  btn-sm fa fa-gears"
+                                    <button class=" btn btn-primary  btn-sm fa fa-gears" type="button"
                                             data-toggle="modal" id='btnConstant' data-target="#modalConstant"></button>
                                     </div>
                                         
@@ -157,17 +159,19 @@
                                     </div>
                                 </div>
                                 <div class='col-xs-12 '>
-                                    <button class="btn btn-primary  btn-sm btnAddCal pull-right" onclick="addFormula()">Add Formula</button>
+                                    <button class="btn btn-primary btn-sm btnAddCal pull-right" type="button" onclick="addFormula()">Add Formula</button>
                                </div>
                             </div>
                         <!-- cal fn start -->
                     </div>
                 </div>    
             <!-- form cal start -->
+
+        <input type='hidden' id="cal_a" name="cal_a" value="{{ $mmcalculation->A }}" />
             <!-- btn start -->
              <div class="row bgParam">
 	            <div class="col-xs-12">
-		            <a class="btn btn-primary  btn-sm" href='index.php?page=formCalculation'>Clone </a>
+		            <a class="btn btn-primary  btn-sm">Clone </a>
 		            <a class="btn btn-w-m btn-warning  btn-sm" onclick="clearCalculation()">Clear </a>
 		            <a class="btn btn-w-m btn-danger  btn-sm">Change </a>
 		            <a class="btn btn-w-m btn-danger  btn-sm" data-toggle="modal" id='btnAddPoint' data-target="#modalAddPoint">Add Point </a>
@@ -253,12 +257,13 @@
 	               </div>
 	               
 	               <div class='paramSave'>
-	                   <button class="btn btn-primary  btn-sm">Save</button>
+	                   <button class="btn btn-primary  btn-sm" type="button" onclick="submitCalculation()">Save</button>
 	               </div>
 	              
 	            </div>
 	            
 	         </div>
+        {!! Form::close() !!}
             <br style='clear: both;'>
     </div>
  

@@ -51,6 +51,59 @@
                             </div>
                         </div>
                     @endif
+                        {!! Form::open(array('url'=> 'ais/designTrend')) !!}
+                            <div class='col-md-12 bgParam'>
+                                <div class="col-md-3" style="margin-top: 8px">
+                                    Trend Group:
+                                    <!--  btn -->
+                                    <input type="hidden" id="design_trend_B_hidden" value="{{session()->get('design_trend_B')}}"/>
+                                    <select id="design_trend_B" name="design_trend_B">
+                                        <option value="">All Trend</option>
+                                        <option value="{{Auth::user()->empId}}">My Trend</option>
+                                        <option value="900002">Boiler Trend</option>
+                                        <option value="900003">Turbine Trend</option>
+                                        <option value="900004">Electrical Trend</option>
+                                        <option value="900005">Loss Analyzing</option>
+                                        <option value="900006">Start up and S/D</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" name="search" class="form-control"
+                                           placeholder="ค้นหา" value="{{session()->get('design_trend_search')}}">
+                                </div>
+                                <div class="col-md-3" style="margin-top: 8px;width: 180px">
+
+                                    Sort By:
+                                    <!--  btn -->
+
+                                    <input type="hidden" id="sortBy_hidden" value="{{session()->get('sortBy')}}"/>
+                                    <select id="sortBy" name="sortBy">
+                                        <option value=""></option>
+                                        <option value="A">Trend Name</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-2" style="margin-top: 8px">
+                                    Order By:
+                                    <!--  btn -->
+
+                                    <input type="hidden" id="orderBy_hidden" value="{{session()->get('orderBy')}}"/>
+                                    <select id="orderBy" name="orderBy">
+                                        <option value=""></option>
+                                        <option value="ASC">ASC</option>
+                                        <option value="DESC">DESC</option>
+                                    </select>
+
+                                </div>
+
+
+                                <div class="col-md-1" style="margin-top: 8px"><button class="btn btn-sm btn-primary pull-left m-t-n-xs"><strong>Search</strong></button></div>
+
+                            </div>
+                        {!! Form::close() !!}
+
+
                     <div class='col-md-12'>
                         <a onclick="displayMmname('add','0')"  class="btn btn-primary  btn-sm">Add Trend</a>
                         <!-- data-target="#myModal2" data-toggle="modal" -->

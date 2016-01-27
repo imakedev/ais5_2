@@ -32,35 +32,45 @@
                         <div class='col-md-6'>
                             <!-- Database Server -->
                             <p>Database Server</p>
-                            <div class="form-group"><label class="col-lg-2 control-label">MM4-7</label>
-                                <div class="col-lg-10">
+                            <div class="form-group"><label class="col-lg-3 control-label">MM4-7</label>
+                                <div class="col-lg-9">
                                     <input type="hidden" class="form-control" name="id" placeholder="IP SERVER" value="{{$ip->server_setting_id}}">
                                     <input type="text" class="form-control" name="dmm4-7" placeholder="IP SERVER" value="{{$ip->mm_4_17_db_server}}">
                                 </div>
                             </div>
-                            <div class="form-group"><label class="col-lg-2 control-label">MM8-13</label>
-                                <div class="col-lg-10"><input type="text" class="form-control" name="dmm8-13" placeholder="IP SERVER" value="{{$ip->mm_8_13_db_server}}"></div>
+                            <div class="form-group"><label class="col-lg-3 control-label">MM8-13</label>
+                                <div class="col-lg-9"><input type="text" class="form-control" name="dmm8-13" placeholder="IP SERVER" value="{{$ip->mm_8_13_db_server}}"></div>
                             </div>
-                            <div class="form-group"><label class="col-lg-2 control-label">FGD8-13</label>
-                                <div class="col-lg-10"><input type="text" class="form-control" name="dfgd8-13" placeholder="IP SERVER" value="{{$ip->fgd_8_13_db_server}}"></div>
+
+                            <div class="form-group"><label class="col-lg-3 control-label"></label>
+                                <div class="col-lg-9">
+<br/><br/>
+                                </div>
+                            </div>
+
+                            <div class="form-group"><label class="col-lg-3 control-label">FGD8-13</label>
+                                <div class="col-lg-9"><input type="text" class="form-control" name="dfgd8-13" placeholder="IP SERVER" value="{{$ip->fgd_8_13_db_server}}"></div>
                             </div>
                             <!-- Database Server -->
                         </div>
                         <div class='col-md-6'>
                             <!-- Logs Server -->
                             <p>Logs Server</p>
-                            <div class="form-group"><label class="col-lg-2 control-label">MM4-7</label>
-                                <div class="col-lg-10"><input type="text" class="form-control" name="lmm4-7" placeholder="IP SERVER" value="{{$ip->mm_4_7_logs_server}}">
+                            <div class="form-group"><label class="col-lg-3 control-label">MM4-7</label>
+                                <div class="col-lg-9"><input type="text" class="form-control" name="lmm4-7" placeholder="IP SERVER" value="{{$ip->mm_4_7_logs_server}}">
                                 </div>
                             </div>
-                            <div class="form-group"><label class="col-lg-2 control-label">MM8-13</label>
-                                <div class="col-lg-10"><input type="text" class="form-control" name="lmm8-13" placeholder="IP SERVER" value="{{$ip->mm_8_13_logs_server}}"></div>
+                            <div class="form-group"><label class="col-lg-3 control-label">MM8-10</label>
+                                <div class="col-lg-9"><input type="text" class="form-control" name="lmm8-10" placeholder="IP SERVER" value="{{$ip->mm_8_10_logs_server}}"></div>
                             </div>
-                            <div class="form-group"><label class="col-lg-2 control-label">FGD8-13</label>
-                                <div class="col-lg-10"><input type="text" class="form-control" name="lfgd8-13" placeholder="IP SERVER" value="{{$ip->fgd_8_13_logs_server}}"></div>
+                            <div class="form-group"><label class="col-lg-3 control-label">MM11-13</label>
+                                <div class="col-lg-9"><input type="text" class="form-control" name="lmm11-13" placeholder="IP SERVER" value="{{$ip->mm_11_13_logs_server}}"></div>
+                            </div>
+                            <div class="form-group"><label class="col-lg-3 control-label">FGD8-13</label>
+                                <div class="col-lg-9"><input type="text" class="form-control" name="lfgd8-13" placeholder="IP SERVER" value="{{$ip->fgd_8_13_logs_server}}"></div>
                             </div>
                             <div class="form-group">
-                                <div class="col-lg-offset-2 col-lg-10">
+                                <div class="col-lg-offset-2 col-lg-9">
                                     <button type="submit" class="btn btn-sm btn-white">Save</button>
                                     <button type="reset" class="btn btn-sm btn-white">Cancel</button>
                                 </div>

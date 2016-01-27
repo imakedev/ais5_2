@@ -23,13 +23,39 @@ class TagConfigController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index(){
+    public function search(){
         Log::info("aoee test TagConfigController");
+        $search = Input::get('search');
+        $sortBy = Input::get('sortBy');
+        $orderBy= Input::get('orderBy');
+        $datas = TagConfigModel::query();
+        if(Input::has('page')){ // paging
+            Log::info("into paging");
+            $search = session()->get('tagConf_search');
+            $sortBy = session()->get('sortBy');
+            $orderBy= session()->get('orderBy');
+        }
+        if(!empty($search)){
+            $datas= $datas->Where(function ($datas) use ($search){
+                $datas->orWhere('B', 'LIKE', "%$search%");
+
+            });
+        }
+        if(!empty($sortBy) && !empty($orderBy)){
+            $datas=$datas->orderBy($sortBy,$orderBy);
+        }
+        session()->put('sortBy',$sortBy);
+        session()->put('orderBy',$orderBy);
+        session()->put('tagConf_search',$search);
+        $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+
+        /*
         $tags_config = TagConfigModel::orderBy('updated_at','DESC')
             ->paginate(12);
+        */
         //$tags_config->setPath('/ais/tagConfiguration');
 
-        return view('ais/tagConfiguration', ['tags_config'=>$tags_config]);
+        return view('ais/tagConfiguration', ['tags_config'=>$datas]);
     }
     /**
      * Show the form for creating a new resource.

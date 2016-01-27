@@ -27,14 +27,48 @@
             </div>
         </div>
         <div class="ibox-content">
-            <form action="/tagConfiguration/deleteSelect" method="get">
+
+            {!! Form::open(array('url'=> 'ais/tagConfiguration')) !!}
             <div class="row bgParam">
-                <div class="col-md-12">
+                <div class="col-md-3">
                     <a class="btn btn-primary btn-sm" data-toggle="modal" onclick="addBtn()">Add Tag</a>
                     <button class="btn btn-w-m btn-danger btn-sm" type="submit" onclick="return deleteBtn()">Delete select</button>
                 </div>
+                <div class="col-md-4"  style="width:250px">
+                    <input type="text" name="search" class="form-control" placeholder="ค้นหา" value="{{session()->get('tagConf_search')}}">
+                </div>
+                <div class="col-md-4" style="margin-top: 8px;width: 200px">
+
+                    Sort By:
+                    <!--  btn -->
+
+                    <input type="hidden" id="sortBy_hidden" value="{{session()->get('sortBy')}}"/>
+                    <select id="sortBy" name="sortBy">
+                        <option value=""></option>
+                        <option value="B">Point Description</option>
+                    </select>
+
+                </div>
+                <div class="col-md-2" style="margin-top: 8px">
+                    Order By:
+                    <!--  btn -->
+
+                    <input type="hidden" id="orderBy_hidden" value="{{session()->get('orderBy')}}"/>
+                    <select id="orderBy" name="orderBy">
+                        <option value=""></option>
+                        <option value="ASC">ASC</option>
+                        <option value="DESC">DESC</option>
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-1" style="margin-top: 8px"><button class="btn btn-sm btn-primary pull-left m-t-n-xs"><strong>Search</strong></button></div>
+
             </div>
-            <!-- grid list user -->
+                {!! Form::close() !!}
+            <form action="/tagConfiguration/deleteSelect" method="get">
+                <!-- grid list user -->
             <div class="col-md-12 table-responsive">
                 <table id="gridUserList" class="table table-hover">
                     <colgroup>

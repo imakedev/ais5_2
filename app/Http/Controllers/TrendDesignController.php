@@ -30,6 +30,7 @@ class TrendDesignController extends Controller
     {
         $this->middleware('auth');
     }
+    /*
     public  function search(){
         $datas = StatisticsModel::query();
 
@@ -42,40 +43,51 @@ class TrendDesignController extends Controller
 
         return view('ais/design_trend', ['lists'=>$lists]);
     }
-
+    */
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function search(){
         Log::info("Into TrendDesignController");
-        // $trendDesignM = TagConfigModel::orderBy('A','ASC')->paginate(12);
-        /*
-        $users = DB::table('really_long_table_name AS t')
-            ->select('t.id AS uid')
-            ->get();
-        */
+        $design_trend_B=Input::get('design_trend_B');
+        $search = Input::get('search');
+        $sortBy = Input::get('sortBy');
+        $orderBy= Input::get('orderBy');
+        $datas = MmnameModel::query();
+        if(Input::has('page')){ // paging
+            Log::info("into paging");
+            $search = session()->get('design_trend_search');
+            $sortBy = session()->get('sortBy');
+            $orderBy= session()->get('orderBy');
+            $design_trend_B= session()->get('design_trend_B');
+        }
+        if(!empty($search)){
+            $datas= $datas->Where(function ($datas) use ($search){
+                $datas->orWhere('A', 'LIKE', "%$search%");
 
+            });
+        }
+        if(!empty($design_trend_B)){
+            $datas= $datas->Where('B', '=', "$design_trend_B");
+        }
+        if(!empty($sortBy) && !empty($orderBy)){
+            $datas=$datas->orderBy($sortBy,$orderBy);
+        }
+        session()->put('sortBy',$sortBy);
+        session()->put('orderBy',$orderBy);
+        session()->put('design_trend_search',$search);
+        session()->put('design_trend_B',$design_trend_B);
+        $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+
+/*
         $mmtrendsM = DB::table('mmname_table as mmtrend ')
             ->orderBy('updated_at','DESC')
-          //  ->join('mmname_table as mmname ', 'mmtrend.G', '=', 'mmname.ZZ')
-         //   ->join('orders', 'users.id', '=', 'orders.user_id')
-         //   ->select('users.*', 'contacts.phone', 'orders.price')
-         //     ->select('mmtrend.*', 'mmname.A')
+
             ->paginate(10);
-            //->get();
-        /*$i = 0;
-        foreach ($mmtrendsM as $mmtrendM) {
-            //Log::info($trendDesignM->A);
-            //Log::info('Group x');
-            // $i++;
-            Log::info("Group [".($i++)."] x".$mmtrendM->A."x");
-        }
-        */
-      //  $trendDesignsM->setPath('/ais/designTrend');
-        //$tags_config->setPath('/ais/tagConfiguration');
-        return view('ais/design_trend', ['mmtrendsM'=>$mmtrendsM]);
+*/
+        return view('ais/design_trend', ['mmtrendsM'=>$datas]);
     }
 
     /**

@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Input;
 
 class trendSetingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function getAllTrendGroup(){
         //Test 001
         Log::info("Into getAllGroup");

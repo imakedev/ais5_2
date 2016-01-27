@@ -20,7 +20,10 @@ use Log;
 
 
 class processViewController  extends Controller{
- 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function createDataPCVSteam47($paramPCV,$paramUnit,$paramEmpId,$paramFromDate,$paramToDate){
     
         Log::info("Into createDataPCVSteam47");

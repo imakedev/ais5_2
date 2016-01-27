@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Log;
 
-class CalculationController  extends Controller
+class CalculationController_bk  extends Controller
 {
     /**
      * Create a new controller instance.
@@ -37,7 +37,7 @@ class CalculationController  extends Controller
         Log::info("xx->".Input::get('calculationSelection'));
         $queryString=null;
         if(Input::has('page')){ // paging
-            Log::info("into paging xx");
+            Log::info("into paging");
             $queryString = session()->get('calculation_keySearch');
 
         }else{
@@ -47,7 +47,7 @@ class CalculationController  extends Controller
                 session()->put('calculation_keySearch',$calculationKeySearch);
             }
             if(!empty($calculationSelection)){
-               // $queryString = Input::get('calculationSelection');
+                // $queryString = Input::get('calculationSelection');
                 //session(['static_search' => $queryString]);
                 session()->put('calculation_selection',$calculationSelection);
             }
@@ -73,7 +73,7 @@ class CalculationController  extends Controller
 
 
         }
-        $datas=$datas->orderBy('updated_at','DESC')->paginate(12);
+        $datas=$datas->orderBy('updated_dt','DESC')->paginate(12);
         return view('ais/design_calculation', ['lists'=>$datas]);
     }
     /**
@@ -106,44 +106,13 @@ class CalculationController  extends Controller
      */
     public function store(Request $request)
     {
-        $cal_a = $request->input('cal_a');
-        Log::info("store [".$cal_a."] ");
-        $cal_b = $request->input('cal_slelect_b');
-        $cal_c = $request->input('cal_c');
-        $cal_d = $request->input('cal_d');
-        $cal_e = $request->input('cal_slelect_e');
-        $cal_f0 = $request->input('cal_f0');
-        $cal_f1 = $request->input('cal_f1');
-        $cal_g = $request->input('cal_g');
-        $cal_h = $request->input('cal_h');
-        $cal_g2 = Input::get('cal_g');
+        $id = $request->input('tagId');
+        if($id!=null) {
 
-        $cal_messages='';
-        Log::info(" cal_g [".$cal_g."] ");
-        Log::info(" cal_g2 [".$cal_g2."] ");
-
-        $mmcalculation=null;
-        if($cal_a!=null && $cal_a!='0') {
-            $mmcalculation = MmcalculationModel::find($cal_a);
-            $cal_messages= ' Info edit successfuly.';
         }else{
-            $mmcalculation = new MmcalculationModel();
-            $cal_messages= ' Info save successfuly.';
-        }
 
-        $mmcalculation->B = $cal_b;
-        $mmcalculation->C = $cal_c;
-        $mmcalculation->D = $cal_d;
-        $mmcalculation->E = $cal_e;
-        $mmcalculation->F0 = $cal_f0;
-        $mmcalculation->F1 = $cal_f1;
-        $mmcalculation->G = $cal_g;
-        $mmcalculation->H = $cal_h;
-        $mmcalculation->save();
-        session()->flash('message', $cal_messages);
-      //  $mmcalculation =   MmcalculationModel::find($id);
-        return redirect('ais/formCalculation/'.$mmcalculation->A);
-       // return view('ais.form_calculation', ['mmcalculation'=>$mmcalculation]);
+        }
+        return redirect('ais/designTrend');
     }
 
     /**
@@ -165,12 +134,8 @@ class CalculationController  extends Controller
      */
     public function edit($id)
     {
-        Log::info("edit [" . $id . "] ");
-        $mmcalculation = MmcalculationModel::find($id);
-        if (empty($mmcalculation)){
-            $mmcalculation = new MmcalculationModel();
-            $mmcalculation->A='0';
-        }
+        Log::info("edit [".$id."] ");
+        $mmcalculation =   MmcalculationModel::find($id);
         return view('ais.form_calculation', ['mmcalculation'=>$mmcalculation]);
     }
 

@@ -25,15 +25,40 @@ class AddUserController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index()
+    public function search()
     {
+        $search = Input::get('search');
+        $sortBy = Input::get('sortBy');
+        $orderBy= Input::get('orderBy');
+        $datas = AddUserModel::query();
+        if(Input::has('page')){ // paging
+            Log::info("into paging");
+            $search = session()->get('addUser_search');
+            $sortBy = session()->get('sortBy');
+            $orderBy= session()->get('orderBy');
+        }
+        if(!empty($search)){
+            $datas= $datas->Where(function ($datas) use ($search){
+                $datas->orWhere('A', 'LIKE', "%$search%")
+                    ->orWhere('C', 'LIKE',"%$search%");
+            });
+        }
+        if(!empty($sortBy) && !empty($orderBy)){
+            $datas=$datas->orderBy($sortBy,$orderBy);
+        }
+        session()->put('sortBy',$sortBy);
+        session()->put('orderBy',$orderBy);
+        session()->put('addUser_search',$search);
 
+        $datas=$datas->paginate(10);
+
+        /*
         $info_employee = AddUserModel::orderBy('updated_at','DESC')
            // ->orderBy('updated_at','DESC')
             ->paginate(12);
         $info_employee->setPath('/ais/addUser');
-
-        return view('ais/addUser', ['info_employee'=>$info_employee]);
+*/
+        return view('ais/addUser', ['info_employee'=>$datas]);
     }
 
     /**

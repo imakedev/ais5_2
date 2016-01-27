@@ -79,3 +79,8 @@ function addFormula(){
 //	alert(select_value);
 	$("#cal_g").val(old_cal_value+select_value);
 }
+function submitCalculation(){
+	$("#cal_g_hidden").val($("#cal_g").val());
+	document.getElementById('calculationForm').submit()
+
+}

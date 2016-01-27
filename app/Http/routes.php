@@ -27,7 +27,18 @@ Route::get('/', function () {
 | kernel and includes session state, CSRF protection, and more.
 |
 */
-
+/*
+Route::filter('auth', function()
+{
+    if (Auth::guest()) {
+        if (Request::ajax()) {
+            return Response::json(false, 401);
+        } else {
+            return Redirect::guest('login');
+        }
+    }
+});
+*/
 Route::post('/login2','Auth\AuthController@authenticate');
 Route::get('/logout2','Auth\AuthController@doLogout');
 
@@ -92,32 +103,32 @@ Route::group(['middleware' => 'web'], function () {
 
     /* Start Dashboard Menu */
 
-    Route::get('/ais/trend', function(){
+    Route::get('/ais/trend', ['middleware' => 'auth',function(){
         return view('ais.trend');
-    });
+    }]);
 
-    Route::get('/ais/processView', function(){
+    Route::get('/ais/processView',['middleware' => 'auth', function(){
         return view('ais.process_view');
-    });
+    }]);
 
 
-    Route::get('/ais/sootBlower', function(){
+    Route::get('/ais/sootBlower', ['middleware' => 'auth',function(){
         return view('ais.soot_blower');
-    });
+    }]);
     /* End Dashboard Menu */
 
 
-    Route::get('/ais/test_nong', function(){
+    Route::get('/ais/test_nong',['middleware' => 'auth', function(){
         return view('ais.test_nong');
-    });
+    }]);
     /* Start Design Menu */
 
 
    Route::resource('/ais/trendColor','TrendColorController');
 
-    Route::resource('/ais/designTrend', 'TrendDesignController');
+    Route::resource('/ais/designTrend', 'TrendDesignController@search');
 
-    Route::get('/ais/designTrends', 'TrendDesignController@search');
+    //Route::get('/ais/designTrends', 'TrendDesignController@search');
     //  return view('ais.design_trend');
 // });
 
@@ -135,6 +146,7 @@ Route::group(['middleware' => 'web'], function () {
    Route::resource('/ais/designCalculation', 'CalculationController@search');
    Route::get('/designCalculation/destroy/{A}', 'CalculationController@destroy');
    Route::get('/designCalculation/deleteSelect', 'CalculationController@deleteSelect');
+    Route::post('/ais/designCalculation/store', 'CalculationController@store');
 
   Route::get('/ais/formCalculation/{A}','CalculationController@edit');
     /* End Design Menu */
@@ -143,9 +155,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::resource('/ais/sootBlower', 'SootController@search');
 
 
-    Route::get('/ais/design_trend', function(){
+    Route::get('/ais/design_trend', ['middleware' => 'auth',function(){
         return view('ais.design_trend');
-    });
+    }]);
 //
     /*
     Route::get('ais/test', ('SearchController@index'));
@@ -164,7 +176,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::resource('/ais/statistics', 'StatisticsController@search');
 
 
-    Route::resource('/ais/addUser', 'AddUserController');
+    Route::resource('/ais/addUser', 'AddUserController@search');
 
     Route::get('/ais/addUser/store', 'AddUserController@store');
 
@@ -173,7 +185,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/addUser/destroy/{ZZ}', 'AddUserController@destroy');
 
 
-    Route::resource('/ais/tagConfiguration', 'TagConfigController');
+    Route::resource('/ais/tagConfiguration', 'TagConfigController@search');
 
     Route::get('/ais/tagConfiguration/store', 'TagConfigController@store');
 
@@ -182,7 +194,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/tagConfiguration/delete/{A}', 'TagConfigController@destroy');
 
 
-    Route::resource('/ais/pointConfiguration', 'PointConfigController');
+    Route::resource('/ais/pointConfiguration', 'PointConfigController@search');
 
     Route::get('/ais/pointConfiguration/store', 'PointConfigController@store');
 
@@ -195,11 +207,11 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/ais/serverSetting/store', 'ServController@store');
     /* End General Menu */
-
+   /*
     Route::get('/ais/login', function(){
         return view('ais.login');
     });
-
+*/
 // Ajax
     Route::get('/ajax/mmtrends/list','Ajax\TrendDesignAjax@listMmTrend');
     Route::get('/ajax/mmtrend/get','Ajax\TrendDesignAjax@getMmTrend');
@@ -299,19 +311,19 @@ Route::group(['middleware' => 'web'], function () {
     //Test
     Route::get('/ais/serviceTrend/readSessEmpID','serviceTrendController@readSessEmpID');
     
-    Route::get('/ais/Test/trendDashboard', function(){
+    Route::get('/ais/Test/trendDashboard',['middleware' => 'auth', function(){
         return view('ais.test-trend');
-    });
+    }]);
     
-    Route::get('/ais/Test/servProduction', function(){
+    Route::get('/ais/Test/servProduction',['middleware' => 'auth', function(){
         return view('ais.servProduction');
-    });
+    }]);
     
     Route::get('/ais/processView/testMultiConnection/','processViewController@testMultiConnection');
     Route::get('/ais/processView/destinationSearch/','ParentRegionList@destinationSearch');
 
 
-
+    Route::get('/logout', 'Auth\AuthController@getLogout');
 
 //test 009
 

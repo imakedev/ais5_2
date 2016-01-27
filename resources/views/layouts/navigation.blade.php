@@ -65,7 +65,7 @@
                 </a>
             </li>
             <li class="special_link">
-                <a href="package.html">
+                <a href="{{ url('/logout') }}">
                     <i class="fa fa-sign-out"></i>
                     <span class="nav-label">Logout</span>
                 </a>

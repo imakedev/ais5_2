@@ -17,7 +17,10 @@ use \App\Model\MmpointModel;
 use Log;
 class TrendDesignAjax extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function listMmTrend(Request $request){
         Log::info("Into TrendDesignAjax callAjax");
         //Log::info(request('xx')['yy']);
