@@ -12,93 +12,99 @@
     margin: auto;
     width: 950px;
 }
+.pcvArea #point0 {
+    color: #00ff00;
+    left: 800px;
+    position: relative;
+    top: 411px;
+    z-index: 99;
+}
 .pcvArea #point1 {
     color: #00ff00;
-    left: 19px;
+    left: 66px;
     position: relative;
-    top: 47px;
+    top: 131px;
     z-index: 99;
 }
 #barChart{
 	
     background: #00ff00 none repeat scroll 0 0;
     height: 28px;
-    left: 20px;
+    left: 19px;
     position: relative;
-    top: -803px;
-    width: 150px;
+    top: -513px;
+    width: 143px;
     
 }
 .pcvArea #point2 {
     color: #00ff00;
-    left: 290px;
+    left: 68px;
     position: relative;
-    top: -6px;
+    top: 131px;
     z-index: 99;
 }
 .pcvArea #point3 {
     color: #00ff00;
-    left: 415px;
+    left: 249px;
     position: relative;
-    top: -34px;
+    top: -33px;
     z-index: 99;
 }
 .pcvArea #point4 {
     color: #00ff00;
-    left: 497px;
+    left: 334px;
     position: relative;
-    top: -39px;
+    top: -52px;
     z-index: 99;
 }
 .pcvArea #point5 {
     color: #00ff00;
-    left: 629px;
+    left: 437px;
     position: relative;
-    top: -78px;
+    top: -71px;
     z-index: 99;
 }
 .pcvArea #point6 {
     color: #ff0000;
-    left: 641px;
+    left: 558px;
     position: relative;
-    top: -76px;
+    top: -54px;
     z-index: 99;
 }
 .pcvArea #point7 {
     color: #00ff00;
-    left: 738px;
+    left: 558px;
     position: relative;
-    top: -97px;
+    top: -58px;
     z-index: 99;
 }
 .pcvArea #point8 {
     color: #00ff00;
-    left: 832px;
+    left: 558px;
     position: relative;
-    top: -132px;
+    top: -59px;
     z-index: 99;
-}
-.pcvArea #point9 {
+}.pcvArea #point9 {
     color: #00ff00;
-    left: 778px;
+    left: 614px;
     position: relative;
     text-align: right;
-    top: -136px;
+    top: -12px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point10 {
     color: #00ff00;
-    left: -46px;
+    left: 614px;
     position: relative;
     text-align: right;
-    top: -1px;
+    top: 3px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point11 {
     color: #00ff00;
-    left: 54px;
+    left: 774px;
     position: relative;
     text-align: right;
     top: -21px;
@@ -107,180 +113,176 @@
 }
 .pcvArea #point12 {
     color: #00ff00;
-    left: 53px;
+    left: 775px;
     position: relative;
     text-align: right;
-    top: -17px;
+    top: -23px;
     width: 100px;
     z-index: 99;
-}
-.pcvArea #point13 {
+}.pcvArea #point13 {
     color: #00ff00;
-    left: 128px;
+    left: 727px;
     position: relative;
     text-align: right;
-    top: -25px;
+    top: 59px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point14 {
     color: #00ff00;
-    left: 217px;
+    left: 728px;
     position: relative;
     text-align: right;
-    top: -66px;
+    top: 58px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point15 {
     color: #00ff00;
-    left: 336px;
+    left: 546px;
     position: relative;
     text-align: right;
-    top: -85px;
+    top: -11px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point16 {
     color: #00ff00;
-    left: 451px;
+    left: 551px;
     position: relative;
     text-align: right;
-    top: -139px;
+    top: 89px;
     width: 100px;
     z-index: 99;
-}
-.pcvArea #point17 {
+}.pcvArea #point17 {
     color: #00ff00;
-    left: 589px;
+    left: 416px;
     position: relative;
     text-align: right;
-    top: -124px;
+    top: -50px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point18 {
     color: #00ff00;
-    left: 589px;
+    left: 421px;
     position: relative;
     text-align: right;
-    top: -124px;
+    top: 52px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point19 {
     color: #00ff00;
-    left: 589px;
+    left: 175px;
     position: relative;
     text-align: right;
-    top: -124px;
+    top: -106px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point20 {
     color: #00ff00;
-    left: 838px;
+    left: 229px;
     position: relative;
-    top: -181px;
+    top: 33px;
     width: 100px;
     z-index: 99;
-}
-.pcvArea #point21 {
+}.pcvArea #point21 {
     color: #00ff00;
-    left: 771px;
+    left: 108px;
     position: relative;
     text-align: right;
-    top: -180px;
+    top: -104px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point22 {
     color: #00ff00;
-    left: 462px;
+    left: 108px;
     position: relative;
     text-align: right;
-    top: -120px;
+    top: -110px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point23 {
     color: #00ff00;
-    left: 748px;
+    left: 108px;
     position: relative;
     text-align: right;
-    top: -156px;
+    top: -117px;
     width: 100px;
     z-index: 99;
-}
-.pcvArea #point24 {
+}.pcvArea #point24 {
     color: #00ff00;
-    left: -17px;
+    left: -34px;
     position: relative;
     text-align: right;
-    top: -124px;
+    top: -160px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point25 {
     color: #00ff00;
-    left: -17px;
+    left: -34px;
     position: relative;
     text-align: right;
-    top: -125px;
+    top: -162px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point26 {
     color: #00ff00;
-    left: 96px;
+    left: -34px;
     position: relative;
     text-align: right;
-    top: -177px;
+    top: -142px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point27 {
     color: #00ff00;
-    left: 96px;
+    left: -34px;
     position: relative;
     text-align: right;
-    top: -176px;
+    top: -145px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point28 {
     color: #00ff00;
-    left: 97px;
+    left: 387px;
     position: relative;
     text-align: right;
-    top: -177px;
+    top: -62px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point29 {
     color: #00ff00;
-    left: 391px;
+    left: 563px;
     position: relative;
     text-align: right;
-    top: -189px;
+    top: -83px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point30 {
     color: #00ff00;
-    left: 578px;
+    left: 761px;
     position: relative;
     text-align: right;
-    top: -233px;
+    top: -550px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point31 {
     color: #00ff00;
-    left: -18px;
+    left: 761px;
     position: relative;
     text-align: right;
-    top: -146px;
+    top: -550px;
     width: 100px;
     z-index: 99;
 }
