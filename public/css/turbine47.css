@@ -12,162 +12,195 @@
     margin: auto;
     width: 950px;
 }
-.pcvArea #point1 {
+.pcvArea #point0 {
     color: #00ff00;
-    left: 19px;
+    left: 71px;
     position: relative;
-    top: 47px;
+    top: -110px;
     z-index: 99;
 }
-#barChart{
-	
+.pcvArea #point1 {
+    color: #00ff00;
+    left: 71px;
+    position: relative;
+    top: 175px;
+    z-index: 99;
+}
+
+#barChart1 {
     background: #00ff00 none repeat scroll 0 0;
     height: 28px;
-    left: 20px;
+    left: 34px;
     position: relative;
-    top: -803px;
-    width: 150px;
-    
+    top: -218px;
+    width: 141px;
 }
+#barChart2 {
+    background: #00ff00 none repeat scroll 0 0;
+    height: 20px;
+    left: 531px;
+    position: relative;
+    top: -183px;
+    width: 355px;
+}
+
+
 .pcvArea #point2 {
     color: #00ff00;
-    left: 290px;
+    left: 72px;
     position: relative;
-    top: -6px;
+    top: 171px;
     z-index: 99;
 }
 .pcvArea #point3 {
     color: #00ff00;
-    left: 415px;
+    left: 247px;
     position: relative;
-    top: -34px;
+    top: 122px;
     z-index: 99;
 }
 .pcvArea #point4 {
     color: #00ff00;
-    left: 497px;
+    left: 336px;
     position: relative;
-    top: -39px;
+    top: 105px;
     z-index: 99;
 }
 .pcvArea #point5 {
     color: #00ff00;
-    left: 629px;
+    left: 336px;
     position: relative;
-    top: -78px;
+    top: -70px;
     z-index: 99;
 }
 .pcvArea #point6 {
     color: #ff0000;
-    left: 641px;
+    left: 346px;
     position: relative;
-    top: -76px;
+    top: -74px;
     z-index: 99;
 }
 .pcvArea #point7 {
     color: #00ff00;
-    left: 738px;
+    left: 591px;
     position: relative;
-    top: -97px;
+    top: -83px;
     z-index: 99;
 }
 .pcvArea #point8 {
     color: #00ff00;
-    left: 832px;
+    left: 837px;
     position: relative;
-    top: -132px;
+    top: -104px;
     z-index: 99;
 }
 .pcvArea #point9 {
     color: #00ff00;
-    left: 778px;
+    left: 442px;
     position: relative;
     text-align: right;
-    top: -136px;
+    top: 1px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point10 {
     color: #00ff00;
-    left: -46px;
+    left: 611px;
     position: relative;
     text-align: right;
-    top: -1px;
+    top: 52px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point11 {
     color: #00ff00;
-    left: 54px;
+    left: 611px;
     position: relative;
     text-align: right;
-    top: -21px;
+    top: 50px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point12 {
     color: #00ff00;
-    left: 53px;
+    left: 507px;
     position: relative;
     text-align: right;
-    top: -17px;
+    top: 74px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point13 {
     color: #00ff00;
-    left: 128px;
+    left: 250px;
     position: relative;
     text-align: right;
-    top: -25px;
+    top: 74px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point14 {
     color: #00ff00;
-    left: 217px;
+    left: 249px;
     position: relative;
     text-align: right;
-    top: -66px;
+    top: 68px;
     width: 100px;
     z-index: 99;
 }
 .pcvArea #point15 {
+    background: #00ff00 url("../img/bgProcessView/symbols/fanbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    border-radius: 100%;
     color: #00ff00;
-    left: 336px;
+    font-size: 13px;
+    font-weight: normal;
+    height: 50px;
+    left: 636px;
     position: relative;
-    text-align: right;
-    top: -85px;
-    width: 100px;
+    top: 79px;
+    width: 50px;
     z-index: 99;
 }
 .pcvArea #point16 {
+    background: #00ff00 url("../img/bgProcessView/symbols/fanbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    border-radius: 100%;
     color: #00ff00;
-    left: 451px;
+    font-size: 13px;
+    font-weight: normal;
+    height: 50px;
+    left: 732px;
     position: relative;
-    text-align: right;
-    top: -139px;
-    width: 100px;
+    top: 30px;
+    width: 50px;
     z-index: 99;
 }
 .pcvArea #point17 {
+    background: #00ff00 url("../img/bgProcessView/symbols/fanbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    border-radius: 100%;
     color: #00ff00;
-    left: 589px;
+    font-size: 13px;
+    font-weight: normal;
+    height: 50px;
+    left: 465px;
     position: relative;
-    text-align: right;
-    top: -124px;
-    width: 100px;
+    top: 4px;
+    width: 50px;
     z-index: 99;
 }
 .pcvArea #point18 {
+    background: #00ff00 url("../img/bgProcessView/symbols/fanbody.gif") no-repeat scroll 0 0 / 50px 50px;
+    border-radius: 100%;
     color: #00ff00;
-    left: 589px;
+    font-size: 13px;
+    font-weight: normal;
+    height: 50px;
+    left: 465px;
     position: relative;
-    text-align: right;
-    top: -124px;
-    width: 100px;
+    top: 26px;
+    width: 50px;
     z-index: 99;
 }
+
 .pcvArea #point19 {
     color: #00ff00;
     left: 589px;

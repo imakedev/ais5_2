@@ -80,88 +80,8 @@ htmlTableGridEvent +="</table>";
 
 
 
-var tripCountRed=0;
-var tripCountGreen=0;
 
 
-function clearTripRedFn(tripFnRed){
-	//alert("clearTripRed");
-	//clear setTimeOut Start
-	if(tripFnRed.length>0){
-	    for(var i=0; i<tripFnRed.length; i++)
-	    {
-	        clearTimeout(tripFnRed[i]);
-	    }
-	    
-	    tripFnRed = [];
-	   
-	}
-	
-	//clear setTimeOut End
-}
-function clearTripGreenFn(tripFnGreen){
-	//clear setTimeOut Start
-	//alert("clearTripGreenFn");
-	if(tripFnGreen.length>0){
-	    for(var i=0; i<tripFnGreen.length; i++)
-	    {
-	        clearTimeout(tripFnGreen[i]);
-	    }
-	    
-	    tripFnGreen = [];
-	   
-	}
-	
-	//clear setTimeOut End
-}
-function tripFn(paramTrip,paramPoint){
-
-	//clear setTimeOut Start
-	/*
-	if(tripFnRed.length>0){
-	    for(var i=0; i<tripFnRed.length; i++)
-	    {
-	        clearTimeout(tripFnRed[i]);
-	    }
-	    
-	    tripFnRed = [];
-	   
-	}
-	*/
-	/*
-	 console.log("-----****-----");
-	 console.log(tripFnRed.length);
-	 console.log("-----####-----");
-	 */
-    //clear setTimeOut end
-
-	$("#paramEmbedTripFn"+paramPoint).remove();
-	$("#paramTripArea").append("<input type=\"hidden\" id=\"paramEmbedTripFn"+paramPoint+"\" class=\"paramTripAlarmEmbed\" value="+paramTrip+">");
-	
-		if(paramTrip!="N"){
-
-			tripFnRed.push(setTimeout(function(){
-				$("#point"+paramPoint).css({"color":"#ff0000"});
-			},1000));
-			
-			
-			 tripFnGreen.push(setTimeout(function(){
-				$("#point"+paramPoint).css({"color":"#00ff00"});
-				tripFn($("#paramEmbedTripFn"+paramPoint).val(),paramPoint);
-			
-			},2000));
-  
-		}else{
-			
-			
-			$("#point"+paramPoint).css({"color":"#00ff00"});
-			
-			//clear setTimeOut end
-		
-		}
-	
-	
-}
 
 var countLogicPoint=0;
 var logicPointPlantow47 = {

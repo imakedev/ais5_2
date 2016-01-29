@@ -1,3 +1,62 @@
+/*manage trip point start*/
+var tripFnRed=[];
+var tripFnGreen=[];
+function clearTripRedFn(tripFnRed){
+	//alert("clearTripRed");
+	//clear setTimeOut Start
+	if(tripFnRed.length>0){
+	    for(var i=0; i<tripFnRed.length; i++)
+	    {
+	        clearTimeout(tripFnRed[i]);
+	    }
+	    
+	    tripFnRed = [];
+	   
+	}
+	
+	//clear setTimeOut End
+}
+function clearTripGreenFn(tripFnGreen){
+	if(tripFnGreen.length>0){
+	    for(var i=0; i<tripFnGreen.length; i++)
+	    {
+	        clearTimeout(tripFnGreen[i]);
+	    }
+	    
+	    tripFnGreen = [];
+	   
+	}
+	
+	//clear setTimeOut End
+}
+function tripFn(paramTrip,paramPoint){
+
+	$("#paramEmbedTripFn"+paramPoint).remove();
+	$("#paramTripArea").append("<input type=\"hidden\" id=\"paramEmbedTripFn"+paramPoint+"\" class=\"paramTripAlarmEmbed\" value="+paramTrip+">");
+	
+		if(paramTrip!="N"){
+
+			tripFnRed.push(setTimeout(function(){
+				$("#point"+paramPoint).css({"color":"#ff0000"});
+			},1000));
+			
+			
+			 tripFnGreen.push(setTimeout(function(){
+				$("#point"+paramPoint).css({"color":"#00ff00"});
+				tripFn($("#paramEmbedTripFn"+paramPoint).val(),paramPoint);
+			
+			},2000));
+  
+		}else{
+			
+			
+			$("#point"+paramPoint).css({"color":"#00ff00"});
+		
+		}
+}
+/*manage trip point end*/
+
+
 var bindingGridlistEventFn=function(){
 	$("#gridEventList").kendoGrid({
        // height: 400,
@@ -227,12 +286,12 @@ $(document).ready(function(){
 				$("#processViewArea").html(data);
 				
 				
-				
+				//alert(pcvName);
 				if(pcvName=='steam47'){
 					///ais/processView/createDataPCVSteam47/{paramPCV}/{paramUnit}/{parmEmpId}/{paramFromDate}/{paramToDate}
 					//alert(paramFromDate);
 					//alert(paramToDate);
-					//mainSteam47Fn(paramPcv,paramUnit,$("#paramEmpIdEmbed").val(),paramFromDate,paramToDate);
+					mainSteam47Fn(paramPcv,paramUnit,$("#paramEmpIdEmbed").val(),paramFromDate,paramToDate);
 
 				}if(pcvName=='plantow47'){
 					
@@ -245,6 +304,10 @@ $(document).ready(function(){
 				}if(pcvName=='fgd67'){
 					
 					mainFGDFn(paramPcv,paramUnit,$("#paramEmpIdEmbed").val(),paramFromDate,paramToDate);
+					
+				}if(pcvName=='turbine47'){
+					
+					mainTurbine47Fn(paramPcv,paramUnit,$("#paramEmpIdEmbed").val(),paramFromDate,paramToDate);
 					
 				}
 				//bindingGridlistEventFn();

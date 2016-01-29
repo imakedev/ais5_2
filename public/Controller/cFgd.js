@@ -28,10 +28,21 @@ htmlTableGridEvent +="</table>";
 	//$("#gridEventList")
 };
 var logicPointFgd = {
+		
+		pointClearTripRedFn(){
+			clearTripRedFn((tripFnRed));
+		},
+		pointClearTripGreenFn(){
+			clearTripGreenFn((tripFnGreen));
+		},
 		setDateTime(EvTime){
 			
 			$("#disPlayDateTimeArea").html(EvTime);	
 			
+		},
+		point0(paramDataPoint){
+			
+			$("#point0").html("<font class='displaynone' color='red'>1,</font>"+parseFloat(paramDataPoint).toFixed(2));	
 		},
 		point1(paramDataPoint){
 			
@@ -75,6 +86,53 @@ var logicPointFgd = {
 			
 			$("#point10").html("<font class='displaynone' color='red'>10,</font>"+parseFloat(paramDataPoint).toFixed(2));	
 			
+		},
+		point11(paramDataPoint){
+			
+			$("#point11").html("<font class='displaynone' color='red'>11,</font>"+parseFloat(paramDataPoint).toFixed(2));	
+			
+		
+		},point12(paramDataPoint){
+		
+			$("#point12").html("<font class='displaynone' color='red'>12,</font>"+parseFloat(paramDataPoint).toFixed(2));	
+			
+		},point13(paramDataPoint){
+			
+			$("#point13").html("<font class='displaynone' color='red'>13,</font>"+parseFloat(paramDataPoint).toFixed(2));	
+			
+		},point14(paramDataPoint){
+			
+			$("#point14").html("<font class='displaynone' color='red'>14,</font>"+parseFloat(paramDataPoint).toFixed(2));	
+			
+		},point15(paramDataPoint){
+			
+			$("#point15").html("<font class='displaynone' color='red'>15,</font>"+parseFloat(paramDataPoint).toFixed(2));	
+			
+		},point16(paramDataPoint){
+			
+			$("#point16").html("<font class='displaynone' color='red'>16,</font>"+parseFloat(paramDataPoint).toFixed(2));	
+			
+		},point17(paramDataPoint){
+			
+			$("#point17").html("<font class='displaynone' color='red'>17,</font>"+parseFloat(paramDataPoint).toFixed(2));	
+			
+		},point18(paramDataPoint){
+			
+			$("#point18").html("<font class='displaynone' color='red'>18,</font>"+parseFloat(paramDataPoint).toFixed(2));	
+			
+			
+		},point19(paramDataPoint){
+			
+			$("#point19").html("<font class='displaynone' color='red'>19,</font>"+parseFloat(paramDataPoint).toFixed(2));	
+			
+		},point20(paramDataPoint){
+			
+			$("#point20").html("<font class='displaynone' color='red'>20,</font>"+parseFloat(paramDataPoint).toFixed(2));	
+			
+		},point21(paramDataPoint){
+			
+			$("#point21").html("<font class='displaynone' color='red'>21,</font>"+parseFloat(paramDataPoint).toFixed(2));	
+			
 		}
 }
 
@@ -84,16 +142,31 @@ var logicPointFgd = {
 function setDataOnDashboardFgd(data){
 	
 	logicPointFgd.setDateTime("<center><b>ข้อมูลวันที่ "+convertDateHisTh(data['EvTime'])+"</b></center>");
-	logicPointFgd.point1(data['D1']);
-	logicPointFgd.point2(data['D2']);
-	logicPointFgd.point3(data['D3']);
-	logicPointFgd.point4(data['D4']);
-	logicPointFgd.point5(data['D5']);
-	logicPointFgd.point6(data['D6']);
-	logicPointFgd.point7(data['D7']);
-	logicPointFgd.point8(data['D8']);
-	logicPointFgd.point9(data['D9']);
-	logicPointFgd.point10(data['D10']);
+	
+	logicPointFgd.pointClearTripRedFn();
+	logicPointFgd.pointClearTripGreenFn();
+	logicPointFgd.point0(data['D32']);
+	logicPointFgd.point1(data['D276']);
+	logicPointFgd.point2(data['D220']);
+	logicPointFgd.point3(data['D1']);
+	logicPointFgd.point4(data['D219']);
+	logicPointFgd.point5(data['D285']);
+	logicPointFgd.point6(data['D284']);
+	logicPointFgd.point7(data['D1']);
+	logicPointFgd.point8(data['D1']);
+	logicPointFgd.point9(data['D362']);
+	logicPointFgd.point10(data['D1']);
+	logicPointFgd.point11(data['D355']);
+	logicPointFgd.point12(data['D365']);
+	logicPointFgd.point13(data['D357']);
+	logicPointFgd.point14(data['D1']);
+	logicPointFgd.point15(data['D358']);
+	logicPointFgd.point16(data['D354']);
+	logicPointFgd.point17(data['D359']);
+	logicPointFgd.point18(data['D360']);
+	logicPointFgd.point19(data['D361']);
+	logicPointFgd.point20(data['D1']);
+	logicPointFgd.point21(data['D363']);
 
 	
 	
@@ -108,7 +181,7 @@ var fgd={
 		readDataEventPCVFn(paramPcv,paramUnit,paramEmpId){
 			 var jsonFilter = new Array();
 			$.ajax({
-				url:"/ais/processView/readDataEventPCVSteam47/"+paramPcv+"/"+paramUnit+"/"+paramEmpId+"",
+				url:"/ais/processView/readDataEventPCVFGD/"+paramPcv+"/"+paramUnit+"/"+paramEmpId+"",
 				type:"get",
 				dataType:"json",
 				async:false,
@@ -153,9 +226,9 @@ var fgd={
 			alert(parmEmpId);
 			alert(paramIndexDate);
 			*/
-			// TEST->http://localhost:9999/ais/processView/readDataPCVSteam47/steam47/4/3
+			// TEST->http://localhost:9999/ais/processView/readDataPCVFGD/FGD/4/3
 			$.ajax({
-				url:"/ais/processView/readDataPCVSteam47/"+paramPcv+"/"+paramUnit+"/"+paramEmpId+"",
+				url:"/ais/processView/readDataPCVFGD/"+paramPcv+"/"+paramUnit+"/"+paramEmpId+"",
 				type:"get",
 				dataType:"json",
 				async:false,
@@ -222,7 +295,7 @@ var fgd={
 			
 			
 			$.ajax({
-				url:"/ais/processView/createDataPCVSteam47/"+paramPcv+"/"+paramUnit+"/"+paramEmpId+"/"+paramFromDate+"/"+paramToDate+"",
+				url:"/ais/processView/createDataPCVFGD/"+paramPcv+"/"+paramUnit+"/"+paramEmpId+"/"+paramFromDate+"/"+paramToDate+"",
 				type:"get",
 				dataType:"json",
 				async:false,
@@ -248,7 +321,7 @@ var fgd={
 			
 			
 			$.ajax({
-				url:"/ais/processView/createDataEventPCVSteam47/"+paramPcv+"/"+paramUnit+"/"+paramEmpId+"/"+paramFromDate+"/"+paramToDate+"",
+				url:"/ais/processView/createDataEventPCVFGD/"+paramPcv+"/"+paramUnit+"/"+paramEmpId+"/"+paramFromDate+"/"+paramToDate+"",
 				type:"get",
 				dataType:"json",
 				async:false,
@@ -256,7 +329,7 @@ var fgd={
 					
 					if(data=='createJsonSuccess'){
 						
-						//fgd.readDataPCVSteam47Fn(paramPcv,paramUnit,paramEmpId,'');
+						//fgd.readDataPCVFGDFn(paramPcv,paramUnit,paramEmpId,'');
 						 fgd.readDataEventPCVFn(paramPcv,paramUnit,paramEmpId);
 						
 					}
@@ -275,7 +348,7 @@ var fgd={
 	}	
 var mainFGDFn = function(paramPcv,paramUnit,parmEmpId,paramFromDate,paramToDate){
 
-//test read processViewJson-steam47-4-3.txt
+//test read processViewJson-FGD-4-3.txt
 fgd.createDataPCVFn(paramPcv,paramUnit,parmEmpId,paramFromDate,paramToDate);	
 
 

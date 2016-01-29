@@ -86,7 +86,7 @@
                                                                     <option value='steam47' >STEAM </option>
                                                                     <option value='fgd67'>FGD </option>
                                                                     <option value='turbine47'>Turbine </option>
-                                                                    <option value='steam813' >STEAM(813)</option>
+                                                                   <!--  <option value='steam813' >STEAM(813)</option> -->
                                                                     
                                                                     <!-- 
                                                                     <option value='plantow'>PLANTOVV</option>
