@@ -86,8 +86,9 @@
 
     <!-- kendo ui resource end -->
     <script src="/Controller/cMain.js"></script>
-   <script src="//kendo.cdn.telerik.com/2015.3.930/js/kendo.all.min.js"></script>
-     <!--<script src="/js/kendoCommercial/js/kendo.all.min.js"></script> --> 
+   <!--<script src="//kendo.cdn.telerik.com/2015.3.930/js/kendo.all.min.js"></script>--> 
+   
+     <script src="/js/kendoCommercial/js/kendo.all.min2.js"></script> 
 
 
     <script>
