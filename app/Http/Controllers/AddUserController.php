@@ -50,8 +50,8 @@ class AddUserController extends Controller
         session()->put('orderBy',$orderBy);
         session()->put('addUser_search',$search);
 
-        $datas=$datas->paginate(10);
-
+       // $datas=$datas->paginate(10);
+        $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
         /*
         $info_employee = AddUserModel::orderBy('updated_at','DESC')
            // ->orderBy('updated_at','DESC')
@@ -80,6 +80,7 @@ class AddUserController extends Controller
     public function store(Request $request)
     {
         $id = $request->input('empId');
+        Log::info('into store  ['.$id.']');
         if($id!=null) {
             $emp = AddUserModel::find($id);
             $emp->A = $request->input('empNo');
@@ -88,7 +89,7 @@ class AddUserController extends Controller
             $emp->D0 = $request->input('empPriority');
 
             $emp->save();
-            session()->flash('message', ' Info save successfuly.');
+            session()->flash('message', ' Update successfuly.');
         }else{
             $maxId = DB::table('mmemployee_table')->max('ZZ');
             $emp = new AddUserModel();
@@ -98,7 +99,7 @@ class AddUserController extends Controller
             $emp->C = $request->input('empFirstName') . "   " . $request->input('empLastName');
             $emp->D0 = $request->input('empPriority');
             $emp->save();
-            session()->flash('message', ' Info save successfuly.');
+            session()->flash('message', ' Save successfuly.');
         }
         return redirect('ais/addUser');
     }
@@ -152,6 +153,7 @@ class AddUserController extends Controller
             //echo $check . ', ';
             AddUserModel::find($check)->delete();
         }
+        session()->flash('message', 'Delete successfuly.');
         return redirect('ais/addUser');
     }
 
@@ -159,7 +161,7 @@ class AddUserController extends Controller
     {
         Log::info('into destroy  ['.$id.']');
         AddUserModel::find($id)->delete();
-
+        session()->flash('message', ' Delete successfuly.');
         return redirect('ais/addUser');
     }
 }

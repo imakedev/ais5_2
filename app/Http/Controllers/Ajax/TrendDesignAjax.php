@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\DB;
 use \App\Model\MmtrendModel;
 use \App\Model\MmnameModel;
 use \App\Model\MmpointModel;
+use \App\Model\MmcalculationModel;
 use Log;
+use Illuminate\Support\Facades\Auth;
 class TrendDesignAjax extends Controller
 {
     public function __construct()
@@ -120,7 +122,7 @@ class TrendDesignAjax extends Controller
             $mmtrendModel->H =$a;
             $mmtrendModel->ZZ =$mmname_zz;
             $mmtrendModel->save();
-            session()->flash('message', ' Info save successfuly.');
+            session()->flash('message', ' Save successfuly.');
         }else{
             $mmtrendModel = MmtrendModel::find($mmname_zz);
             $mmtrendModel->B =$b;
@@ -133,7 +135,7 @@ class TrendDesignAjax extends Controller
             $mmtrendModel->H =$a;
             //$mmtrendModel->ZZ =$mmname_zz;
             $mmtrendModel->save();
-            session()->flash('message', ' Info update successfuly.');
+            session()->flash('message', ' Update successfuly.');
         }
 
         return response()->json(['mmtrendM'=>json_encode($mmnameModel)]);
@@ -152,15 +154,21 @@ class TrendDesignAjax extends Controller
         if($mode=='add'){
             $mmnameModel = new MmnameModel();
             $mmnameModel->A =$mmname_a;
+            if($mmname_b=='9'){
+                $mmname_b=Auth::user()->empId;
+            }
             $mmnameModel->B =$mmname_b;
             $mmnameModel->save();
-            session()->flash('message', ' Info save successfuly.');
+            session()->flash('message', ' Save successfuly.');
         }else{
             $mmnameModel = MmnameModel::find($mmname_zz);
             $mmnameModel->A =$mmname_a;
+            if($mmname_b=='9'){
+                $mmname_b=Auth::user()->empId;
+            }
             $mmnameModel->B =$mmname_b;
             $mmnameModel->save();
-            session()->flash('message', ' Info update successfuly.');
+            session()->flash('message', ' Update successfuly.');
         }
 
         return response()->json(['mmnameM'=>json_encode($mmnameModel)]);
@@ -173,6 +181,8 @@ class TrendDesignAjax extends Controller
             foreach($ids as $id) {
                 $mmnameM= MmnameModel::find($id);
                 $mmnameM->delete();
+                DB::table('mmtrend_table')->where('G', '=', $id)->delete();
+
             }
 
         }else{
@@ -180,8 +190,9 @@ class TrendDesignAjax extends Controller
             Log::info("deleteMmname [".$id."] x");
             $mmnameM= MmnameModel::find($id);
             $mmnameM->delete();
+            DB::table('mmtrend_table')->where('G', '=', $id)->delete();
         }
-        session()->flash('message', ' Info Delete successfuly.');
+        session()->flash('message', ' Delete successfuly.');
         return response()->json(['mmnameM'=>json_encode($mmnameM)]);
     }
     public function deleteMmtrend(Request $request){
@@ -200,7 +211,7 @@ class TrendDesignAjax extends Controller
             $mmtrendM= MmtrendModel::find($id);
             $mmtrendM->delete();
         }
-        session()->flash('message', ' Info Delete successfuly.');
+        session()->flash('message', ' Delete successfuly.');
         return response()->json(['mmtrendM'=>json_encode($mmtrendM)]);
     }
     public  function searchMmpoint(Request $request){
@@ -208,16 +219,37 @@ class TrendDesignAjax extends Controller
 
         $keyword=request('keyword');
         $h_id=request('H');
-        $datas = MmpointModel::query();
-        Log::info("keyword [".$keyword."] ");
-        if (sizeof($keyword)>0) {
-            $datas->where('B','LIKE', "%".$keyword."%");
+        $p_id=request('P');
+        if($p_id=='0' || $p_id=='-1'){
+            $datas = MmcalculationModel::query();
+            if (sizeof($keyword)>0) {
+               // $datas->where('C','LIKE', "%".$keyword."%");
+                $datas= $datas->Where(function ($datas) use ($keyword){
+                    $datas->orWhere('C', 'LIKE', "%$keyword%")
+                        ->orWhere('D', 'LIKE',"%$keyword%");
+                });
+            }
+            if($p_id=='0'){
+                $datas->where('H','=', "'".Auth::user()->empId."'");
+            }
+            $lists = $datas->take(9);
+            if($h_id!='0'){
+                $lists = DB::table('mmcalculation_table')->where('A',$h_id)->union($lists);
+            }
+
+        }else{
+            $datas = MmpointModel::query();
+            Log::info("keyword [".$keyword."] ");
+            if (sizeof($keyword)>0) {
+                $datas->where('B','LIKE', "%".$keyword."%");
+            }
+            $lists = $datas->take(9);
+            if($h_id!='0'){
+                $lists = DB::table('mmpoint_table')->where('A',$h_id)->union($lists);
+            }
+           // $lists =$lists->get();
         }
-        $lists = $datas->take(9);
-        if($h_id!='0'){
-            $lists = DB::table('mmpoint_table')->where('A',$h_id)->union($lists);
-        }
-            $lists =$lists->get();
+        $lists =$lists->get();
 
 
         //$lists = $datas->orderBy('B','ASC')->take(9)->union($old_mmpoint)->get();

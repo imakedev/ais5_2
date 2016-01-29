@@ -178,7 +178,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('/ais/addUser', 'AddUserController@search');
 
-    Route::get('/ais/addUser/store', 'AddUserController@store');
+    Route::post('/ais/addUser/store', 'AddUserController@store');
 
     Route::get('/addUser/deleteSelect', 'AddUserController@deleteSelect');
 
@@ -187,7 +187,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('/ais/tagConfiguration', 'TagConfigController@search');
 
-    Route::get('/ais/tagConfiguration/store', 'TagConfigController@store');
+    Route::post('/ais/tagConfiguration/store', 'TagConfigController@store');
 
     Route::get('/tagConfiguration/deleteSelect', 'TagConfigController@deleteSelect');
 
@@ -196,7 +196,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('/ais/pointConfiguration', 'PointConfigController@search');
 
-    Route::get('/ais/pointConfiguration/store', 'PointConfigController@store');
+    Route::post('/ais/pointConfiguration/store', 'PointConfigController@store');
 
     Route::get('/pointConfiguration/deleteSelect', 'PointConfigController@deleteSelect');
 

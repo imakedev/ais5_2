@@ -54,8 +54,10 @@ function deleteBtn() {
     if (isValid) {
         isValid = confirm_del();
     }
-
-    return isValid;
+   // alert(isValid)
+    if(isValid)
+        document.getElementById("formDelete").submit();
+   // return isValid;
 }
 function doDelete(urlDel){
     var isValid =confirm_del();

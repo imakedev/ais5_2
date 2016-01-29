@@ -80,7 +80,7 @@ function editBtn(index) {
 
     $('#modalAddEditTag').modal();
 }
-
+/*
 function deleteBtn() {
     var isValid = false;
     var length = document.getElementsByName('checkbox[]').length;
@@ -98,7 +98,7 @@ function deleteBtn() {
 
     return isValid;
 }
-
+*/
 function deleteBtn() {
     var isValid = false;
     var length = document.getElementsByName('checkbox[]').length;
@@ -113,8 +113,9 @@ function deleteBtn() {
     if (isValid) {
         isValid = confirm_del();
     }
-
-    return isValid;
+    if(isValid)
+        document.getElementById("formDelete").submit();
+   // return isValid;
 }
 
 //$("#checkAll").change(function () {

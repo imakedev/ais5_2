@@ -63,14 +63,13 @@ class ServController extends Controller
             $data->fgd_8_13_logs_server = $request->input('lfgd8-13');
 
             $data->save();
-            session()->flash('message', ' Info save successfuly.');
+            session()->flash('message', ' Update successfuly.');
             return redirect('ais/serverSetting');
         }
     }
     public function index(){
 
         $ip = \App\Model\ServSetModel::where('server_setting_id', '1')->first();
-        Log::info("aoee test ServController");
         return view('ais/serverSetting',compact('ip'));
     }
 }

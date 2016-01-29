@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Log;
 
 class TrendDesignController extends Controller
@@ -30,20 +31,6 @@ class TrendDesignController extends Controller
     {
         $this->middleware('auth');
     }
-    /*
-    public  function search(){
-        $datas = StatisticsModel::query();
-
-        if (Input::has('search')) {
-            $queryString = Input::get('search');
-            $datas->orWhere('first_name', 'LIKE', "%$queryString%")
-                ->orWhere('last_name', 'LIKE', "%$queryString%");
-        }
-        $lists = $datas->orderBy('user_login_log_id','ASC')->paginate(5);
-
-        return view('ais/design_trend', ['lists'=>$lists]);
-    }
-    */
     /**
      * Display a listing of the resource.
      *
@@ -55,6 +42,11 @@ class TrendDesignController extends Controller
         $search = Input::get('search');
         $sortBy = Input::get('sortBy');
         $orderBy= Input::get('orderBy');
+
+        if(empty($design_trend_B)){
+            $design_trend_B=Auth::user()->empId;
+        }
+
         $datas = MmnameModel::query();
         if(Input::has('page')){ // paging
             Log::info("into paging");
@@ -69,7 +61,7 @@ class TrendDesignController extends Controller
 
             });
         }
-        if(!empty($design_trend_B)){
+        if(!empty($design_trend_B) && $design_trend_B!=-1){
             $datas= $datas->Where('B', '=', "$design_trend_B");
         }
         if(!empty($sortBy) && !empty($orderBy)){
@@ -81,12 +73,6 @@ class TrendDesignController extends Controller
         session()->put('design_trend_B',$design_trend_B);
         $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
 
-/*
-        $mmtrendsM = DB::table('mmname_table as mmtrend ')
-            ->orderBy('updated_at','DESC')
-
-            ->paginate(10);
-*/
         return view('ais/design_trend', ['mmtrendsM'=>$datas]);
     }
 
@@ -160,8 +146,8 @@ class TrendDesignController extends Controller
     public function destroy($id)
     {
         Log::info("destroy [".$id."] x");
-        MmnameModel::find($id)->delete();
-
+       // MmnameModel::find($id)->delete();
+        session()->flash('message', ' Delete successfuly.');
         return redirect('ais/designTrend');
     }
 
@@ -172,11 +158,12 @@ class TrendDesignController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteSelect(Request $request){
-
+        Log::info("deleteSelect");
         foreach($_GET['checkbox'] as $check) {
 
-            MmnameModel::find($check)->delete();
+            //MmnameModel::find($check)->delete();
         }
+        session()->flash('message', ' Delete successfuly.');
         return redirect('ais/designTrend');
     }
 }

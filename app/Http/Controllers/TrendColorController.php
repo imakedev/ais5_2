@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use \App\Model\MmtrendColorModel;
 use Log;
 use DB;
+use Illuminate\Support\Facades\Auth;
 class TrendColorController extends Controller
 {
     /**
@@ -22,7 +23,7 @@ class TrendColorController extends Controller
     //
     public function index()
     {
-        $user='admin';
+        $user=Auth::user()->empId;//'admin';
 
         $mmtrend_color = DB::table('mmtrend_color_table as mmtrend_color ')
              ->where('O','=',$user)
@@ -55,7 +56,7 @@ class TrendColorController extends Controller
 
         $mmtrend_color->N = $request->input('color_type');
         $mmtrend_color->save();
-         session()->flash('message', ' Info save successfuly.');
+         session()->flash('message', ' Update successfuly.');
         return view('ais.trend_color',['mmtrend_color'=>$mmtrend_color,'userid'=>$user]);
     }
 }

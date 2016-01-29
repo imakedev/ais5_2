@@ -31,7 +31,7 @@
     {!! Form::open(array('url'=> 'ais/designCalculation')) !!}
     <div class="ibox-content">
             <div class="row bgParam">
-	            <div class="col-xs-5">
+	            <div class="col-md-3">
 		            <a class="btn btn-primary  btn-sm" href='/ais/formCalculation/0'>Add </a>
                     <!--
 		            <a class="btn btn-w-m btn-warning  btn-sm" href='formCalculation'>Edit </a>
@@ -41,13 +41,14 @@
 		            -->
                     <button class="btn btn-w-m btn-danger btn-sm" type="button" onclick="return deleteBtn()">Delete select</button>
 	            </div>
-	            <div class='col-xs-5'>
-	            
+                <!--
+	            <div class='col-xs-12'>
+	            -->
 	             <div class='row'>
-	               <div class='col-xs-6'>
+	               <div class='col-md-2' style="margin-left: -60px">
                        <input type="hidden" id="calculationSelectionHidden" value="{{session()->get('calculation_selection')}}"/>
                            <select class="form-control input-sm" style="width: 180px;" name="calculationSelection">
-                                <option value="0">All Calculation</option>
+                                <option value="-1">All Calculation</option>
                                 <option value="1">My Calculation</option>
                                 <option value="2">Standard Calculation</option>
 
@@ -57,20 +58,49 @@
 
 	               </div>
 
-	               <div class='col-xs-6'>
+	               <div class='col-md-2' style="padding-left: 25px">
         	               <div class="input-group">
-                                <input type="text" style="width: 250px;" id="calculationKeySearch" name="calculationKeySearch"
+                                <input type="text" style="width: 150px;" id="calculationKeySearch" name="calculationKeySearch"
                                        class="input-sm form-control" placeholder="ค้นหาด่วน"
                                        value="{{session()->get('calculation_keySearch')}}"
                                 >
+                               <!--
                                 <span class="input-group-btn">
                                 <button class="btn btn-sm btn-primary" > Search</button>
                                 </span>
+                                -->
                             </div>
 	               </div>
+                     <div class="col-md-4" style="margin-top: 8px;width: 200px">
 
+                         Sort By:
+                         <!--  btn -->
+
+                         <input type="hidden" id="sortBy_hidden" value="{{session()->get('sortBy')}}"/>
+                         <select id="sortBy" name="sortBy">
+                             <option value=""></option>
+                             <option value="B">Description</option>
+                             <option value="B">TagName</option>
+                         </select>
+
+                     </div>
+                     <div class="col-md-2" style="margin-top: 8px">
+                         Order By:
+                         <!--  btn -->
+
+                         <input type="hidden" id="orderBy_hidden" value="{{session()->get('orderBy')}}"/>
+                         <select id="orderBy" name="orderBy">
+                             <option value=""></option>
+                             <option value="ASC">ASC</option>
+                             <option value="DESC">DESC</option>
+                         </select>
+
+                     </div>
+                     <div class="col-md-1" style="margin-top: 8px"><button class="btn btn-sm btn-primary pull-left m-t-n-xs"><strong>Search</strong></button></div>
 	             </div>
+                <!--
 	            </div>
+	            -->
             </div>
         <!-- grid list user -->
         <div class="row">

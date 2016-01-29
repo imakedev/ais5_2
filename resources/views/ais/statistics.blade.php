@@ -69,7 +69,7 @@
                             <!-- input date -->
                         </div>
                         <!-- text search -->
-                        <div class='inputParamSearch' style="width: 200px;">
+                        <div class='inputParamSearch' style="width: 170px;">
                             <input type="text" name="search" class="form-control" placeholder="ค้นหา ชื่อ หรือ นามสกุล" value="{{session()->get('static_search')}}">
                         </div>
                         <!-- text search -->

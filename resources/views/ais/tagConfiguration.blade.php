@@ -27,12 +27,25 @@
             </div>
         </div>
         <div class="ibox-content">
-
+            @if(session()->has('message'))
+                <div class="col-md-12">
+                    <div class="alert alert-success" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
+                        <i class="glyphicon glyphicon-ok-sign"></i> {{ session()->get('message') }}
+                    </div>
+                </div>
+            @elseif(session()->has('error_message'))
+                <div class="col-md-12">
+                    <div class="alert alert-danger" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
+                        <i class="glyphicon glyphicon-remove-sign"></i>
+                        <b>{{ session()->get('error_message') }}</b>{{ session()->get('error_message') }}
+                    </div>
+                </div>
+            @endif
             {!! Form::open(array('url'=> 'ais/tagConfiguration')) !!}
             <div class="row bgParam">
                 <div class="col-md-3">
                     <a class="btn btn-primary btn-sm" data-toggle="modal" onclick="addBtn()">Add Tag</a>
-                    <button class="btn btn-w-m btn-danger btn-sm" type="submit" onclick="return deleteBtn()">Delete select</button>
+                    <button class="btn btn-w-m btn-danger btn-sm" type="button" onclick="deleteBtn()">Delete select</button>
                 </div>
                 <div class="col-md-4"  style="width:250px">
                     <input type="text" name="search" class="form-control" placeholder="ค้นหา" value="{{session()->get('tagConf_search')}}">
@@ -67,7 +80,7 @@
 
             </div>
                 {!! Form::close() !!}
-            <form action="/tagConfiguration/deleteSelect" method="get">
+            <form action="/tagConfiguration/deleteSelect" method="get" id="formDelete">
                 <!-- grid list user -->
             <div class="col-md-12 table-responsive">
                 <table id="gridUserList" class="table table-hover">

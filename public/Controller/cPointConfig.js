@@ -56,8 +56,9 @@ function deleteBtn() {
     if (isValid) {
         isValid = confirm_del();
     }
-
-    return isValid;
+    if(isValid)
+        document.getElementById("formDelete").submit();
+    //return isValid;
 }
 
 //$("#checkAll").change(function () {

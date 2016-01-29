@@ -247,6 +247,8 @@
 	                   <input type='text' id="cal_f1" name="cal_f1" value="{{ $mmcalculation->F1 }}" class='form-control input-sm'>
 
                    </div>
+                    <input type="hidden" id="cal_h" value="{{ $mmcalculation->H }}" />
+                    <!--
 	               <div class=paramFamulaType>
 	                   Formula type
 	                  <select id="cal_h" name="cal_h" class="form-control input-sm">
@@ -255,7 +257,7 @@
                         </select>
                        <input type="hidden" id="cal_h_hidden" value="{{ $mmcalculation->H }}" />
 	               </div>
-	               
+	               -->
 	               <div class='paramSave'>
 	                   <button class="btn btn-primary  btn-sm" type="button" onclick="submitCalculation()">Save</button>
 	               </div>

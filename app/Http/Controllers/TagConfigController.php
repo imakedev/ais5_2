@@ -107,7 +107,7 @@ class TagConfigController extends Controller
             $tag->H7 = $request->input('mm07B');
 
             $tag->save();
-            session()->flash('message', ' Info save successfuly.');
+            session()->flash('message', ' Update successfuly.');
         }else{
             $maxId = DB::table('mmtag_table')->max('A');
             $tag = new TagConfigModel();
@@ -140,7 +140,7 @@ class TagConfigController extends Controller
             $tag->H7 = $request->input('mm07B');
 
             $tag->save();
-            session()->flash('message', ' Info save successfuly.');
+            session()->flash('message', ' Save successfuly.');
         }
         return redirect('ais/tagConfiguration');
     }
@@ -191,13 +191,14 @@ class TagConfigController extends Controller
 
             TagConfigModel::find($check)->delete();
         }
+        session()->flash('message', ' Delete successfuly.');
         return redirect('ais/tagConfiguration');
     }
 
     public function destroy($id)
     {
         TagConfigModel::find($id)->delete();
-
+        session()->flash('message', ' Delete successfuly.');
         return redirect('ais/tagConfiguration');
     }
 }

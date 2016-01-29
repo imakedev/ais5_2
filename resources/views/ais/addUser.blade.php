@@ -30,10 +30,24 @@
 
                 {!! Form::open(array('url'=> 'ais/addUser')) !!}
                 <div class="row">
+                    @if(session()->has('message'))
+                        <div class="col-md-12">
+                            <div class="alert alert-success" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
+                                <i class="glyphicon glyphicon-ok-sign"></i> {{ session()->get('message') }}
+                            </div>
+                        </div>
+                    @elseif(session()->has('error_message'))
+                        <div class="col-md-12">
+                            <div class="alert alert-danger" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <b>{{ session()->get('error_message') }}</b>{{ session()->get('error_message') }}
+                            </div>
+                        </div>
+                    @endif
                     <div class="col-md-3 bgParam">
                         <div class='labelParam'>
                             <a class="btn btn-primary  btn-sm" data-toggle="modal" onclick="addBtn()">Add User</a>
-                            <button class="btn btn-w-m btn-danger btn-sm" type="submit" onclick="return deleteBtn()">Delete select</button>
+                            <button class="btn btn-w-m btn-danger btn-sm" type="button" onclick="deleteBtn()">Delete select</button>
                         </div>
                     </div>
                     <div class="col-md-4"   style="width:270px">
@@ -72,7 +86,7 @@
 
                 </div>
                 {!! Form::close() !!}
-                <form action="/addUser/deleteSelect" method="get">
+                <form action="/addUser/deleteSelect" method="get" id="formDelete">
                 <!-- grid list user -->
                 <div class="col-md-12 table-responsive">
                     <table id="gridUserList" class="table table-hover">

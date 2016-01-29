@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Log;
-
+use Illuminate\Support\Facades\Auth;
 class CalculationController  extends Controller
 {
     /**
@@ -31,6 +31,48 @@ class CalculationController  extends Controller
         $this->middleware('auth');
     }
     public  function search(){
+        $search = Input::get('calculationKeySearch');
+        $sortBy = Input::get('sortBy');
+        $orderBy= Input::get('orderBy');
+        $calculationSelection=Input::get('calculationSelection');
+
+        if(empty($calculationSelection)){
+            $calculationSelection='1';
+        }
+
+        $datas = MmcalculationModel::query();
+        if(Input::has('page')){ // paging
+            Log::info("into paging");
+            $search = session()->get('calculation_keySearch');
+            $sortBy = session()->get('sortBy');
+            $orderBy= session()->get('orderBy');
+            $calculationSelection=Input::get('calculation_selection');
+        }
+        if(!empty($search)){
+            $datas= $datas->Where(function ($datas) use ($search){
+                $datas->orWhere('B', 'LIKE', "%$search%")
+                    ->orWhere('C', 'LIKE', "%$search%")
+                    ->orWhere('D', 'LIKE', "%$search%");
+            });
+        }
+        /*  */
+        if(!empty($calculationSelection)){
+            if($calculationSelection=='1'){
+                $datas=$datas->where('H', '=',  session()->get('user_empId'));
+            }else   if($calculationSelection=='2'){
+                $datas=$datas->where('H', '!=', session()->get('user_empId'));
+            }
+        }
+
+        if(!empty($sortBy) && !empty($orderBy)){
+            $datas=$datas->orderBy($sortBy,$orderBy);
+        }
+        session()->put('sortBy',$sortBy);
+        session()->put('orderBy',$orderBy);
+        session()->put('calculation_keySearch',$search);
+        session()->put('calculation_selection',$calculationSelection);
+
+        /*
         $datas = MmcalculationModel::query();
         $calculationSelection=Input::get('calculationSelection');
         $calculationKeySearch=Input::get('calculationKeySearch');
@@ -43,12 +85,9 @@ class CalculationController  extends Controller
         }else{
             if (Input::has('calculationKeySearch')) {
                 $queryString = Input::get('calculationKeySearch');
-                //session(['static_search' => $queryString]);
                 session()->put('calculation_keySearch',$calculationKeySearch);
             }
             if(!empty($calculationSelection)){
-               // $queryString = Input::get('calculationSelection');
-                //session(['static_search' => $queryString]);
                 session()->put('calculation_selection',$calculationSelection);
             }
             session()->put('calculation_keySearch',$queryString);
@@ -64,16 +103,9 @@ class CalculationController  extends Controller
             $haveWhere = true;
 
         }
-        if(!empty($calculationSelection)){
-            if($calculationSelection=='1'){
-                $datas=$datas->where('H', '=',  session()->get('user_empId'));
-            }else   if($calculationSelection=='2'){
-                $datas=$datas->where('H', '!=', session()->get('user_empId'));
-            }
+        */
 
-
-        }
-        $datas=$datas->orderBy('updated_at','DESC')->paginate(12);
+        $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
         return view('ais/design_calculation', ['lists'=>$datas]);
     }
     /**

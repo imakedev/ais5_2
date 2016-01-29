@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Pagination\LengthAwarePaginator;
 use DB;
+use Log;
 class PointConfigController extends Controller
 {
     /**
@@ -70,7 +71,7 @@ class PointConfigController extends Controller
             $point->G1 = $request->input('poiMin');
 
             $point->save();
-            session()->flash('message', ' Info save successfuly.');
+            session()->flash('message', ' Update successfuly.');
         }else{
             $maxId = DB::table('mmpoint_table')->max('A');
             $avgChk = Input::has('avg') ? Input::get('avg') : null;
@@ -87,7 +88,7 @@ class PointConfigController extends Controller
             $point->G1 = $request->input('poiMin');
 
             $point->save();
-            session()->flash('message', ' Info save successfuly.');
+            session()->flash('message', ' Save successfuly.');
         }
         return redirect('ais/pointConfiguration');
     }
@@ -138,13 +139,14 @@ class PointConfigController extends Controller
 
             PointConfigModel::find($check)->delete();
         }
+        session()->flash('message', ' Delete successfuly.');
         return redirect('ais/pointConfiguration');
     }
 
     public function destroy($id)
     {
         PointConfigModel::find($id)->delete();
-
+        session()->flash('message', ' Delete successfuly.');
         return redirect('ais/pointConfiguration');
     }
 }

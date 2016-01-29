@@ -26,7 +26,13 @@ $(document).ready(function(){
 	});
 	var calculationSelectionHidden=$("#calculationSelectionHidden").val();
 
-	$('select[name="calculationSelection"]').val(calculationSelectionHidden)
+	$('select[name="calculationSelection"]').val(calculationSelectionHidden);
+	var sortBy_hidden=$("#sortBy_hidden").val();
+	var orderBy_hidden=$("#orderBy_hidden").val();
+	//var design_trend_B_hidden=$("#design_trend_B_hidden").val();
+	$('select[name="sortBy"]').val(sortBy_hidden)
+	$('select[name="orderBy"]').val(orderBy_hidden)
+	//$('select[name="design_trend_B"]').val(design_trend_B_hidden)
 });
 function doDelete(urlDel){
 	var isValid =confirm_del();
