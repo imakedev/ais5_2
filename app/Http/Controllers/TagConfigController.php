@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use \App\Model\TagConfigModel;
+use \App\Model\PointConfigModel;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
@@ -140,6 +141,16 @@ class TagConfigController extends Controller
             $tag->H7 = $request->input('mm07B');
 
             $tag->save();
+
+            $point = new PointConfigModel();
+            $point->A=$maxId+1;
+            $point->B=$tag->B;
+            $point->C4=$tag->C4;
+            $point->C5=$tag->C5;
+            $point->C6=$tag->C6;
+            $point->C7=$tag->C7;
+            $point->H=$maxId+1;
+            $point->save();
             session()->flash('message', ' Save successfuly.');
         }
         return redirect('ais/tagConfiguration');
@@ -189,7 +200,9 @@ class TagConfigController extends Controller
 
         foreach($_GET['checkbox'] as $check) {
 
-            TagConfigModel::find($check)->delete();
+            $tagConfigModel=TagConfigModel::find($check);
+            $tagConfigModel->delete();
+            DB::table('mmpoint_table')->where('A', '=', $tagConfigModel->A)->delete();
         }
         session()->flash('message', ' Delete successfuly.');
         return redirect('ais/tagConfiguration');
@@ -197,7 +210,9 @@ class TagConfigController extends Controller
 
     public function destroy($id)
     {
-        TagConfigModel::find($id)->delete();
+        $tagConfigModel=TagConfigModel::find($id);
+        $tagConfigModel->delete();
+        DB::table('mmpoint_table')->where('A', '=', $tagConfigModel->A)->delete();
         session()->flash('message', ' Delete successfuly.');
         return redirect('ais/tagConfiguration');
     }

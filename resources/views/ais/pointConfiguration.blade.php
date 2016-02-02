@@ -45,7 +45,9 @@
 
                 <div class="row bgParam">
                     <div class="col-md-3">
-                        <a class="btn btn-primary btn-sm" onclick="addBtn()">Add Point</a>
+                      <!--
+                         <a class="btn btn-primary btn-sm" onclick="addBtn()">Add Point</a>
+                      -->
                         <button class="btn btn-w-m btn-danger btn-sm" type="button" onclick="deleteBtn()">Delete select</button>
 
                     </div>
@@ -126,7 +128,9 @@
                                     <td class="settext">{{$poi_config->H}}</td>
 
                                     <td class="settext">
+                                        <!--
                                         <a id="pointConfig" class="btn btn-dropbox btn-xs" onclick="return editBtn({{$index}})"><i style="color: #47a447;" class="glyphicon glyphicon-cog"></i></a>|
+                                        -->
                                         <a id="pointConfig" class="btn btn-dropbox btn-xs" onclick="return editBtn({{$index}})"><i style="color: #47a447;" class="glyphicon glyphicon-edit"></i></a>|
                                         <a href="{{ URL::to('/pointConfiguration/delete',$poi_config->A) }}" onclick="return confirm_del()" class="btn btn-dropbox btn-xs"><i class="glyphicon glyphicon-trash text-danger"></i></a>
                                     </td>

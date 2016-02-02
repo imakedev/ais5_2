@@ -26,20 +26,38 @@ function addBtn() {
 /* btn Add in pointConfig */
 function editBtn(index) {
     var data = $('#gridPointListbody').children()[index].children;
-    $('#avgVal').val(data[8].childNodes[0].data);
-    var val = document.getElementById("avgVal").value
-        if(val == 'Yes') {
+
+   // alert(data[8].childNodes.length)
+    if (data[8].childNodes.length > 0) {
+        $('#avgVal').val(data[8].childNodes[0].data);
+        var val = document.getElementById("avgVal").value
+        if (val == 'Yes') {
             document.getElementById("avg").checked = true;
-        }else{
+        } else {
             document.getElementById("avg").checked = false;
         }
+    }
+    if (data[1].childNodes.length > 0) {
+        $('#poiId').val(data[1].childNodes[0].data);
+    }
+    if (data[7].childNodes.length > 0) {
+        $('#poiAtom').val(data[7].childNodes[0].data);
+    }
 
-    $('#poiId').val(data[1].childNodes[0].data);
-    $('#poiAtom').val(data[7].childNodes[0].data);
-    $('#poiUnit').val(data[9].childNodes[0].data);
-    $('#poiMax').val(data[10].childNodes[0].data);
-    $('#poiMin').val(data[11].childNodes[0].data);
-    $('#modalPointConFig').modal();
+    if (data[9].childNodes.length > 0) {
+        $('#poiUnit').val(data[9].childNodes[0].data);
+    }
+
+    if (data[10].childNodes.length > 0) {
+        $('#poiMax').val(data[10].childNodes[0].data);
+    }
+
+    if (data[11].childNodes.length > 0) {
+        $('#poiMin').val(data[11].childNodes[0].data);
+    }
+
+        $('#modalPointConFig').modal();
+
 }
 
 function deleteBtn() {

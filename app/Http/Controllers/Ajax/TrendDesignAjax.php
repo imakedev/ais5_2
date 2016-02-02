@@ -34,8 +34,9 @@ class TrendDesignAjax extends Controller
             //   ->select('users.*', 'contacts.phone', 'orders.price')
           //  ->select('mmtrend.*', 'mmname.A')
             ->where('mmtrend.G', '=', $g_data)
-            ->orderBy('mmtrend.updated_at','DESC')
-            ->paginate(10);
+            ->orderBy('mmtrend.A','ASC')->paginate(100);
+          //  ->orderBy('mmtrend.updated_at','DESC')
+            //->paginate(10);
        // $data   = array('value' => request('xx').' some data');
        // return response()->json(['name' => 'Abigail', 'state' => 'CA']);
         //return response()->json($trendDesignsM);
@@ -91,9 +92,15 @@ class TrendDesignAjax extends Controller
 
         $mmnameModel=null;
         Log::info("test->".$request->input('A'));
-        $mmpointM = DB::table('mmpoint_table')->where('A', $a)->first();
+        if($b=='-1' || $b=='0'){
+            $mmpointM = DB::table('mmcalculation_table')->where('A', $a)->first();
+        }else {
+            $mmpointM = DB::table('mmpoint_table')->where('A', $a)->first();
+        }
         $c=null;
         $d=null;
+        $mmplants=[];
+        $mmplants_d=[];
         if($mmpointM!=null){
             $c=$mmpointM->B;
             if($b=='4'){
@@ -104,24 +111,57 @@ class TrendDesignAjax extends Controller
                 $d=$mmpointM->C6;
             }else if($b=='7'){
                 $d=$mmpointM->C7;
+            }else if($b=='47'){
+                $mmplants=['4','5','6','7'];
+                $mmplants_d=[$mmpointM->C4,$mmpointM->C5,$mmpointM->C6,$mmpointM->C7];
+            }
+            if($b=='-1' || $b=='0'){
+                $d=$mmpointM->D;
+                $c=$mmpointM->C;
+                $b=$mmpointM->B;
+               // $f=$mmpointM->E;
             }
         }
         if($mode=='add'){
-            $mmtrendModel = new MmtrendModel();
-            $maxId = DB::table('mmtrend_table')->where("G",$g)->max('A');
-            Log::info("maxId->".$maxId);
-            $mmtrendModel->A =$maxId+1;;
+            if(sizeof($mmplants)>0){
+                $maxId = DB::table('mmtrend_table')->where("G",$g)->max('A');
+                Log::info("maxId->".$maxId);
 
-            $mmtrendModel->B =$b;
-            $mmtrendModel->C =$c;
-            $mmtrendModel->D =$d;
-            $mmtrendModel->E =$f;
-            $mmtrendModel->F0 =$g0;
-            $mmtrendModel->F1 =$g1;
-            $mmtrendModel->G =$g;
-            $mmtrendModel->H =$a;
-            $mmtrendModel->ZZ =$mmname_zz;
-            $mmtrendModel->save();
+                $index=1;
+                foreach($mmplants as $mmplant) {
+                    $mmtrendModel = new MmtrendModel();
+                    $mmtrendModel->A =$maxId+$index;
+                    $mmtrendModel->B =$mmplant;
+                    $mmtrendModel->C =$c;
+                    $mmtrendModel->D =$mmplants_d[$index-1];
+                    $mmtrendModel->E =$f;
+                    $mmtrendModel->F0 =$g0;
+                    $mmtrendModel->F1 =$g1;
+                    $mmtrendModel->G =$g;
+                    $mmtrendModel->H =$a;
+                    $mmtrendModel->ZZ =$mmname_zz;
+                    $mmtrendModel->save();
+                    $index=$index+1;
+                }
+            }else{
+                $mmtrendModel = new MmtrendModel();
+                $maxId = DB::table('mmtrend_table')->where("G",$g)->max('A');
+                Log::info("maxId->".$maxId);
+                $mmtrendModel->A =$maxId+1;;
+
+                $mmtrendModel->B =$b;
+                $mmtrendModel->C =$c;
+                $mmtrendModel->D =$d;
+                $mmtrendModel->E =$f;
+                $mmtrendModel->F0 =$g0;
+                $mmtrendModel->F1 =$g1;
+                $mmtrendModel->G =$g;
+                $mmtrendModel->H =$a;
+                $mmtrendModel->ZZ =$mmname_zz;
+                $mmtrendModel->save();
+            }
+
+
             session()->flash('message', ' Save successfuly.');
         }else{
             $mmtrendModel = MmtrendModel::find($mmname_zz);

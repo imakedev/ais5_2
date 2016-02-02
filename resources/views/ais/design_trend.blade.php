@@ -363,7 +363,7 @@
                                                                    class="form-control ">
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <bunton onclick="searchMmpoint('')" class='btn btn-primary  btn-sm' type="button">ค้นหา</bunton>
+                                                            <bunton  onclick="searchMmpoint('')" class='btn btn-primary  btn-sm' type="button">ค้นหา</bunton>
                                                         </div>
                                                     </div>
                                                     <div id="editable_wrapper"

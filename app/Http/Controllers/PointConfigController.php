@@ -23,6 +23,38 @@ class PointConfigController extends Controller
         $this->middleware('auth');
     }
     //
+
+    public  function searchTagOfPoint(){
+        $search = Input::get('search');
+        $sortBy = Input::get('sortBy');
+        $orderBy= Input::get('orderBy');
+        $datas = PointConfigModel::query();
+        if(Input::has('page')){ // paging
+            Log::info("into paging");
+            $search = session()->get('pointConf_search');
+            $sortBy = session()->get('sortBy');
+            $orderBy= session()->get('orderBy');
+        }
+        if(!empty($search)){
+            $datas= $datas->Where(function ($datas) use ($search){
+                $datas->orWhere('B', 'LIKE', "%$search%");
+
+            });
+        }
+        if(!empty($sortBy) && !empty($orderBy)){
+            $datas=$datas->orderBy($sortBy,$orderBy);
+        }
+        session()->put('sortBy',$sortBy);
+        session()->put('orderBy',$orderBy);
+        session()->put('pointConf_search',$search);
+        $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+
+        /*
+        $points_config = PointConfigModel::orderBy('updated_at','DESC')->paginate(12);
+        $points_config->setPath('/ais/pointConfiguration');
+        */
+        return view('ais/pointConfiguration', ['points_config'=>$datas]);
+    }
     public  function search(){
         $search = Input::get('search');
         $sortBy = Input::get('sortBy');
@@ -137,7 +169,9 @@ class PointConfigController extends Controller
 
         foreach($_GET['checkbox'] as $check) {
 
-            PointConfigModel::find($check)->delete();
+            $pointConfigModel = PointConfigModel::find($check);
+            $pointConfigModel->delete();
+            DB::table('mmtag_table')->where('A', '=', $pointConfigModel->H)->delete();
         }
         session()->flash('message', ' Delete successfuly.');
         return redirect('ais/pointConfiguration');
@@ -145,7 +179,9 @@ class PointConfigController extends Controller
 
     public function destroy($id)
     {
-        PointConfigModel::find($id)->delete();
+        $pointConfigModel = PointConfigModel::find($id);
+        $pointConfigModel->delete();
+        DB::table('mmtag_table')->where('A', '=', $pointConfigModel->H)->delete();
         session()->flash('message', ' Delete successfuly.');
         return redirect('ais/pointConfiguration');
     }

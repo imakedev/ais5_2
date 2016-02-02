@@ -202,6 +202,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/pointConfiguration/delete/{A}', 'PointConfigController@destroy');
 
+    //Route::resource('/ais/tagofpoint/{A}', 'PointConfigController@searchTagOfPoint');
 
     Route::resource('/ais/serverSetting', 'ServController');
 

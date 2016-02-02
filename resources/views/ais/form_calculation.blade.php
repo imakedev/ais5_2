@@ -359,23 +359,37 @@
 	            
 	             <div class="row">
 	               <div class="col-xs-4 ">
-	                 
-                           <select name="" class="form-control input-sm">
-                             
-                                <option>MMPlant04</option>
-                                <option>...</option>
-                            </select> 
-                       
+                       <select id="mmtrend_table_B" class="form-control m-b" onclick="searchMmpoint(this.value)">
+
+                           <option value="4">MM04</option>
+                           <option value="5">MM05</option>
+                           <option value="6">MM06</option>
+                           <option value="7">MM07</option>
+
+                           <option value="0">My Calculation</option>
+
+                           <option value="-1">All Calculation</option>
+                           <!-- -->
+                       </select>
+
 	               </div>
 	              
 	               <div class="col-xs-8">
         	               <div class="input-group">
-                                <input type="text" placeholder="ค้นหาด่วน" class="input-sm form-control"> 
+                                <input type="text" name="keyword" id="keyword" placeholder="ค้นหาด่วน" class="input-sm form-control">
                                 <span class="input-group-btn">
-                                <button type="button" class="btn btn-sm btn-primary"> Search</button> 
+                                <button type="button" class="btn btn-sm btn-primary"  onclick="searchMmpoint('')" > Search</button>
                                 </span>
                             </div>
 	               </div>
+                     <div id="editable_wrapper"
+                          class="dataTables_wrapper form-inline dt-bootstrap">
+                         <div class="row">
+                             <div id="point_list_section" class="col-sm-12 table-responsive">
+                                 
+                             </div>
+                         </div>
+                     </div>
 	             </div>
 	            </div>
 	         </div>

@@ -201,7 +201,7 @@ function showmmtrend(zz){
 }
 // start display mmname for edit or save
 function searchMmpoint(mmtrend_table_B_selected){
-    alert(mmtrend_table_B_selected)
+    //alert(mmtrend_table_B_selected)
     var keyword=$("#keyword").val();
     var mode=$("#mmtrend_mode").val();
     var mmtrend_point_zz=$("#mmtrend_point_zz").val();
@@ -210,7 +210,7 @@ function searchMmpoint(mmtrend_table_B_selected){
     /*if(mmtrend_table_B_selected=='')
         mmtrend_table_B_selected= $('select[id="mmtrend_table_B"]').val();
         */
-    alert(mode+","+mmtrend_point_h+","+mmtrend_table_B+","+mmtrend_table_B_selected);
+    //alert(mode+","+mmtrend_point_h+","+mmtrend_table_B+","+mmtrend_table_B_selected);
     var obj={
         "keyword":keyword,
         "H":mmtrend_point_h,
@@ -626,10 +626,13 @@ function  doActionMmname(){
 function  doActionMmtrend(){
 
     var mode=$("#mmtrend_mode").val();
+
     //var mmname_a=$("#mmname_a").val();
     var mmtrend_point_zz=$("#mmtrend_point_zz").val();
     var mmtrend_point_h=$("#mmtrend_point_h").val();
     var mmtrend_zz=$("#mmtrend_zz").val()
+    var mmtrend_table_B= $("#mmtrend_table_B").val();
+   // alert(mode+","+mmtrend_table_B);
     var mmtrend_point_a="";
     var length = document.getElementsByName('point_ids_input[]').length;
     for (var i = 0; i < length; i++) {
