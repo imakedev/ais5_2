@@ -24,10 +24,14 @@ class trendSetingController extends Controller
     public function getAllTrendGroup(){
         //Test 001
         Log::info("Into getAllGroup");
-        $trendGroupModel = trendGroupModel::all();
+       // $trendGroupModel = trendGroupModel::all();
       
-        Log::info($trendGroupModel); 
-        return json_encode($trendGroupModel);
+        $query="select B,group_name from mmtrend_group where B!=9";
+        $reslutQuery = DB::select($query);
+        
+        
+        Log::info($reslutQuery); 
+        return json_encode($reslutQuery);
         
     }
     public function getTrendGroupBySearch(){
@@ -47,7 +51,7 @@ class trendSetingController extends Controller
         return json_encode($reslutQuery);
         }else{
             //echo "idgroup";
-        $query="select * from mmname_table WHERE B='$id'";
+        $query="select * from mmname_table WHERE (B='$id' or '$id'='All')";
         //$trendByGroup = DB::connection('mysql_ais_47')->select($query);
         $trendByGroup = DB::select($query);
         Log::info(json_encode($trendByGroup));
