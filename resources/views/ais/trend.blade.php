@@ -10,9 +10,9 @@
 <meta charset="utf-8">
 
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.common.min2.css" />
-<link rel="stylesheet" href="//kendo.cdn.telerik.com/2015.3.930/styles/kendo.rtl.min.css">
-<link rel="stylesheet" href="//kendo.cdn.telerik.com/2015.3.930/styles/kendo.silver.min.css">
-<link rel="stylesheet" href="//kendo.cdn.telerik.com/2015.3.930/styles/kendo.silver.mobile.min.css">
+<link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.rtl.min2.css">
+<link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.silver.min2.css">
+<link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.silver.mobile.min.css">
 <!-- kendo ui start 
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.black.min.css" />-->
 <!-- kendo ui end -->
