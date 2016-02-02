@@ -43,6 +43,8 @@
             AIS <strong>Client</strong> 2015.
         </div>
         <div>
+            <input type="hidden" id="user_mmplant" name="user_mmplant" value="{{Session::get('user_mmplant')}}">
+            <input type="hidden" id="user_empId" name="user_empId" value="{{Auth::user()->empId}}">
             <strong>Copyright</strong> Analytical Information System  &copy; 2014-2015
         </div>
     @stop
