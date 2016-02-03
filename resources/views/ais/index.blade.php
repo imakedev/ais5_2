@@ -36,7 +36,6 @@
 ￼{{Auth::user()->name}} , {{Session::get('user_mmplant')}} , {{Session::get('user_empId')}} , {{Auth::user()->empId}}, {{Session::get('user_priority')}}
         <!-- Main Content End -->
     @stop
-
     @section('footer')
         <div class="pull-right">
             AIS <strong>Client</strong> 2015.

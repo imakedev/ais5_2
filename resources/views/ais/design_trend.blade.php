@@ -548,8 +548,6 @@
                                 <input type="hidden" id="mmtrend_group_mode"/>
                             </div>
                             <!--
-                            <div class="modal-body">
-                            </div>
                             -->
                             <div class="modal-footer">
                                 <button data-dismiss="modal" class="btn btn-white" type="button">ยกเลิก</button>

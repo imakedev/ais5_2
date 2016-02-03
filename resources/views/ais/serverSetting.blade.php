@@ -82,7 +82,6 @@
                 {!! Form::close() !!}
             </div>
         </div>
-
         <!-- Content End-->
     @stop
     @section('footer')

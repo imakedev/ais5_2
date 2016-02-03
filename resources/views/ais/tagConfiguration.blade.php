@@ -64,7 +64,6 @@
                 <div class="col-md-2" style="margin-top: 8px">
                     Order By:
                     <!--  btn -->
-
                     <input type="hidden" id="orderBy_hidden" value="{{session()->get('orderBy')}}"/>
                     <select id="orderBy" name="orderBy">
                         <option value=""></option>

@@ -3,7 +3,6 @@
 @section('page_title','ทั่วไป')
 
 @include('layouts.navigation')
-
 @section('body')
     @include('layouts.header')
     @section('content')

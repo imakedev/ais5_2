@@ -1,6 +1,5 @@
 <script src='/Controller/cPointConfig.js'></script>
 <link href="/css/pointConfig.css" rel="stylesheet">
-
 <div class="ibox">
     <div class="ibox-title">
         <h5>Point Configuration</h5>

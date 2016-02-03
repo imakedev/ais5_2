@@ -1,6 +1,5 @@
 <script src='/Controller/cAddUser.js'></script>
 <link href="/css/addUser.css" rel="stylesheet">
-
 <div class="ibox">
     <div class="ibox-title">
         <h5>เพิ่มรายชื่อผู้ใช้งาน</h5>

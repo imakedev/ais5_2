@@ -23,7 +23,6 @@
 <script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <script src="/js/plugins/iCheck/icheck.min.js"></script>
 <!-- 
-<button id='btnCalAjax'>btnCalAjax</button>
  -->
 <!-- Content Start--> 
 <!-- Latest compiled and minified JavaScript -->

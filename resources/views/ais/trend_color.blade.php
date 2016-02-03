@@ -14,7 +14,6 @@
 <link rel='stylesheet' href='/css/spectrum.css' />
 
 
-
 <div class="ibox">
     <div class="ibox-title">
         <h5>Defind Color Point</h5>

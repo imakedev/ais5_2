@@ -181,7 +181,6 @@
                 {!! $tags_config->render() !!}
             </div>
             <br style='clear:both'>
-            <!-- grid list user -->
         </form>
     </div>
 </div>

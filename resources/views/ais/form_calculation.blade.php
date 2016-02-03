@@ -397,11 +397,9 @@
            <!-- list point start -->
            <div id='pointListArea'></div>
           
-    
            <!-- list point end -->
            
-          	
-            
+
                         
           </div>
          <div class="modal-footer">

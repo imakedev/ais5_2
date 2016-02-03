@@ -13,7 +13,6 @@
 <script src="/Controller/cDesignTrend.js"></script>
 <link rel="stylesheet" href="/css/plugins/iCheck/custom.css">
 <link rel="stylesheet" href="/css/plugins/dataTables/dataTables.bootstrap.css">
-
 <!-- Main title Start -->
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">

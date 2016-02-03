@@ -36,7 +36,6 @@
                         </div>
                         <!--
                         <div class='col-md-6'>
-                            <button type="submit" class="btn btn-white block full-width m-b">Guest</button>
                         </div>
                         -->
                         <!--  <a href="#"><small>Forgot password?</small></a> -->
