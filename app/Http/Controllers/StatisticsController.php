@@ -198,9 +198,6 @@ class StatisticsController extends Controller
         session()->put('orderBy',$orderBy);
         $datas=$datas->orderBy('date_created','DESC')->orderBy('login_time','DESC')->paginate(10);
         Log::info("query->".$query);
-
-        //$datas_list = DB::select($query);
-        //$this->testAuth();
         return view('ais/statistics', ['lists'=>$datas]);
     }
 

@@ -12,6 +12,5 @@ use Illuminate\Database\Eloquent\Model;
 class MmcalculationModel extends Model
 {
     protected $table = 'mmcalculation_table';
-
     protected $primaryKey = 'A';
 }

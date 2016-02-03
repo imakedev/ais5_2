@@ -16,7 +16,6 @@ use Session;
 use Carbon\Carbon;
 class AuthController extends Controller
 {
-
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller

@@ -46,7 +46,6 @@ class TrendDesignController extends Controller
         if(empty($design_trend_B)){
             $design_trend_B=Auth::user()->empId;
         }
-
         $datas = MmnameModel::query();
         if(Input::has('page')){ // paging
             Log::info("into paging");

@@ -241,14 +241,12 @@ class CalculationController  extends Controller
     public function deleteSelect(Request $request){
         Log::info("deleteSelect ");
         $checkboxs_hidden= Input::get('checkboxs_hidden');
-
         $checkboxs_explode = explode("_", $checkboxs_hidden);
         for( $i=0;$i<sizeof($checkboxs_explode);$i++){
             if(!empty($checkboxs_explode[$i])){
                 Log::info(" [".$i."]".$checkboxs_explode[$i]);
                 MmcalculationModel::find($checkboxs_explode[$i])->delete();
             }
-
         }
         return redirect('ais/designCalculation');
     }

@@ -68,7 +68,6 @@ class ServController extends Controller
         }
     }
     public function index(){
-
         $ip = \App\Model\ServSetModel::where('server_setting_id', '1')->first();
         return view('ais/serverSetting',compact('ip'));
     }

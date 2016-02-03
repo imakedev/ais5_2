@@ -12,7 +12,6 @@ use \DateTime;
 use \SplFixedArray;
 class SootController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *

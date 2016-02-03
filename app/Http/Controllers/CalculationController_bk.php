@@ -43,12 +43,9 @@ class CalculationController_bk  extends Controller
         }else{
             if (Input::has('calculationKeySearch')) {
                 $queryString = Input::get('calculationKeySearch');
-                //session(['static_search' => $queryString]);
                 session()->put('calculation_keySearch',$calculationKeySearch);
             }
             if(!empty($calculationSelection)){
-                // $queryString = Input::get('calculationSelection');
-                //session(['static_search' => $queryString]);
                 session()->put('calculation_selection',$calculationSelection);
             }
             session()->put('calculation_keySearch',$queryString);

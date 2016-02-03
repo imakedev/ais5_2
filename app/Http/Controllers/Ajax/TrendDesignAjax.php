@@ -255,8 +255,6 @@ class TrendDesignAjax extends Controller
         return response()->json(['mmtrendM'=>json_encode($mmtrendM)]);
     }
     public  function searchMmpoint(Request $request){
-
-
         $keyword=request('keyword');
         $h_id=request('H');
         $p_id=request('P');

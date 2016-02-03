@@ -197,7 +197,6 @@ class TagConfigController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteSelect(Request $request){
-
         foreach($_GET['checkbox'] as $check) {
 
             $tagConfigModel=TagConfigModel::find($check);

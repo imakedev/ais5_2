@@ -53,7 +53,6 @@ class TrendColorController extends Controller
         $mmtrend_color->K = $request->input('color_point_K');
         $mmtrend_color->L = $request->input('color_point_L');
         $mmtrend_color->M = $request->input('color_point_M');
-
         $mmtrend_color->N = $request->input('color_type');
         $mmtrend_color->save();
          session()->flash('message', ' Update successfuly.');

@@ -16,7 +16,6 @@ class User extends Model implements AuthenticatableContract,
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
-
    // use Authenticatable, CanResetPassword;
 // start chatchai add
     //protected $table = 'ldap_users';
