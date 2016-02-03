@@ -33,11 +33,11 @@ class processViewController  extends Controller{
     
         Log::info("Into createDataPCVSteam47");
         
-        
+
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
-        
-        
+
+
         $query="SELECT EvTime,
         D32,
         D260,
@@ -73,22 +73,22 @@ class processViewController  extends Controller{
         D106,
         D111,
         D110
-        from datau0$paramUnit 
+        from datau0$paramUnit
         WHERE EvTime BETWEEN  '$paramFromDate' AND '$paramToDate'";
-        
-        
-        
+
+
+
         if($user_mmplant==0){
             $reslutQuery = DB::select($query);
-            
+
         }if($user_mmplant==1){
             $reslutQuery = DB::connection('mysql_ais_47')->select($query);
         }
         
-        
-        
-        
-        
+
+
+
+
         //return json_encode($reslutQuery);
         
         /*Create File*/
@@ -132,9 +132,9 @@ class processViewController  extends Controller{
 
       $sess_emp_id= Auth::user()->id;
       $user_mmplant= Session::get('user_mmplant');
-      
-      
-      
+
+
+
       $query="
       select   sys_date ,ois_event from event_raw
       WHERE sys_date  BETWEEN '$paramFromDate' AND '$paramToDate'
@@ -143,7 +143,7 @@ class processViewController  extends Controller{
       ";
       //REGEXP '$tagName'
       if($user_mmplant==1){
-      
+
       if($paramUnit==4){
       $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
       }else if($paramUnit==5){
@@ -153,11 +153,11 @@ class processViewController  extends Controller{
       }else if($paramUnit==7){
       $reslutQuery = DB::connection('mysql_ais_log_47_7')->select($query);
       }
-      
-      
+
+
       }else if($user_mmplant==2){
           $reslutQuery = DB::connection('mysql_ais_813')->select($query);
-      
+
       }else if($user_mmplant==3){
       $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
       
