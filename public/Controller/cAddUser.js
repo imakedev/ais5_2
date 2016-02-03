@@ -7,7 +7,6 @@
 //        pageable: {
 //            refresh: true,
 //            pageSizes: true,
-//            buttonCount: 5
 //        }
 //    });
 //});
@@ -54,8 +53,10 @@ function deleteBtn() {
     if (isValid) {
         isValid = confirm_del();
     }
-
-    return isValid;
+   // alert(isValid)
+    if(isValid)
+        document.getElementById("formDelete").submit();
+   // return isValid;
 }
 function doDelete(urlDel){
     var isValid =confirm_del();
@@ -116,6 +117,10 @@ $(document).ready(function(){
             });
         }
     });
+    var sortBy_hidden=$("#sortBy_hidden").val();
+    var orderBy_hidden=$("#orderBy_hidden").val();
+    $('select[name="sortBy"]').val(sortBy_hidden)
+    $('select[name="orderBy"]').val(orderBy_hidden);
 });
 
 function validateForm() {
