@@ -11,7 +11,6 @@ use Log;
 
 class LDAPAuth
 {
-   // public static function authen($email,$password){
     public static function authen($empId,$password){
         $user_ldap=null;
         $adServer = "ldap://10.249.99.50:3268";
