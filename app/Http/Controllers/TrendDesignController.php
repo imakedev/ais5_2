@@ -37,7 +37,7 @@ class TrendDesignController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function search(){
-        Log::info("Into TrendDesignController xx");
+        Log::info("Into TrendDesignController");
         $design_trend_B=Input::get('design_trend_B');
         $search = Input::get('search');
         $sortBy = Input::get('sortBy');
