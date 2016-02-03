@@ -22,7 +22,7 @@ class TrendColorController extends Controller
     //
     public function index()
     {
-        $user='admin';
+        $user=Auth::user()->empId;//'admin';
 
         $mmtrend_color = DB::table('mmtrend_color_table as mmtrend_color ')
              ->where('O','=',$user)
@@ -52,10 +52,9 @@ class TrendColorController extends Controller
         $mmtrend_color->K = $request->input('color_point_K');
         $mmtrend_color->L = $request->input('color_point_L');
         $mmtrend_color->M = $request->input('color_point_M');
-
         $mmtrend_color->N = $request->input('color_type');
         $mmtrend_color->save();
-         session()->flash('message', ' Info save successfuly.');
+         session()->flash('message', ' Update successfuly.');
         return view('ais.trend_color',['mmtrend_color'=>$mmtrend_color,'userid'=>$user]);
     }
 }
