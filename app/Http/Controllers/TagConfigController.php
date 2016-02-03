@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use \App\Model\TagConfigModel;
+use \App\Model\PointConfigModel;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
@@ -23,13 +24,39 @@ class TagConfigController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index(){
+    public function search(){
         Log::info("aoee test TagConfigController");
+        $search = Input::get('search');
+        $sortBy = Input::get('sortBy');
+        $orderBy= Input::get('orderBy');
+        $datas = TagConfigModel::query();
+        if(Input::has('page')){ // paging
+            Log::info("into paging");
+            $search = session()->get('tagConf_search');
+            $sortBy = session()->get('sortBy');
+            $orderBy= session()->get('orderBy');
+        }
+        if(!empty($search)){
+            $datas= $datas->Where(function ($datas) use ($search){
+                $datas->orWhere('B', 'LIKE', "%$search%");
+
+            });
+        }
+        if(!empty($sortBy) && !empty($orderBy)){
+            $datas=$datas->orderBy($sortBy,$orderBy);
+        }
+        session()->put('sortBy',$sortBy);
+        session()->put('orderBy',$orderBy);
+        session()->put('tagConf_search',$search);
+        $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+
+        /*
         $tags_config = TagConfigModel::orderBy('updated_at','DESC')
             ->paginate(12);
+        */
         //$tags_config->setPath('/ais/tagConfiguration');
 
-        return view('ais/tagConfiguration', ['tags_config'=>$tags_config]);
+        return view('ais/tagConfiguration', ['tags_config'=>$datas]);
     }
     /**
      * Show the form for creating a new resource.
@@ -81,7 +108,7 @@ class TagConfigController extends Controller
             $tag->H7 = $request->input('mm07B');
 
             $tag->save();
-            session()->flash('message', ' Info save successfuly.');
+            session()->flash('message', ' Update successfuly.');
         }else{
             $maxId = DB::table('mmtag_table')->max('A');
             $tag = new TagConfigModel();
@@ -114,7 +141,17 @@ class TagConfigController extends Controller
             $tag->H7 = $request->input('mm07B');
 
             $tag->save();
-            session()->flash('message', ' Info save successfuly.');
+
+            $point = new PointConfigModel();
+            $point->A=$maxId+1;
+            $point->B=$tag->B;
+            $point->C4=$tag->C4;
+            $point->C5=$tag->C5;
+            $point->C6=$tag->C6;
+            $point->C7=$tag->C7;
+            $point->H=$maxId+1;
+            $point->save();
+            session()->flash('message', ' Save successfuly.');
         }
         return redirect('ais/tagConfiguration');
     }
@@ -160,18 +197,22 @@ class TagConfigController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteSelect(Request $request){
-
         foreach($_GET['checkbox'] as $check) {
 
-            TagConfigModel::find($check)->delete();
+            $tagConfigModel=TagConfigModel::find($check);
+            $tagConfigModel->delete();
+            DB::table('mmpoint_table')->where('A', '=', $tagConfigModel->A)->delete();
         }
+        session()->flash('message', ' Delete successfuly.');
         return redirect('ais/tagConfiguration');
     }
 
     public function destroy($id)
     {
-        TagConfigModel::find($id)->delete();
-
+        $tagConfigModel=TagConfigModel::find($id);
+        $tagConfigModel->delete();
+        DB::table('mmpoint_table')->where('A', '=', $tagConfigModel->A)->delete();
+        session()->flash('message', ' Delete successfuly.');
         return redirect('ais/tagConfiguration');
     }
 }
