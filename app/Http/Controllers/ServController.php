@@ -28,9 +28,11 @@ class ServController extends Controller
         $rules = array(
             'dmm4-7' => 'required',
             'dmm8-13' => 'required',
+            //'dmm11-13' => 'required',
             'dfgd8-13' => 'required',
             'lmm4-7' => 'required',
-            'lmm8-13' => 'required',
+            'lmm8-10' => 'required',
+            'lmm11-13' => 'required',
             'lfgd8-13' => 'required',
         );
 
@@ -53,20 +55,20 @@ class ServController extends Controller
             $data = ServSetModel::find($id);
             $data->mm_4_17_db_server = $request->input('dmm4-7');
             $data->mm_8_13_db_server = $request->input('dmm8-13');
+            //$data->mm_11_13_db_server = $request->input('dmm11-13');
             $data->fgd_8_13_db_server = $request->input('dfgd8-13');
             $data->mm_4_7_logs_server = $request->input('lmm4-7');
-            $data->mm_8_13_logs_server = $request->input('lmm8-13');
+            $data->mm_8_10_logs_server = $request->input('lmm8-10');
+            $data->mm_11_13_logs_server = $request->input('lmm11-13');
             $data->fgd_8_13_logs_server = $request->input('lfgd8-13');
 
             $data->save();
-            session()->flash('message', ' Info save successfuly.');
+            session()->flash('message', ' Update successfuly.');
             return redirect('ais/serverSetting');
         }
     }
     public function index(){
-
         $ip = \App\Model\ServSetModel::where('server_setting_id', '1')->first();
-        Log::info("aoee test ServController");
         return view('ais/serverSetting',compact('ip'));
     }
 }
