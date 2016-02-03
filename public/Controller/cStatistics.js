@@ -5,7 +5,6 @@ function mulipleDB(){
     }).done(function(data, status, xhr) {
         console.log(data);
         alert(data)
-
     });
 }
 $(document).ready(function(){

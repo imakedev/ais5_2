@@ -1,4 +1,5 @@
 <!-- TagConfiguration Modal Start -->
+
 <div aria-hidden="true" role="dialog" tabindex="-1" id="modalAddEditTag" class="modal inmodal in" style="display: none;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content animated flipInY">

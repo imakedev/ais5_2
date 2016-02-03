@@ -8,7 +8,6 @@
     @include('layouts.header')
     @section('content')
 
-
     <div class="content">        <!-- Content Start-->
 <!-- iCheck -->
 <script src="/Controller/cDesignTrend.js"></script>

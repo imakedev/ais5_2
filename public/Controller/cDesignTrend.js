@@ -659,7 +659,6 @@ function  doActionMmtrend(){
         "B":B,
         "G":mmtrend_zz
     }
-
     $.ajax({
         url: "/ajax/mmtrend/post",
         method: "POST",

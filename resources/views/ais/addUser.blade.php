@@ -83,7 +83,6 @@
 
 
                     <div class="col-md-1" style="margin-top: 8px"><button class="btn btn-sm btn-primary pull-left m-t-n-xs"><strong>Search</strong></button></div>
-
                 </div>
                 {!! Form::close() !!}
                 <form action="/addUser/deleteSelect" method="get" id="formDelete">

@@ -6,8 +6,7 @@
                 <div class="dropdown profile-element">
                     <span>
                         <!-- <img alt="image" class="img-circle" src="{{ url('img/profile_small.jpg') }}" /> -->
-                         
-                            <img alt="image" width='50' class="img-circle" src="{{ url('/images/logo-egat.png') }}" /> 
+                            <img alt="image" width='50' class="img-circle" src="{{ url('/images/logo-egat.png') }}" />
                          
                      </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">

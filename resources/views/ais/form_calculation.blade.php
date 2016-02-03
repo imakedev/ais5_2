@@ -394,7 +394,6 @@
 	            </div>
 	         </div>
            <!-- parameter end -->  
-           
            <!-- list point start -->
            <div id='pointListArea'></div>
           

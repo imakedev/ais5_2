@@ -8,7 +8,6 @@
     @include('layouts.header')
     @section('content')
 <meta charset="utf-8">
-
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.common.min2.css" />
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.rtl.min2.css">
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.silver.min2.css">

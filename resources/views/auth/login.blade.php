@@ -2,7 +2,6 @@
 @section('page_title',' Login')
 
 <body class="gray-bg">
-
 <div class="loginColumns animated fadeInDown">
     <div class="row">
         <div class="col-md-6">

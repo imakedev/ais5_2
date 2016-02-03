@@ -7,7 +7,6 @@
 @section('body')
     @include('layouts.header')
     @section('content')
-    
     <script src='/Controller/cTrendColor.js'></script>
 <link href="/css/trendColor.css" rel="stylesheet">
 

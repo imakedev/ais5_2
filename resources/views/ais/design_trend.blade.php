@@ -534,7 +534,6 @@
                             </div>
                         </div>
                         <!-- Modal Add Point End -->
-
                 <!-- Modal Delete  Start -->
                 <div aria-hidden="true" role="dialog" tabindex="-1" id="myModalDelete" class="modal inmodal in"
                      style="display: none;">

@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-
-
 	var cal_slelect_b_hidden=$("#cal_slelect_b_hidden").val();
 	var cal_slelect_e_hidden=$("#cal_slelect_e_hidden").val();
 	var cal_h_hidden=$("#cal_h_hidden").val();

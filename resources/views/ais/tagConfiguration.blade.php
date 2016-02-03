@@ -60,7 +60,6 @@
                         <option value=""></option>
                         <option value="B">Point Description</option>
                     </select>
-
                 </div>
                 <div class="col-md-2" style="margin-top: 8px">
                     Order By:

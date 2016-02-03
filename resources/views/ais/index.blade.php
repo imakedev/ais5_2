@@ -28,7 +28,6 @@
             *        break;
             *}
             */echo "<h1 style='color:lightseagreen;'> Include PHP File !! ToT </h1>";
-
         if(Auth::check()){
 // User is logged in
             echo "<h1 style='color:lightseagreen;'>  </h1>";

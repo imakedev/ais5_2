@@ -42,7 +42,6 @@
                     <button class="btn btn-w-m btn-danger btn-sm" type="button" onclick="return deleteBtn()">Delete select</button>
 	            </div>
                 <!--
-	            <div class='col-xs-12'>
 	            -->
 	             <div class='row'>
 	               <div class='col-md-2' style="margin-left: -60px">

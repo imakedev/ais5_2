@@ -188,7 +188,6 @@
 @include('modal.tagConfigModal')
         <!-- Content End-->
 @stop
-
 @section('footer')
     @include('layouts.footer')
 @stop

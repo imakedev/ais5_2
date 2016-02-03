@@ -5,7 +5,6 @@
 @include('layouts.navigation')
 
 @section('body')
-
     @include('layouts.header')
     @section('content')
         <!-- Content Start-->

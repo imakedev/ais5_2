@@ -1,6 +1,5 @@
 //function callTrendFn(){
 
-
 //function for tooltip start
 
 function templateFormat(category,series,value) {

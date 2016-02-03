@@ -7,7 +7,6 @@
 @section('body')
     @include('layouts.header')
 @section('content')
-
     <script src='/Controller/cSoot.js'></script>
     <!-- Data picker -->
     <script src='/js/plugins/datapicker/bootstrap-datepicker.js'></script>

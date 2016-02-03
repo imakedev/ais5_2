@@ -5,7 +5,6 @@ $(document).ready(function(){
 		scrollable: false,
         sortable: true,
        // groupable: true,
-        sortable: true,
         pageable: {
             refresh: true,
             pageSizes: true,
