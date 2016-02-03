@@ -27,8 +27,8 @@ class serviceTrendController  extends Controller{
         //Session::put('sess_emp_id', '00002');
         //for test local
         Session::put('user_mmplant', '0');
-     
-       
+
+        $this->middleware('auth');
         
         
     }
