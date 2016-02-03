@@ -123,7 +123,9 @@ Route::group(['middleware' => 'web'], function () {
     }]);
     /* Start Design Menu */
 
-
+    Route::get('/ais/specialMenu', function(){
+     return view('ais.special_menu');
+    });
    Route::resource('/ais/trendColor','TrendColorController');
 
     Route::resource('/ais/designTrend', 'TrendDesignController@search');
@@ -306,6 +308,25 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/ais/processView/createDataEventPCVPlantow47/{paramPCV}/{paramUnit}/{paramEmpId}/{paramFromDate}/{paramToDate}','processViewController@createDataEventPCVPlantow47');
     Route::get('/ais/processView/readDataEventPCVPlantow47/{paramPCV}/{paramUnit}/{paramEmpId}','processViewController@readDataEventPCVPlantow47');
     //Plantow47 END
+    
+    
+    //FGD START
+    Route::get('/ais/processView/createDataPCVFGD/{paramPCV}/{paramUnit}/{paramEmpId}/{paramFromDate}/{paramToDate}','processViewController@createDataPCVFGD');
+    Route::get('/ais/processView/readDataPCVFGD/{paramPCV}/{paramUnit}/{paramEmpId}','processViewController@readDataPCVFGD');
+    
+    Route::get('/ais/processView/createDataEventPCVFGD/{paramPCV}/{paramUnit}/{paramEmpId}/{paramFromDate}/{paramToDate}','processViewController@createDataEventPCVFGD');
+    Route::get('/ais/processView/readDataEventPCVFGD/{paramPCV}/{paramUnit}/{paramEmpId}','processViewController@readDataEventPCVFGD');
+    //FGD END
+    
+    //Turbine47 START
+    Route::get('/ais/processView/createDataPCVTurbine47/{paramPCV}/{paramUnit}/{paramEmpId}/{paramFromDate}/{paramToDate}','processViewController@createDataPCVTurbine47');
+    Route::get('/ais/processView/readDataPCVTurbine47/{paramPCV}/{paramUnit}/{paramEmpId}','processViewController@readDataPCVTurbine47');
+    
+    Route::get('/ais/processView/createDataEventPCVTurbine47/{paramPCV}/{paramUnit}/{paramEmpId}/{paramFromDate}/{paramToDate}','processViewController@createDataEventPCVTurbine47');
+    Route::get('/ais/processView/readDataEventPCVTurbine47/{paramPCV}/{paramUnit}/{paramEmpId}','processViewController@readDataEventPCVTurbine47');
+    //Turbine47 END
+    
+    
 
     //process view end
 
