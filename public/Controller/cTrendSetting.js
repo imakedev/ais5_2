@@ -98,6 +98,15 @@ var bindGridPoinList = function(){
 	var dropDownList = function(data,name){
 		var dropDownListHTML='';
 		dropDownListHTML+="<select id='"+name+"' class='form-control input-sm pull-right'>";
+		
+		dropDownListHTML+="<option value='All'>";
+		dropDownListHTML+="All Trend";
+		dropDownListHTML+="</option>";
+		
+		dropDownListHTML+="<option value='All'>";
+		dropDownListHTML+="All Trend";
+		dropDownListHTML+="</option>";
+		
 		$.each(data,function(index,indexEntry){
 			//console.log(indexEntry);
 			
@@ -111,13 +120,14 @@ var bindGridPoinList = function(){
 	};
 	var trendGroud = {
 		listAllTrendGroud:function(){
+			
 			$.ajax({
 				url:'/ais/trendSetting/getAllTrendGroup',
 				dataType:'json',
 				async:false,
 				success:function(data){
 					$("#listAllTrendGroupArea").html(dropDownList(data,"listAllTrendGroup"));
-					$("#listAllTrendGroup").val("900002");
+					//$("#listAllTrendGroup").val("900002");
 				}
 			});
 		}
@@ -304,7 +314,8 @@ var bindGridPoinList = function(){
 							
 						var unitHtml="";
 						unitHtml+="<select class=\"form-control input-sm unit\" id=\"unit-"+trendID+"\" name=\"unit-"+trendID+"\">";
-			                unitHtml+="<option selected value='4'>MM04</option>";
+							unitHtml+="<option selected value='All'>All Unit</option>";
+							unitHtml+="<option selected value='4'>MM04</option>";
 			                unitHtml+="<option value='5'>MM05</option>";
 			                unitHtml+="<option value='6'>MM06</option>";
 			                unitHtml+="<option value='7'>MM07</option>";
@@ -322,7 +333,8 @@ var bindGridPoinList = function(){
 							  trendID=trendID[1];
 							  //alert(trendID);
 							  //alert($(this).val());
-							  getPointListFn($("#paramTrendIDEmbed-"+trendID).val(),$(this).val());
+							  //getPointListFn($("#paramTrendIDEmbed-"+trendID).val(),$(this).val());
+							  getPointListFn(trendID,$(this).val());
 							  $("#paramUnitEmbed-"+trendID).remove();
 							  var paramPoint="";
 							  paramPoint+="<input type='hidden' id='paramUnitEmbed-"+trendID+"' class='paramUnitEmbed' name='paramUnitEmbed-"+trendID+"' value='"+$(this).val()+"'>";
