@@ -6,8 +6,7 @@
                 <div class="dropdown profile-element">
                     <span>
                         <!-- <img alt="image" class="img-circle" src="{{ url('img/profile_small.jpg') }}" /> -->
-                         
-                            <img alt="image" width='50' class="img-circle" src="{{ url('/images/logo-egat.png') }}" /> 
+                            <img alt="image" width='50' class="img-circle" src="{{ url('/images/logo-egat.png') }}" />
                          
                      </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -66,7 +65,7 @@
                 </a>
             </li>
             <li class="special_link">
-                <a href="package.html">
+                <a href="{{ url('/logout') }}">
                     <i class="fa fa-sign-out"></i>
                     <span class="nav-label">Logout</span>
                 </a>

@@ -15,6 +15,12 @@ $(document).ready(function(){
             });
         }
     });
+    var sortBy_hidden=$("#sortBy_hidden").val();
+    var orderBy_hidden=$("#orderBy_hidden").val();
+    var design_trend_B_hidden=$("#design_trend_B_hidden").val();
+    $('select[name="sortBy"]').val(sortBy_hidden)
+    $('select[name="orderBy"]').val(orderBy_hidden)
+    $('select[name="design_trend_B"]').val(design_trend_B_hidden)
 });
 function getMmTrend(A){
     var obj={
@@ -194,15 +200,21 @@ function showmmtrend(zz){
     });
 }
 // start display mmname for edit or save
-function searchMmpoint(){
+function searchMmpoint(mmtrend_table_B_selected){
+    //alert(mmtrend_table_B_selected)
     var keyword=$("#keyword").val();
     var mode=$("#mmtrend_mode").val();
     var mmtrend_point_zz=$("#mmtrend_point_zz").val();
     var mmtrend_point_h= $("#mmtrend_point_h").val();
-    //alert(mode+","+mmtrend_point_h);
+    var mmtrend_table_B= $("#mmtrend_table_B").val();
+    /*if(mmtrend_table_B_selected=='')
+        mmtrend_table_B_selected= $('select[id="mmtrend_table_B"]').val();
+        */
+    //alert(mode+","+mmtrend_point_h+","+mmtrend_table_B+","+mmtrend_table_B_selected);
     var obj={
         "keyword":keyword,
-        "H":mmtrend_point_h
+        "H":mmtrend_point_h,
+        "P":mmtrend_table_B
     }
     //alert(id)
     var str=""+
@@ -281,34 +293,64 @@ function searchMmpoint(){
         data: obj
     }).done(function(data, status, xhr) {
         console.log(data);
-        //alert(data.mmpointM)
-        var mmpointM = jQuery.parseJSON(data.mmpointM);
-        // alert(mmpointM.length)
-        if(mmpointM!=null && mmpointM.length>0) {
-            for (var i = 0; i < mmpointM.length; i++) {
-                str = str +
-                   " <tr class=\"gradeA odd\" role=\"row\"> "+
-                "  <td class=\"sorting_1\"> ";
-                var checked_str="";
-                if(mmpointM[i].A==mmtrend_point_h){
-                    checked_str="checked";
+        if(mmtrend_table_B=='0' || mmtrend_table_B=='-1'){
+            var mmpointM = jQuery.parseJSON(data.mmpointM);
+            // alert(mmpointM.length)
+            if(mmpointM!=null && mmpointM.length>0) {
+                for (var i = 0; i < mmpointM.length; i++) {
+                    str = str +
+                        " <tr class=\"gradeA odd\" role=\"row\"> "+
+                        "  <td class=\"sorting_1\"> ";
+                    var checked_str="";
+                    if(mmpointM[i].A==mmtrend_point_h){
+                        checked_str="checked";
+                    }
+                    str = str +
+                        "  <input type=\"radio\" name=\"point_ids_input[]\" "+checked_str+" value=\""+mmpointM[i].A+"\"> "+
+                            //  " class=\"i-checks\"> "+
+                        "     </td> "+
+                        "    <td>"+mmpointM[i].C+"</td> "+
+                        "    <td>"+mmpointM[i].D+"</td> "+
+                        " <td>"+mmpointM[i].B+"</td> "+
+                        " <td>"+mmpointM[i].G+"</td> "+
+                        " <td>"+mmpointM[i].E+"</td> "+
+                        " <td>"+mmpointM[i].F0+"</td> "+
+                        " <td>"+mmpointM[i].F1+"</td> "+
+
+                            // " <td>435</td> "+
+                        "  </tr> ";
                 }
-                str = str +
-                    "  <input type=\"radio\" name=\"point_ids_input[]\" "+checked_str+" value=\""+mmpointM[i].A+"\"> "+
-              //  " class=\"i-checks\"> "+
-                "     </td> "+
-                "    <td>"+mmpointM[i].B+"</td> "+
-                "    <td>"+mmpointM[i].C4+"</td> "+
-                " <td>"+mmpointM[i].C5+"</td> "+
-                " <td>"+mmpointM[i].C6+"</td> "+
-                " <td>"+mmpointM[i].C7+"</td> "+
-                " <td>"+mmpointM[i].F+"</td> "+
-                " <td>"+mmpointM[i].G0+"</td> "+
-                " <td>"+mmpointM[i].G1+"</td> "+
-               // " <td>435</td> "+
-                "  </tr> ";
+            }
+        }else{
+            var mmpointM = jQuery.parseJSON(data.mmpointM);
+            // alert(mmpointM.length)
+            if(mmpointM!=null && mmpointM.length>0) {
+                for (var i = 0; i < mmpointM.length; i++) {
+                    str = str +
+                        " <tr class=\"gradeA odd\" role=\"row\"> "+
+                        "  <td class=\"sorting_1\"> ";
+                    var checked_str="";
+                    if(mmpointM[i].A==mmtrend_point_h){
+                        checked_str="checked";
+                    }
+                    str = str +
+                        "  <input type=\"radio\" name=\"point_ids_input[]\" "+checked_str+" value=\""+mmpointM[i].A+"\"> "+
+                            //  " class=\"i-checks\"> "+
+                        "     </td> "+
+                        "    <td>"+mmpointM[i].B+"</td> "+
+                        "    <td>"+mmpointM[i].C4+"</td> "+
+                        " <td>"+mmpointM[i].C5+"</td> "+
+                        " <td>"+mmpointM[i].C6+"</td> "+
+                        " <td>"+mmpointM[i].C7+"</td> "+
+                        " <td>"+mmpointM[i].F+"</td> "+
+                        " <td>"+mmpointM[i].G0+"</td> "+
+                        " <td>"+mmpointM[i].G1+"</td> "+
+                            // " <td>435</td> "+
+                        "  </tr> ";
+                }
             }
         }
+
         str=str+" </tbody> "+
             " </table> ";
 
@@ -356,7 +398,7 @@ function  displayMmtrend(mode,id,h_id){
         $("#mmtrend_tilte_section").html(mmtrend_tilte+" Point ไปที่ "+mmnamesM.A);
         $("#myModalAddPoint").modal()
         $("#keyword").val('');
-        searchMmpoint();
+        searchMmpoint('');
     });
 }
 //start delete mmtrend
@@ -517,10 +559,13 @@ function  doActionMmname(){
 function  doActionMmtrend(){
 
     var mode=$("#mmtrend_mode").val();
+
     //var mmname_a=$("#mmname_a").val();
     var mmtrend_point_zz=$("#mmtrend_point_zz").val();
     var mmtrend_point_h=$("#mmtrend_point_h").val();
     var mmtrend_zz=$("#mmtrend_zz").val()
+    var mmtrend_table_B= $("#mmtrend_table_B").val();
+   // alert(mode+","+mmtrend_table_B);
     var mmtrend_point_a="";
     var length = document.getElementsByName('point_ids_input[]').length;
     for (var i = 0; i < length; i++) {
@@ -547,7 +592,6 @@ function  doActionMmtrend(){
         "B":B,
         "G":mmtrend_zz
     }
-
     $.ajax({
         url: "/ajax/mmtrend/post",
         method: "POST",

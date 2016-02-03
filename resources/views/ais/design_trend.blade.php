@@ -51,6 +51,59 @@
                             </div>
                         </div>
                     @endif
+                        {!! Form::open(array('url'=> 'ais/designTrend')) !!}
+                            <div class='col-md-12 bgParam'>
+                                <div class="col-md-3" style="margin-top: 8px">
+                                    Trend Group:
+                                    <!--  btn -->
+                                    <input type="hidden" id="design_trend_B_hidden" value="{{session()->get('design_trend_B')}}"/>
+                                    <select id="design_trend_B" name="design_trend_B">
+                                        <option value="-1">All Trend</option>
+                                        <option value="{{Auth::user()->empId}}">My Trend</option>
+                                        <option value="900002">Boiler Trend</option>
+                                        <option value="900003">Turbine Trend</option>
+                                        <option value="900004">Electrical Trend</option>
+                                        <option value="900005">Loss Analyzing</option>
+                                        <option value="900006">Start up and S/D</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" name="search" class="form-control"
+                                           placeholder="ค้นหา" value="{{session()->get('design_trend_search')}}">
+                                </div>
+                                <div class="col-md-3" style="margin-top: 8px;width: 180px">
+
+                                    Sort By:
+                                    <!--  btn -->
+
+                                    <input type="hidden" id="sortBy_hidden" value="{{session()->get('sortBy')}}"/>
+                                    <select id="sortBy" name="sortBy">
+                                        <option value=""></option>
+                                        <option value="A">Trend Name</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-2" style="margin-top: 8px">
+                                    Order By:
+                                    <!--  btn -->
+
+                                    <input type="hidden" id="orderBy_hidden" value="{{session()->get('orderBy')}}"/>
+                                    <select id="orderBy" name="orderBy">
+                                        <option value=""></option>
+                                        <option value="ASC">ASC</option>
+                                        <option value="DESC">DESC</option>
+                                    </select>
+
+                                </div>
+
+
+                                <div class="col-md-1" style="margin-top: 8px"><button class="btn btn-sm btn-primary pull-left m-t-n-xs"><strong>Search</strong></button></div>
+
+                            </div>
+                        {!! Form::close() !!}
+
+
                     <div class='col-md-12'>
                         <a onclick="displayMmname('add','0')"  class="btn btn-primary  btn-sm">Add Trend</a>
                         <!-- data-target="#myModal2" data-toggle="modal" -->
@@ -125,15 +178,20 @@
                                                       <!--   <a class="btn btn-w-m btn-warning  btn-sm">Edit Point</a> -->
                                                         <a onclick="displayMmtrendDelete('deleteAll','0')"  class="btn btn-w-m btn-danger  btn-sm">Delete Point</a>
                                                     </div>
+                                                    <!--
                                                     <div class="col-md-3 lableDropdownList">MMPlant</div>
                                                     <div class="col-md-3">
                                                         <select id="mmplant" class="form-control m-b">
+                                                            <option>All Calculation</option>
+                                                            <option>My Calcualtion</option>
+                                                            <option>MM04-MM07</option>
                                                             <option>MM04</option>
                                                             <option>MM05</option>
                                                             <option>MM06</option>
                                                             <option>MM07</option>
                                                         </select>
                                                     </div>
+                                                    -->
                                                 </div>
                                                 <div id="editable_wrapper"
                                                      class="dataTables_wrapper form-inline dt-bootstrap">
@@ -285,18 +343,19 @@
                                                         <input type="hidden" id="mmtrend_point_h" />
                                                         <div class="col-md-3 lableDropdownList">MMPlant</div>
                                                         <div class="col-md-3">
-                                                            <select id="mmtrend_table_B" class="form-control m-b">
+                                                            <select id="mmtrend_table_B" class="form-control m-b" onclick="searchMmpoint(this.value)">
+
                                                                 <option value="4">MM04</option>
                                                                 <option value="5">MM05</option>
                                                                 <option value="6">MM06</option>
                                                                 <option value="7">MM07</option>
-                                                                <!--
-                                                                <option value="">MM04-07</option>
+
+                                                                <option value="47">MM04-07</option>
 
                                                                 <option value="0">My Calculation</option>
 
-                                                                <option value="5">All Calculation</option>
-                                                                -->
+                                                                <option value="-1">All Calculation</option>
+                                                                <!-- -->
                                                             </select>
                                                         </div>
                                                         <div class="col-md-3 ">
@@ -304,7 +363,7 @@
                                                                    class="form-control ">
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <bunton onclick="searchMmpoint()" class='btn btn-primary  btn-sm' type="button">ค้นหา</bunton>
+                                                            <bunton  onclick="searchMmpoint('')" class='btn btn-primary  btn-sm' type="button">ค้นหา</bunton>
                                                         </div>
                                                     </div>
                                                     <div id="editable_wrapper"
@@ -475,7 +534,6 @@
                             </div>
                         </div>
                         <!-- Modal Add Point End -->
-
                 <!-- Modal Delete  Start -->
                 <div aria-hidden="true" role="dialog" tabindex="-1" id="myModalDelete" class="modal inmodal in"
                      style="display: none;">
@@ -490,9 +548,6 @@
                                 <input type="hidden" id="mmtrend_group_mode"/>
                             </div>
                             <!--
-                            <div class="modal-body">
-
-                            </div>
                             -->
                             <div class="modal-footer">
                                 <button data-dismiss="modal" class="btn btn-white" type="button">ยกเลิก</button>

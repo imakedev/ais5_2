@@ -1,6 +1,5 @@
 <script src='/Controller/cTagConfig.js'></script>
 <link href="/css/tagConfig.css" rel="stylesheet">
-
 <div class="ibox">
     <div class="ibox-title">
         <h5>Tag Configuration</h5>

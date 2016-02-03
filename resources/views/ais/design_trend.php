@@ -10,7 +10,6 @@
                         <li>
                             <a href="index.php">Design</a>
                         </li>
-                       
                         <li class="active">
                             <strong>Design Trend</strong>
                         </li>

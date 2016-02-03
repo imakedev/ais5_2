@@ -1,4 +1,5 @@
 <!-- TagConfiguration Modal Start -->
+
 <div aria-hidden="true" role="dialog" tabindex="-1" id="modalAddEditTag" class="modal inmodal in" style="display: none;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content animated flipInY">
@@ -7,7 +8,7 @@
                 <h5 class="modal-title">Add New Tag Data</h5>
             </div>
             <div class="modal-body">
-                {!! Form::open(array('user'=>'ais/tagConfiguration/store','class'=>'form-horizontal')) !!}
+                {!! Form::open(array('url'=>'ais/tagConfiguration/store','class'=>'form-horizontal','method'=>'post')) !!}
                     <div class='row'>
                         <div class='col-md-6'>
                             <div class="form-group">

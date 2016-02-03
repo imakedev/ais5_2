@@ -1,11 +1,12 @@
 <!-- Add User Modal Start -->
+
 <div aria-hidden="true" role="dialog" tabindex="-1" id="modalAddEditUser" class="modal inmodal in" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
                 <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                 <h5 class="modal-title">เพิ่มผู้ใช้งาน</h5>
-            {!! Form::open(array('user'=>'ais/addUser/store', 'class'=>'form-horizontal')) !!}
+            {!! Form::open(array('url'=>'ais/addUser/store', 'class'=>'form-horizontal','method'=>'post')) !!}
             <div class="modal-body">
                     <div class="form-group">
                         <label class="col-lg-2 control-label padding5">เลขประจำตัว</label>
@@ -20,7 +21,6 @@
                                 <option value="นาย">นาย</option>
                                 <option value="นาง">นาง</option>
                                 <option value="นางสาว">นางสาว</option>
-                                <option value="">...</option>
                             </select>
                         </div>
                     </div>

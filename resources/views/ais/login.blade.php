@@ -2,7 +2,6 @@
 @section('page_title',' Login')
 
 <body class="gray-bg">
-
 <div class="loginColumns animated fadeInDown">
     <div class="row">
         <div class="col-md-6">
@@ -37,7 +36,6 @@
                         </div>
                         <!--
                         <div class='col-md-6'>
-                            <button type="submit" class="btn btn-white block full-width m-b">Guest</button>
                         </div>
                         -->
                         <!--  <a href="#"><small>Forgot password?</small></a> -->

@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('page_title','Trend')
-
 @include('layouts.navigation')
 
 @section('body')

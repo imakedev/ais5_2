@@ -1,6 +1,5 @@
 <script src='Controller/cFormCalculation.js'></script>
 <link href="css/formCalculation.css" rel="stylesheet">
-
 <div class="ibox">
     <div class="ibox-title">
         <h5>  Form Calculation</h5>

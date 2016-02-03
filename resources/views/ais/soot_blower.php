@@ -1,6 +1,5 @@
 <script src='Controller/cSoot.js'></script>
 <link href="css/soot.css" rel="stylesheet">
-
 <div class="ibox">
     <div class="ibox-title">
         <h5>Soot/Blow</h5>

@@ -37,9 +37,11 @@
 	           
             </div>
             <!-- btn end -->
+        {!! Form::open(array('url'=> 'ais/designCalculation/store','id'=>'calculationForm')) !!}
             <!-- form cal start -->
                 <div class='row'>
                     <div class='col-xs-8 bottomMargin5'>
+                        <input type='hidden' id="cal_g_hidden"  name='cal_g_hidden'  />
                         <textarea id="cal_g" name="cal_g" rows="12" style='width: 100%'>{{ $mmcalculation->G }}</textarea>
                     </div>
                     <div class='col-xs-4'>
@@ -51,7 +53,7 @@
                                         <input type='radio' checked  name='cal' value="constant" > Constant
                                      </label>
                                     <div class='pull-right'>
-                                    <button class=" btn btn-primary  btn-sm fa fa-gears"
+                                    <button class=" btn btn-primary  btn-sm fa fa-gears" type="button"
                                             data-toggle="modal" id='btnConstant' data-target="#modalConstant"></button>
                                     </div>
                                         
@@ -157,17 +159,19 @@
                                     </div>
                                 </div>
                                 <div class='col-xs-12 '>
-                                    <button class="btn btn-primary  btn-sm btnAddCal pull-right" onclick="addFormula()">Add Formula</button>
+                                    <button class="btn btn-primary btn-sm btnAddCal pull-right" type="button" onclick="addFormula()">Add Formula</button>
                                </div>
                             </div>
                         <!-- cal fn start -->
                     </div>
                 </div>    
             <!-- form cal start -->
+
+        <input type='hidden' id="cal_a" name="cal_a" value="{{ $mmcalculation->A }}" />
             <!-- btn start -->
              <div class="row bgParam">
 	            <div class="col-xs-12">
-		            <a class="btn btn-primary  btn-sm" href='index.php?page=formCalculation'>Clone </a>
+		            <a class="btn btn-primary  btn-sm">Clone </a>
 		            <a class="btn btn-w-m btn-warning  btn-sm" onclick="clearCalculation()">Clear </a>
 		            <a class="btn btn-w-m btn-danger  btn-sm">Change </a>
 		            <a class="btn btn-w-m btn-danger  btn-sm" data-toggle="modal" id='btnAddPoint' data-target="#modalAddPoint">Add Point </a>
@@ -243,6 +247,8 @@
 	                   <input type='text' id="cal_f1" name="cal_f1" value="{{ $mmcalculation->F1 }}" class='form-control input-sm'>
 
                    </div>
+                    <input type="hidden" id="cal_h" value="{{ $mmcalculation->H }}" />
+                    <!--
 	               <div class=paramFamulaType>
 	                   Formula type
 	                  <select id="cal_h" name="cal_h" class="form-control input-sm">
@@ -251,14 +257,15 @@
                         </select>
                        <input type="hidden" id="cal_h_hidden" value="{{ $mmcalculation->H }}" />
 	               </div>
-	               
+	               -->
 	               <div class='paramSave'>
-	                   <button class="btn btn-primary  btn-sm">Save</button>
+	                   <button class="btn btn-primary  btn-sm" type="button" onclick="submitCalculation()">Save</button>
 	               </div>
 	              
 	            </div>
 	            
 	         </div>
+        {!! Form::close() !!}
             <br style='clear: both;'>
     </div>
  
@@ -352,36 +359,47 @@
 	            
 	             <div class="row">
 	               <div class="col-xs-4 ">
-	                 
-                           <select name="" class="form-control input-sm">
-                             
-                                <option>MMPlant04</option>
-                                <option>...</option>
-                            </select> 
-                       
+                       <select id="mmtrend_table_B" class="form-control m-b" onclick="searchMmpoint(this.value)">
+
+                           <option value="4">MM04</option>
+                           <option value="5">MM05</option>
+                           <option value="6">MM06</option>
+                           <option value="7">MM07</option>
+
+                           <option value="0">My Calculation</option>
+
+                           <option value="-1">All Calculation</option>
+                           <!-- -->
+                       </select>
+
 	               </div>
 	              
 	               <div class="col-xs-8">
         	               <div class="input-group">
-                                <input type="text" placeholder="ค้นหาด่วน" class="input-sm form-control"> 
+                                <input type="text" name="keyword" id="keyword" placeholder="ค้นหาด่วน" class="input-sm form-control">
                                 <span class="input-group-btn">
-                                <button type="button" class="btn btn-sm btn-primary"> Search</button> 
+                                <button type="button" class="btn btn-sm btn-primary"  onclick="searchMmpoint('')" > Search</button>
                                 </span>
                             </div>
 	               </div>
+                     <div id="editable_wrapper"
+                          class="dataTables_wrapper form-inline dt-bootstrap">
+                         <div class="row">
+                             <div id="point_list_section" class="col-sm-12 table-responsive">
+                                 
+                             </div>
+                         </div>
+                     </div>
 	             </div>
 	            </div>
 	         </div>
            <!-- parameter end -->  
-           
            <!-- list point start -->
            <div id='pointListArea'></div>
           
-    
            <!-- list point end -->
            
-          	
-            
+
                         
           </div>
          <div class="modal-footer">

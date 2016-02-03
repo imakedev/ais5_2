@@ -3,7 +3,6 @@
 //       // height: 400,
 //        sortable: true,
 //       // groupable: true,
-//        sortable: true,
 //        pageable: {
 //            refresh: true,
 //            pageSizes: true,
@@ -80,7 +79,7 @@ function editBtn(index) {
 
     $('#modalAddEditTag').modal();
 }
-
+/*
 function deleteBtn() {
     var isValid = false;
     var length = document.getElementsByName('checkbox[]').length;
@@ -98,7 +97,7 @@ function deleteBtn() {
 
     return isValid;
 }
-
+*/
 function deleteBtn() {
     var isValid = false;
     var length = document.getElementsByName('checkbox[]').length;
@@ -113,8 +112,9 @@ function deleteBtn() {
     if (isValid) {
         isValid = confirm_del();
     }
-
-    return isValid;
+    if(isValid)
+        document.getElementById("formDelete").submit();
+   // return isValid;
 }
 
 //$("#checkAll").change(function () {
@@ -133,6 +133,10 @@ $(document).ready(function(){
             });
         }
     });
+    var sortBy_hidden=$("#sortBy_hidden").val();
+    var orderBy_hidden=$("#orderBy_hidden").val();
+    $('select[name="sortBy"]').val(sortBy_hidden)
+    $('select[name="orderBy"]').val(orderBy_hidden);
 });
 
 function validateForm() {

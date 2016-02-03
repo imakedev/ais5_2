@@ -1,6 +1,5 @@
 <script src='Controller/cDesignCalculation.js'></script>
 <link href="css/designCalculation.css" rel="stylesheet">
-
 <div class="ibox">
     <div class="ibox-title">
         <h5> Calculation</h5>

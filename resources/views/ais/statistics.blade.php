@@ -5,7 +5,6 @@
 @include('layouts.navigation')
 
 @section('body')
-
     @include('layouts.header')
     @section('content')
         <!-- Content Start-->
@@ -15,7 +14,6 @@
 
         <link href="/css/statistics.css" rel="stylesheet">
         <link href="/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-
         <div class="ibox">
             <div class="ibox-title">
                 <h5>ดูข้อมูลการใช้งาน</h5>
@@ -36,7 +34,7 @@
                 <div class='row '>
                     <div class='col-md-12 bgParam'>
                         <div class='labelParam'>วันที่</div>
-                        <div class='inputParam'>
+                        <div class='inputParam' style="width: 150px">
                             <!-- input date -->
                             <div class="input-group date">
                                 <span class="input-group-addon"><i class="fa fa-calendar">
@@ -55,7 +53,7 @@
                             <!-- input date -->
                         </div>
                         <div class='labelParam'>ถึงวันที่</div>
-                        <div class='inputParam'>
+                        <div class='inputParam' style="width: 150px">
                             <!-- input date -->
                             <div class="input-group date">
                                 <span class="input-group-addon"><i class="fa fa-calendar">
@@ -66,18 +64,34 @@
                                                       style="width: 100px"
                                                       class="form-control">
                             </div>
-                            <!--
-                            <div class="input-group date">
-                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" value="03/04/2014" class="form-control">
-                            </div>
-                            -->
                             <!-- input date -->
                         </div>
                         <!-- text search -->
-                        <div class=' inputParamSearch'>
-                            <input type="text" name="search" class="form-control" placeholder="ค้นหา" value="{{session()->get('static_search')}}">
+                        <div class='inputParamSearch' style="width: 170px;">
+                            <input type="text" name="search" class="form-control" placeholder="ค้นหา ชื่อ หรือ นามสกุล" value="{{session()->get('static_search')}}">
                         </div>
                         <!-- text search -->
+
+                        <div class='labelParam' style="width: 80px">Sort By: </div>
+                        <!--  btn -->
+                        <div class='inputParam' style="width: 70px;margin-top:8px">
+                            <input type="hidden" id="sortBy_hidden" value="{{session()->get('sortBy')}}"/>
+                           <select id="sortBy" name="sortBy">
+                               <option value=""></option>
+                               <option value="first_name">ชื่อ</option>
+                               <option value="last_name">นามสกุล</option>
+                           </select>
+                        </div>
+                        <div class='labelParam' style="width: 80px">Order By: </div>
+                        <!--  btn -->
+                        <div class='inputParam' style="width: 80px;margin-top:8px">
+                            <input type="hidden" id="orderBy_hidden" value="{{session()->get('orderBy')}}"/>
+                            <select id="orderBy" name="orderBy">
+                                <option value=""></option>
+                                <option value="ASC">ASC</option>
+                                <option value="DESC">DESC</option>
+                            </select>
+                        </div>
                         <!-- search btn -->
                         <div class='btnSearch'>
                             <button class="btn btn-sm btn-primary pull-left m-t-n-xs"><strong>Search</strong></button>
@@ -114,10 +128,16 @@
                                     <tbody>
                                         <tr>
                                             <td>{{ $list->date_created }}</td>
-                                            <td>{{ $list->title_name }} {{ $list->first_name }}</td>
+                                            <!-- {{ $list->title_name }} -->
+                                                    <td>{{ $list->first_name }}</td>
                                             <td>{{ $list->last_name }}</td>
                                             <td>{{ $list->login_time }} น.</td>
-                                            <td>{{ $list->logout_time }} น.</td>
+
+                                            <td>
+                                                @if (!empty($list->logout_time))
+                                                {{ $list->logout_time }} น.
+                                                @endif
+                                            </td>
                                         </tr>
                                     </tbody>
                                 @endforeach

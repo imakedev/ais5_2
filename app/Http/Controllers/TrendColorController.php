@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use \App\Model\MmtrendColorModel;
 use Log;
 use DB;
+use Illuminate\Support\Facades\Auth;
 class TrendColorController extends Controller
 {
     /**

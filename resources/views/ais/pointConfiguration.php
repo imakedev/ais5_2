@@ -1,6 +1,5 @@
 <script src='/Controller/cPointConfig.js'></script>
 <link href="/css/pointConfig.css" rel="stylesheet">
-
 <div class="ibox">
     <div class="ibox-title">
         <h5>Point Configuration</h5>
@@ -110,7 +109,7 @@
       <div class="modal-content animated flipInY">
         <div class="modal-header">
           <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-           <h5 class="modal-title">Add Point Data380</h5>
+           <h5 class="modal-title">Add Point Data</h5>
               
            </div>
           <div class="modal-body">

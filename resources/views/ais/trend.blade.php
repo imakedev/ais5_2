@@ -8,7 +8,6 @@
     @include('layouts.header')
     @section('content')
 <meta charset="utf-8">
-
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.common.min2.css" />
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.rtl.min2.css">
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.silver.min2.css">
@@ -24,7 +23,6 @@
 <script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <script src="/js/plugins/iCheck/icheck.min.js"></script>
 <!-- 
-<button id='btnCalAjax'>btnCalAjax</button>
  -->
 <!-- Content Start--> 
 <!-- Latest compiled and minified JavaScript -->

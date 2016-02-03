@@ -18,6 +18,7 @@ var createHtmlGridTrendList = function(){
 	
 	$("#gridTrendListArea").html(tableHTML);
 }
+
 var createHtmlGridPointList=function(){
 	var tableHTML="";
 	tableHTML+="<table id=\"gridPointList\" class=''>";

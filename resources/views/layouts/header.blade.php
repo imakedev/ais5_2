@@ -1,4 +1,5 @@
 <!--Header-->
+
 <div class="row border-bottom">
     <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -10,6 +11,7 @@
             <li>
                 <span class="m-r-sm text-muted welcome-message"><b>Analytical Information System</b></span>
             </li>
+            @if(session()->get('user_priority')>=254)
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                     <i class="fa fa-gears"></i> ทั่วไป
@@ -61,6 +63,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                     <i class="fa fa-users"></i>  วิธีใช้งาน

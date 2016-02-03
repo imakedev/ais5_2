@@ -21,7 +21,7 @@ use Session;
 use Auth;
 
 class serviceTrendController  extends Controller{
-    
+
     public function __construct(){
         $numberHasZero="";
         //Session::put('sess_emp_id', '00002');

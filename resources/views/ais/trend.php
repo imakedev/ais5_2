@@ -1,4 +1,3 @@
-
 @content
 <!-- Main title Start -->
         	<div class="row wrapper border-bottom white-bg page-heading">

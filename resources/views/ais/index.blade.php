@@ -28,16 +28,14 @@
             *        break;
             *}
             */echo "<h1 style='color:lightseagreen;'> Include PHP File !! ToT </h1>";
-
         if(Auth::check()){
 // User is logged in
             echo "<h1 style='color:lightseagreen;'>  </h1>";
         }
         ?>
-￼{{Auth::user()->name}} , {{Session::get('user_mmplant')}} , {{Session::get('user_empId')}} , {{Auth::user()->empId}}
+￼{{Auth::user()->name}} , {{Session::get('user_mmplant')}} , {{Session::get('user_empId')}} , {{Auth::user()->empId}}, {{Session::get('user_priority')}}
         <!-- Main Content End -->
     @stop
-
     @section('footer')
         <div class="pull-right">
             AIS <strong>Client</strong> 2015.

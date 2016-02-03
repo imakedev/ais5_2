@@ -160,19 +160,19 @@ class processViewController  extends Controller{
 
       }else if($user_mmplant==3){
       $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
-      
+
       }else{
-      
+
           $query="select  '2014-05-01 01:00:00' as 'sys_date' ,ois_event from event_raw
           WHERE sys_date  BETWEEN '2014-10-07 00:00:00' AND '2014-10-07 16:23:00'
           AND ois_event REGEXP 'L|40SP01E131|40NA40L001|40NC03P001|40NA25T001|40NA26T001|40RA01T002|40RA03T001|40RA03P002|40RA03F001|40RC03T001|40NF01G004|40RA08T001|40RA08P001|40RC22P001|40RC22T001|40RC05T001|40RC04T001|40RC09T001|40RC07T001|40RB01T001|40RB02T001|40RB03T001|40RB03P003|40RB03F001|40RB04P001|40RB04T001|40RB05P001|40RB05T001|40NB35F001|40RF01P001|40RA07T001|40RA07P001|40SF62P001|40SF61P001'
           order by sys_date asc ";
           $reslutQuery = DB::select($query);
-      
+
       }
-      
-      
-      
+
+
+
       /*Create File*/
   
       $strFileName = "processView/flieProcessView/processViewJson-event-$paramPCV-$paramUnit-$paramEmpId.txt";
@@ -244,17 +244,17 @@ class processViewController  extends Controller{
       }
       
       /*################################## PCVSteam47 END #######################################*/
-      
+
       /*################################## PCVFGD67 START #######################################*/
       public function createDataPCVFGD($paramPCV,$paramUnit,$paramEmpId,$paramFromDate,$paramToDate){
-      
+
           Log::info("Into createDataPCVFGD");
-      
-      
+
+
           $sess_emp_id= Auth::user()->id;
           $user_mmplant= Session::get('user_mmplant');
-      
-      
+
+
           $query="SELECT EvTime,
             D32,
             D276,
@@ -280,31 +280,31 @@ class processViewController  extends Controller{
             D363
           from datau0$paramUnit
           WHERE EvTime BETWEEN  '$paramFromDate' AND '$paramToDate'";
-      
-      
-      
+
+
+
           if($user_mmplant==0){
           $reslutQuery = DB::select($query);
-      
+
           }if($user_mmplant==1){
           $reslutQuery = DB::connection('mysql_ais_47')->select($query);
           }
-      
-      
-      
-      
-      
+
+
+
+
+
           //return json_encode($reslutQuery);
-      
+
           /*Create File*/
-      
+
           $strFileName = "processView/flieProcessView/processViewJson-$paramPCV-$paramUnit-$paramEmpId.txt";
           $objCreate = fopen($strFileName, 'w');
           if($objCreate)
           {
           //echo '["createJsonSuccess"]';
           /*write flie here start.*/
-      
+
           //$strFileName = "processView/flieProcessView/processViewJson-$paramPCV-$paramUnit-$paramEmpId.txt";
               $objFopen = fopen($strFileName, 'w');
               $strText1 = json_encode($reslutQuery);
@@ -318,28 +318,28 @@ class processViewController  extends Controller{
           echo '["error"]';
           }
           fclose($objFopen);
-      
+
           /*write flie here end.*/
-      
+
           }else{
           echo "File Not Create.";
           }
-      
-      
-      
+
+
+
           //http://localhost:9999/ais/processView/createDataPCVSteam47/11/4/11/2014-05-01%2000:00:00/2014-05-01%2001:00:00
           }
-      
+
 public function createDataEventPCVFGD($paramPCV,$paramUnit,$paramEmpId,$paramFromDate,$paramToDate){
-      
+
       Log::info("Into createDataEventPCVFGD");
-      
-      
+
+
           $sess_emp_id= Auth::user()->id;
           $user_mmplant= Session::get('user_mmplant');
-      
-      
-      
+
+
+
           $query="
           select   sys_date ,ois_event from event_raw
           WHERE sys_date  BETWEEN '$paramFromDate' AND '$paramToDate'
@@ -370,7 +370,7 @@ public function createDataEventPCVFGD($paramPCV,$paramUnit,$paramEmpId,$paramFro
           ";
           //REGEXP '$tagName'
           if($user_mmplant==1){
-      
+
           if($paramUnit==4){
           $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
           }else if($paramUnit==5){
@@ -380,16 +380,16 @@ public function createDataEventPCVFGD($paramPCV,$paramUnit,$paramEmpId,$paramFro
           }else if($paramUnit==7){
           $reslutQuery = DB::connection('mysql_ais_log_47_7')->select($query);
           }
-      
-      
+
+
       }else if($user_mmplant==2){
           $reslutQuery = DB::connection('mysql_ais_813')->select($query);
-      
+
       }else if($user_mmplant==3){
             $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
-      
+
       }else{
-      
+
                     $query="select  '2014-05-01 01:00:00' as 'sys_date' ,ois_event from event_raw
           WHERE sys_date  BETWEEN '2014-10-07 00:00:00' AND '2014-10-07 16:23:00'
                 AND ois_event REGEXP 'L|
@@ -418,20 +418,20 @@ public function createDataEventPCVFGD($paramPCV,$paramUnit,$paramEmpId,$paramFro
                             '
                 order by sys_date asc ";
           $reslutQuery = DB::select($query);
-      
+
       }
-      
-      
-      
+
+
+
       /*Create File*/
-      
+
       $strFileName = "processView/flieProcessView/processViewJson-event-$paramPCV-$paramUnit-$paramEmpId.txt";
       $objCreate = fopen($strFileName, 'w');
       if($objCreate)
       {
       //echo '["createJsonSuccess"]';
       /*write flie here start.*/
-      
+
           //$strFileName = "processView/flieProcessView/processViewJson-event-$paramPCV-$paramUnit-$paramEmpId.txt";
             $objFopen = fopen($strFileName, 'w');
             $strText1 = json_encode($reslutQuery);
@@ -445,22 +445,22 @@ public function createDataEventPCVFGD($paramPCV,$paramUnit,$paramEmpId,$paramFro
           echo '["error"]';
           }
           fclose($objFopen);
-      
+
               /*write flie here end.*/
-      
+
           }else{
           echo "File Not Create.";
           }
-      
-      
-      
+
+
+
           //http://localhost:9999/ais/processView/createDataEventPCVSteam47/11/4/11/2014-05-01%2000:00:00/2014-05-01%2001:00:00
           }
-      
+
 public function readDataEventPCVFGD($paramPCV,$paramUnit,$paramEmpId){
-      
+
           Log::info("Into readDataPCVSteam47");
-      
+
           $strFileName = "processView/flieProcessView/processViewJson-event-$paramPCV-$paramUnit-$paramEmpId.txt";
           $objFopen = fopen($strFileName, 'r');
           if ($objFopen) {
@@ -472,11 +472,11 @@ public function readDataEventPCVFGD($paramPCV,$paramUnit,$paramEmpId){
           }
           //http://localhost:9999/ais/processView/readDataEventPCVSteam47/11/4/11
       }
-      
+
 public function readDataPCVFGD($paramPCV,$paramUnit,$paramEmpId){
-      
+
               Log::info("Into readDataPCVSteam47");
-      
+
               $strFileName = "processView/flieProcessView/processViewJson-$paramPCV-$paramUnit-$paramEmpId.txt";
               $objFopen = fopen($strFileName, 'r');
               if ($objFopen) {
@@ -486,24 +486,24 @@ public function readDataPCVFGD($paramPCV,$paramUnit,$paramEmpId){
               }
               fclose($objFopen);
               }
-      
-               
-      
-      
-               
+
+
+
+
+
               }
-      
+
 /*################################## PCVFGD67 END #######################################*/
 /*################################## PCVTurbine47 START #######################################*/
 public function createDataPCVTurbine47($paramPCV,$paramUnit,$paramEmpId,$paramFromDate,$paramToDate){
-      
+
           Log::info("Into createDataPCVFGD");
-      
-      
+
+
           $sess_emp_id= Auth::user()->id;
           $user_mmplant= Session::get('user_mmplant');
-      
-      
+
+
           $query="SELECT EvTime,
             D32,
             D152,
@@ -526,31 +526,31 @@ public function createDataPCVTurbine47($paramPCV,$paramUnit,$paramEmpId,$paramFr
             D1
           from datau0$paramUnit
           WHERE EvTime BETWEEN  '$paramFromDate' AND '$paramToDate'";
-      
-      
-      
+
+
+
           if($user_mmplant==0){
               $reslutQuery = DB::select($query);
-      
+
           }if($user_mmplant==1){
               $reslutQuery = DB::connection('mysql_ais_47')->select($query);
           }
-      
-      
-      
-      
-      
+
+
+
+
+
           //return json_encode($reslutQuery);
-      
+
           /*Create File*/
-      
+
           $strFileName = "processView/flieProcessView/processViewJson-$paramPCV-$paramUnit-$paramEmpId.txt";
           $objCreate = fopen($strFileName, 'w');
           if($objCreate)
           {
               //echo '["createJsonSuccess"]';
               /*write flie here start.*/
-      
+
               //$strFileName = "processView/flieProcessView/processViewJson-$paramPCV-$paramUnit-$paramEmpId.txt";
               $objFopen = fopen($strFileName, 'w');
               $strText1 = json_encode($reslutQuery);
@@ -564,28 +564,28 @@ public function createDataPCVTurbine47($paramPCV,$paramUnit,$paramEmpId,$paramFr
                   echo '["error"]';
               }
               fclose($objFopen);
-      
+
               /*write flie here end.*/
-      
+
           }else{
               echo "File Not Create.";
           }
-      
-      
-      
+
+
+
           //http://localhost:9999/ais/processView/createDataPCVSteam47/11/4/11/2014-05-01%2000:00:00/2014-05-01%2001:00:00
       }
-      
+
 public function createDataEventPCVTurbine47($paramPCV,$paramUnit,$paramEmpId,$paramFromDate,$paramToDate){
-      
+
           Log::info("Into createDataEventPCVFGD");
-      
-      
+
+
           $sess_emp_id= Auth::user()->id;
           $user_mmplant= Session::get('user_mmplant');
-      
-      
-      
+
+
+
           $query="
           select   sys_date ,ois_event from event_raw
           WHERE sys_date  BETWEEN '$paramFromDate' AND '$paramToDate'
@@ -615,7 +615,7 @@ public function createDataEventPCVTurbine47($paramPCV,$paramUnit,$paramEmpId,$pa
           ";
           //REGEXP '$tagName'
           if($user_mmplant==1){
-      
+
           if($paramUnit==4){
           $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
       }else if($paramUnit==5){
@@ -625,16 +625,16 @@ public function createDataEventPCVTurbine47($paramPCV,$paramUnit,$paramEmpId,$pa
           }else if($paramUnit==7){
           $reslutQuery = DB::connection('mysql_ais_log_47_7')->select($query);
   }
-      
-      
+
+
           }else if($user_mmplant==2){
           $reslutQuery = DB::connection('mysql_ais_813')->select($query);
-      
+
 }else if($user_mmplant==3){
           $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
-      
+
           }else{
-      
+
               $query="select  '2014-05-01 01:00:00' as 'sys_date' ,ois_event from event_raw
               WHERE sys_date  BETWEEN '2014-10-07 00:00:00' AND '2014-10-07 16:23:00'
           AND ois_event REGEXP 'L|
@@ -662,20 +662,20 @@ public function createDataEventPCVTurbine47($paramPCV,$paramUnit,$paramEmpId,$pa
                     '
         order by sys_date asc ";
   $reslutQuery = DB::select($query);
-      
+
 }
-      
-      
-      
+
+
+
 /*Create File*/
-      
+
 $strFileName = "processView/flieProcessView/processViewJson-event-$paramPCV-$paramUnit-$paramEmpId.txt";
 $objCreate = fopen($strFileName, 'w');
 if($objCreate)
 {
 //echo '["createJsonSuccess"]';
 /*write flie here start.*/
-      
+
   //$strFileName = "processView/flieProcessView/processViewJson-event-$paramPCV-$paramUnit-$paramEmpId.txt";
                 $objFopen = fopen($strFileName, 'w');
                   $strText1 = json_encode($reslutQuery);
@@ -689,22 +689,22 @@ if($objCreate)
       echo '["error"]';
       }
               fclose($objFopen);
-      
+
               /*write flie here end.*/
-      
+
               }else{
               echo "File Not Create.";
               }
-      
-      
-      
+
+
+
               //http://localhost:9999/ais/processView/createDataEventPCVSteam47/11/4/11/2014-05-01%2000:00:00/2014-05-01%2001:00:00
               }
-      
+
 public function readDataEventPCVTurbine47($paramPCV,$paramUnit,$paramEmpId){
-      
+
               Log::info("Into readDataPCVSteam47");
-      
+
               $strFileName = "processView/flieProcessView/processViewJson-event-$paramPCV-$paramUnit-$paramEmpId.txt";
                   $objFopen = fopen($strFileName, 'r');
                   if ($objFopen) {
@@ -716,11 +716,11 @@ public function readDataEventPCVTurbine47($paramPCV,$paramUnit,$paramEmpId){
       }
       //http://localhost:9999/ais/processView/readDataEventPCVSteam47/11/4/11
       }
-      
+
 public function readDataPCVTurbine47($paramPCV,$paramUnit,$paramEmpId){
-      
+
           Log::info("Into readDataPCVSteam47");
-      
+
           $strFileName = "processView/flieProcessView/processViewJson-$paramPCV-$paramUnit-$paramEmpId.txt";
           $objFopen = fopen($strFileName, 'r');
           if ($objFopen) {
@@ -730,15 +730,15 @@ public function readDataPCVTurbine47($paramPCV,$paramUnit,$paramEmpId){
           }
           fclose($objFopen);
           }
-      
-           
-      
-      
-           
+
+
+
+
+
           }
-      
+
 /*################################## PCVTurbine47 END #######################################*/
-            
+
       
       
 /*################################## PCVPlantow47 START #######################################*/

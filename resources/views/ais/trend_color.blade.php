@@ -7,13 +7,11 @@
 @section('body')
     @include('layouts.header')
     @section('content')
-    
     <script src='/Controller/cTrendColor.js'></script>
 <link href="/css/trendColor.css" rel="stylesheet">
 
 <script src='/js/spectrum.js'></script>
 <link rel='stylesheet' href='/css/spectrum.css' />
-
 
 
 <div class="ibox">

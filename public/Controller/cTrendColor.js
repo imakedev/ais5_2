@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	$(".customColors").spectrum({
 	    /*color: "#f00"*/
+
 		preferredFormat: "hex"
 	});
 	var type_pre=$("#color_type_pre").val();

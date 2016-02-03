@@ -27,13 +27,64 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <form action="/addUser/deleteSelect" method="get">
-                <div class="row bgParam">
-                    <div class="col-md-12">
-                        <a class="btn btn-primary  btn-sm" data-toggle="modal" onclick="addBtn()">Add User</a>
-                        <button class="btn btn-w-m btn-danger btn-sm" type="submit" onclick="return deleteBtn()">Delete select</button>
+
+                {!! Form::open(array('url'=> 'ais/addUser')) !!}
+                <div class="row">
+                    @if(session()->has('message'))
+                        <div class="col-md-12">
+                            <div class="alert alert-success" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
+                                <i class="glyphicon glyphicon-ok-sign"></i> {{ session()->get('message') }}
+                            </div>
+                        </div>
+                    @elseif(session()->has('error_message'))
+                        <div class="col-md-12">
+                            <div class="alert alert-danger" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <b>{{ session()->get('error_message') }}</b>{{ session()->get('error_message') }}
+                            </div>
+                        </div>
+                    @endif
+                    <div class="col-md-3 bgParam">
+                        <div class='labelParam'>
+                            <a class="btn btn-primary  btn-sm" data-toggle="modal" onclick="addBtn()">Add User</a>
+                            <button class="btn btn-w-m btn-danger btn-sm" type="button" onclick="deleteBtn()">Delete select</button>
+                        </div>
                     </div>
+                    <div class="col-md-4"   style="width:270px">
+                        <input type="text" name="search"
+                               class="form-control" placeholder="ค้นหา เลขประจำตัว หรือ ชื่อ-นามสกุล"
+                               value="{{session()->get('addUser_search')}}">
+                    </div>
+                    <div class="col-md-4" style="margin-top: 8px;width: 200px">
+
+                        Sort By:
+                        <!--  btn -->
+
+                        <input type="hidden" id="sortBy_hidden" value="{{session()->get('sortBy')}}"/>
+                        <select id="sortBy" name="sortBy">
+                            <option value=""></option>
+                            <option value="A">เลขประจำตัว</option>
+                            <option value="C">ชื่อ-นามสกุล</option>
+                        </select>
+
+                    </div>
+                    <div class="col-md-2" style="margin-top: 8px">
+                        Order By:
+                        <!--  btn -->
+
+                        <input type="hidden" id="orderBy_hidden" value="{{session()->get('orderBy')}}"/>
+                        <select id="orderBy" name="orderBy">
+                            <option value=""></option>
+                            <option value="ASC">ASC</option>
+                            <option value="DESC">DESC</option>
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-1" style="margin-top: 8px"><button class="btn btn-sm btn-primary pull-left m-t-n-xs"><strong>Search</strong></button></div>
                 </div>
+                {!! Form::close() !!}
+                <form action="/addUser/deleteSelect" method="get" id="formDelete">
                 <!-- grid list user -->
                 <div class="col-md-12 table-responsive">
                     <table id="gridUserList" class="table table-hover">
