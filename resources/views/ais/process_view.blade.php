@@ -17,8 +17,12 @@
 <!-- kendo ui start -->
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.black.min.css" />
 <!-- kendo ui end -->
+<!-- test start 
+<button id='btnExport'>button</button>-->
+<!-- test end -->
 
-<!-- Content Start-->     
+<!-- Content Start-->  
+   
 				<div class="ibox ">
                     <div class="ibox-title bgBlack">
                         <h5>Process View</h5>
@@ -182,10 +186,64 @@
                                 	                   <div class="col-xs-2">
                                        
                                                             <a class="btn btn-primary  btn-sm btnSubmit" id='btnSubmit' href="#">แสดง </a>
-                                                            <button class="btn btn-warning btn-sm  btnSubmit" type="button">
+                                                            <!-- download button start -->
+                                                            <button class="btn btn-warning btn-sm  btnSubmit" type="button" data-container="body" 
+                                                            data-toggle="popover" data-placement="bottom"  data-html="true"
+                                                            data-content="
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input type='radio' name='download'>
+                                                                    </td>
+                                                                    <td>
+                                                                        &nbsp;Excel
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input type='radio' name='download'>
+                                                                    </td>
+                                                                    <td>
+                                                                        &nbsp;Libre Office
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input type='radio' name='download'>
+                                                                    </td>
+                                                                    <td>
+                                                                        &nbsp;HTML+Data
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input type='radio' name='download'>
+                                                                    </td>
+                                                                    <td>
+                                                                        &nbsp;HTML only
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input type='radio' name='download'>
+                                                                    </td>
+                                                                    <td>
+                                                                        &nbsp;Data only
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                            </table>
+                                                            <button class='btn btn-primary btn-sm  ' id='downloadData' type='button'>
+                                                                <i class='fa fa-download'></i>
+                                                               Download
+                                                            </button>
+                                                            ">
                                                                 <i class="fa fa-download"></i>&nbsp;&nbsp;
                                                                
                                                             </button>
+                                                            <!-- download button end -->
+                                                            
+                                                            
                                                        </div>
                                     	             </div>
                                                      
@@ -236,6 +294,42 @@
                         <br style='clear: both'>
                     </div>
                 </div>
+                
+                <!-- test download excel start -->
+                <div id="dvData" style='display:none;'>
+                    <table>
+                        <tr>
+                            <th>Column One</th>
+                            <th>Column Two</th>
+                            <th>Column Three</th>
+                        </tr>
+                        <tr>
+                            <td>row1 Col1</td>
+                            <td>row1 Col2</td>
+                            <td>row1 Col3</td>
+                        </tr>
+                        <tr>
+                            <td>row2 Col1</td>
+                            <td>row2 Col2</td>
+                            <td>row2 Col3</td>
+                        </tr>
+                        <tr>
+                            <td>row3 Col1</td>
+                            <td>row3 Col2</td>
+                            <td><a href="http://www.jquery2dotnet.com/">http://www.jquery2dotnet.com/</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- test download excel end -->
+               
+                
+                <script>
+                $("#btnExport").click(function (e) {
+                    window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
+                    e.preventDefault();
+                });
+                </script>
   <!-- Content End-->           
     @stop
     @section('footer')
