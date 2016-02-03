@@ -104,9 +104,7 @@ var bindGridPoinList = function(){
 		dropDownListHTML+="All Trend";
 		dropDownListHTML+="</option>";
 		
-		dropDownListHTML+="<option value='All'>";
-		dropDownListHTML+="All Trend";
-		dropDownListHTML+="</option>";
+		
 		
 		$.each(data,function(index,indexEntry){
 			//console.log(indexEntry);
