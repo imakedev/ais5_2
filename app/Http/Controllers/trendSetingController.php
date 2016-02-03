@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Input;
  use Illuminate\Pagination\LengthAwarePaginator;
  use \App\Model\trendGroupModel;
  use Log;
+ use Session;
+ use Auth;
 
 class trendSetingController extends Controller
 {
@@ -25,8 +27,14 @@ class trendSetingController extends Controller
         //Test 001
         Log::info("Into getAllGroup");
        // $trendGroupModel = trendGroupModel::all();
-      
-        $query="select B,group_name from mmtrend_group where B!=9";
+        $myTrend= Auth::user()->empId;
+        $query="
+                select * from(
+                select $myTrend AS B, 'My Trend' as group_name
+                UNION
+                select B,group_name from mmtrend_group where B!=9
+                )queryA
+                ";
         $reslutQuery = DB::select($query);
         
         
