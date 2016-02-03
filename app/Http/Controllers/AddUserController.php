@@ -56,7 +56,6 @@ class AddUserController extends Controller
         $info_employee = AddUserModel::orderBy('updated_at','DESC')
            // ->orderBy('updated_at','DESC')
             ->paginate(12);
-        $info_employee->setPath('/ais/addUser');
 */
         return view('ais/addUser', ['info_employee'=>$datas]);
     }
