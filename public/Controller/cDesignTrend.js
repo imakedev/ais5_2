@@ -287,6 +287,73 @@ function searchMmpoint(mmtrend_table_B_selected){
     "   </tr> "+
     "   </thead> "+
     "   <tbody> ";
+    if(mmtrend_table_B=='0' || mmtrend_table_B=='-1') {
+        str = "" +
+            " <table id=\"editable\" " +
+            " class=\"table table-striped table-bordered table-hover  dataTable\" " +
+            " role=\"grid\" aria-describedby=\"editable_info\"> " +
+            "   <thead> " +
+            "   <tr role=\"row\"> " +
+            "   <th class=\"\" tabindex=\"0\" aria-controls=\"\" " +
+            " rowspan=\"1\" colspan=\"1\" style=\"width: 0%;\" " +
+            " aria-sort=\"\" aria-label=\"\"> " +
+            "  " +
+            "   </th> " +
+            "   <th class=\"\" tabindex=\"0\" " +
+            " aria-controls=\"editable\" rowspan=\"1\" " +
+            " colspan=\"1\" style=\"width: 20%;\" " +
+            " aria-label=\"Browser: activate to sort column ascending\"> " +
+            "   Point Name " +
+            " </th> " +
+            " <th class=\"\" tabindex=\"0\" " +
+            " aria-controls=\"editable\" rowspan=\"1\" " +
+            " colspan=\"1\" style=\"width: 13%;\" " +
+            " aria-label=\"Platform(s): activate to sort column ascending\"> " +
+            "   Tag name " +
+            "   </th> " +
+            "   <th class=\"\" tabindex=\"0\"  " +
+            " aria-controls=\"editable\" rowspan=\"1\" " +
+            " colspan=\"1\" style=\"width: 13%;\" " +
+            " aria-label=\"Platform(s): activate to sort column ascending\"> " +
+            "   MM " +
+            "   </th> " +
+            "   <th class=\"\" tabindex=\"0\" " +
+            " aria-controls=\"editable\" rowspan=\"1\" " +
+            " colspan=\"1\" style=\"width: 13%;\" " +
+            " aria-label=\"Platform(s): activate to sort column ascending\"> " +
+            "   Formula " +
+            "   </th> " +
+
+            "   <th class=\"\" tabindex=\"0\" " +
+            " aria-controls=\"editable\" rowspan=\"1\" " +
+            " colspan=\"1\" style=\"width: 5%;\" " +
+            " aria-label=\"Platform(s): activate to sort column ascending\"> " +
+            "   Unit " +
+            "   </th> " +
+            "   <th class=\"\" tabindex=\"0\" " +
+            " aria-controls=\"editable\" rowspan=\"1\" " +
+            " colspan=\"1\" style=\"width: 5%;\" " +
+            " aria-label=\"Platform(s): activate to sort column ascending\"> " +
+            "   Max " +
+            "   </th> " +
+            "   <th class=\"\" tabindex=\"0\" " +
+            " aria-controls=\"editable\" rowspan=\"1\" " +
+            " colspan=\"1\" style=\"width: 5%;\" " +
+            " aria-label=\"Platform(s): activate to sort column ascending\"> " +
+            "   Min " +
+            "   </th> " +
+                /*
+                 "   <th class=\"\" tabindex=\"0\" "+
+                 " aria-controls=\"editable\" rowspan=\"1\" "+
+                 " colspan=\"1\" style=\"width: 5%;\" "+
+                 " aria-label=\"Platform(s): activate to sort column ascending\"> "+
+                 "   Data "+
+                 "   </th> "+
+                 */
+            "   </tr> " +
+            "   </thead> " +
+            "   <tbody> ";
+    }
     $.ajax({
         url: "/ajax/mmpoint/search",
         method: "POST",
