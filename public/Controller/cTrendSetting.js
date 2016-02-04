@@ -7,7 +7,7 @@ var createHtmlGridTrendList = function(){
    tableHTML+="</colgroup>";
 	   tableHTML+="<thead>";
 	   tableHTML+="<tr>";
-		 tableHTML+="<th data-field=\"field2\"><b>Trend Name</b></th>";
+		 tableHTML+="<th class='listTrend' data-field=\"field2\"><b>Trend Name</b></th>";
 		// tableHTML+="<th data-field=\"field5\"><b></b></th>";
 	   tableHTML+="</tr>";
     tableHTML+="</thead>";
@@ -64,18 +64,32 @@ var bindGridTrendList = function(){
         height: 300,
 		//scrollable: false,
         sortable: true,
+        dataSource: {
+        	pageSize: 10,
+        },
+        
         pageable: {
             refresh: true,
             pageSizes: true,
             buttonCount: 5
         },
     });
+	
+	
+	
 }
+
+
+
 var bindGridPoinList = function(){
 		$("#gridPointList").kendoGrid({
 			height: 300,
 			//scrollable: false,
 	        sortable: true,
+	        dataSource: {
+	        	pageSize: 10,
+	        },
+	        
 	        pageable: {
 	            refresh: true,
 	            pageSizes: true,
@@ -254,6 +268,120 @@ var bindGridPoinList = function(){
 			}
 		});
 	}
+	var bindChoosePointFn=function(){
+
+		
+		
+		$(document).on("click",".choosePoint",function(){
+			
+			
+			var trendID = this.id.split("-");
+			trendID=trendID[1];
+			
+			if(trendID==$("#paramTrendIDEmbed-"+trendID).val()){
+				alert("This trend is already");
+				return false;
+				
+			}else{
+				
+			var unitHtml="";
+			unitHtml+="<select class=\"form-control input-sm unit\" id=\"unit-"+trendID+"\" name=\"unit-"+trendID+"\">";
+				unitHtml+="<option selected value='All'>All Unit</option>";
+				unitHtml+="<option selected value='4'>MM04</option>";
+                unitHtml+="<option value='5'>MM05</option>";
+                unitHtml+="<option value='6'>MM06</option>";
+                unitHtml+="<option value='7'>MM07</option>";
+            unitHtml+="</select> ";
+            $("#listAllUnitArea").html(unitHtml);
+            setTimeout(function(){
+            	$("#listAllUnitArea").show();
+            },1000);
+            
+			 //binding event change select mm
+			   $(".unit").off("change");
+			   $(".unit").on("change",function(){
+				   
+				  var trendID=this.id.split("-");
+				  trendID=trendID[1];
+				  //alert(trendID);
+				  //alert($(this).val());
+				  //getPointListFn($("#paramTrendIDEmbed-"+trendID).val(),$(this).val());
+				  getPointListFn(trendID,$(this).val());
+				  $("#paramUnitEmbed-"+trendID).remove();
+				  var paramPoint="";
+				  paramPoint+="<input type='hidden' id='paramUnitEmbed-"+trendID+"' class='paramUnitEmbed' name='paramUnitEmbed-"+trendID+"' value='"+$(this).val()+"'>";
+				  $("body").append(paramPoint);
+				  
+				  
+			   });
+			  
+			   
+			  //binding event plot graph
+			
+			
+			
+			
+		
+			//alert(trendID);
+			var unitID=$("#unit-"+trendID).val();
+			//alert(unitID);
+		
+			
+			/*
+			$("#paramTrendIDEmbed-"+trendID).remove();
+			$("body").append("<input type='hidden' id='paramTrendIDEmbed-"+trendID+"' class='paramTrendIDEmbed' value='"+trendID+"'>");
+			*/
+			
+			 $("#paramUnitEmbed-"+trendID).remove();
+			  var paramPoint="";
+			  paramPoint+="<input type='hidden' id='paramUnitEmbed-"+trendID+"' class='paramUnitEmbed' name='paramUnitEmbed-"+trendID+"' value='"+unitID+"'>";
+			  $("body").append(paramPoint);
+			  
+			
+			getPointListFn(trendID,unitID);
+			console.log("-----------");
+			//console.log($(this).parent().prev().text());
+			var trendName=$(this).prev().text();
+			$("#trendName").html(trendName);
+			
+			$(".paramTrendNameEmbed").remove();
+			$("body").append("<input type='hidden' name='paramTrendNameEmbed-"+trendID+"' id='paramTrendNameEmbed-"+trendID+"' class='paramTrendNameEmbed' value='"+trendName+"'>");
+			
+			//show element
+			$("#trendNameArea").show();
+			var htmlBtnPlotGraph="";
+			htmlBtnPlotGraph="<div class='col-xs-12'><buton id=\"btnPlotGraph-"+trendID+"\" class=\"btn btn-primary  btn-sm pull-right btnPlotGraph\">Plot Graph </buton></div>";
+			$("#btnPlotGraphArea").html(htmlBtnPlotGraph);
+			$("#btnPlotGraphArea").show();
+			
+			
+			
+			
+			$(".btnPlotGraph").off("click");
+			$(".btnPlotGraph").on("click",function(){
+			   var trendID=this.id.split("-");
+			   trendID=trendID[1];
+			   //check value in check box is not null start
+			   //validationPoint();
+			   //check value in check box is not null end
+			   //alert(trendID);
+			   plotGraphFn('Initial','N',trendID);
+			   
+
+				
+				$("#paramTrendIDEmbed-"+trendID).remove();
+				$("body").append("<input type='hidden' id='paramTrendIDEmbed-"+trendID+"' class='paramTrendIDEmbed' value='"+trendID+"'>");
+				
+			   
+			});
+			   
+			}
+			return false;
+
+		});
+
+	
+	}
 	
 	var trendFn={
 			getTrendByGroupFn:function(groupId,groupName){
@@ -287,7 +415,7 @@ var bindGridPoinList = function(){
 						});
 						//alert(tableTrendHTML);
 						$("#trendDataArea").html(tableTrendHTML);
-						//alert(tableTrendHTML);
+						
 						
 						
 
@@ -300,114 +428,10 @@ var bindGridPoinList = function(){
 					bindGridTrendList();
 					$("#gridTrendList").show();
 					$("#bgParam").show();
-					$(".choosePoint").click(function(){
-						
-						var trendID = this.id.split("-");
-						trendID=trendID[1];
-						
-						if(trendID==$("#paramTrendIDEmbed-"+trendID).val()){
-							alert("This trend is already");
-							return false;
-							
-						}else{
-							
-						var unitHtml="";
-						unitHtml+="<select class=\"form-control input-sm unit\" id=\"unit-"+trendID+"\" name=\"unit-"+trendID+"\">";
-							unitHtml+="<option selected value='All'>All Unit</option>";
-							unitHtml+="<option selected value='4'>MM04</option>";
-			                unitHtml+="<option value='5'>MM05</option>";
-			                unitHtml+="<option value='6'>MM06</option>";
-			                unitHtml+="<option value='7'>MM07</option>";
-		                unitHtml+="</select> ";
-		                $("#listAllUnitArea").html(unitHtml);
-		                setTimeout(function(){
-		                	$("#listAllUnitArea").show();
-		                },1000);
-		                
-						 //binding event change select mm
-						   $(".unit").off("change");
-						   $(".unit").on("change",function(){
-							   
-							  var trendID=this.id.split("-");
-							  trendID=trendID[1];
-							  //alert(trendID);
-							  //alert($(this).val());
-							  //getPointListFn($("#paramTrendIDEmbed-"+trendID).val(),$(this).val());
-							  getPointListFn(trendID,$(this).val());
-							  $("#paramUnitEmbed-"+trendID).remove();
-							  var paramPoint="";
-							  paramPoint+="<input type='hidden' id='paramUnitEmbed-"+trendID+"' class='paramUnitEmbed' name='paramUnitEmbed-"+trendID+"' value='"+$(this).val()+"'>";
-							  $("body").append(paramPoint);
-							  
-							  
-						   });
-						  
-						   
-						  //binding event plot graph
-						
-						
-						
-						
 					
-						//alert(trendID);
-						var unitID=$("#unit-"+trendID).val();
-						//alert(unitID);
-					
-						
-						/*
-						$("#paramTrendIDEmbed-"+trendID).remove();
-						$("body").append("<input type='hidden' id='paramTrendIDEmbed-"+trendID+"' class='paramTrendIDEmbed' value='"+trendID+"'>");
-						*/
-						
-						 $("#paramUnitEmbed-"+trendID).remove();
-						  var paramPoint="";
-						  paramPoint+="<input type='hidden' id='paramUnitEmbed-"+trendID+"' class='paramUnitEmbed' name='paramUnitEmbed-"+trendID+"' value='"+unitID+"'>";
-						  $("body").append(paramPoint);
-						  
-						
-						getPointListFn(trendID,unitID);
-						console.log("-----------");
-						//console.log($(this).parent().prev().text());
-						var trendName=$(this).prev().text();
-						$("#trendName").html(trendName);
-						
-						$(".paramTrendNameEmbed").remove();
-						$("body").append("<input type='hidden' name='paramTrendNameEmbed-"+trendID+"' id='paramTrendNameEmbed-"+trendID+"' class='paramTrendNameEmbed' value='"+trendName+"'>");
-						
-						//show element
-						$("#trendNameArea").show();
-						var htmlBtnPlotGraph="";
-						htmlBtnPlotGraph="<div class='col-xs-12'><buton id=\"btnPlotGraph-"+trendID+"\" class=\"btn btn-primary  btn-sm pull-right btnPlotGraph\">Plot Graph </buton></div>";
-						$("#btnPlotGraphArea").html(htmlBtnPlotGraph);
-						$("#btnPlotGraphArea").show();
-						
-						
-						
-						
-						$(".btnPlotGraph").off("click");
-						$(".btnPlotGraph").on("click",function(){
-						   var trendID=this.id.split("-");
-						   trendID=trendID[1];
-						   //check value in check box is not null start
-						   //validationPoint();
-						   //check value in check box is not null end
-						   //alert(trendID);
-						   plotGraphFn('Initial','N',trendID);
-						   
-
-							
-							$("#paramTrendIDEmbed-"+trendID).remove();
-							$("body").append("<input type='hidden' id='paramTrendIDEmbed-"+trendID+"' class='paramTrendIDEmbed' value='"+trendID+"'>");
-							
-						   
-						});
-						   
-						}
-						return false;
-
-					});
-			
-				
+					// binding ChoosePoint Fn Start//
+					bindChoosePointFn();
+					// binding ChoosePoint Fn End//
 				//manage end
 			},
 			getTrendByTrendNameGroupFn:function(TrendNameGroup){
@@ -489,6 +513,12 @@ var bindGridPoinList = function(){
 		 //TEST GRAPH START
 		  
 		
+			 /*
+			$(document).on("click",".choosePoint",function(){
+				alert("hello1");
+			});
+			 */
+			
 		
 	});
 	
