@@ -227,6 +227,15 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::post('/ajax/mmpoint/search','Ajax\TrendDesignAjax@searchMmpoint');
     Route::get('/ajax/multipledb/get','Ajax\TrendDesignAjax@mulipleDB');
+
+    Route::post('/ajax/addmmpoint/search','Ajax\TrendDesignAjax@searchAddPointMmpoint');
+    Route::post('/ajax/addmmpoint/doAdd','Ajax\TrendDesignAjax@doAddPointMmpoint');
+    Route::post('/ajax/mmtag/get','Ajax\TrendDesignAjax@getMmTag');
+
+    Route::post('/ajax/constant/search','Ajax\ConstantAjax@search');
+    Route::post('/ajax/constant/post','Ajax\ConstantAjax@post');
+    Route::post('/ajax/constant/get','Ajax\ConstantAjax@get');
+    Route::post('/ajax/constant/delete','Ajax\ConstantAjax@delete');
     /*
     Route::get('/ajax/get', function () {
         // pass back some data

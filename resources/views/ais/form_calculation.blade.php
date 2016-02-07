@@ -49,19 +49,30 @@
                             <div class='row'>
                           
                                 <div class='col-xs-12 '>
-                                     <label>
-                                        <input type='radio' checked  name='cal' value="constant" > Constant
-                                     </label>
+
+                                    <div class=''>
+                                        <label>
+                                            <!--
+                                           <input type='radio' checked  name='cal' value="constant" >
+                                            -->
+                                            Constant
+                                        </label>
+                                    <!--
                                     <div class='pull-right'>
+
                                     <button class=" btn btn-primary  btn-sm fa fa-gears" type="button"
                                             data-toggle="modal" id='btnConstant' data-target="#modalConstant"></button>
+                                            -->
+                                        <button class=" btn btn-primary  btn-sm fa fa-gears" type="button"
+                                                id='btnConstant' onclick="showAddConstant()"></button>
                                     </div>
                                         
-                                     
+                                     <!--
                                         
                                         <input type='text' id="constant" name="constant" class='form-control input-sm'>
+                                        -->
                                        
-                                </div>
+                                </div><br/><br/>
                               
                                 
                                 <div class='col-xs-6'>
@@ -173,9 +184,9 @@
 	            <div class="col-xs-12">
 		            <a class="btn btn-primary  btn-sm">Clone </a>
 		            <a class="btn btn-w-m btn-warning  btn-sm" onclick="clearCalculation()">Clear </a>
-		            <a class="btn btn-w-m btn-danger  btn-sm">Change </a>
-		            <a class="btn btn-w-m btn-danger  btn-sm" data-toggle="modal" id='btnAddPoint' data-target="#modalAddPoint">Add Point </a>
-		            <a class="btn btn-w-m btn-danger  btn-sm">Priview </a>
+		            <a class="btn btn-w-m btn-danger  btn-sm" onclick="changeRate()">Change </a>
+		            <a class="btn btn-w-m btn-danger  btn-sm" onclick="displayAddPoint()" id='btnAddPoint'>Add Point </a>
+                    <a class="btn btn-w-m btn-danger  btn-sm">Priview </a>
 	            </div>
 	           
             </div>
@@ -285,11 +296,26 @@
           
           <!-- parameter start -->
           <div class="row bgParam">
-	            <div class="col-md-12">
-		           
+	            <div class="col-md-2">
+		           <!--
 		            <a class="btn btn-w-m btn-warning  btn-sm">Edit </a>
+
 		            <a class="btn btn-w-m btn-danger  btn-sm">Delete </a>
-	            </div>
+		            -->
+                    <a class="btn btn-primary  btn-sm" onclick="addOrEditConstant('')">Add </a>
+                </div>
+              <div class="col-md-8">
+                  <input type="hidden" id="empId" name="empId" value="{{Auth::user()->empId}}"/>
+                  <!--
+                    Constant Type
+                    -->
+                            <select style="width: 150px;" name="constantType" id="constantType" onchange="searchConstant()" class="form-control input-sm">
+                                <option value="0">My Constant</option>
+                                <option value="-1">Standard Consant</option>
+
+                            </select>
+
+                </div>
             </div>
            <!-- parameter end -->  
            
@@ -300,39 +326,41 @@
            <!-- list constant end -->
            
           	<!-- form constant start -->
-            <form class="form-horizontal">
+            <form class="form-horizontal" id="add_edit_constant">
                
                 <div class="form-group">
                 	<label class="col-lg-3 control-label padding5">Constant Name</label>
-
+                    <input type="hidden" id="ZZ_value" name="ZZ_value" />
                     <div class="col-lg-9 padding5">
-                    	<input type="text" class="form-control input-sm" placeholder="Constant Name"> 
+                    	<input type="text" id="A_value" name="A_value"  class="form-control input-sm" placeholder="Constant Name">
                     </div>
                 </div>
                 <div class="form-group">
                 	<label class="col-lg-3 control-label padding5">Value</label>
 
                     <div class="col-lg-9 padding5">
-                    	<input type="text" class="form-control input-sm" placeholder="Value"> 
+                    	<input type="text" id="B_value" name="B_value" class="form-control input-sm" placeholder="Value">
                     </div>
                 </div>
+                <!--
                 <div class="form-group"><label class="col-lg-3 control-label padding5">Constant Type</label>
 
                     <div class="col-lg-9 padding5">
-                        <select name="account" class="form-control input-sm">
-                            <option>My Constant</option>
-                            <option>Standard Consant</option>
+                        <select name="constantType" id="constantType" onchange="searchConstant()" class="form-control input-sm">
+                            <option value="0">My Constant</option>
+                            <option value="-1">Standard Consant</option>
                            
                         </select>
                     </div>
                 </div>
+                -->
             </form>
             <!-- form constant end -->
             
                         
           </div>
          <div class="modal-footer">
-         <button class="btn btn-primary" type="button">Add</button>
+         <button class="btn btn-primary"  onclick="doSubmitConstant()" type="button">Submit</button>
          <button data-dismiss="modal" class="btn btn-white" type="button">Cancel</button>
         
       </div>
@@ -359,7 +387,7 @@
 	            
 	             <div class="row">
 	               <div class="col-xs-4 ">
-                       <select id="mmtrend_table_B" class="form-control m-b" onclick="searchMmpoint(this.value)">
+                       <select id="mmtrend_table_B" class="form-control m-b" onchange="searchAddMmpoint(this.value)">
 
                            <option value="4">MM04</option>
                            <option value="5">MM05</option>
@@ -378,7 +406,7 @@
         	               <div class="input-group">
                                 <input type="text" name="keyword" id="keyword" placeholder="ค้นหาด่วน" class="input-sm form-control">
                                 <span class="input-group-btn">
-                                <button type="button" class="btn btn-sm btn-primary"  onclick="searchMmpoint('')" > Search</button>
+                                <button type="button" class="btn btn-sm btn-primary"  onclick="searchAddMmpoint('')" > Search</button>
                                 </span>
                             </div>
 	               </div>
@@ -403,7 +431,7 @@
                         
           </div>
          <div class="modal-footer">
-         <button class="btn btn-primary" type="button">Add</button>
+         <button class="btn btn-primary" type="button" onclick="doAddMmpoint()">Add</button>
          <button data-dismiss="modal" class="btn btn-white" type="button">Cancel</button>
         
       </div>

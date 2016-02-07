@@ -39,9 +39,7 @@ function editBtn(index) {
     if (data[1].childNodes.length > 0) {
         $('#poiId').val(data[1].childNodes[0].data);
     }
-    if (data[7].childNodes.length > 0) {
-        $('#poiAtom').val(data[7].childNodes[0].data);
-    }
+
 
     if (data[9].childNodes.length > 0) {
         $('#poiUnit').val(data[9].childNodes[0].data);
@@ -54,7 +52,41 @@ function editBtn(index) {
     if (data[11].childNodes.length > 0) {
         $('#poiMin').val(data[11].childNodes[0].data);
     }
+   // alert($('#poiId').val())
+    var obj={
+        "key":$('#poiId').val()
+    };
+    $.ajax({
+        url: "/ajax/mmtag/get",
+        method: "POST",
+        data: obj
+    }).done(function(dataCallBack, status, xhr) {
+        console.log(dataCallBack);
+        var mmtagM = jQuery.parseJSON(dataCallBack.mmtagM);
+        var strSelect="<select id=\"poiAtom\" name=\"poiAtom\" class=\"form-control \">";
 
+        if(mmtagM!=null){
+            if(mmtagM.D=='ANALOG'){
+                strSelect=strSelect+"<option value=\"Value\">Value</option>";
+                strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
+            }else if(mmtagM.D=='DIGITAL'){
+                strSelect=strSelect+"<option value=\"Status\">Status</option>";
+            }else{
+                strSelect=strSelect+"<option value=\"Value\">Value</option>";
+                strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
+            }
+        }else{
+            strSelect=strSelect+"<option value=\"Value\">Value</option>";
+            strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
+        }
+        strSelect=strSelect+"</select>";
+    $("#poiAtomSelect").html(strSelect);
+        //alert(mmtagM.D)
+      //  $("#poiAtom").val();
+        if (data[7].childNodes.length > 0) {
+            $('#poiAtom').val(data[7].childNodes[0].data);
+        }
+    });
         $('#modalPointConFig').modal();
 
 }
@@ -83,6 +115,11 @@ function deleteBtn() {
 //});
 
 $(document).ready(function(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     $('#checkAll').click(function (event) {
         if(this.checked){
             $('.ck').each(function(){
