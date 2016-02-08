@@ -1,70 +1,17 @@
 $(document).ready(function(){
-
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
 	var cal_slelect_b_hidden=$("#cal_slelect_b_hidden").val();
 	var cal_slelect_e_hidden=$("#cal_slelect_e_hidden").val();
 	var cal_h_hidden=$("#cal_h_hidden").val();
 	$('select[name="cal_slelect_b"]').val(cal_slelect_b_hidden)
 	$('select[name="cal_slelect_e"]').val(cal_slelect_e_hidden)
 	$('select[name="cal_h"]').val(cal_h_hidden)
-	$("#btnAddPoint").click(function(){
-	
-		$.ajax({
-			url:"/Model/listPoint.php",
-			type:"html",
-			success:function(data){
-				//alert(data);
-				$("#pointListArea").html(data);
-				
-				
-				$("#gridPointList").kendoGrid({
-				       // height: 400,
-						scrollable: false,
-				      
-				        sortable: true,
-				        /*
-				        pageable: {
-				            refresh: true,
-				            pageSizes: true,
-				            buttonCount: 5
-				        },
-				        */
-				 });
-				 
-			}
-		});
-	});
-		
-		
-	//gridConstantList
-	$("#btnConstant").click(function(){
-		
-		$.ajax({
-			url:"Model/listConstant.php",
-			type:"html",
-			success:function(data){
-				//alert(data);
-				$("#constantListArea").html(data);
-				
-				
-				$("#gridConstantList").kendoGrid({
-				       // height: 400,
-						scrollable: false,
-				       // groupable: true,
-				        sortable: true,
-				      /*
-				        pageable: {
-				            refresh: true,
-				            pageSizes: true,
-				            buttonCount: 5
-				        },
-				        */
-				 });
-				 
-			}
-		});
-		//listConstant.php
-		
-	});
+
+
 });
 function clearCalculation(){
 	$("#cal_g").val('');
@@ -82,20 +29,291 @@ function submitCalculation(){
 	document.getElementById('calculationForm').submit()
 
 }
-function searchMmpoint(mmtrend_table_B_selected){
+function doAddMmpoint(){
+	var mmtrend_table_B= $("#mmtrend_table_B").val();
+	var point_ids_input=$('input[name="point_ids_input[]"]:checked').val();
+	//alert(point_ids_input+","+mmtrend_table_B)
+	var obj={
+		"key":point_ids_input,
+		//"H":mmtrend_point_h,
+		"type":mmtrend_table_B
+	}
+	$.ajax({
+		url: "/ajax/addmmpoint/doAdd",
+		method: "POST",
+		data: obj
+	}).done(function(data, status, xhr) {
+		console.log(data);
+		var formula = jQuery.parseJSON(data.formula);
+		var formula_result='';
+		if(mmtrend_table_B=='0' || mmtrend_table_B=='-1'){
+			formula_result=formula.G;
+		}else{
+			formula_result="U0"+obj.type+"D"+obj.key;
+		}
+		var cal_g_old=$("#cal_g").val();
+		//alert(cal_g_old)
+		$("#cal_g").val(cal_g_old+" "+formula_result);
+		$("#modalAddPoint").modal('hide')
+		//alert(formula_result)
+		//$("#point_list_section").html(str);
+	});
+}
+function changeRate(){
+	var cal_g_old=$("#cal_g").val();
+	$("#cal_g").val("ChangeRate@"+cal_g_old);
+}
+function showAddConstant(){
+
+	var obj= {
+		"constantType": "0"
+	}
+	$.ajax({
+		url: "/ajax/constant/search",
+		method: "POST",
+		data: obj
+	}).done(function(data, status, xhr) {
+		console.log(data);
+		var constantM = jQuery.parseJSON(data.constantM);
+		var str=""+
+			" <table id=\"editable\" "+
+			" class=\"table table-striped table-bordered table-hover  dataTable\" "+
+			" role=\"grid\" aria-describedby=\"editable_info\"> "+
+			"   <thead> "+
+			"   <th class=\"\" tabindex=\"0\" "+
+			" aria-controls=\"editable\" rowspan=\"1\" "+
+			" colspan=\"1\" style=\"width: 40%;\" "+
+			" aria-label=\"Browser: activate to sort column ascending\"> "+
+			"   Constant Name "+
+			" </th> "+
+			" <th class=\"\" tabindex=\"0\" "+
+			" aria-controls=\"editable\" rowspan=\"1\" "+
+			" colspan=\"1\" style=\"width: 20%;\" "+
+			" aria-label=\"Platform(s): activate to sort column ascending\"> "+
+			"   Type "+
+			"   </th> "+
+			"   <th class=\"\" tabindex=\"0\"  "+
+			" aria-controls=\"editable\" rowspan=\"1\" "+
+			" colspan=\"1\" style=\"width: 15%;\" "+
+			" aria-label=\"Platform(s): activate to sort column ascending\"> "+
+			"   Value "+
+			"   </th> "+
+			"   <th class=\"\" tabindex=\"0\" "+
+			" aria-controls=\"editable\" rowspan=\"1\" "+
+			" colspan=\"1\" style=\"width: 25%;\" "+
+			" aria-label=\"Platform(s): activate to sort column ascending\"> "+
+			"    "+
+			"   </th> "+
+			"   </tr> "+
+			"   </thead> "+
+			"   <tbody> ";
+		var empId=$("#empId").val();
+		if(constantM!=null && constantM.length>0) {
+			for (var i = 0; i < constantM.length; i++) {
+				str = str +
+					"    <td>"+constantM[i].A+"</td> "+
+					"    <td>";
+						if(empId==constantM[i].C){
+							str = str +"My Constant";
+						}else{
+							str = str +"Standard Consant";
+						}
+				str=str+" </td> ";
+				str = str +"    <td>"+constantM[i].B+"</td> "+
+					" <td>" +
+					"<a onclick=\"selectConstant('"+constantM[i].ZZ+"')\" "+
+					" class=\"btn btn-primary  btn-xs\">Select</a> | "+
+					"<a id=\"btnEdit\" onclick=\"addOrEditConstant('"+constantM[i].ZZ+"')\" " +
+					" class=\"btn btn-dropbox btn-xs\"><i style=\"color: #47a447;\" class=\"glyphicon glyphicon-edit\"></i>" +
+					"</a>| "+
+					"<a onclick=\"doDeleteConstant('"+constantM[i].ZZ+"')\"  " +
+					"class=\"btn btn-dropbox btn-xs\"><i class=\"glyphicon glyphicon-trash text-danger\"></i></a>" +
+					"</td> "+
+					"  </tr> ";
+			}
+		}
+		str=str+" </tbody> "+
+			" </table> ";
+
+		$("#constantListArea").html(str);
+		$("#add_edit_constant").hide();
+		$("#modalConstant").modal();
+	});
+
+}
+function searchConstant(){
+	var constantType= $("#constantType").val();
+	var obj={
+		"constantType":constantType
+	}
+	//alert(constantType)
+	$.ajax({
+		url: "/ajax/constant/search",
+		method: "POST",
+		data: obj
+	}).done(function(data, status, xhr) {
+		console.log(data);
+		var constantM = jQuery.parseJSON(data.constantM);
+		var str=""+
+			" <table id=\"editable\" "+
+			" class=\"table table-striped table-bordered table-hover  dataTable\" "+
+			" role=\"grid\" aria-describedby=\"editable_info\"> "+
+			"   <thead> "+
+			"   <th class=\"\" tabindex=\"0\" "+
+			" aria-controls=\"editable\" rowspan=\"1\" "+
+			" colspan=\"1\" style=\"width: 40%;\" "+
+			" aria-label=\"Browser: activate to sort column ascending\"> "+
+			"   Constant Name "+
+			" </th> "+
+			" <th class=\"\" tabindex=\"0\" "+
+			" aria-controls=\"editable\" rowspan=\"1\" "+
+			" colspan=\"1\" style=\"width: 20%;\" "+
+			" aria-label=\"Platform(s): activate to sort column ascending\"> "+
+			"   Type "+
+			"   </th> "+
+			"   <th class=\"\" tabindex=\"0\"  "+
+			" aria-controls=\"editable\" rowspan=\"1\" "+
+			" colspan=\"1\" style=\"width: 15%;\" "+
+			" aria-label=\"Platform(s): activate to sort column ascending\"> "+
+			"   Value "+
+			"   </th> "+
+			"   <th class=\"\" tabindex=\"0\" "+
+			" aria-controls=\"editable\" rowspan=\"1\" "+
+			" colspan=\"1\" style=\"width: 25%;\" "+
+			" aria-label=\"Platform(s): activate to sort column ascending\"> "+
+			"    "+
+			"   </th> "+
+			"   </tr> "+
+			"   </thead> "+
+			"   <tbody> ";
+		var empId=$("#empId").val();
+		if(constantM!=null && constantM.length>0) {
+			for (var i = 0; i < constantM.length; i++) {
+				str = str +
+					"    <td>"+constantM[i].A+"</td> "+
+					"    <td>";
+				if(empId==constantM[i].C){
+					str = str +"My Constant";
+				}else{
+					str = str +"Standard Consant";
+				}
+				str=str+" </td> ";
+				str = str +"    <td>"+constantM[i].B+"</td> "+
+					" <td>" +
+					"<a onclick=\"selectConstant('"+constantM[i].ZZ+"')\" "+
+			" class=\"btn btn-primary  btn-xs\">Select</a> | "+
+				"<a id=\"btnEdit\" onclick=\"addOrEditConstant('"+constantM[i].ZZ+"')\" " +
+				" class=\"btn btn-dropbox btn-xs\"><i style=\"color: #47a447;\" class=\"glyphicon glyphicon-edit\"></i>" +
+				"</a>| "+
+				"<a onclick=\"doDeleteConstant('"+constantM[i].ZZ+"')\"  " +
+				"class=\"btn btn-dropbox btn-xs\"><i class=\"glyphicon glyphicon-trash text-danger\"></i></a>" +
+					"</td> "+
+					"  </tr> ";
+			}
+		}
+		str=str+" </tbody> "+
+			" </table> ";
+
+		$("#constantListArea").html(str);
+		$("#add_edit_constant").hide();
+	});
+}
+function selectConstant(kk_id){
+
+	var obj={
+		"kk_id":kk_id,
+	}
+	$.ajax({
+		url: "/ajax/constant/get",
+		method: "POST",
+		data: obj
+	}).done(function(data, status, xhr) {
+		console.log(data);
+		var constantM = jQuery.parseJSON(data.constantM);
+		var old_cal_value=$("#cal_g").val();
+		$("#cal_g").val(old_cal_value+" CONSTANT@"+constantM.A);
+		$("#modalConstant").modal('hide');
+	});
+}
+function addOrEditConstant(kk_id){
+	$("#A_value").val("");
+	$("#B_value").val("");
+	$("#ZZ_value").val("");
+	if(kk_id!=''){
+		var obj={
+			"kk_id":kk_id,
+		}
+		$.ajax({
+			url: "/ajax/constant/get",
+			method: "POST",
+			data: obj
+		}).done(function(data, status, xhr) {
+			console.log(data);
+			var constantM = jQuery.parseJSON(data.constantM);
+			//alert(constantM.ZZ)
+			//searchConstant();
+			$("#A_value").val(constantM.A);
+			//alert(A_value)
+			$("#B_value").val(constantM.B);
+			$("#ZZ_value").val(constantM.ZZ);
+		});
+	}
+	$("#add_edit_constant").show();
+
+}
+function doDeleteConstant(kk_id){
+
+	if(kk_id!=''){
+		var obj={
+			"kk_id":kk_id,
+		}
+		$.ajax({
+			url: "/ajax/constant/delete",
+			method: "POST",
+			data: obj
+		}).done(function(data, status, xhr) {
+			console.log(data);
+			searchConstant();
+		});
+	}
+
+}
+function doSubmitConstant(){
+	var A_value= $("#A_value").val().toUpperCase();
+	//alert(A_value)
+	var B_value= $("#B_value").val();
+	var ZZ_value=$("#ZZ_value").val();
+	var obj={
+		"ZZ":ZZ_value,
+		"A":A_value,
+		"B":B_value
+	}
+	$.ajax({
+		url: "/ajax/constant/post",
+		method: "POST",
+		data: obj
+	}).done(function(data, status, xhr) {
+		console.log(data);
+		searchConstant();
+	});
+}
+function searchAddMmpoint(mmtrend_table_B_selected){
 	//alert(mmtrend_table_B_selected)
 	var keyword=$("#keyword").val();
-	var mode=$("#mmtrend_mode").val();
-	var mmtrend_point_zz=$("#mmtrend_point_zz").val();
-	var mmtrend_point_h= $("#mmtrend_point_h").val();
+	//var mode=$("#mmtrend_mode").val();
+	//var mmtrend_point_zz=$("#mmtrend_point_zz").val();
+	//var mmtrend_point_h= $("#mmtrend_point_h").val();
 	var mmtrend_table_B= $("#mmtrend_table_B").val();
 	/*if(mmtrend_table_B_selected=='')
 	 mmtrend_table_B_selected= $('select[id="mmtrend_table_B"]').val();
 	 */
-	//alert(mode+","+mmtrend_point_h+","+mmtrend_table_B+","+mmtrend_table_B_selected);
+
+	//var xxx=$('select[id="mmtrend_table_B"] option:selected').val();
+	//alert(mmtrend_table_B+","+mmtrend_table_B_selected+","+xxx);
+	//return false;
 	var obj={
 		"keyword":keyword,
-		"H":mmtrend_point_h,
+		//"H":mmtrend_point_h,
 		"P":mmtrend_table_B
 	}
 	//alert(id)
@@ -237,7 +455,7 @@ function searchMmpoint(mmtrend_table_B_selected){
 			"   <tbody> ";
 	}
 	$.ajax({
-		url: "/ajax/mmpoint/search",
+		url: "/ajax/addmmpoint/search",
 		method: "POST",
 		data: obj
 	}).done(function(data, status, xhr) {
@@ -251,9 +469,11 @@ function searchMmpoint(mmtrend_table_B_selected){
 						" <tr class=\"gradeA odd\" role=\"row\"> "+
 						"  <td class=\"sorting_1\"> ";
 					var checked_str="";
+					/*
 					if(mmpointM[i].A==mmtrend_point_h){
 						checked_str="checked";
 					}
+					*/
 					str = str +
 						"  <input type=\"radio\" name=\"point_ids_input[]\" "+checked_str+" value=\""+mmpointM[i].A+"\"> "+
 							//  " class=\"i-checks\"> "+
@@ -279,9 +499,11 @@ function searchMmpoint(mmtrend_table_B_selected){
 						" <tr class=\"gradeA odd\" role=\"row\"> "+
 						"  <td class=\"sorting_1\"> ";
 					var checked_str="";
+					/*
 					if(mmpointM[i].A==mmtrend_point_h){
 						checked_str="checked";
 					}
+					*/
 					str = str +
 						"  <input type=\"radio\" name=\"point_ids_input[]\" "+checked_str+" value=\""+mmpointM[i].A+"\"> "+
 							//  " class=\"i-checks\"> "+
@@ -306,4 +528,51 @@ function searchMmpoint(mmtrend_table_B_selected){
 		$("#point_list_section").html(str);
 	});
 
+}
+function  displayAddPoint(){
+	/*
+	$("#mmtrend_mode").val(mode)
+	$("#mmtrend_point_zz").val(id)
+	$("#mmtrend_point_h").val(h_id)
+	//alert($("#mmtrend_point_zz").val())
+	var obj={
+		"ZZ":id,
+		"G":$("#mmtrend_zz").val()
+
+	}
+	//alert(id)
+	$.ajax({
+		url: "/ajax/mmtrend/get",
+		method: "GET",
+		data: obj
+	}).done(function(data, status, xhr) {
+		console.log(data);
+		var mmtrendM = jQuery.parseJSON(data.mmtrendM);
+		var mmnamesM = jQuery.parseJSON(data.mmnameM);
+		var mmpointM = jQuery.parseJSON(data.mmpointM);
+		$("#mmpoint_table_G0").val('');
+		$("#mmpoint_table_G1").val('');
+		$("#mmpoint_table_F").val('');
+
+		var mmtrend_tilte="แก้ใข";
+		if(mode=='add')
+			mmtrend_tilte="เพิ่ม";
+		$("#button_mmtrend_mode_section").html(mmtrend_tilte);
+		//alert(mmtrendM.F0)
+		if(mmtrendM !=null ){
+			$("#mmpoint_table_G0").val(mmtrendM.F0);
+			$("#mmpoint_table_G1").val(mmtrendM.F1);
+			$("#mmpoint_table_F").val(mmtrendM.E);
+			$("#mmtrend_group_b").val(mmtrendM.B);
+		}
+		//  alert(mmnamesM.A)
+		$("#mmtrend_tilte_section").html(mmtrend_tilte+" Point ไปที่ "+mmnamesM.A);
+		$("#modalAddPoint").modal()
+		$("#keyword").val('');
+		searchMmpoint('');
+	});
+	*/
+	$("#modalAddPoint").modal()
+	$("#keyword").val('');
+	searchAddMmpoint('');
 }

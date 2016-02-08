@@ -957,7 +957,8 @@ var plotGraphFn=function(paramAction,paramTest,paramTrendID,paramScaleTime){
 		   
 	   }else{
 		   
-		  var pointChecked = $('input[name=point]:checked');
+		  //var pointChecked = $('input[name=point]:checked');
+		  var pointChecked=$(".paramPointEmbedPrePlot-"+paramTrendID+"").get();
 		  $.each(pointChecked,function(index,indexEntry){
 			 //console.log($(indexEntry).val()); 
 			 
@@ -975,6 +976,7 @@ var plotGraphFn=function(paramAction,paramTest,paramTrendID,paramScaleTime){
 		  //if plot grach is success crate new tab
 		 if(paramAction!='Edit'){
 			 
+		  alert(point);
 		  $(".paramPointEmbed-"+paramTrendID+"").remove();
 		  var paramPoint="";
 		  paramPoint+="<input type='hidden' class='paramPointEmbed-"+paramTrendID+"' id='paramPointEmbed-"+paramTrendID+"' name='paramPointEmbed-"+paramTrendID+"' value='"+point+"'>";

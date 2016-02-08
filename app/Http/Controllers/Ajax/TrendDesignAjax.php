@@ -44,6 +44,16 @@ class TrendDesignAjax extends Controller
             'paging' => $trendDesignsM->render(),
             'mmnameM'=>json_encode($mmnameM)]);
     }
+
+    public function getMmTag(Request $request){
+        $key=request('key');
+
+
+        $mmtagM = DB::table('mmtag_table')->where('A', $key)->first();
+
+        // Log::info("lenth ".sizeof($mmtrendM));
+        return response()->json(['mmtagM'=>json_encode($mmtagM)]);
+    }
     public function getMmTrend(Request $request){
         $zz_data=request('ZZ');
         $g_data=request('G');
@@ -292,6 +302,67 @@ class TrendDesignAjax extends Controller
 
         //$lists = $datas->orderBy('B','ASC')->take(9)->union($old_mmpoint)->get();
         return response()->json(['mmpointM'=>json_encode($lists)]);
+    }
+    public  function searchAddPointMmpoint(Request $request){
+        $keyword=request('keyword');
+       // $h_id=request('H');
+        $p_id=request('P');
+        if($p_id=='0' || $p_id=='-1'){
+            $datas = MmcalculationModel::query();
+            if (sizeof($keyword)>0) {
+                // $datas->where('C','LIKE', "%".$keyword."%");
+                $datas= $datas->Where(function ($datas) use ($keyword){
+                    $datas->orWhere('C', 'LIKE', "%$keyword%")
+                        ->orWhere('D', 'LIKE',"%$keyword%");
+                });
+            }
+            if($p_id=='0'){
+                $datas->where('H','=', "'".Auth::user()->empId."'");
+            }
+            $lists = $datas->take(9);
+            /*
+            if($h_id!='0'){
+                $lists = DB::table('mmcalculation_table')->where('A',$h_id)->union($lists);
+            }
+            */
+
+        }else{
+            $datas = MmpointModel::query();
+            Log::info("keyword [".$keyword."] ");
+            if (sizeof($keyword)>0) {
+                $datas->where('B','LIKE', "%".$keyword."%");
+            }
+            $lists = $datas->take(9);
+            /*
+            if($h_id!='0'){
+                $lists = DB::table('mmpoint_table')->where('A',$h_id)->union($lists);
+            }
+            */
+            // $lists =$lists->get();
+        }
+        $lists =$lists->get();
+
+
+        //$lists = $datas->orderBy('B','ASC')->take(9)->union($old_mmpoint)->get();
+        return response()->json(['mmpointM'=>json_encode($lists)]);
+    }
+    public  function doAddPointMmpoint(Request $request){
+        $key=request('key');
+        // $h_id=request('H');
+        $type=request('type');
+        $datas=null;
+        if($type=='0' || $type=='-1'){
+            $datas = MmcalculationModel::find($key);
+
+
+        }else{
+            $datas = MmpointModel::find($key);
+        }
+      //  $lists =$datas->get();
+
+
+        //$lists = $datas->orderBy('B','ASC')->take(9)->union($old_mmpoint)->get();
+        return response()->json(['formula'=>json_encode($datas)]);
     }
     public function mulipleDB(Request $request){
 

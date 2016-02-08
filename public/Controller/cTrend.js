@@ -533,6 +533,27 @@ function tooltipCustom(paramTrendID){
 	function callCreateFileServiceChart(starttime,endtime,point,_unit,mmunit,scaleTime,paramTrendID){
 		
 		
+		//var queryPoint="111111";
+		
+		var queryPoint="";
+		var queryPointArray="";
+		var paramPointAndUnitArray=$("#paramPointEmbed-"+paramTrendID).val().split(","); 
+		//alert(paramPointAndUnitArray);
+		
+		$.each(paramPointAndUnitArray,function(index,indexEntry){
+			 //alert(indexEntry);
+			 queryPointArray=indexEntry.split("-");
+			 
+				 if(index==0){
+					 queryPoint+="(SELECT "+queryPointArray[0]+" FROM datau0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
+				 }else{
+					 queryPoint+=",(SELECT "+queryPointArray[0]+" FROM datau0"+queryPointArray[1]+"   WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
+				}
+					
+		});
+		
+		//alert(queryPoint);
+		
 		
 		if(scaleTime=="Hour"){
 			//alert("scaleTime"+scaleTime);
@@ -557,7 +578,7 @@ function tooltipCustom(paramTrendID){
 		}else{
 			
 			$.ajax({
-				url:"/ais/serviceTrend/createDataMinuteu/"+point+"/"+mmunit+"/"+paramTrendID+"/"+starttime+"/"+endtime,
+				url:"/ais/serviceTrend/createDataMinuteu/"+point+"/"+mmunit+"/"+paramTrendID+"/"+starttime+"/"+endtime+"/"+queryPoint,
 				type:"get",
 				dataType:"json",
 				async:false,
@@ -1195,9 +1216,17 @@ function tooltipCustom(paramTrendID){
 			}
 			
 			
+			var paramUnitEmbedCall="";
+			//alert($("#paramUnitEmbed-"+paramTrendID+"").val());
 			
+			if($("#paramUnitEmbed-"+paramTrendID+"").val()=='All'){
+				paramUnitEmbedCall="All";
+			}else{
+				paramUnitEmbedCall="0"+$("#paramUnitEmbed-"+paramTrendID+"").val();
+			}
+			//alert("paramUnitEmbedCall="+paramUnitEmbedCall);
 			
-			callCreateFileServiceChart(fromDate,toDate,pointDataId,mmPlant,"0"+$("#paramUnitEmbed-"+paramTrendID+"").val(),scaleTime,paramTrendID);
+			callCreateFileServiceChart(fromDate,toDate,pointDataId,mmPlant,paramUnitEmbedCall,scaleTime,paramTrendID);
 			
 			
 			
@@ -1559,5 +1588,8 @@ function tooltipCustom(paramTrendID){
 					
 					 
 		}
+	 
+	
+	 
 //});
 //}
