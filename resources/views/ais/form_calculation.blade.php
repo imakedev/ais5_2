@@ -83,9 +83,11 @@
                                                <option value="Enthalpy_s_p(s;p)">Enthalpy_s_p(s;p)</option>
                                               <option value="Enthalpy_Tsat(t;x)">Enthalpy_Tsat(t;x)</option>
                                                <option value="Enthalpy_Psat(p;x)">Enthalpy_Psat(p;x)</option>
+
                                               <option value="Entropy(t;p)">Entropy(t;p)</option>
                                               <option value="Entropy_Tsat(t;x)">Entropy_Tsat(t;x)</option>
                                                <option value="Entropy_Psat(p;x)">Entropy_Psat(t;p)</option>
+
                                               <option value="Density(t;p)">Density(t;p)</option>
                                                <option value="Viscosity(t;p)">Viscosity(t;p)</option>
                                               <option value="Density_Tsat(t;x)">Density_Tsat(t;x)</option>
@@ -108,12 +110,16 @@
                                               <option value="^"> ^ </option>
                                               <option value="%"> % </option>
                                               <option value=";"> ; </option>
+                                              <!--
                                               <option value="["> [ </option>
                                               <option value="{"> { </option>
+                                              -->
                                               <option value="("> ( </option>
                                               <option value=")"> ) </option>
+                                              <!--
                                               <option value="}"> } </option>
                                               <option value="]"> ] </option>
+                                              -->
                                         </select> 
                                         
                                     </div>
@@ -122,27 +128,44 @@
                                 <div class='col-xs-6'>
                                      <label><input type='radio'  name='cal' value="function" > Function</label>
                                      <div class="input-group">
+                                         <!-- Sgn function vb -->
                                           <select class="form-control input-sm" id="function" name="function">
-                                            <option value="Abs(x)">Abs(x)</option>
+                                            <option value="abs(x)">Abs(x)</option>
+                                              <!--
                                               <option value="Fix(x)">Fix(x)</option>
-                                              <option value="Int(x)">Int(x)</option>
-                                              <option value="Dec(x)">Dec(x)</option>
+                                              -->
+                                              <option value="int(x)">Int(x)</option>
+                                              <option value="decimal(x)">Dec(x)</option>
+                                              <!--
                                               <option value="Fact(x)">Fact(x)</option>
-                                              <option value="Rnd(X)">Rnd(x)</option>
-                                              <option value="Sgn(x)">Sgn(x)</option>
-                                              <option value="Sqr(x)">Sqr(x)</option>
-                                              <option value="Cbr(x)">Cbr(x)</option>
-                                              <option value="Exp(x)">Exp(x)</option>
+                                              -->
+                                              <option value="random()">Rnd(x)</option> <!-- rnd() -->
+                                              <option value="signum(x)">Signum(x)</option> <!-- signum(x) -->
+                                              <option value="sqrt(x)">Sqrt(x)</option> <!-- sqrt(x) build in -->
+                                              <option value="cbrt(x)">Cbrt(x)</option>
+                                              <option value="exp(x)">Exp(x)</option>
+                                              <!--
                                               <option value="Ln(x)">Ln(x)</option>
-                                              <option value="Log(x)">Log(x)</option>
-                                              <option value="LogN(x;n)">LogN(x;n)</option>
+                                              -->
+                                              <option value="log(x)">Log(x)</option> <!-- log  build in -->
+                                              <option value="log10(x)">Log10(x)</option> <!-- log  build in -->
+                                              <option value="log2(x)">Log2(x)</option> <!-- log  build in -->
+                                              <!--
+                                              <option value="LogN(x;n)">LogN(x;n)</option> <!-- log10 log2 buid in -->
+                                              -->
+                                              <!--
                                               <option value="Root(x;n)">Root(x;n)</option>
-                                              <option value="Mod(a;b)">Mod(a;b)</option>
+                                              -->
+                                              <option value="mod(a;b)">Mod(a;b)</option> <!-- (x%y) -->
+                                              <!--
                                               <option value="Comb(n;k)">Comb(n;k)</option>
-                                              <option value="Max(a;b)">Max(a;b)</option>
-                                              <option value="Min(a;b)">Min(a;b)</option>
+                                              -->
+                                              <option value="max(a;b)">Max(a;b)</option>
+                                              <option value="min(a;b)">Min(a;b)</option>
+                                              <!--
                                               <option value="Mcd(a;b)">Mcd(a;b)</option>
                                               <option value="Mcm(a;b)">Mcm(a;b)</option>
+                                              -->
                                         </select> 
                                         
                                     </div>
@@ -153,18 +176,18 @@
                                      <div class="input-group">
                                           <select class="form-control input-sm" id="trigon" name="trigon">
                                          
-                                            <option value="Sin(x)">Sin(x)</option>
-                                              <option value="Cos(x)">Cos(x)</option>
-                                              <option value="Tan(x)">Tan(x)</option>
-                                              <option value="Asin(x)">Asin(x)</option>
-                                              <option value="Acos(x)">Acos(x)</option>
-                                              <option value="Atan(x)">Atan(x)</option>
-                                              <option value="Sinh(x)">Sinh(x)</option>
-                                              <option value="Cosh(x)">Cosh(x)</option>
-                                              <option value="Tanh(x)">Tanh(x)</option>
-                                              <option value="Asinh(x)">Asinh(x)</option>
-                                              <option value="Acosh(x)">Acosh(x)</option>
-                                              <option value="Atanh(x)">Atanh(x)</option>
+                                            <option value="sin(x)">Sin(x)</option>
+                                              <option value="cos(x)">Cos(x)</option>
+                                              <option value="tan(x)">Tan(x)</option>
+                                              <option value="asin(x)">Asin(x)</option>
+                                              <option value="acos(x)">Acos(x)</option>
+                                              <option value="atan(x)">Atan(x)</option>
+                                              <option value="sinh(x)">Sinh(x)</option>
+                                              <option value="cosh(x)">Cosh(x)</option>
+                                              <option value="tanh(x)">Tanh(x)</option>
+                                              <option value="asinh(x)">Asinh(x)</option>
+                                              <option value="acosh(x)">Acosh(x)</option>
+                                              <option value="atanh(x)">Atanh(x)</option>
                                         </select> 
                                         
                                     </div>
