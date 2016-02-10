@@ -237,12 +237,23 @@ var bindGridPoinList = function(){
 				console.log(data);
 				
 				var tableTrendHTML="";
+				
+				
+				//var pointPrePlot=$(".paramPointEmbedPrePlot-"+trendID).val();
+				/*
+				$.each(pointPrePlot,function(index1,indexEntry1){
+					alert(indexEntry1);
+				});
+				*/
+				
 				$.each(data,function(index,indexEntry){
 					
+					
+							
 							tableTrendHTML+=" <tr>";
 
 					            tableTrendHTML+="<td>";
-					            tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' name='point' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'></div>";
+					            tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' class='point' id='point-"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'  name='point' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'></div>";
 					            tableTrendHTML+="</td>";
 					            tableTrendHTML+="<td>"+indexEntry['A']+"</td>";
 					            tableTrendHTML+="<td>"+indexEntry['B']+"</td>";
@@ -260,7 +271,50 @@ var bindGridPoinList = function(){
 				//createHtmlGridTrendList();
 				createHtmlGridPointList();
 				$("#pointDataArea").html(tableTrendHTML);
-				bindGridPoinList();
+				
+				
+				 
+				
+				
+				//setTimeout(function(){
+					
+				
+				//loop data for checked start
+				 var objectPoint= $(".point").get();
+				 console.log(objectPoint);
+				 var objectPointPrePlot=$(".paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"").get();
+				 $.each(objectPointPrePlot,function(index,indexEntry){
+					 //alert($(indexEntry).val());
+					 
+					 
+					
+					 
+					 $.each(objectPoint,function(index2,indexEntry2){
+						 //alert("indexEntry2="+$(indexEntry2).val()+"="+$(indexEntry).val());
+						// alert("indexEntry="+$(indexEntry).val());
+						 if($(indexEntry2).val()==$(indexEntry).val()){
+							 //alert("ok");
+							 //alert("#point-"+$(indexEntry2).val());
+							 
+							 console.log("#point-"+$(indexEntry2).val());
+							 
+							 //$("#point-"+$(indexEntry2).val()).addClass("test");
+							 $("#point-"+$(indexEntry2).val()).attr('checked',true);
+							 //point-260-4-6131
+							// console.log($("#point-"+$(indexEntry2).val()));
+						 }
+						 
+					 });
+					 
+					
+				 });
+				//loop data for checked end
+				 bindGridPoinList();
+				//},1000);
+				
+				 
+				
+				 
 				
 				//alert(tableTrendHTML);
 				
@@ -274,9 +328,14 @@ var bindGridPoinList = function(){
 		
 		$(document).on("click",".choosePoint",function(){
 			
-			
+			$(".displayPoint").show();
 			var trendID = this.id.split("-");
 			trendID=trendID[1];
+			
+			
+			$("#paramTrendIDEmbedPrePlot").remove();
+			$("body").append("<input type='hidden' id='paramTrendIDEmbedPrePlot' class='paramTrendIDEmbedPrePlot' value='"+trendID+"'>");
+			
 			
 			if(trendID==$("#paramTrendIDEmbed-"+trendID).val()){
 				alert("This trend is already");
@@ -287,7 +346,7 @@ var bindGridPoinList = function(){
 			var unitHtml="";
 			unitHtml+="<select class=\"form-control input-sm unit\" id=\"unit-"+trendID+"\" name=\"unit-"+trendID+"\">";
 				unitHtml+="<option selected value='All'>All Unit</option>";
-				unitHtml+="<option selected value='4'>MM04</option>";
+				unitHtml+="<option value='4'>MM04</option>";
                 unitHtml+="<option value='5'>MM05</option>";
                 unitHtml+="<option value='6'>MM06</option>";
                 unitHtml+="<option value='7'>MM07</option>";
@@ -303,8 +362,9 @@ var bindGridPoinList = function(){
 				   
 				  var trendID=this.id.split("-");
 				  trendID=trendID[1];
-				  //alert(trendID);
-				  //alert($(this).val());
+				  
+				 
+				  
 				  //getPointListFn($("#paramTrendIDEmbed-"+trendID).val(),$(this).val());
 				  getPointListFn(trendID,$(this).val());
 				  $("#paramUnitEmbed-"+trendID).remove();
@@ -349,6 +409,7 @@ var bindGridPoinList = function(){
 			
 			//show element
 			$("#trendNameArea").show();
+			$("#pointCompareArea").show();
 			var htmlBtnPlotGraph="";
 			htmlBtnPlotGraph="<div class='col-xs-12'><buton id=\"btnPlotGraph-"+trendID+"\" class=\"btn btn-primary  btn-sm pull-right btnPlotGraph\">Plot Graph </buton></div>";
 			$("#btnPlotGraphArea").html(htmlBtnPlotGraph);
@@ -361,6 +422,12 @@ var bindGridPoinList = function(){
 			$(".btnPlotGraph").on("click",function(){
 			   var trendID=this.id.split("-");
 			   trendID=trendID[1];
+			   
+			   
+			   //Delete  paramPointEmbedPrePlot start
+			   //$(".paramPointEmbedPrePlot-"+trendID+"").remove();
+			   //Delete  paramPointEmbedPrePlot end
+			   
 			   //check value in check box is not null start
 			   //validationPoint();
 			   //check value in check box is not null end
@@ -469,8 +536,9 @@ var bindGridPoinList = function(){
 		  //binding change list group trend end   
 		   $("#btnSearchByGroup").click(function(){
 			 //  alert($("#listAllTrendGroup").val());
-			   createHtmlGridTrendList();
 			   
+			   $(".displayPoint").hide();
+			   createHtmlGridTrendList();
 			   trendFn.getTrendByGroupFn($("#listAllTrendGroup").val(),$("#searhTrend").val()); 
 			   
 			   //alert($("#searhTrend").val());
@@ -513,11 +581,35 @@ var bindGridPoinList = function(){
 		 //TEST GRAPH START
 		  
 		
+		 //embed point id for plot graph start
+		$(document).on("click",".point",function(){
+			
+			 var pointIDArray = $(this).val().split("-");
+			 var pointID=pointIDArray[0];
+			 
+			 if($(this).prop( "checked" )==true){
+				 
+				  var paramPoint="";
+				  paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"-"+pointID+"' name='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"-"+pointID+"' value='"+$(this).val()+"'>";
+				  $("body").append(paramPoint);
+				  
+			 }else{
+				 $("#paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"-"+pointID+"").remove();
+			 }
+			 
+			 //console.log("-----");
+			 //console.log($(".paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"").get());
 			 /*
-			$(document).on("click",".choosePoint",function(){
-				alert("hello1");
-			});
+			 var objectPointPrePlot=$(".paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"").get();
+			 
+			 $.each(objectPointPrePlot,function(index,indexEntry){
+				 alert($(indexEntry).val());
+			 });
 			 */
+			 
+			
+		});
+		//embed point id for plot graph end	 
 			
 		
 	});

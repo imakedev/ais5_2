@@ -41,13 +41,28 @@ class serviceTrendController  extends Controller{
     point:D32,D223,D131
     starttime:2014-05-06 00:00:00
     */
-    public function createDataMinuteu($point,$unit,$trendID,$startTime,$endTime){
+    
+    public function createDataMinuteu($point,$unit,$trendID,$startTime,$endTime,$queryPoint){
         
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
         
-        $query="SELECT EvTime,".$point." FROM datau".$unit." WHERE EvTime BETWEEN '".$startTime."' and '".$endTime."'";
-        
+        //$query="SELECT EvTime,".$point." FROM datau".$unit." WHERE EvTime BETWEEN '".$startTime."' and '".$endTime."'";
+        /*
+        $query1="
+        SELECT EvTime AS EvTime2,
+        (SELECT D1 FROM datau05  WHERE EvTime=EvTime2) AS U05D1,
+        (SELECT D1 FROM datau07  WHERE EvTime=EvTime2) AS U07D1
+        FROM datau04 
+        WHERE EvTime BETWEEN '2014-05-01 00:00:00' and '2014-05-02 00:00:00'   
+        ";
+        */
+        $query="
+        SELECT EvTime AS EvTime2,
+        $queryPoint
+        FROM datau04
+        WHERE EvTime BETWEEN '".$startTime."' and '".$endTime."'
+        ";
         if($user_mmplant==1){
             $reslutQuery = DB::connection('mysql_ais_47')->select($query);
         }else if($user_mmplant==2){
@@ -57,7 +72,7 @@ class serviceTrendController  extends Controller{
         }else{
             $reslutQuery = DB::select($query);
         }
-       
+      
        
         $strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$user_mmplant.txt";
         $objCreate = fopen($strFileName, 'w');
@@ -66,9 +81,10 @@ class serviceTrendController  extends Controller{
             //echo '["createJsonSuccess"]';
         
         
-            $strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$user_mmplant.txt";
+            //$strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$user_mmplant.txt";
             $objFopen = fopen($strFileName, 'w');
             $strText1 = json_encode($reslutQuery);
+            //echo "strText1=".$strText1;
             fwrite($objFopen, $strText1);
             if($objFopen)
             {

@@ -6,6 +6,32 @@
 <button id='btnCallAjax'>CallAjax</button>
 <button id='btnReadAjax'>btnReadAjax</button>
 -->
+<button id='callTest'>CallTest</button>
+<script>
+
+$(document).on("click","#callTest",function(){
+	 	
+		var paramPointAndUnitArray="D260-4-6131,D260-5-6132,D260-6-6133".split(","); 
+		//alert(paramPointAndUnitArray[0]);
+		//(SELECT D1 FROM datau05  WHERE EvTime=EvTime2) AS U05D1,
+		
+		var queryPoint="";
+		var queryPointArray="";
+		$.each(paramPointAndUnitArray,function(index,indexEntry){
+			 //alert(indexEntry);
+			 queryPointArray=indexEntry.split("-");
+			 
+				 if(index==0){
+					 queryPoint+="(SELECT "+queryPointArray[0]+" FROM datau0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
+				 }else{
+					 queryPoint+=",(SELECT "+queryPointArray[0]+" FROM datau0"+queryPointArray[1]+"   WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
+				}
+					
+		});
+		alert(queryPoint);
+});
+
+</script>
 
 <script>
 $("#btnCallAjax").click(function(){
@@ -79,8 +105,13 @@ $("#btnReadAjax").click(function(){
 <!-- grid list Trend -->
 <div id='gridTrendListArea'></div>
 <br style='clear:both'>
- <div class="col-xs-10  displaynone " id='trendNameArea'>
-  Trend Name1 <i class='glyphicon glyphicon-menu-right'></i> <span id='trendName'></span>
+
+<div id='pointArea' class='displayPoint'>
+ <div class="col-xs-8  displaynone " id='trendNameArea'>
+  Trend Name <i class='glyphicon glyphicon-menu-right'></i> <span id='trendName'></span>
+ </div>
+  <div class="col-xs-2 displaynone" id='pointCompareArea'>
+     <input type='checkbox'  name='pointCompare' id='pointCompare' value="Y"> Point Compare
  </div>
  <div class="col-xs-offset-0 col-xs-2 ">
         <div id='listAllUnitArea' class='displaynone'>
@@ -105,4 +136,5 @@ $("#btnReadAjax").click(function(){
 <br style='clear:both'>
 <br style='clear:both'>
 <br style='clear:both'>
+</div>
 <!-- grid list piont -->

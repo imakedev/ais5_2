@@ -270,7 +270,7 @@ Route::group(['middleware' => 'web'], function () {
     /*trend service start*/
     
     //$point,$unit,$trendID,$empId,$mmPlant,$startTime,$endTime
-    Route::get('/ais/serviceTrend/createDataMinuteu/{point}/{unit}/{trendID}/{startTime}/{endTime}/','serviceTrendController@createDataMinuteu');
+    Route::get('/ais/serviceTrend/createDataMinuteu/{point}/{unit}/{trendID}/{startTime}/{endTime}/{queryPoint}','serviceTrendController@createDataMinuteu');
     //readDataMinuteu(trendID,empID,mmPlant)
     Route::get('/ais/serviceTrend/readDataMinuteu/{trendID}/','serviceTrendController@readDataMinuteu');
     
