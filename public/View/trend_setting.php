@@ -6,7 +6,9 @@
 <button id='btnCallAjax'>CallAjax</button>
 <button id='btnReadAjax'>btnReadAjax</button>
 -->
+<!-- 
 <button id='callTest'>CallTest</button>
+ -->
 <script>
 
 $(document).on("click","#callTest",function(){

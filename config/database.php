@@ -85,6 +85,54 @@ return [
         'prefix'    => '',
         'strict'    => false,
         ],
+        
+        'mysql_ais_log_47_4' => [
+        'driver'    => 'mysql',
+        'host'      => env('DB_HOST_LOG_47_4', '10.249.94.232'),
+        'database'  => env('DB_DATABASE_LOG_47_4', 'log04'),
+        'username'  => env('DB_USERNAME_LOG_47_4', 'root'),
+        'password'  => env('DB_PASSWORD_LOG_47_4', 'seven'),
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => '',
+        'strict'    => false,
+        ],
+        
+        'mysql_ais_log_47_5' => [
+        'driver'    => 'mysql',
+        'host'      => env('DB_HOST_LOG_47_5', '10.249.94.232'),
+        'database'  => env('DB_DATABASE_LOG_47_5', 'log05'),
+        'username'  => env('DB_USERNAME_LOG_47_5', 'root'),
+        'password'  => env('DB_PASSWORD_LOG_47_5', 'seven'),
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => '',
+        'strict'    => false,
+        ],
+        
+        'mysql_ais_log_47_6' => [
+        'driver'    => 'mysql',
+        'host'      => env('DB_HOST_LOG_47_6', '10.249.94.232'),
+        'database'  => env('DB_DATABASE_LOG_47_6', 'log06'),
+        'username'  => env('DB_USERNAME_LOG_47_6', 'root'),
+        'password'  => env('DB_PASSWORD_LOG_47_6', 'seven'),
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => '',
+        'strict'    => false,
+        ],
+        
+        'mysql_ais_log_47_7' => [
+        'driver'    => 'mysql',
+        'host'      => env('DB_HOST_LOG_47_7', '10.249.94.232'),
+        'database'  => env('DB_DATABASE_LOG_47_7', 'log07'),
+        'username'  => env('DB_USERNAME_LOG_47_7', 'root'),
+        'password'  => env('DB_PASSWORD_LOG_47_7', 'seven'),
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => '',
+        'strict'    => false,
+        ],
 
         'pgsql' => [
             'driver'   => 'pgsql',
