@@ -259,6 +259,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/ais/trendSetting/getTrendByGroup/{id}/{trendGroupName?}','trendSetingController@getTrendByGroup');
     Route::get('/ais/trendSetting/getPointByTrend/{trendID}/{unitID}','trendSetingController@getPointByTrend');
     Route::get('/ais/trendSetting/getPointByPointID/{pontID}','trendSetingController@getPointByPointID');
+    Route::get('/ais/trendSetting/getPointCompareByTrendIDAndPointID/{trendID}/{pontID}','trendSetingController@getPointCompareByTrendIDAndPointID');
     Route::post('/ais/trendSetting/getDataByQuery/{query}','trendSetingController@getDataByQuery');
     // Route::get('/trendSetting/edit/','trendSetingController@editMember');
 
@@ -270,19 +271,19 @@ Route::group(['middleware' => 'web'], function () {
     /*trend service start*/
     
     //$point,$unit,$trendID,$empId,$mmPlant,$startTime,$endTime
-    Route::get('/ais/serviceTrend/createDataMinuteu/{point}/{unit}/{trendID}/{startTime}/{endTime}/{queryPoint}','serviceTrendController@createDataMinuteu');
+    Route::get('/ais/serviceTrend/createDataMinuteu/{trendID}/{startTime}/{endTime}/{queryPoint}/{unitIdPointId}','serviceTrendController@createDataMinuteu');
     //readDataMinuteu(trendID,empID,mmPlant)
     Route::get('/ais/serviceTrend/readDataMinuteu/{trendID}/','serviceTrendController@readDataMinuteu');
     
-    Route::get('/ais/serviceTrend/getDataHru/{point}/{unit}/{startTime}/{endTime}/{trendID}/','serviceTrendController@getDataHru');
+    Route::get('/ais/serviceTrend/getDataHru/{startTime}/{endTime}/{trendID}/{queryPoint}/{unitIdPointId}','serviceTrendController@getDataHru');
     Route::get('/ais/serviceTrend/readDataHru/{trendID}/','serviceTrendController@readDataHru');
     
     
-    Route::get('/ais/serviceTrend/getDataDayu/{point}/{unit}/{startTime}/{endTime}/{trendID}/','serviceTrendController@getDataDayu');
+    Route::get('/ais/serviceTrend/getDataDayu/{startTime}/{endTime}/{trendID}/{queryPoint}/{unitIdPointId}','serviceTrendController@getDataDayu');
     Route::get('/ais/serviceTrend/readDataDayu/{trendID}/','serviceTrendController@readDataDayu');
     
     
-    Route::get('/ais/serviceTrend/getDataMonthu/{point}/{unit}/{startTime}/{endTime}/{trendID}/','serviceTrendController@getDataMonthu');
+    Route::get('/ais/serviceTrend/getDataMonthu/{startTime}/{endTime}/{trendID}/{queryPoint}/{unitIdPointId}','serviceTrendController@getDataMonthu');
     Route::get('/ais/serviceTrend/readDataMonthu/{trendID}','serviceTrendController@readDataMonthu');
     
     
@@ -292,7 +293,7 @@ Route::group(['middleware' => 'web'], function () {
     
     
     Route::get('/ais/serviceTrend/readEventDataTrend/{point}/{unit}/{startTime}/{endTime}/','serviceTrendController@readEventDataTrend');
-    Route::get('/ais/serviceTrend/readEventDataTrendByEvent/{point}/{unit}/{dateTime}/{event}/','serviceTrendController@readEventDataTrendByEvent');
+    Route::get('/ais/serviceTrend/readEventDataTrendByEvent/{tagName}/{startDateTime}/{endDateTime}/{event}/','serviceTrendController@readEventDataTrendByEvent');
     
     
     
