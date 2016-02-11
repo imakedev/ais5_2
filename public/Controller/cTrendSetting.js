@@ -196,9 +196,10 @@ var bindGridPoinList = function(){
 				$.each(data,function(index,indexEntry){
 					
 							tableTrendHTML+=" <tr>";
-
+																					//<input type="checkbox" value="260-4-6131" name="point" id="point-260-4-6131" class="point">
 					            tableTrendHTML+="<td>";
-					            tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' name='point' class='trend-"+trendID+"' id='trend-"+trendID+"' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'></div>";
+					            //tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' name='point' class='trend-"+trendID+"' id='trend-"+trendID+"' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'></div>";
+					            tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' name='pointEdit-"+trendID+"' class='pointEdit-"+trendID+"' id='pointEdit-"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'></div>";
 					            tableTrendHTML+="</td>";
 					            tableTrendHTML+="<td>"+indexEntry['A']+"</td>";
 					            tableTrendHTML+="<td>"+indexEntry['B']+"</td>";
@@ -214,8 +215,58 @@ var bindGridPoinList = function(){
 				
 				$("#editPointDataArea").html(tableTrendHTML);
 				
+				
+				//loop data for checked start
+				
+				 var objectPoint= $(".pointEdit-"+trendID).get();
+				 //console.log("objectPoint2222222");
+				 console.log(objectPoint);
+				 var objectPointPrePlot=$(".paramPointEmbedPrePlot-"+trendID+"").get();
+				// console.log("objectPointPrePlot2222222");
+				 console.log(objectPointPrePlot);
+				 $.each(objectPointPrePlot,function(index,indexEntry){
+		
+					 $.each(objectPoint,function(index2,indexEntry2){
+
+						 if($(indexEntry2).val()==$(indexEntry).val()){
+							 
+							 console.log("#point-"+$(indexEntry2).val());
+							 
+							 $("#pointEdit-"+$(indexEntry2).val()).attr('checked',true);
+						 }
+						 
+					 });
+
+				 });
+				 
+				//loop data for checked end
+				
+				//embed point id for plot graph start
+				$(document).off("click",".pointEdit-"+trendID);
+				$(document).on("click",".pointEdit-"+trendID,function(){
+					 alert($(this).val());
+					 var pointIDArray = $(this).val().split("-");
+					 var pointID=pointIDArray[0];
+					 
+					 if($(this).prop( "checked" )==true){
+						 
+						  var paramPoint="";
+						  paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+$(this).val()+"' name='paramPointEmbedPrePlot-"+$(this).val()+"' value='"+$(this).val()+"'>";
+						  $("body").append(paramPoint);
+						  
+					 }else{
+						 $("#paramPointEmbedPrePlot-"+$(this).val()+"").remove();
+					 }
+					
+				});
+				
+				//embed point id for plot graph end	 
+				
+				 
+				
 				$("#editGridPointList").kendoGrid({
 			        sortable: true,
+			       // height: 300,
 			        pageable: {
 			            refresh: true,
 			            pageSizes: true,
@@ -332,9 +383,10 @@ var bindGridPoinList = function(){
 			var trendID = this.id.split("-");
 			trendID=trendID[1];
 			
-			
+			$(".paramPointEmbedPrePlot-"+trendID+"").remove();
 			$("#paramTrendIDEmbedPrePlot").remove();
 			$("body").append("<input type='hidden' id='paramTrendIDEmbedPrePlot' class='paramTrendIDEmbedPrePlot' value='"+trendID+"'>");
+			
 			
 			
 			if(trendID==$("#paramTrendIDEmbed-"+trendID).val()){
@@ -362,8 +414,6 @@ var bindGridPoinList = function(){
 				   
 				  var trendID=this.id.split("-");
 				  trendID=trendID[1];
-				  
-				 
 				  
 				  //getPointListFn($("#paramTrendIDEmbed-"+trendID).val(),$(this).val());
 				  getPointListFn(trendID,$(this).val());
@@ -420,8 +470,17 @@ var bindGridPoinList = function(){
 			
 			$(".btnPlotGraph").off("click");
 			$(".btnPlotGraph").on("click",function(){
+				
+				
 			   var trendID=this.id.split("-");
 			   trendID=trendID[1];
+			   
+			   var countPointArray=$("input.point:checked").get();
+				 //alert(countPointArray.length);
+				 if(countPointArray.length<1){
+					 alert("เลือก point ด้วยครับ");
+					 return false;
+				 }
 			   
 			   
 			   //Delete  paramPointEmbedPrePlot start
@@ -439,6 +498,8 @@ var bindGridPoinList = function(){
 				$("#paramTrendIDEmbed-"+trendID).remove();
 				$("body").append("<input type='hidden' id='paramTrendIDEmbed-"+trendID+"' class='paramTrendIDEmbed' value='"+trendID+"'>");
 				
+				
+				$(".paramPointEmbedPrePlot-"+trendID+"").remove();
 			   
 			});
 			   
@@ -580,21 +641,78 @@ var bindGridPoinList = function(){
 	
 		 //TEST GRAPH START
 		  
-		
+		//point compare start
+		 $(document).on("click","#pointCompare",function(){
+
+				 $('input.point').prop('checked' , false);
+				 $(".paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()).remove();
+
+			 
+		 });
+		//point compare end
 		 //embed point id for plot graph start
 		$(document).on("click",".point",function(){
+			// alert($(this).val());
 			
+			//alert($("#pointCompare").is(':checked'));
+			 if($("#pointCompare").is(':checked')==true){
+				 //alert("commpare checked");
+				 var countPointArray=$("input.point:checked").get();
+				 alert(countPointArray.length);
+				 if(countPointArray.length>1){
+					 alert("compare point เลือกได้แค่ 1 point");
+					 return false;
+				 }else if(countPointArray.length==1){
+					 var paramPoint="";
+					  //alert($(countPointArray).val());
+					 
+					 var compareDataIDArray=$(countPointArray).val().split("-");
+					  //alert(compareDataIDArray[0]);
+					  
+					  $.ajax({
+						 url:"/ais/trendSetting/getPointCompareByTrendIDAndPointID/"+$("#paramTrendIDEmbedPrePlot").val()+"/"+compareDataIDArray[0]+"",
+						 type:"get",
+						 dataType:"json",
+						 async:false,
+						 success:function(data){
+							 /*
+							 console.log("test----test");
+							 console.log(data);
+							 */
+							 $.each(data,function(index,indexEntry){
+								 
+								 
+								 paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"' name='paramPointEmbedPrePlot-"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'>";
+							 });
+						 }
+					  });
+					  
+					 /*
+					  paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+compareDataIDArray[0]+"-4-"+compareDataIDArray[2]+"' name='paramPointEmbedPrePlot-"+compareDataIDArray[0]+"-4-"+compareDataIDArray[2]+"' value='"+compareDataIDArray[0]+"-4-"+compareDataIDArray[2]+"'>";
+					  paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+compareDataIDArray[0]+"-5-"+compareDataIDArray[2]+"' name='paramPointEmbedPrePlot-"+compareDataIDArray[0]+"-5-"+compareDataIDArray[2]+"' value='"+compareDataIDArray[0]+"-5-"+compareDataIDArray[2]+"'>";
+					  paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+compareDataIDArray[0]+"-6-"+compareDataIDArray[2]+"' name='paramPointEmbedPrePlot-"+compareDataIDArray[0]+"-6-"+compareDataIDArray[2]+"' value='"+compareDataIDArray[0]+"-6-"+compareDataIDArray[2]+"'>";
+					  paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+compareDataIDArray[0]+"-7-"+compareDataIDArray[2]+"' name='paramPointEmbedPrePlot-"+compareDataIDArray[0]+"-7-"+compareDataIDArray[2]+"' value='"+compareDataIDArray[0]+"-7-"+compareDataIDArray[2]+"'>";
+					  $("body").append(paramPoint);
+					  */
+					  $("body").append(paramPoint);
+					 
+				 }
+			 }
 			 var pointIDArray = $(this).val().split("-");
 			 var pointID=pointIDArray[0];
 			 
 			 if($(this).prop( "checked" )==true){
-				 
-				  var paramPoint="";
-				  paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"-"+pointID+"' name='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"-"+pointID+"' value='"+$(this).val()+"'>";
-				  $("body").append(paramPoint);
-				  
+				 if($("#pointCompare").is(':checked')==false){
+					  var paramPoint="";
+					  paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+$(this).val()+"' name='paramPointEmbedPrePlot-"+$(this).val()+"' value='"+$(this).val()+"'>";
+					  $("body").append(paramPoint);
+				 }
 			 }else{
-				 $("#paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"-"+pointID+"").remove();
+				 if($("#pointCompare").is(':checked')==true){
+					 $(".paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()).remove();
+				 }else{
+					 $("#paramPointEmbedPrePlot-"+$(this).val()+"").remove();
+				 }
 			 }
 			 
 			 //console.log("-----");
