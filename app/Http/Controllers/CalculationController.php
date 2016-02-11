@@ -136,6 +136,7 @@ class CalculationController  extends Controller
     {
         Log::info("edit [".$id."] ");
         $mmcalculation =   MmcalculationModel::find($id);
+       // echo "mmcalculation=".$mmcalculation;
         return view('ais.form_calculation', ['mmcalculation'=>$mmcalculation]);
     }
 
