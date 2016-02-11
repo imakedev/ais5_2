@@ -42,7 +42,7 @@
             <li class="active">
                 <a href="index"><i class="fa fa-dashboard"></i><span class="nav-label">Dashboards</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li class="active"><a href="{{  url('/ais/trend')  }}">Trend</a></li>
+                    <li class="active"><a  href="{{  url('/ais/trend')  }}">Trend</a></li>
                     <li><a href="{{  url('/ais/sootBlower')  }}">Soot/Blower</a></li>
                     <li><a href="{{  url('/ais/processView')  }}">Process View</a></li>
 

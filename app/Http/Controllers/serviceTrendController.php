@@ -42,7 +42,7 @@ class serviceTrendController  extends Controller{
     starttime:2014-05-06 00:00:00
     */
     
-    public function createDataMinuteu($point,$unit,$trendID,$startTime,$endTime,$queryPoint){
+    public function createDataMinuteu($trendID,$startTime,$endTime,$queryPoint,$unitIdPointId){
         
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
@@ -54,14 +54,37 @@ class serviceTrendController  extends Controller{
         (SELECT D1 FROM datau05  WHERE EvTime=EvTime2) AS U05D1,
         (SELECT D1 FROM datau07  WHERE EvTime=EvTime2) AS U07D1
         FROM datau04 
-        WHERE EvTime BETWEEN '2014-05-01 00:00:00' and '2014-05-02 00:00:00'   
+        WHERE EvTime BETWEEN '2014-05-01 00:00:00' and '2014-05-02 00:00:00' 
+        
+          
+        SELECT datau04.EvTime AS EvTime,
+        (SELECT D1 FROM datau05  WHERE datau05.EvTime=datau04.EvTime) AS U05D1,
+        (SELECT D1 FROM datau07  WHERE datau07.EvTime=datau04.EvTime) AS U07D1
+        FROM datau04  
+        WHERE datau04.EvTime BETWEEN '2014-05-01 00:00:00' and '2014-05-02 00:00:00'      
+        
+        
+        select  EvTime2 as EvTime,queryA.* from(
+        SELECT datau04.EvTime AS EvTime2,
+		(SELECT D1 FROM datau04  WHERE EvTime=EvTime2) AS U04D1,
+        (SELECT D1 FROM datau05  WHERE EvTime=EvTime2) AS U05D1,
+        (SELECT D1 FROM datau07  WHERE EvTime=EvTime2) AS U07D1
+        FROM datau04 
+        WHERE EvTime BETWEEN '2014-05-01 00:00:00' and '2014-05-02 00:00:00' 
+		ORDER BY EvTime2
+        )queryA
+
         ";
         */
+        
         $query="
-        SELECT EvTime AS EvTime2,
+        select  EvTime2 as EvTime,$unitIdPointId  from(
+        SELECT datau04.EvTime AS EvTime2,
         $queryPoint
         FROM datau04
-        WHERE EvTime BETWEEN '".$startTime."' and '".$endTime."'
+        WHERE datau04.EvTime BETWEEN '".$startTime."' and '".$endTime."'
+        ORDER BY EvTime2
+        )queryA
         ";
         if($user_mmplant==1){
             $reslutQuery = DB::connection('mysql_ais_47')->select($query);
@@ -125,16 +148,27 @@ class serviceTrendController  extends Controller{
     }
     
     
-    public function getDataHru($point,$unit,$startTime,$endTime,$trendID){
+    public function getDataHru($startTime,$endTime,$trendID,$queryPoint,$unitIdPointId){
         
         Log::info("Into getDataHru");
         
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
-        
+        /*
         $query="select EvTime, $point from datahru$unit 
                 WHERE EvTime BETWEEN  '$startTime' AND '$endTime'";
+        */
         //$reslutQuery = DB::select($query);
+        
+        $query="
+        select  EvTime2 as EvTime,$unitIdPointId  from(
+        SELECT datahru04.EvTime AS EvTime2,
+        $queryPoint
+        FROM datahru04
+        WHERE datahru04.EvTime BETWEEN '".$startTime."' and '".$endTime."'
+                ORDER BY EvTime2
+        )queryA
+        ";
         
         if($user_mmplant==1){
             $reslutQuery = DB::connection('mysql_ais_47')->select($query);
@@ -204,7 +238,7 @@ class serviceTrendController  extends Controller{
                      
     }
     /*##################### GET DATA MONTH SART ######################*/
-    public function getDataMonthu($point,$unit,$startTime,$endTime,$trendID){
+    public function getDataMonthu($startTime,$endTime,$trendID,$queryPoint,$unitIdPointId){
     
         Log::info("Into getDataMonthu");
         
@@ -213,20 +247,31 @@ class serviceTrendController  extends Controller{
         
         
         
-        $pointArray=explode(",",$point);
+        $pointArray=explode(",",$unitIdPointId);
         $pointAvg="";
         for($i=0;$i<count($pointArray);$i++){
             if($i==0){
-                $pointAvg.="avg($pointArray[$i])";
+                $pointAvg.="avg($pointArray[$i]) as $pointArray[$i]";
             }else{
-                $pointAvg.=",avg($pointArray[$i])";
+                $pointAvg.=",avg($pointArray[$i]) as $pointArray[$i]";
             }
         }
         //echo $pointAvg;
-         $query="select EvTime, $point from datahru$unit
+        $query="
+        select  EvTime2 as EvTime,$pointAvg  from(
+        SELECT datau04.EvTime AS EvTime2,
+        $queryPoint
+        FROM datau04
+        WHERE datau04.EvTime BETWEEN '".$startTime."' and '".$endTime."'
+        ORDER BY EvTime2
+        )queryA
+        GROUP BY month(EvTime)
+        ";
+        /*
+         $query="select EvTime, $pointAvg from datahru$unit
         WHERE EvTime BETWEEN   '$startTime' AND '$endTime'
         GROUP BY month(EvTime)";
-         
+         */
         
          if($user_mmplant==1){
              $reslutQuery = DB::connection('mysql_ais_47')->select($query);
@@ -649,7 +694,7 @@ class serviceTrendController  extends Controller{
     
     
     
-    public function getDataDayu($point,$unit,$startTime,$endTime,$trendID){
+    public function getDataDayu($startTime,$endTime,$trendID,$queryPoint,$unitIdPointId){
     
         
         
@@ -659,8 +704,20 @@ class serviceTrendController  extends Controller{
             
             
             Log::info("Into getDataDayu");
+            /*
             $query="select EvTime, $point from datadayu$unit
             WHERE EvTime BETWEEN  '$startTime' AND '$endTime'";
+            */
+            $query="
+            select  EvTime2 as EvTime,$unitIdPointId  from(
+            SELECT datadayu04.EvTime AS EvTime2,
+            $queryPoint
+            FROM datadayu04
+            WHERE datadayu04.EvTime BETWEEN '".$startTime."' and '".$endTime."'
+                    ORDER BY EvTime2
+            )queryA
+            ";
+            
             
             if($user_mmplant==1){
                 $reslutQuery = DB::connection('mysql_ais_47')->select($query);
@@ -823,26 +880,28 @@ class serviceTrendController  extends Controller{
         return json_encode($reslutQuery);
         */
 }
-public function readEventDataTrendByEvent($point,$unit,$dateTime,$event){
+public function readEventDataTrendByEvent($tagName,$startDateTime,$endDateTime,$event){
     //$unit,$startTime,$endTime
     //echo $point;
     $sess_emp_id= Auth::user()->id;
     $user_mmplant= Session::get('user_mmplant');
     
     
-    $pointNum="'".substr($point,1)."'";
+    //$pointNum="'".substr($point,1)."'";
     
         
     //echo $pointNum;
     //convert string to int
+    /*
     $unit = (int)$unit;
     Log::info("Into readEventDataTrend");
     $tagName="";
     $queryTag="select DISTINCT(D) as tagName from mmtrend_table
     WHERE H =$pointNum
     AND B='$unit'";
+    */
     //$reslutQueryTag = DB::connection('mysql_ais_47')->select($queryTag);
-    
+    /*
     if($user_mmplant==1){
         $reslutQueryTag = DB::connection('mysql_ais_47')->select($queryTag);
     }else if($user_mmplant==2){
@@ -852,10 +911,11 @@ public function readEventDataTrendByEvent($point,$unit,$dateTime,$event){
     }else{
         $reslutQueryTag = DB::select($queryTag);
     }
-    
+    */
     
     //$reslutQueryTag = DB::select($queryTag);
     //print_r($reslutQueryTag);
+    /*
     $i=0;
     foreach ($reslutQueryTag as $rs) {
     
@@ -868,6 +928,7 @@ public function readEventDataTrendByEvent($point,$unit,$dateTime,$event){
     
         $i++;
     }
+    */
      //echo $tagName;
     
    
@@ -879,8 +940,7 @@ public function readEventDataTrendByEvent($point,$unit,$dateTime,$event){
         $query="
                 select sys_date as 'EvTime',vpser_raw.ois_vpser from vpser_raw
                 where vpser_raw.ois_vpser REGEXP '$tagName'
-                AND 
-            	vpser_raw.sys_date = '$dateTime' 
+                AND vpser_raw.sys_date BETWEEN '$startDateTime'  AND  '$endDateTime' 
             	
                     	";
         
@@ -906,51 +966,78 @@ public function readEventDataTrendByEvent($point,$unit,$dateTime,$event){
             $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
             
         }else{
-            $query="
-                select '2014-05-01 00:00:00'  as 'EvTime',vpser_raw.ois_vpser from vpser_raw
-                where vpser_raw.ois_vpser like '%VPSER%'
-                AND
-            	vpser_raw.sys_date
-            	BETWEEN '2014-10-01 00:00:00'
-            	and '2014-10-25 01:00:00'
-                LIMIT 1
-                    	";
+           
             $reslutQuery = DB::select($query);
         }
         
         
         return json_encode($reslutQuery);
-    
-    
+
      }else if($event=='event'){
          
          $query="
-             select '2014-05-01 00:00:00'  as 'EvTime',event_raw.ois_event from event_raw
-             where event_raw.ois_event like '%80S%'
-             AND 
-        	 event_raw.sys_date 
-        	 BETWEEN '2014-10-01 00:00:00' 
-        	 and '2014-10-25 01:00:00'
-                 LIMIT 1
+                
+                select sys_date as 'EvTime',event_raw.ois_event from event_raw
+                where event_raw.ois_event REGEXP '$tagName'
+                AND event_raw.sys_date BETWEEN '$startDateTime'  AND  '$endDateTime' 
                 	
                 	";
-         $reslutQuery = DB::select($query);
+      if($user_mmplant==1){
+            
+            if($unit==4){
+                $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
+            }else if($unit==5){
+                $reslutQuery = DB::connection('mysql_ais_log_47_5')->select($query);
+            }else if($unit==6){
+                $reslutQuery = DB::connection('mysql_ais_log_47_6')->select($query);
+            }else if($unit==7){
+                $reslutQuery = DB::connection('mysql_ais_log_47_7')->select($query);
+            }
+            
+            
+        }else if($user_mmplant==2){
+            $reslutQuery = DB::connection('mysql_ais_813')->select($query);
+            
+        }else if($user_mmplant==3){
+            $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
+            
+        }else{
+            //for test
+            $reslutQuery = DB::select($query);
+        }
          return json_encode($reslutQuery);
          
          
      } else if($event=='action'){
           
          $query="
-              select '2014-05-01 00:00:00' as 'EvTime',action_raw.ois_action from action_raw
-              where action_raw.ois_action like '%80S%'
-              AND 
-            	action_raw.sys_date 
-            	BETWEEN '2014-10-01 00:00:00' 
-            	and '2014-10-25 01:00:00'
-                 LIMIT 1
-         
+                select sys_date as 'EvTime',action_raw.ois_action from action_raw
+                where action_raw.ois_action REGEXP '$tagName'
+                AND action_raw.sys_date BETWEEN '$startDateTime'  AND  '$endDateTime' 
                 	";
-         $reslutQuery = DB::select($query);
+      if($user_mmplant==1){
+            
+            if($unit==4){
+                $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
+            }else if($unit==5){
+                $reslutQuery = DB::connection('mysql_ais_log_47_5')->select($query);
+            }else if($unit==6){
+                $reslutQuery = DB::connection('mysql_ais_log_47_6')->select($query);
+            }else if($unit==7){
+                $reslutQuery = DB::connection('mysql_ais_log_47_7')->select($query);
+            }
+            
+            
+        }else if($user_mmplant==2){
+            $reslutQuery = DB::connection('mysql_ais_813')->select($query);
+            
+        }else if($user_mmplant==3){
+            $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
+            
+        }else{
+           
+            $reslutQuery = DB::select($query);
+        }
          return json_encode($reslutQuery);
           
           
