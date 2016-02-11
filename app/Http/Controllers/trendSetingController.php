@@ -72,7 +72,17 @@ class trendSetingController extends Controller
         
     }
    
+    public function getPointCompareByTrendIDAndPointID($trendID,$pontID){
+        
+        $query="select * from mmtrend_table where G='$trendID' AND H='$pontID'";
+        $reslutQuery = DB::select($query);
+        //$reslutQuery = DB::connection('mysql_ais_47')->select($query);
+        //Log::info(json_encode($reslutQuery));
 
+        return json_encode($reslutQuery);
+        
+    }
+    
     public function getPointByPointID($pontID){
     
     
