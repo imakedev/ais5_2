@@ -158,9 +158,11 @@ class CalculationController  extends Controller
         if($cal_a!=null && $cal_a!='0') {
             $mmcalculation = MmcalculationModel::find($cal_a);
             $cal_messages= ' Info edit successfuly.';
+            $mmcalculation->H = $cal_h;
         }else{
             $mmcalculation = new MmcalculationModel();
             $cal_messages= ' Info save successfuly.';
+            $mmcalculation->H = Auth::user()->empId;
         }
 
         $mmcalculation->B = $cal_b;
@@ -170,7 +172,7 @@ class CalculationController  extends Controller
         $mmcalculation->F0 = $cal_f0;
         $mmcalculation->F1 = $cal_f1;
         $mmcalculation->G = $cal_g;
-        $mmcalculation->H = $cal_h;
+
         $mmcalculation->save();
         session()->flash('message', $cal_messages);
       //  $mmcalculation =   MmcalculationModel::find($id);

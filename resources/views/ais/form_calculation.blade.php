@@ -281,7 +281,7 @@
 	                   <input type='text' id="cal_f1" name="cal_f1" value="{{ $mmcalculation->F1 }}" class='form-control input-sm'>
 
                    </div>
-                    <input type="hidden" id="cal_h" value="{{ $mmcalculation->H }}" />
+                    <input type="hidden" id="cal_h" name="cal_h" value="{{ $mmcalculation->H }}" />
                     <!--
 	               <div class=paramFamulaType>
 	                   Formula type
