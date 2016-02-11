@@ -106,7 +106,9 @@
                               <div class='pointTag pointTag-<?=$_GET['paramTrendID']?>' >,<?=$_GET['tag'];?></div>
                              <!-- U04D260 -->
                              <!-- <div class='pointId pointId-<?=$_GET['paramTrendID']?>'>,D<?=$_GET['point']?></div> -->
-                             <div class='pointId pointId-<?=$_GET['paramTrendID']?>'>,U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?></div>
+                             <div class='pointId pointId-<?=$_GET['paramTrendID']?>' >,U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?></div>
+                             <div class='pointId2 pointId2-<?=$_GET['paramTrendID']?>' >,D<?=$_GET['point']?>-<?=$_GET['unit_plant']?>-<?=$_GET['pointId']?></div>
+                            
                              </span>
                              
                              </span>

@@ -501,6 +501,7 @@ function tooltipCustom(paramTrendID){
 				async:false,
 				data:{
 						"pointname":indexEntry['C'],
+						"pointId":indexEntry['ZZ'],
 						"point":indexEntry['H'],
 						"tag":indexEntry['D'],
 						"unit":indexEntry['E'],
@@ -1167,6 +1168,7 @@ function tooltipCustom(paramTrendID){
 		
 		var paramTrendID=this.id.split("-");
 		paramTrendID=paramTrendID[2];
+		var pointIdEmbed="";
 		//alert(paramTrendID);
 	
 		if($(this).hasClass("hiddenPoint")){
@@ -1174,6 +1176,7 @@ function tooltipCustom(paramTrendID){
 			$(this).removeClass("hiddenPoint");
 	
 			paramPointList=$(".showPoint>.pointId-"+paramTrendID+"").text().substring("1");
+			pointIdEmbed=$(".showPoint>.pointId2-"+paramTrendID+"").text().substring("1");
 			//alert("1"+paramPointList);
 			//$("#paramPointByShowOrHidden").val(paramPointList);
 			
@@ -1187,6 +1190,7 @@ function tooltipCustom(paramTrendID){
 			$(this).removeClass("showPoint");
 			
 			paramPointList=$(".showPoint>.pointId-"+paramTrendID+"").text().substring("1");
+			pointIdEmbed=$(".showPoint>.pointId2-"+paramTrendID+"").text().substring("1");
 			//alert("2"+paramPointList);
 			//$("#paramPointByShowOrHidden").val(paramPointList);
 			//readJsonShowHiddenPointFn(paramPointList,paramTrendID);
@@ -1213,12 +1217,8 @@ function tooltipCustom(paramTrendID){
 			
 		});
 		
-		//console.log($colorIndex);
-		//console.log("33333333333333");
-		//console.log(paramPointList);
 		readJsonShowHiddenPointFn(paramPointList,paramTrendID,$colorIndex);
-		//$("#paramPoint").val(paramPointList);
-		$("#paramPointEmbed-"+paramTrendID).val(paramPointList);
+		$("#paramPointEmbed-"+paramTrendID).val(pointIdEmbed);
 		
 		
 	});

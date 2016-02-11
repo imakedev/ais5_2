@@ -1200,6 +1200,7 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 	var data2="";
 	//var pointDataId=getDataFromPointEmbed("pointDataId");
 	var pointDataId=getDataFromPointEmbed("unitIdPointId");
+	alert(pointDataId);
 	
 	var paramStep="";
 	//var startTime="";

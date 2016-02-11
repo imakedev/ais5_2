@@ -405,3 +405,7 @@ a[href='#trendSeting']{
 .startTimeForDisplay{
 	 text-align: center;
 }
+
+.pointId2{
+	 display: none;
+}
