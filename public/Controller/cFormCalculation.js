@@ -674,8 +674,9 @@ function previewFomala(){
 			}
 			// get data from formala
 			$.ajax({
-				url: "http://localhost:3000/v1/calculation",
-				method: "POST",
+				url:"http://10.249.99.107:8080/steamtable/rest/calculation",
+				//url: "http://localhost:3000/v1/calculation",
+				method: "GET",
 				dataType: "jsonp",
 				jsonp: "callBackFormula",
 				data: formulas
@@ -709,7 +710,8 @@ function nomalFormula(str){
 		"callBackName":"callBackFormula"
 	}
 	$.ajax({
-		url: "http://localhost:3000/v1/calculation",
+		url:"http://10.249.99.107:8080/steamtable/rest/calculation",
+		//url: "http://localhost:3000/v1/calculation",
 		method: "POST",
 		dataType: "jsonp",
 		jsonp: "callBackFormula",
