@@ -44,7 +44,7 @@ class ConstantAjax extends Controller
             Log::info("Into xxxx [".$constantType."],empId[".Auth::user()->empId."]");
             //$datas= $datas->where('C','=', "'".Auth::user()->empId."'");
            // $lists->where('C','=', "'".Auth::user()->empId."'");
-            $lists=DB::table('mmconstant_table')->where('C','=',Auth::user()->empId)->get();
+            $lists=DB::table('mmconstant_table')->where('C','=',''.Auth::user()->empId.'')->get();
             //$lists=$lists->get();
         }else if($constantType=='-1'){
             Log::info("Into yyy [".$constantType."]");

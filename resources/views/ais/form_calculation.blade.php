@@ -205,11 +205,14 @@
             <!-- btn start -->
              <div class="row bgParam">
 	            <div class="col-xs-12">
-		            <a class="btn btn-primary  btn-sm">Clone </a>
+
+                    @if($mode=='EDIT')
+		            <a class="btn btn-primary  btn-sm" onclick="doClone()">Clone </a>
+                    @endif
 		            <a class="btn btn-w-m btn-warning  btn-sm" onclick="clearCalculation()">Clear </a>
 		            <a class="btn btn-w-m btn-danger  btn-sm" onclick="changeRate()">Change </a>
 		            <a class="btn btn-w-m btn-danger  btn-sm" onclick="displayAddPoint()" id='btnAddPoint'>Add Point </a>
-                    <a class="btn btn-w-m btn-danger  btn-sm">Priview </a>
+                    <a class="btn btn-w-m btn-danger  btn-sm" onclick="previewFomala()">Preview </a>
 	            </div>
 	           
             </div>
@@ -461,6 +464,23 @@
      </div>
    </div>
   </div>
+
+<div aria-hidden="true" role="dialog" tabindex="-1" id="myModalFormula" class="modal inmodal in" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h5 class="modal-title">Preview</h5>
+
+            </div>
+            <div class="modal-body">
+                <div id="formula_tilte_section"></div>
+                <div id="extract_section"></div>
+                <div id="result_section"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Modal add point End -->
   @stop
     @section('footer')

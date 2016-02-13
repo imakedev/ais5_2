@@ -123,6 +123,7 @@ class AuthController extends Controller
                 // $user_ldap = LDAPAuth::authen($empId, $password);
 
                 // for Test
+                /*  */
                 $email='moooooooooooogle6@gmail.com';
                 $user_ldap = [
                     'email' => $email,
@@ -131,6 +132,7 @@ class AuthController extends Controller
                     // 'id' => '409642',
                     'password' => 'password'
                 ];
+
                 // end test
                 if (!empty($user_ldap)){
                     Log::info($user_ldap);

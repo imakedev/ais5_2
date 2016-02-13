@@ -576,3 +576,163 @@ function  displayAddPoint(){
 	$("#keyword").val('');
 	searchAddMmpoint('');
 }
+function callback(data){
+	console.log(data);
+	alert(data.patternM.pattern)
+}
+function localJsonpCallback(data){
+	console.log(data);
+	alert("localJsonpCallback")
+	alert(data.formula.length)
+}
+
+function previewFomala(){
+	var cal_g=jQuery.trim( $("#cal_g").val().replace(/ /g,"") );
+	var str=cal_g;
+	$("#formula_tilte_section").html("<b>Formula : </b>"+str)
+
+		//alert(str)
+	 var myRegexp ="";
+	 var match  = "";
+	var constant_array=[];
+	var unit_array=[];
+	// find Constant
+	// str="sing(CONSTANT@XXD)+4-CONSTANT@XXXXXX*3";
+	 myRegexp = /(CONSTANT@[\w]+)/g;
+	 match  = myRegexp.exec(str);
+	 //alert(match)
+	//match = myRegexp.exec(myString);
+	while (match != null) {
+		// matched text: match[0]
+		// match start: match.index
+		// capturing group n: match[n]
+		//alert(match[1])
+		//alert(match[1].replace(/CONSTANT@/g,""));
+		var constantValue={
+			"name":match[1].replace(/CONSTANT@/g,""),
+			"result":""
+		}
+		constant_array.push(constantValue)
+		match = myRegexp.exec(str);
+	}
+	//alert(constant_array);
+
+	// find Unit or Cal Value
+	 //str = "sin(U04D122+U07D123*5)";
+	 myRegexp = /(U[0-9]{1,2})(D[0-9]{1,4})/g;
+	 match  = myRegexp.exec(str);
+	while (match != null) {
+		//alert("unit["+match[1]+"] , value["+match[2]+"]")
+		var unitValue={
+			"unit":match[1],
+			"value":match[2],
+			"result":""
+		}
+		unit_array.push(unitValue);
+		match = myRegexp.exec(str);
+	}
+	//alert(unit_array);
+	if(constant_array.length==0 && unit_array.length==0){
+		nomalFormula(str);
+	}else{
+		var obj={
+			"constant_array":constant_array,
+			"unit_array":unit_array,
+		}
+		$.ajax({
+			url: "/ajax/calculation/extract",
+			method: "POST",
+			data: obj
+		}).done(function(data, status, xhr) {
+			console.log(data);
+			var constant_arrayResults = jQuery.parseJSON(data.constant_array);
+			var unit_arrayResults = jQuery.parseJSON(data.unit_array);
+
+			if(constant_arrayResults!=null && constant_arrayResults.length>0){
+				for(var i=0;i<constant_arrayResults.length;i++){
+					var re = new RegExp("CONSTANT@"+constant_arrayResults[i].name,"g");
+					str=str.replace(re,constant_arrayResults[i].result)
+				}
+			}
+			if(unit_arrayResults!=null && unit_arrayResults.length>0){
+				for(var i=0;i<unit_arrayResults.length;i++){
+					var re = new RegExp(unit_arrayResults[i].unit+unit_arrayResults[i].value,"g");
+					str=str.replace(re,unit_arrayResults[i].result)
+				}
+			}
+			// replace ; with ,
+			str=str.replace(/;/g,",")
+			str=str.replace(/:/g,",")
+			//alert("new->"+str)
+
+			var formulas={
+				"formula":[
+					{"key":"1","value":str.toLowerCase()} // ,
+					// {"key":"2","value":"(300/3)*20"}
+				],
+				"callBackName":"callBackFormula"
+			}
+			// get data from formala
+			$.ajax({
+				url: "http://localhost:3000/v1/calculation",
+				method: "POST",
+				dataType: "jsonp",
+				jsonp: "callBackFormula",
+				data: formulas
+			});
+		});
+
+	}
+	//alert(constant_array.length)
+	//alert(unit_array.length)
+
+
+
+	/*
+	$.ajax({
+		url: "http://localhost:3000/v1/extract",
+		//url:"http://query.yahooapis.com/v1/public/yql",
+		method: "GET",
+		//crossDomain: true,
+		dataType: "jsonp",
+		jsonp: "jsonp",
+		data: obj
+	});
+	*/
+}
+function nomalFormula(str){
+	var formulas={
+		"formula":[
+			{"key":"1","value":str.toLowerCase()} // ,
+			// {"key":"2","value":"(300/3)*20"}
+		],
+		"callBackName":"callBackFormula"
+	}
+	$.ajax({
+		url: "http://localhost:3000/v1/calculation",
+		method: "POST",
+		dataType: "jsonp",
+		jsonp: "callBackFormula",
+		data: formulas
+	});
+
+}
+function callBackFormula(data){
+	var resultMessage=data.formula[0].result;
+	if(data.formula[0].status=='ERROR'){
+		resultMessage="<span style='color: red;'>"+data.formula[0].result+"</span>";
+	}
+	$("#extract_section").html("<b>Extract : </b>"+data.formula[0].value)
+	$("#result_section").html("<b>Result : </b>"+resultMessage);
+	$("#myModalFormula").modal()
+	console.log(data);
+	//alert(data.formula.length)
+	//alert(data.formula[0].key +" value="+data.formula[0].value)
+	//var formula=jQuery.parseJSON(data);
+	//alert("x")
+}
+function doClone(){
+	var cal_a=$("#cal_a").val();
+	//alert(cal_a)
+	window.location.href="/ais/formCalculation/clone/"+cal_a;
+}

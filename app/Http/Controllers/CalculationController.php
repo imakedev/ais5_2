@@ -200,12 +200,39 @@ class CalculationController  extends Controller
     public function edit($id)
     {
         Log::info("edit [" . $id . "] ");
+        $mode='EDIT';
         $mmcalculation = MmcalculationModel::find($id);
         if (empty($mmcalculation)){
             $mmcalculation = new MmcalculationModel();
             $mmcalculation->A='0';
+            $mode='ADD';
         }
-        return view('ais.form_calculation', ['mmcalculation'=>$mmcalculation]);
+        return view('ais.form_calculation', ['mmcalculation'=>$mmcalculation,'mode'=>$mode]);
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function cloneCalculation($id)
+    {
+        Log::info("edit [" . $id . "] ");
+        $mode='EDIT';
+        $mmcalculation = MmcalculationModel::find($id);
+        $mmcalculation_new = new MmcalculationModel();
+        $mmcalculation_new->B=$mmcalculation->B;
+        $mmcalculation_new->C=$mmcalculation->C;
+        $mmcalculation_new->D=$mmcalculation->D;
+        $mmcalculation_new->E=$mmcalculation->E;
+        $mmcalculation_new->F0=$mmcalculation->F0;
+        $mmcalculation_new->F1=$mmcalculation->F1;
+        $mmcalculation_new->G=$mmcalculation->G;
+        $mmcalculation_new->H=session()->get('user_empId');
+        $mmcalculation_new->save();
+        Log::info($mmcalculation_new->A);
+        return redirect('ais/formCalculation/'.$mmcalculation_new->A);
+      //  return view('ais.form_calculation', ['mmcalculation'=>$mmcalculation,'mode'=>$mode]);
     }
 
     /**

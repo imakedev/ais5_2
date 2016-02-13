@@ -268,19 +268,29 @@ class TrendDesignAjax extends Controller
         $keyword=request('keyword');
         $h_id=request('H');
         $p_id=request('P');
+        Log::info("h_id [".$h_id."] ,p_id [".$p_id."]");
         if($p_id=='0' || $p_id=='-1'){
-            $datas = MmcalculationModel::query();
-            if (sizeof($keyword)>0) {
+            //$datas = MmcalculationModel::query();
+            $datas =DB::table('mmcalculation_table');
+            //if (sizeof($keyword)>0) {
                // $datas->where('C','LIKE', "%".$keyword."%");
-                $datas= $datas->Where(function ($datas) use ($keyword){
-                    $datas->orWhere('C', 'LIKE', "%$keyword%")
-                        ->orWhere('D', 'LIKE',"%$keyword%");
+            $datas->Where(function ($datas) use ($keyword,$p_id){
+                    if (sizeof($keyword)>0) {
+                        $datas->orWhere('C', 'LIKE', "%$keyword%")
+                            ->orWhere('D', 'LIKE', "%$keyword%");
+                            //->where('H','=',"'".Auth::user()->empId."'");
+                    }
+
+
                 });
-            }
             if($p_id=='0'){
-                $datas->where('H','=', "'".Auth::user()->empId."'");
+                Log::info("Auth [".Auth::user()->empId."] ");
+                $datas->where('H','=',''.Auth::user()->empId.'');
+
             }
+
             $lists = $datas->take(9);
+
             if($h_id!='0'){
                 $lists = DB::table('mmcalculation_table')->where('A',$h_id)->union($lists);
             }
@@ -317,7 +327,7 @@ class TrendDesignAjax extends Controller
                 });
             }
             if($p_id=='0'){
-                $datas->where('H','=', "'".Auth::user()->empId."'");
+                $datas->where('H','=', ''.Auth::user()->empId.'');
             }
             $lists = $datas->take(9);
             /*

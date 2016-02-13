@@ -151,6 +151,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/ais/designCalculation/store', 'CalculationController@store');
 
   Route::get('/ais/formCalculation/{A}','CalculationController@edit');
+    Route::get('/ais/formCalculation/clone/{A}','CalculationController@cloneCalculation');
     /* End Design Menu */
 
     Route::resource('/ais/soot', 'SootController@search');
@@ -236,6 +237,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/ajax/constant/post','Ajax\ConstantAjax@post');
     Route::post('/ajax/constant/get','Ajax\ConstantAjax@get');
     Route::post('/ajax/constant/delete','Ajax\ConstantAjax@delete');
+
+    Route::post('/ajax/calculation/extract','Ajax\CalculationAjax@extractFormula');
     /*
     Route::get('/ajax/get', function () {
         // pass back some data
