@@ -120,10 +120,10 @@ class AuthController extends Controller
                 $user_empId=$mmtrendsM[0]->A;
                 $user_priority=$mmtrendsM[0]->D0;
                 // for LDAP Authen
-                // $user_ldap = LDAPAuth::authen($empId, $password);
+                 $user_ldap = LDAPAuth::authen($empId, $password);
 
                 // for Test
-                /*  */
+                /*
                 $email='moooooooooooogle6@gmail.com';
                 $user_ldap = [
                     'email' => $email,
@@ -132,7 +132,7 @@ class AuthController extends Controller
                     // 'id' => '409642',
                     'password' => 'password'
                 ];
-
+                */
                 // end test
                 if (!empty($user_ldap)){
                     Log::info($user_ldap);
