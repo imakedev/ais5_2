@@ -28,7 +28,6 @@ class CalculationAjax extends Controller
             for ($i = 0; $i < count($array); ++$i) {
                 print $array[$i];
             }
-
             foreach($array as $val) {
                 print $val;
             }
