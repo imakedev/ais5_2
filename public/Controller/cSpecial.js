@@ -169,7 +169,7 @@ function  displayMmNameById(mode,id){
         var mmnameM = jQuery.parseJSON(data.mmnameM);
 
         var mmname_tilte=mmnameM[0].A; //_move_section
-        alert(mmname_tilte)
+     //   alert(mmname_tilte)
         if(mode=='move'){
             /*mm_group_move_target_select
             mm_unit_move_target_select
