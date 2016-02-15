@@ -14,4 +14,5 @@ class MmpointModel
 {
     protected $table = 'mmpoint_table';
     protected $primaryKey = 'A';
+    public $timestamps = false;
 }

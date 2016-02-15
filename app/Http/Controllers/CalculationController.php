@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Log;
+use \App\Utils\DBUtils;
 use Illuminate\Support\Facades\Auth;
 class CalculationController  extends Controller
 {
@@ -40,7 +41,7 @@ class CalculationController  extends Controller
             $calculationSelection='1';
         }
 
-        $datas = MmcalculationModel::query();
+        $datas = MmcalculationModel::on(DBUtils::getDBName())->newQuery();
         if(Input::has('page')){ // paging
             Log::info("into paging");
             $search = session()->get('calculation_keySearch');
@@ -156,11 +157,12 @@ class CalculationController  extends Controller
 
         $mmcalculation=null;
         if($cal_a!=null && $cal_a!='0') {
-            $mmcalculation = MmcalculationModel::find($cal_a);
+            $mmcalculation = MmcalculationModel::on(DBUtils::getDBName())->find($cal_a);
             $cal_messages= ' Info edit successfuly.';
             $mmcalculation->H = $cal_h;
         }else{
             $mmcalculation = new MmcalculationModel();
+            $mmcalculation->setConnection(DBUtils::getDBName());
             $cal_messages= ' Info save successfuly.';
             $mmcalculation->H = Auth::user()->empId;
         }
@@ -201,9 +203,10 @@ class CalculationController  extends Controller
     {
         Log::info("edit [" . $id . "] ");
         $mode='EDIT';
-        $mmcalculation = MmcalculationModel::find($id);
+        $mmcalculation = MmcalculationModel::on(DBUtils::getDBName())->find($id);
         if (empty($mmcalculation)){
             $mmcalculation = new MmcalculationModel();
+            $mmcalculation->setConnection(DBUtils::getDBName());
             $mmcalculation->A='0';
             $mode='ADD';
         }
@@ -219,8 +222,9 @@ class CalculationController  extends Controller
     {
         Log::info("edit [" . $id . "] ");
         $mode='EDIT';
-        $mmcalculation = MmcalculationModel::find($id);
+        $mmcalculation = MmcalculationModel::on(DBUtils::getDBName())->find($id);
         $mmcalculation_new = new MmcalculationModel();
+        $mmcalculation_new->setConnection(DBUtils::getDBName());
         $mmcalculation_new->B=$mmcalculation->B;
         $mmcalculation_new->C=$mmcalculation->C;
         $mmcalculation_new->D=$mmcalculation->D;
@@ -256,7 +260,7 @@ class CalculationController  extends Controller
     public function destroy($id)
     {
         Log::info("destroy [".$id."] x");
-        MmcalculationModel::find($id)->delete();
+        MmcalculationModel::on(DBUtils::getDBName())->find($id)->delete();
 
         return redirect('ais/designCalculation');
         //$this->search();
@@ -274,7 +278,7 @@ class CalculationController  extends Controller
         for( $i=0;$i<sizeof($checkboxs_explode);$i++){
             if(!empty($checkboxs_explode[$i])){
                 Log::info(" [".$i."]".$checkboxs_explode[$i]);
-                MmcalculationModel::find($checkboxs_explode[$i])->delete();
+                MmcalculationModel::on(DBUtils::getDBName())->find($checkboxs_explode[$i])->delete();
             }
         }
         return redirect('ais/designCalculation');

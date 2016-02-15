@@ -152,6 +152,10 @@ Route::group(['middleware' => 'web'], function () {
 
   Route::get('/ais/formCalculation/{A}','CalculationController@edit');
     Route::get('/ais/formCalculation/clone/{A}','CalculationController@cloneCalculation');
+
+    Route::resource('/ais/special', 'SpecialController@search');
+    Route::post('/ais/special/copy', 'CalculationController@copyTrend');
+    Route::post('/ais/special/move', 'CalculationController@moveTrend');
     /* End Design Menu */
 
     Route::resource('/ais/soot', 'SootController@search');
@@ -219,6 +223,9 @@ Route::group(['middleware' => 'web'], function () {
 // Ajax
     Route::get('/ajax/mmtrends/list','Ajax\TrendDesignAjax@listMmTrend');
     Route::get('/ajax/mmtrend/get','Ajax\TrendDesignAjax@getMmTrend');
+    Route::get('/ajax/mmtrend/findById','Ajax\TrendDesignAjax@getMmTrendById');
+    Route::POST('/ajax/mmtrend/move','Ajax\TrendDesignAjax@moveTrend');
+    Route::POST('/ajax/mmtrend/copy','Ajax\TrendDesignAjax@copyTrend');
     Route::get('/ajax/mmname/get','Ajax\TrendDesignAjax@getMmname');
     Route::post('/ajax/mmtrend/post','Ajax\TrendDesignAjax@postMmTrend');
     Route::post('/ajax/mmname/post','Ajax\TrendDesignAjax@postMmname');

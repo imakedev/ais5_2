@@ -1,8 +1,9 @@
 <?php
 /**
+ * Created by PhpStorm.
  * User: imake
- * Date: 10/11/15
- * Time: 12:41
+ * Date: 15/02/2016
+ * Time: 00:15
  */
 
 namespace App\Http\Controllers;
@@ -20,7 +21,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Log;
 use \App\Utils\DBUtils;
-class TrendDesignController extends Controller
+
+class SpecialController  extends Controller
 {
     /**
      * Create a new controller instance.
@@ -37,7 +39,7 @@ class TrendDesignController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function search(){
-        Log::info("Into TrendDesignController");
+        Log::info("Into SpecialController");
         $design_trend_B=Input::get('design_trend_B');
         $search = Input::get('search');
         $sortBy = Input::get('sortBy');
@@ -72,7 +74,7 @@ class TrendDesignController extends Controller
         session()->put('design_trend_B',$design_trend_B);
         $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
 
-        return view('ais/design_trend', ['mmtrendsM'=>$datas]);
+        return view('ais/special', ['mmtrendsM'=>$datas]);
     }
 
     /**
@@ -145,7 +147,7 @@ class TrendDesignController extends Controller
     public function destroy($id)
     {
         Log::info("destroy [".$id."] x");
-       // MmnameModel::find($id)->delete();
+        // MmnameModel::find($id)->delete();
         session()->flash('message', ' Delete successfuly.');
         return redirect('ais/designTrend');
     }
@@ -165,4 +167,5 @@ class TrendDesignController extends Controller
         session()->flash('message', ' Delete successfuly.');
         return redirect('ais/designTrend');
     }
+
 }

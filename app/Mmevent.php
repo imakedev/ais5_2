@@ -8,4 +8,5 @@ class Mmevent extends Model
 {
     //
     protected $table = 'mmevent_table';
+    public $timestamps = false;
 }

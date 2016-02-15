@@ -14,7 +14,7 @@ use App\Http\Requests;
 use Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use \App\Utils\DBUtils;
 class CalculationAjax extends Controller
 {
     public function __construct()
@@ -41,7 +41,7 @@ class CalculationAjax extends Controller
         if (!empty($constant_array))
             foreach ($constant_array as $key => $val) {
                 Log::info(" key [" . $key . "] value [" . $val["name"] . "]");
-                $constant = DB::select('SELECT A,B FROM mmconstant_table where A=\'' . $val["name"] . '\' limit 1');
+                $constant = DB::connection(DBUtils::getDBName())->select('SELECT A,B FROM mmconstant_table where A=\'' . $val["name"] . '\' limit 1');
                 if (!empty($constant)) {
                     $constant_array[$key]["result"] = $constant[0]->B;
                 }
@@ -54,7 +54,7 @@ class CalculationAjax extends Controller
                 $unit = strtolower($val["unit"]);
                 Log::info($unit);
                 // $datau = DB::table('data'.$unit.' order by EvTime desc limit 1');
-                $datau = DB::select('SELECT D1 ,EvTime FROM  data' . $unit . '
+                $datau = DB::connection(DBUtils::getDBName())->select('SELECT D1 ,EvTime FROM  data' . $unit . '
              order by EvTime desc limit 1');
 
                 $strText1 = json_encode($datau);

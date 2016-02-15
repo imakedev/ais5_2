@@ -13,4 +13,5 @@ class MmnameModel extends Model
 {
     protected $table = 'mmname_table';
     protected $primaryKey = 'ZZ';
+    public $timestamps = false;
 }

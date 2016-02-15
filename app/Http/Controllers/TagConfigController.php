@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Log;
+use \App\Utils\DBUtils;
 class TagConfigController extends Controller
 {
     /**
@@ -29,7 +30,8 @@ class TagConfigController extends Controller
         $search = Input::get('search');
         $sortBy = Input::get('sortBy');
         $orderBy= Input::get('orderBy');
-        $datas = TagConfigModel::query();
+        $datas = TagConfigModel::on(DBUtils::getDBName())->newQuery();
+       // $datas->newQuery()
         if(Input::has('page')){ // paging
             Log::info("into paging");
             $search = session()->get('tagConf_search');
@@ -79,7 +81,7 @@ class TagConfigController extends Controller
         $id = $request->input('tagId');
         if($id!=null) {
 
-            $tag = TagConfigModel::find($id);
+            $tag = TagConfigModel::on(DBUtils::getDBName())->find($id);
             $tag->B = $request->input('tagDescription');
             $tag->C4 = $request->input('tag4');
             $tag->C5 = $request->input('tag5');
@@ -110,8 +112,9 @@ class TagConfigController extends Controller
             $tag->save();
             session()->flash('message', ' Update successfuly.');
         }else{
-            $maxId = DB::table('mmtag_table')->max('A');
+            $maxId = DB::connection(DBUtils::getDBName())->table('mmtag_table')->max('A');
             $tag = new TagConfigModel();
+            $tag->setConnection(DBUtils::getDBName());
             $tag->A = $maxId+1;
             $tag->B = $request->input('tagDescription');
             $tag->C4 = $request->input('tag4');
@@ -143,6 +146,7 @@ class TagConfigController extends Controller
             $tag->save();
 
             $point = new PointConfigModel();
+            $point->setConnection(DBUtils::getDBName());
             $point->A=$maxId+1;
             $point->B=$tag->B;
             $point->C4=$tag->C4;
@@ -199,9 +203,9 @@ class TagConfigController extends Controller
     public function deleteSelect(Request $request){
         foreach($_GET['checkbox'] as $check) {
 
-            $tagConfigModel=TagConfigModel::find($check);
+            $tagConfigModel=TagConfigModel::on(DBUtils::getDBName())->find($check);
             $tagConfigModel->delete();
-            DB::table('mmpoint_table')->where('A', '=', $tagConfigModel->A)->delete();
+            DB::connection(DBUtils::getDBName())->table('mmpoint_table')->where('A', '=', $tagConfigModel->A)->delete();
         }
         session()->flash('message', ' Delete successfuly.');
         return redirect('ais/tagConfiguration');
@@ -209,9 +213,9 @@ class TagConfigController extends Controller
 
     public function destroy($id)
     {
-        $tagConfigModel=TagConfigModel::find($id);
+        $tagConfigModel=TagConfigModel::on(DBUtils::getDBName())->find($id);
         $tagConfigModel->delete();
-        DB::table('mmpoint_table')->where('A', '=', $tagConfigModel->A)->delete();
+        DB::connection(DBUtils::getDBName())->table('mmpoint_table')->where('A', '=', $tagConfigModel->A)->delete();
         session()->flash('message', ' Delete successfuly.');
         return redirect('ais/tagConfiguration');
     }

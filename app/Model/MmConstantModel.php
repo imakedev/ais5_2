@@ -12,4 +12,5 @@ class MmConstantModel extends Model
 {
     protected $table = 'mmconstant_table';
     protected $primaryKey = 'ZZ';
+    public $timestamps = false;
 }
