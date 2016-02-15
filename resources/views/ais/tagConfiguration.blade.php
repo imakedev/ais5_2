@@ -44,7 +44,7 @@
             {!! Form::open(array('url'=> 'ais/tagConfiguration')) !!}
             <div class="row bgParam">
                 <div class="col-md-3">
-                    <a class="btn btn-primary btn-sm" data-toggle="modal" onclick="addBtn()">Add Tag</a>
+                    <a class="btn btn-primary btn-sm" data-toggle="modal" onclick="addBtn('{{Session::get("user_mmplant")}}')">Add Tag</a>
                     <button class="btn btn-w-m btn-danger btn-sm" type="button" onclick="deleteBtn()">Delete select</button>
                 </div>
                 <div class="col-md-4"  style="width:250px">
@@ -102,11 +102,28 @@
                             </th>
                             <th class="center" data-field="field1"><b>Item</b></th>
                             <th class="center" data-field="field2"><b>Point&nbsp;Description</b></th>
+                            @if(Session::get('user_mmplant')=='1')
                             <th class="center" data-field="field3"><b>Tag4</b></th>
                             <th class="center" data-field="field4"><b>Tag5</b></th>
                             <th class="center" data-field="field5"><b>Tag6</b></th>
                             <th class="center" data-field="field6"><b>Tag7</b></th>
-
+                            @endif
+                            @if(Session::get('user_mmplant')=='2')
+                                <th class="center" data-field="field3"><b>Tag8</b></th>
+                                <th class="center" data-field="field4"><b>Tag9</b></th>
+                                <th class="center" data-field="field5"><b>Tag10</b></th>
+                                <th class="center" data-field="field6"><b>Tag11</b></th>
+                                <th class="center" data-field="field6"><b>Tag12</b></th>
+                                <th class="center" data-field="field6"><b>Tag13</b></th>
+                            @endif
+                            @if(Session::get('user_mmplant')=='3')
+                                <th class="center" data-field="field3"><b>Tag8</b></th>
+                                <th class="center" data-field="field4"><b>Tag9</b></th>
+                                <th class="center" data-field="field5"><b>Tag10</b></th>
+                                <th class="center" data-field="field6"><b>Tag11</b></th>
+                                <th class="center" data-field="field6"><b>Tag12</b></th>
+                                <th class="center" data-field="field6"><b>Tag13</b></th>
+                            @endif
                             <th class="center" data-field="field7"><b>Type</b></th>
 
                             <th class="center" data-field="field8"><b>L</b></th>
@@ -140,10 +157,28 @@
                                 </td>
                                 <td>{{$tag_config->A}}</td>
                                 <td class="">{{$tag_config->B}}</td>
+                               @if(Session::get('user_mmplant')=='1')
                                 <td class="settext">{{$tag_config->C4}}</td>
                                 <td class="settext">{{$tag_config->C5}}</td>
                                 <td class="settext">{{$tag_config->C6}}</td>
                                 <td class="settext">{{$tag_config->C7}}</td>
+                               @endif
+                               @if(Session::get('user_mmplant')=='2')
+                                   <td class="settext">{{$tag_config->C8}}</td>
+                                   <td class="settext">{{$tag_config->C9}}</td>
+                                   <td class="settext">{{$tag_config->C10}}</td>
+                                   <td class="settext">{{$tag_config->C11}}</td>
+                                   <td class="settext">{{$tag_config->C12}}</td>
+                                   <td class="settext">{{$tag_config->C13}}</td>
+                               @endif
+                               @if(Session::get('user_mmplant')=='3')
+                                   <td class="settext">{{$tag_config->C8}}</td>
+                                   <td class="settext">{{$tag_config->C9}}</td>
+                                   <td class="settext">{{$tag_config->C10}}</td>
+                                   <td class="settext">{{$tag_config->C11}}</td>
+                                   <td class="settext">{{$tag_config->C12}}</td>
+                                   <td class="settext">{{$tag_config->C13}}</td>
+                               @endif
                                 <td class="settext">{{$tag_config->D}}</td>
 
                                 <td class="settext">{{$tag_config->E4}}</td>
@@ -167,7 +202,7 @@
                                 <td class="settext">{{$tag_config->H7}}</td>
 
                                <td class="center">
-                                   <a id="btnTagconfig" class="btn btn-dropbox btn-xs" onclick="return editBtn({{$index}})"><i style="color: #47a447;" class="glyphicon glyphicon-edit"></i></a>|
+                                   <a id="btnTagconfig" class="btn btn-dropbox btn-xs" onclick="return editBtn('{{Session::get("user_mmplant")}}','{{$index}}')"><i style="color: #47a447;" class="glyphicon glyphicon-edit"></i></a>|
                                    <a href="{{ URL::to('tagConfiguration/delete',$tag_config->A) }}" onclick="return confirm_del()" class="btn btn-dropbox btn-xs"><i class="glyphicon glyphicon-trash text-danger"></i></a>
                                </td>
                             </tr>

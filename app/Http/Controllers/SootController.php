@@ -117,7 +117,14 @@ class SootController extends Controller
             $sootView='1';
         }
         if(!Input::has('sootUnit')) {
-            $sootUnit='4';
+            $user_mmplant=session()->get('user_mmplant');
+            if($user_mmplant=='1'){
+                $sootUnit='4';
+            }else if($user_mmplant=='2'){
+                $sootUnit='8';
+            }if($user_mmplant=='3') {
+                $sootUnit = '8';
+            }
         }
         $sootDates = explode("/", $sootDate);
         $phase_start_times=['00:00:00','08:00:00','16:00:00'];

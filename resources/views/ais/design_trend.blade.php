@@ -59,12 +59,24 @@
                                     <input type="hidden" id="design_trend_B_hidden" value="{{session()->get('design_trend_B')}}"/>
                                     <select id="design_trend_B" name="design_trend_B">
                                         <option value="-1">All Trend</option>
-                                        <option value="{{Auth::user()->empId}}">My Trend</option>
+                                        <!--
+                                        <option value="empId">My Trend</option>
+                                        -->
+                                        @foreach($mmtrend_groups as $mmtrend_group)
+                                            @if($mmtrend_group=='9')
+                                                <option value="{{Auth::user()->empId}}">{{$mmtrend_group->group_name}}</option>
+                                            @endif
+                                            @if($mmtrend_group!='9')
+                                                <option value="{{$mmtrend_group->B}}">{{$mmtrend_group->group_name}}</option>
+                                            @endif
+                                        @endforeach
+                                        <!--
                                         <option value="900002">Boiler Trend</option>
                                         <option value="900003">Turbine Trend</option>
                                         <option value="900004">Electrical Trend</option>
                                         <option value="900005">Loss Analyzing</option>
                                         <option value="900006">Start up and S/D</option>
+                                        -->
                                     </select>
 
                                 </div>
@@ -344,14 +356,31 @@
                                                         <div class="col-md-3 lableDropdownList">MMPlant</div>
                                                         <div class="col-md-3">
                                                             <select id="mmtrend_table_B" class="form-control m-b" onclick="searchMmpoint(this.value)">
-
+                                                                @if(Session::get('user_mmplant')=='1')
                                                                 <option value="4">MM04</option>
                                                                 <option value="5">MM05</option>
                                                                 <option value="6">MM06</option>
                                                                 <option value="7">MM07</option>
-
                                                                 <option value="47">MM04-07</option>
-
+                                                                @endif
+                                                                    @if(Session::get('user_mmplant')=='2')
+                                                                        <option value="8">MM08</option>
+                                                                        <option value="9">MM09</option>
+                                                                        <option value="10">MM10</option>
+                                                                        <option value="11">MM11</option>
+                                                                        <option value="12">MM12</option>
+                                                                        <option value="13">MM13</option>
+                                                                        <option value="813">MM08-13</option>
+                                                                    @endif
+                                                                    @if(Session::get('user_mmplant')=='3')
+                                                                        <option value="8">MM08</option>
+                                                                        <option value="9">MM09</option>
+                                                                        <option value="10">MM10</option>
+                                                                        <option value="11">MM11</option>
+                                                                        <option value="12">MM12</option>
+                                                                        <option value="13">MM13</option>
+                                                                        <option value="813">MM08-13</option>
+                                                                    @endif
                                                                 <option value="0">My Calculation</option>
 
                                                                 <option value="-1">All Calculation</option>

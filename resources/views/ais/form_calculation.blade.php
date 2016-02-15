@@ -231,11 +231,31 @@
 	               <div class='param'>
 	                   MM Plant
 	                   <select id="cal_slelect_b" name="cal_slelect_b"  class="form-control input-sm">
-                            <option value="4">MM04</option>
-                            <option value="5">MM05</option>
-                            <option value="6">MM06</option>
-                            <option value="7">MM07</option>
-                           <option value="47">MM47</option>
+                           @if(Session::get('user_mmplant')=='1')
+                               <option value="4">MM04</option>
+                               <option value="5">MM05</option>
+                               <option value="6">MM06</option>
+                               <option value="7">MM07</option>
+                               <option value="47">MM47</option>
+                           @endif
+                           @if(Session::get('user_mmplant')=='2')
+                                   <option value="8">MM08</option>
+                                   <option value="9">MM09</option>
+                                   <option value="10">MM10</option>
+                                   <option value="11">MM11</option>
+                                   <option value="12">MM12</option>
+                                   <option value="13">MM13</option>
+                                   <option value="813">MM813</option>
+                               @endif
+                               @if(Session::get('user_mmplant')=='3')
+                                   <option value="8">MM08</option>
+                                   <option value="9">MM09</option>
+                                   <option value="10">MM10</option>
+                                   <option value="11">MM11</option>
+                                   <option value="12">MM12</option>
+                                   <option value="13">MM13</option>
+                                   <option value="813">MM813</option>
+                               @endif
                         </select>
                        <input type="hidden" id="cal_slelect_b_hidden" value="{{ $mmcalculation->B }}" />
 	               </div>
@@ -414,12 +434,28 @@
 	             <div class="row">
 	               <div class="col-xs-4 ">
                        <select id="mmtrend_table_B" class="form-control m-b" onchange="searchAddMmpoint(this.value)">
-
+                           @if(Session::get('user_mmplant')=='1')
                            <option value="4">MM04</option>
                            <option value="5">MM05</option>
                            <option value="6">MM06</option>
                            <option value="7">MM07</option>
-
+                            @endif
+                               @if(Session::get('user_mmplant')=='2')
+                                   <option value="8">MM08</option>
+                                   <option value="9">MM09</option>
+                                   <option value="10">MM10</option>
+                                   <option value="11">MM11</option>
+                                   <option value="12">MM12</option>
+                                   <option value="13">MM13</option>
+                               @endif
+                               @if(Session::get('user_mmplant')=='3')
+                                   <option value="8">MM08</option>
+                                   <option value="9">MM09</option>
+                                   <option value="10">MM10</option>
+                                   <option value="11">MM11</option>
+                                   <option value="12">MM12</option>
+                                   <option value="13">MM13</option>
+                               @endif
                            <option value="0">My Calculation</option>
 
                            <option value="-1">All Calculation</option>

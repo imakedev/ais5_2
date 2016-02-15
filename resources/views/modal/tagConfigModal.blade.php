@@ -17,6 +17,7 @@
                                     <input type="text" id="tagDescription" name="tagDescription" class="form-control " placeholder="Description">
                                 </div>
                             </div>
+                            @if(Session::get('user_mmplant')=='1')
                             <div class="form-group">
                                 <label class="col-lg-3 control-label padding5">Tag4</label>
                                 <div class="col-lg-9 padding5">
@@ -41,6 +42,83 @@
                                     <input type="text" id="tag7" name="tag7" class="form-control" placeholder="Tag7">
                                 </div>
                             </div>
+                            @endif
+                            @if(Session::get('user_mmplant')=='2')
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag8</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag8" name="tag8" class="form-control " placeholder="Tag8">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag9</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag9" name="tag9" class="form-control " placeholder="Tag9">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag10</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag10" name="tag10" class="form-control " placeholder="Tag10">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag11</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag11" name="tag11" class="form-control" placeholder="Tag11">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag12</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag12" name="tag12" class="form-control" placeholder="Tag12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag13</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag13" name="tag13" class="form-control" placeholder="Tag13">
+                                    </div>
+                                </div>
+                                @endif
+                            @if(Session::get('user_mmplant')=='3')
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag8</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag8" name="tag8" class="form-control " placeholder="Tag8">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag9</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag9" name="tag9" class="form-control " placeholder="Tag9">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag10</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag10" name="tag10" class="form-control " placeholder="Tag10">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag11</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag11" name="tag11" class="form-control" placeholder="Tag11">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag12</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag12" name="tag12" class="form-control" placeholder="Tag12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">Tag13</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="tag13" name="tag13" class="form-control" placeholder="Tag13">
+                                    </div>
+                                </div>
+                                @endif
                             <!-- form -->
                         </div>
                         <div class='col-md-6'>
@@ -55,6 +133,7 @@
                                     </select>
                                 </div>
                             </div>
+                            @if(Session::get('user_mmplant')=='1')
                             <div class="form-group">
                                 <label class="col-lg-3 control-label padding5">MM04</label>
                                 <div class="col-lg-9 padding5">
@@ -91,6 +170,119 @@
                                     <input type="text" id="mm07B" name="mm07B" class="inputWidth" placeholder="Block">
                                 </div>
                             </div>
+                                @endif
+                            @if(Session::get('user_mmplant')=='2')
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM08</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm08L" name="mm08L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm08P" name="mm08P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm08M" name="mm08M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm08B" name="mm08B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM09</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm09L" name="mm09L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm09P" name="mm09P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm09M" name="mm09M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm09B" name="mm09B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM10</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm10L" name="mm10L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm10P" name="mm10P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm10M" name="mm10M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm10B" name="mm10B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM11</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm11L" name="mm11L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm11P" name="mm11P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm11M" name="mm11M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm11B" name="mm11B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM12</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm12L" name="mm12L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm12P" name="mm12P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm12M" name="mm12M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm12B" name="mm12B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM13</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm13L" name="mm13L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm13P" name="mm13P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm13M" name="mm13M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm13B" name="mm13B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                            @endif
+                            @if(Session::get('user_mmplant')=='3')
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM08</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm08L" name="mm08L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm08P" name="mm08P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm08M" name="mm08M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm08B" name="mm08B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM09</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm09L" name="mm09L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm09P" name="mm09P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm09M" name="mm09M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm09B" name="mm09B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM10</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm10L" name="mm10L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm10P" name="mm10P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm10M" name="mm10M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm10B" name="mm10B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM11</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm11L" name="mm11L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm11P" name="mm11P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm11M" name="mm11M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm11B" name="mm11B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM12</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm12L" name="mm12L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm12P" name="mm12P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm12M" name="mm12M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm12B" name="mm12B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label padding5">MM13</label>
+                                    <div class="col-lg-9 padding5">
+                                        <input type="text" id="mm13L" name="mm13L" class="inputWidth" placeholder="Loop">
+                                        <input type="text" id="mm13P" name="mm13P" class="inputWidth" placeholder="PCU">
+                                        <input type="text" id="mm13M" name="mm13M" class="inputWidth" placeholder="Module">
+                                        <input type="text" id="mm13B" name="mm13B" class="inputWidth" placeholder="Block">
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                         <input type="hidden" id="tagId" name="tagId">
                     </div>

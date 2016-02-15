@@ -73,8 +73,9 @@ class SpecialController  extends Controller
         session()->put('design_trend_search',$search);
         session()->put('design_trend_B',$design_trend_B);
         $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
-
-        return view('ais/special', ['mmtrendsM'=>$datas]);
+        $mmtrend_groups = DB::connection(DBUtils::getDBName())->table('mmtrend_group')->where('mmplant','=',session()->get('user_mmplant'))->get();
+        //
+        return view('ais/special', ['mmtrendsM'=>$datas,'mmtrend_groups'=>$mmtrend_groups]);
     }
 
     /**
