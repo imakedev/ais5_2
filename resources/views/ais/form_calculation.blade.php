@@ -134,7 +134,7 @@
                                               <option value="}"> } </option>
                                               <option value="]"> ] </option>
                                               -->
-                                        </select> 
+                                        </select>
                                         
                                     </div>
                                 </div>
@@ -180,7 +180,7 @@
                                               <option value="Mcd(a;b)">Mcd(a;b)</option>
                                               <option value="Mcm(a;b)">Mcm(a;b)</option>
                                               -->
-                                        </select> 
+                                        </select>
                                         
                                     </div>
                                 </div>

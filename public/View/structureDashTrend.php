@@ -107,7 +107,7 @@
                                         <option value='Day'>Day</option>
                                         <option value='Hour'>Hour</option>
                                         <option value='Minute' selected='selected'>Minute</option>
-                                        <option value='Second'>Second</option>
+                                        <option value='Second' disabled>Second</option>
                                         
                                     </select>
                                 </div>
@@ -164,7 +164,7 @@
                                 <label class='col-lg-3 control-label textAlign'>ชั่วโมง</label>
                                 <div class='col-lg-9 scaleTimeR'>
                                    
-                                       <input type='text' id='hour-<?=$_GET['paramTrendID']?>' value='00' class='form-control input-sm '>
+                                       <input type='text' id='hour-<?=$_GET['paramTrendID']?>' value='00:00' class='form-control input-sm '>
                                     
                                 </div>
                            </div>

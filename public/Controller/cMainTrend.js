@@ -873,8 +873,8 @@ var createFileServiceChart={
 		
 	},
 	createFileBySecondu:function(paramTrendID){
-		//var pointDataId= getDataFromPointEmbed("pointDataId");
-		var pointDataId= getDataFromPointEmbed("unitIdPointId");
+		var pointDataId= getDataFromPointEmbed("pointDataId");
+		//var pointDataId= getDataFromPointEmbed("unitIdPointId");
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramFromDateArray="";
@@ -994,7 +994,7 @@ var plotGraphFn=function(paramAction,paramTest,paramTrendID,paramScaleTime){
 		  //if plot grach is success crate new tab
 		 if(paramAction!='Edit'){
 			 
-		  alert(point);
+		  //alert(point);
 		  $(".paramPointEmbed-"+paramTrendID+"").remove();
 		  var paramPoint="";
 		  paramPoint+="<input type='hidden' class='paramPointEmbed-"+paramTrendID+"' id='paramPointEmbed-"+paramTrendID+"' name='paramPointEmbed-"+paramTrendID+"' value='"+point+"'>";
@@ -1200,7 +1200,7 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 	var data2="";
 	//var pointDataId=getDataFromPointEmbed("pointDataId");
 	var pointDataId=getDataFromPointEmbed("unitIdPointId");
-	alert(pointDataId);
+	//alert(pointDataId);
 	
 	var paramStep="";
 	//var startTime="";
