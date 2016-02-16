@@ -158,15 +158,14 @@ class CalculationController  extends Controller
         $mmcalculation=null;
         if($cal_a!=null && $cal_a!='0') {
             $mmcalculation = MmcalculationModel::on(DBUtils::getDBName())->find($cal_a);
-            $cal_messages= ' Info edit successfuly.';
+            $cal_messages= 'Update successfuly.';
             $mmcalculation->H = $cal_h;
         }else{
             $mmcalculation = new MmcalculationModel();
             $mmcalculation->setConnection(DBUtils::getDBName());
-            $cal_messages= ' Info save successfuly.';
+            $cal_messages= 'Save successfuly.';
             $mmcalculation->H = Auth::user()->empId;
         }
-
         $mmcalculation->B = $cal_b;
         $mmcalculation->C = $cal_c;
         $mmcalculation->D = $cal_d;

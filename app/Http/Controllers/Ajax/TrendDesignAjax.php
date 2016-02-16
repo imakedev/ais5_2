@@ -76,16 +76,24 @@ class TrendDesignAjax extends Controller
             'mmnameM'=>json_encode($mmnameM),
             'mmpointM'=>json_encode($mmpointM)]);
     }
-    public function getMmname(Request $request){
+    public function getMmname(Request $request)
+    {
         Log::info("Into getMmname callAjax");
         // do something
         $mmnameM = MmnameModel::on(DBUtils::getDBName())->where('ZZ', request('ZZ'))
-           // ->orderBy('name', 'desc')
-           // ->take(10)
+            // ->orderBy('name', 'desc')
+            // ->take(10)
             ->get();
         //return response()->json(['mmnameM'=>json_encode($mmnameM)]);
         //$mmtrend_groups = DB::connection(DBUtils::getDBName())->table('mmtrend_group')->where('mmplant','=',session()->get('user_mmplant'))->get();
-        $mmtrend_groups = DB::table('mmtrend_group')->where('mmplant','=',session()->get('user_mmplant'))->get();
+
+
+        $mmtrend_groups = DB::table('mmtrend_group')->where('mmplant', '=', session()->get('user_mmplant'));
+        if (session()->get('user_priority') < 128) {
+            $mmtrend_groups=$mmtrend_groups->where('B', '=', '9');
+        }
+
+        $mmtrend_groups=$mmtrend_groups->get();
 
         return response()->json(['mmnameM'=>json_encode($mmnameM),'mmtrend_groups'=>json_encode($mmtrend_groups)]);
     }
@@ -135,6 +143,7 @@ class TrendDesignAjax extends Controller
             }
         }
         if($mode=='add'){
+
             if(sizeof($mmplants)>0){
                 $maxId = DB::connection(DBUtils::getDBName())->table('mmtrend_table')->where("G",$g)->max('A');
                 Log::info("maxId->".$maxId);
@@ -204,29 +213,70 @@ class TrendDesignAjax extends Controller
         $mmname_b=request("B");
         $mmname_zz=request("ZZ");
         $mmnameModel=null;
-        Log::info("test->".$request->input('A'));
+        if($mmname_b=='9'){
+            $mmname_b=Auth::user()->empId;
+        }
+        /*
+            Priority <128 สามารถสร้าง Trend ได้  29 Trend
+2.  Priority <201 สร้าง Trend ได้ 49 Trend
+3.  Priority <255 สร้าง Trend ได้ 99 Trend
+4.  Priority อื่นๆ สร้าง Trend ได้ 9999 Trend
+            */
+        $isExcessTrend=false;
+        $maxTrend=0;
+        $user_priority=session()->get('user_priority');
+
+
+        $count=0;
+        Log::info("mmname_a[".$mmname_a."],mmname_b[".$mmname_b."],mmname_zz[".$mmname_zz."]");
         if($mode=='add'){
-            $mmnameModel = new MmnameModel();
-            $mmnameModel->setConnection(DBUtils::getDBName());
-            $mmnameModel->A =$mmname_a;
-            if($mmname_b=='9'){
-                $mmname_b=Auth::user()->empId;
+            if(request("B")=='9'){
+                $countMyTrend = DB::connection(DBUtils::getDBName())->table('mmname_table')->where('B','=',$mmname_b)->count();
+                if ($user_priority < 128){
+                    $isExcessTrend=$countMyTrend>28;
+                    $maxTrend=29;
+                }else if ($user_priority < 201){
+                    $isExcessTrend=$countMyTrend>48;
+                    $maxTrend=49;
+                }else if ($user_priority < 255){
+                    $isExcessTrend=$countMyTrend>98;
+                    $maxTrend=99;
+                }else{
+                    $isExcessTrend=$countMyTrend>9998;
+                    $maxTrend=9999;
+                }
             }
-            $mmnameModel->B =$mmname_b;
-            $mmnameModel->save();
-            session()->flash('message', ' Save successfuly.');
+
+            $count = DB::connection(DBUtils::getDBName())->table('mmname_table')->where('A','=',$mmname_a)
+                ->where('B','=',$mmname_b)->count();
+             Log::info("count->".$count);
+            if($count==0 && !$isExcessTrend){
+                $mmnameModel = new MmnameModel();
+                $mmnameModel->setConnection(DBUtils::getDBName());
+                $mmnameModel->A =$mmname_a;
+
+                $mmnameModel->B =$mmname_b;
+                $mmnameModel->save();
+                session()->flash('message', ' Save successfuly.');
+            }
+
         }else{
-            $mmnameModel = MmnameModel::on(DBUtils::getDBName())->find($mmname_zz);
-            $mmnameModel->A =$mmname_a;
-            if($mmname_b=='9'){
-                $mmname_b=Auth::user()->empId;
+
+            $count = DB::connection(DBUtils::getDBName())->table('mmname_table')->where('A','=',$mmname_a)
+                ->where('B','=',$mmname_b)->where('ZZ','<>',$mmname_zz)->count();
+             Log::info("count->".$count);
+            if($count==0){
+                $mmnameModel = MmnameModel::on(DBUtils::getDBName())->find($mmname_zz);
+                $mmnameModel->A =$mmname_a;
+
+                $mmnameModel->B =$mmname_b;
+                $mmnameModel->save();
+                session()->flash('message', ' Update successfuly.');
             }
-            $mmnameModel->B =$mmname_b;
-            $mmnameModel->save();
-            session()->flash('message', ' Update successfuly.');
         }
 
-        return response()->json(['mmnameM'=>json_encode($mmnameModel)]);
+        return response()->json(['mmnameM'=>json_encode($mmnameModel),'count'=>json_encode($count),
+            'isExcessTrend'=>json_encode($isExcessTrend),'maxTrend'=>json_encode($maxTrend)]);
     }
     public function deleteMmname(Request $request){
         $mode=request('mode');
@@ -263,31 +313,56 @@ class TrendDesignAjax extends Controller
         $target_unit=request('target_unit');
         Log::info("ZZ[".$id."],target_group[".$target_group."]
         target_unit[".$target_unit."]");
-        /*
-       $mmtrendM = MmnameModel::on(DBUtils::getDBName())->where('ZZ', $id)
-            ->get();
-        */
+        if($target_group=='9') {
+            $target_group = Auth::user()->empId;
+        }
+        $isExcessTrend=false;
+        $maxTrend=0;
+        $user_priority=session()->get('user_priority');
+        $count=0;
+        if(request('target_group')=='9'){
+            $countMyTrend = DB::connection(DBUtils::getDBName())->table('mmname_table')->where('B','=',$target_group)->count();
+            if ($user_priority < 128){
+                $isExcessTrend=$countMyTrend>28;
+                $maxTrend=29;
+            }else if ($user_priority < 201){
+                $isExcessTrend=$countMyTrend>48;
+                $maxTrend=49;
+            }else if ($user_priority < 255){
+                $isExcessTrend=$countMyTrend>98;
+                $maxTrend=99;
+            }else{
+                $isExcessTrend=$countMyTrend>9998;
+                $maxTrend=9999;
+            }
+        }
+
 
         $mmtrendM = MmnameModel::on(DBUtils::getDBName())->find($id);
         if(!empty($mmtrendM)){
             // set target group
-            if($target_group=='9'){
+            $count = DB::connection(DBUtils::getDBName())->table('mmname_table')->where('A','=',$mmtrendM->A)
+                ->where('B','=',$target_group)->where('B','<>',$mmtrendM->B)->count();
+            if($count==0){
+                if($target_group=='9'){
                 $mmtrendM->B=Auth::user()->empId;
             }else{
-                $mmtrendM->B=$target_group;
-            }
-            $mmtrendM->save();
-            $mmtrends= MmtrendModel::on(DBUtils::getDBName())->where('G', $id)
-                ->get();
-            if(!empty($mmtrends) && $target_unit!='0'){
-                foreach($mmtrends as $mmtrend) {
+                    $mmtrendM->B=$target_group;
+                }
+                $mmtrendM->save();
+                $mmtrends= MmtrendModel::on(DBUtils::getDBName())->where('G', $id)
+                    ->get();
+                if(!empty($mmtrends) && $target_unit!='0'){
+                    foreach($mmtrends as $mmtrend) {
                         $mmtrend->B=$target_unit;
                         $mmtrend->save();
+                    }
                 }
             }
         }
         Log::info("mmnameModel ->".$mmtrendM->A);
-        return response()->json(['mmtrendM'=>json_encode($mmtrendM)]);
+        return response()->json(['mmtrendM'=>json_encode($mmtrendM),'count'=>json_encode($count),
+            'isExcessTrend'=>json_encode($isExcessTrend),'maxTrend'=>json_encode($maxTrend)]);
     }
     /**
      * Remove the specified resource from storage.
@@ -303,48 +378,74 @@ class TrendDesignAjax extends Controller
         $target_unit=request('target_unit');
         Log::info("ZZ[".$id."],trend_name[".$trend_name."],target_group[".$target_group."]
         target_unit[".$target_unit."]");
-        /*
-        $mmtrendM = MmnameModel::on(DBUtils::getDBName())->where('ZZ', $id)
-           ->get();
-           */
-        $mmtrendM = MmnameModel::on(DBUtils::getDBName())->find($id);
-        if(!empty($mmtrendM)){
-            // set target group
-            $mmtrendM_new = new MmnameModel();
-            $mmtrendM_new->setConnection(DBUtils::getDBName());
-            $mmtrendM_new->A=$trend_name;
-            if($target_group=='9'){
-                $mmtrendM_new->B=Auth::user()->empId;
+        if($target_group=='9'){
+            $target_group=Auth::user()->empId;
+        }
+        $isExcessTrend=false;
+        $maxTrend=0;
+        $count=0;
+        $user_priority=session()->get('user_priority');
+        if(request('target_group')=='9'){
+            $countMyTrend = DB::connection(DBUtils::getDBName())->table('mmname_table')->where('B','=',$target_group)->count();
+            if ($user_priority < 128){
+                $isExcessTrend=$countMyTrend>3;
+                $maxTrend=4;
+            }else if ($user_priority < 201){
+                $isExcessTrend=$countMyTrend>48;
+                $maxTrend=49;
+            }else if ($user_priority < 255){
+                $isExcessTrend=$countMyTrend>98;
+                $maxTrend=99;
             }else{
-                $mmtrendM_new->B=$target_group;
-            }
-            $mmtrendM_new->save();
-            $mmtrends= MmtrendModel::on(DBUtils::getDBName())->where('G', $id)
-                ->get();
-            if(!empty($mmtrends) ){
-                foreach($mmtrends as $mmtrend) {
-                    $mmtrendModel_new=new MmtrendModel();
-                    $mmtrendModel_new->setConnection(DBUtils::getDBName());
-                    $mmtrendModel_new->A=$mmtrend->A;
-                    if($target_unit=='0'){
-                        $mmtrendModel_new->B=$mmtrend->B;
-                    }else{
-                        $mmtrendModel_new->B=$target_unit;
-                    }
-                    $mmtrendModel_new->C=$mmtrend->C;
-                    $mmtrendModel_new->D=$mmtrend->D;
-                    $mmtrendModel_new->E=$mmtrend->E;
-                    $mmtrendModel_new->F0=$mmtrend->F0;
-                    $mmtrendModel_new->F1=$mmtrend->F1;
-                    $mmtrendModel_new->H=$mmtrend->H;
-                    $mmtrendModel_new->I=$mmtrend->I;
-                    $mmtrendModel_new->G=$mmtrendM_new->ZZ;
-                    $mmtrendModel_new->save();
-                }
+                $isExcessTrend=$countMyTrend>9998;
+                $maxTrend=9999;
             }
         }
+
+        $mmtrendM = MmnameModel::on(DBUtils::getDBName())->find($id);
+        if(!empty($mmtrendM) && !$isExcessTrend){
+            // set target group
+            $count = DB::connection(DBUtils::getDBName())->table('mmname_table')->where('A','=',$trend_name)
+                ->where('B','=',$target_group)->count();
+            if($count==0){
+                $mmtrendM_new = new MmnameModel();
+                $mmtrendM_new->setConnection(DBUtils::getDBName());
+                $mmtrendM_new->A=$trend_name;
+                if($target_group=='9'){
+                    $mmtrendM_new->B=Auth::user()->empId;
+                }else{
+                    $mmtrendM_new->B=$target_group;
+                }
+                $mmtrendM_new->save();
+                $mmtrends= MmtrendModel::on(DBUtils::getDBName())->where('G', $id)
+                    ->get();
+                if(!empty($mmtrends) ){
+                    foreach($mmtrends as $mmtrend) {
+                        $mmtrendModel_new=new MmtrendModel();
+                        $mmtrendModel_new->setConnection(DBUtils::getDBName());
+                        $mmtrendModel_new->A=$mmtrend->A;
+                        if($target_unit=='0'){
+                            $mmtrendModel_new->B=$mmtrend->B;
+                        }else{
+                            $mmtrendModel_new->B=$target_unit;
+                        }
+                        $mmtrendModel_new->C=$mmtrend->C;
+                        $mmtrendModel_new->D=$mmtrend->D;
+                        $mmtrendModel_new->E=$mmtrend->E;
+                        $mmtrendModel_new->F0=$mmtrend->F0;
+                        $mmtrendModel_new->F1=$mmtrend->F1;
+                        $mmtrendModel_new->H=$mmtrend->H;
+                        $mmtrendModel_new->I=$mmtrend->I;
+                        $mmtrendModel_new->G=$mmtrendM_new->ZZ;
+                        $mmtrendModel_new->save();
+                    }
+                }
+            }
+
+        }
         Log::info("mmnameModel ->".$mmtrendM->A);
-        return response()->json(['mmtrendM'=>json_encode($mmtrendM)]);
+        return response()->json(['mmtrendM'=>json_encode($mmtrendM),'count'=>json_encode($count),
+            'isExcessTrend'=>json_encode($isExcessTrend),'maxTrend'=>json_encode($maxTrend)]);
     }
 
     public function deleteMmtrend(Request $request){
@@ -371,7 +472,7 @@ class TrendDesignAjax extends Controller
         $h_id=request('H');
         $p_id=request('P');
         Log::info("h_id [".$h_id."] ,p_id [".$p_id."]");
-        if($p_id=='0' || $p_id=='-1'){
+        if($p_id=='0' || $p_id=='-1'|| $p_id=='1'){
             //$datas = MmcalculationModel::query();
             $datas =DB::connection(DBUtils::getDBName())->table('mmcalculation_table');
             //if (sizeof($keyword)>0) {
@@ -385,9 +486,23 @@ class TrendDesignAjax extends Controller
 
 
                 });
-            if($p_id=='0'){
+            if($p_id=='0'){ // my calculation
                 Log::info("Auth [".Auth::user()->empId."] ");
                 $datas->where('H','=',''.Auth::user()->empId.'');
+
+            }else if($p_id=='1'){ // standard calculation
+                $lists = DB::table('mmemployee_table')->where('D0','>=',254)->get();
+                if(!empty($lists)) {
+                    $index=0;
+                    $new_array = array();
+                    foreach ($lists as $list) {
+                        $new_array[$index]=$list->A;
+                        $index++;
+                    }
+                    $datas->where('H','<>',''.Auth::user()->empId.'')
+                        ->whereIn('H', $new_array);
+                }
+
 
             }
 
@@ -419,7 +534,7 @@ class TrendDesignAjax extends Controller
         $keyword=request('keyword');
        // $h_id=request('H');
         $p_id=request('P');
-        if($p_id=='0' || $p_id=='-1'){
+        if($p_id=='0' || $p_id=='-1' || $p_id=='1'){
             $datas = MmcalculationModel::on(DBUtils::getDBName())->newQuery();
             if (sizeof($keyword)>0) {
                 // $datas->where('C','LIKE', "%".$keyword."%");
@@ -428,8 +543,22 @@ class TrendDesignAjax extends Controller
                         ->orWhere('D', 'LIKE',"%$keyword%");
                 });
             }
-            if($p_id=='0'){
+            if($p_id=='0'){ // my calculation
                 $datas->where('H','=', ''.Auth::user()->empId.'');
+            }else if($p_id=='1'){ // standard calculation
+                $lists = DB::table('mmemployee_table')->where('D0','>=',254)->get();
+                if(!empty($lists)) {
+                    $index=0;
+                    $new_array = array();
+                    foreach ($lists as $list) {
+                        $new_array[$index]=$list->A;
+                        $index++;
+                    }
+                    $datas->where('H','<>',''.Auth::user()->empId.'')
+                        ->whereIn('H', $new_array);
+                }
+
+
             }
             $lists = $datas->take(9);
             /*
@@ -463,7 +592,7 @@ class TrendDesignAjax extends Controller
         // $h_id=request('H');
         $type=request('type');
         $datas=null;
-        if($type=='0' || $type=='-1'){
+        if($type=='0' || $type=='-1' || $type=='1'){
             $datas = MmcalculationModel::on(DBUtils::getDBName())->find($key);
 
 

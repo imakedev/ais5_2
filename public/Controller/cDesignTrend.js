@@ -287,7 +287,7 @@ function searchMmpoint(mmtrend_table_B_selected){
     "   </tr> "+
     "   </thead> "+
     "   <tbody> ";
-    if(mmtrend_table_B=='0' || mmtrend_table_B=='-1') {
+    if(mmtrend_table_B=='0' || mmtrend_table_B=='-1' || mmtrend_table_B=='1') {
         str = "" +
             " <table id=\"editable\" " +
             " class=\"table table-striped table-bordered table-hover  dataTable\" " +
@@ -360,7 +360,7 @@ function searchMmpoint(mmtrend_table_B_selected){
         data: obj
     }).done(function(data, status, xhr) {
         console.log(data);
-        if(mmtrend_table_B=='0' || mmtrend_table_B=='-1'){
+        if(mmtrend_table_B=='0' || mmtrend_table_B=='-1' || mmtrend_table_B=='1'){
             var mmpointM = jQuery.parseJSON(data.mmpointM);
             // alert(mmpointM.length)
             if(mmpointM!=null && mmpointM.length>0) {
@@ -373,7 +373,7 @@ function searchMmpoint(mmtrend_table_B_selected){
                         checked_str="checked";
                     }
                     str = str +
-                        "  <input type=\"radio\" name=\"point_ids_input[]\" "+checked_str+" value=\""+mmpointM[i].A+"\"> "+
+                        "  <input type=\"radio\" onclick=\"setMaxMinValue('"+mmpointM[i].F0+"','"+mmpointM[i].F1+"','"+mmpointM[i].E+"')\" name=\"point_ids_input[]\" "+checked_str+" value=\""+mmpointM[i].A+"\"> "+
                             //  " class=\"i-checks\"> "+
                         "     </td> "+
                         "    <td>"+mmpointM[i].C+"</td> "+
@@ -401,7 +401,7 @@ function searchMmpoint(mmtrend_table_B_selected){
                         checked_str="checked";
                     }
                     str = str +
-                        "  <input type=\"radio\" name=\"point_ids_input[]\" "+checked_str+" value=\""+mmpointM[i].A+"\"> "+
+                        "  <input type=\"radio\" onclick=\"setMaxMinValue('"+mmpointM[i].G0+"','"+mmpointM[i].G1+"','"+mmpointM[i].F+"')\" name=\"point_ids_input[]\" "+checked_str+" value=\""+mmpointM[i].A+"\"> "+
                             //  " class=\"i-checks\"> "+
                         "     </td> "+
                         "    <td>"+mmpointM[i].B+"</td> "+
@@ -557,6 +557,8 @@ function doDeleteMmname(){
 
 // start display mmname for edit or save
 function  displayMmname(mode,id){
+    $("#trend_name_element").removeClass("has-error");
+    $("#mmname_a").attr("placeholder", "ชื่อ Trend");
     $("#mmname_mode").val(mode)
     $("#mmname_zz").val(id)
     $("#mmname_a").val("");
@@ -599,10 +601,17 @@ function  displayMmname(mode,id){
     });
 }
 function  doActionMmname(){
+    $("#trend_name_element").removeClass("has-error");
+    $("#mmname_a").attr("placeholder", "ชื่อ Trend");
     var mmname_b=$("#mmtrend_group_select").val();
     //alert(mmname_b)
     var mode=$("#mmname_mode").val();
-    var mmname_a=$("#mmname_a").val();
+    var mmname_a=$.trim($("#mmname_a").val());
+    if(mmname_a.length==0){
+        $("#trend_name_element").addClass("has-error");
+        $("#mmname_a").attr("placeholder", "กรุณากรอก ชื่อ Trend ");
+        return false;
+    }
     var mmname_zz=$("#mmname_zz").val();
     var obj={
         "A":mmname_a,
@@ -616,8 +625,32 @@ function  doActionMmname(){
         method: "POST",
         data: obj
     }).done(function(data, status, xhr) {
-        location.reload()
-        $("#myModal2").modal('hide')
+        console.log(data, status, xhr);
+        var count = jQuery.parseJSON(data.count);
+        var isExcessTrend = jQuery.parseJSON(data.isExcessTrend);
+       // alert((isExcessTrend))
+        if(isExcessTrend){
+            $("#trend_name_element").addClass("has-error");
+            //alert("คุณไม่สามารถเพิ่ม Trend ได้");
+
+            var maxTrend = jQuery.parseJSON(data.maxTrend);
+            $("#mmname_a").val("");
+            $("#mmname_a").attr("placeholder", "คุณเพิ่ม Trend ได้มากที่สุด ["+maxTrend+"] Trends");
+            return false;
+        }else{
+            var countInt=parseInt(count);
+            if(countInt>0){
+                $("#trend_name_element").addClass("has-error");
+                $("#mmname_a").val("");
+                $("#mmname_a").attr("placeholder", "ชื่อ Trend ["+mmname_a+"] ซ้ำ.");
+            }else {
+                location.reload()
+                $("#myModal2").modal('hide')
+            }
+        }
+
+
+
     });
 }
 
@@ -670,4 +703,9 @@ function  doActionMmtrend(){
       $("#myModalAddPoint").modal('hide')
     });
 
+}
+function setMaxMinValue(max,min,unit){
+    $("#mmpoint_table_G0").val(max);
+    $("#mmpoint_table_G1").val(min);
+    $("#mmpoint_table_F").val(unit);
 }

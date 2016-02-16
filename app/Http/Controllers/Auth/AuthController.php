@@ -132,7 +132,7 @@ class AuthController extends Controller
                     // 'id' => '409642',
                     'password' => 'password'
                 ];
-                */
+*/
                 // end test
                 if (!empty($user_ldap)){
                     Log::info($user_ldap);
@@ -161,7 +161,7 @@ class AuthController extends Controller
                     Session::put('user_mmplant', $mmplant);
 
                     // set mmemployee_table
-                    $user_priority=255;
+                    //$user_priority=255;
 
                     Session::put('user_empId', $user_empId);
                     Session::put('user_priority', $user_priority);

@@ -54,7 +54,9 @@
                     <li><a href="{{  url('/ais/trendColor')  }}">Design Trend Color</a></li>
                     <li><a href="{{  url('/ais/designTrend')  }}"> Design Trend</a></li>
                     <li><a href="{{  url('/ais/designCalculation')  }}">Design Calcultion</a></li>
+                    @if (session()->get('user_priority') >= 128)
                     <li><a href="{{  url('/ais/special')  }}">Special Menu</a></li>
+                    @endif
                 </ul>
             </li>
             <li class="landing_link">

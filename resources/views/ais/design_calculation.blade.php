@@ -47,9 +47,13 @@
 	               <div class='col-md-2' style="margin-left: -60px">
                        <input type="hidden" id="calculationSelectionHidden" value="{{session()->get('calculation_selection')}}"/>
                            <select class="form-control input-sm" style="width: 180px;" name="calculationSelection">
+                               @if (session()->get('user_priority') >= 254)
                                 <option value="-1">All Calculation</option>
+                               @endif
                                 <option value="1">My Calculation</option>
+                                   @if (session()->get('user_priority') >= 254)
                                 <option value="2">Standard Calculation</option>
+                                       @endif
 
                             </select>
 

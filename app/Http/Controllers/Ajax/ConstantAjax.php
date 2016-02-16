@@ -41,14 +41,28 @@ class ConstantAjax extends Controller
         //$datas = MmConstantModel::query();
         $lists = null;
        // $lists=null;
-        if($constantType=='0') {
+        if($constantType=='0') { //my constant
             Log::info("Into xxxx [".$constantType."],empId[".Auth::user()->empId."]");
             //$datas= $datas->where('C','=', "'".Auth::user()->empId."'");
            // $lists->where('C','=', "'".Auth::user()->empId."'");
             $lists=DB::connection(DBUtils::getDBName())->table('mmconstant_table')->where('C','=',''.Auth::user()->empId.'')->get();
             //$lists=$lists->get();
-        }else if($constantType=='-1'){
+        }else if($constantType=='-1'){ // standard
             Log::info("Into yyy [".$constantType."]");
+            $lists=DB::connection(DBUtils::getDBName())->table('mmconstant_table');
+            $user_admins = DB::table('mmemployee_table')->where('D0','>=',254)->get();
+            if(!empty($user_admins)) {
+                $index=0;
+                $new_array = array();
+                foreach ($user_admins as $user_admin) {
+                    $new_array[$index]=$user_admin->A;
+                    $index++;
+                }
+                $lists= $lists->where('C','<>',''.Auth::user()->empId.'')
+                    ->whereIn('C', $new_array)->get();
+            }
+
+        }else{//all
             $lists=DB::connection(DBUtils::getDBName())->table('mmconstant_table')->get();
         }
 

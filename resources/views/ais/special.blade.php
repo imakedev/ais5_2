@@ -58,13 +58,17 @@
                             <!--  btn -->
                             <input type="hidden" id="design_trend_B_hidden" value="{{session()->get('design_trend_B')}}"/>
                             <select id="design_trend_B" name="design_trend_B">
-                                <option value="-1">All Trend</option>
+                                @if(session()->get('user_priority')>=128)
+                                    <option value="-1">All Trend</option>
+                                @endif
                                 @foreach($mmtrend_groups as $mmtrend_group)
-                                    @if($mmtrend_group=='9')
+                                    @if($mmtrend_group->B=='9')
                                         <option value="{{Auth::user()->empId}}">{{$mmtrend_group->group_name}}</option>
                                     @endif
-                                    @if($mmtrend_group!='9')
-                                        <option value="{{$mmtrend_group->B}}">{{$mmtrend_group->group_name}}</option>
+                                    @if($mmtrend_group->B!='9')
+                                            @if(session()->get('user_priority')>=128)
+                                                <option value="{{$mmtrend_group->B}}">{{$mmtrend_group->group_name}}</option>
+                                            @endif
                                     @endif
                                 @endforeach
                             </select>
@@ -541,7 +545,7 @@
                             </div>
                             <div class="modal-body">
                                 <form class="form-horizontal">
-                                    <div class="form-group">
+                                    <div id="trend_name_element" class="form-group">
                                         <label class="col-lg-3 control-label padding5">ตั้งชื่อ Trend ใหม่</label>
 
                                         <div class="col-lg-9 padding5">
@@ -610,6 +614,7 @@
                      style="display: none;">
                     <div class="modal-dialog">
                         <div class="modal-content animated flipInY">
+
                             <div class="modal-header">
                                 <button data-dismiss="modal" class="close" type="button"><span
                                             aria-hidden="true">×</span><span class="sr-only">Close</span>
@@ -619,7 +624,12 @@
                             </div>
                             <div class="modal-body">
                                 <form class="form-horizontal">
-
+                                    <div id="move_errormessage" class="col-md-12" style="display:none;">
+                                        <div class="alert alert-danger" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
+                                            <i class="glyphicon glyphicon-remove-sign"></i>
+                                            <b id="error_message"></b>
+                                        </div>
+                                    </div>
                                     <div class="form-group"><label class="col-lg-3 control-label padding5">Target Group</label>
 
                                         <div class="col-lg-9 padding5">
