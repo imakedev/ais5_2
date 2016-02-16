@@ -84,7 +84,8 @@ class TrendDesignAjax extends Controller
            // ->take(10)
             ->get();
         //return response()->json(['mmnameM'=>json_encode($mmnameM)]);
-        $mmtrend_groups = DB::connection(DBUtils::getDBName())->table('mmtrend_group')->where('mmplant','=',session()->get('user_mmplant'))->get();
+        //$mmtrend_groups = DB::connection(DBUtils::getDBName())->table('mmtrend_group')->where('mmplant','=',session()->get('user_mmplant'))->get();
+        $mmtrend_groups = DB::table('mmtrend_group')->where('mmplant','=',session()->get('user_mmplant'))->get();
 
         return response()->json(['mmnameM'=>json_encode($mmnameM),'mmtrend_groups'=>json_encode($mmtrend_groups)]);
     }
