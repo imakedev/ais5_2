@@ -150,7 +150,6 @@ class CalculationController  extends Controller
         $cal_g = $request->input('cal_g');
         $cal_h = $request->input('cal_h');
         $cal_g2 = Input::get('cal_g');
-
         $cal_messages='';
         Log::info(" cal_g [".$cal_g."] ");
         Log::info(" cal_g2 [".$cal_g2."] ");
@@ -176,7 +175,6 @@ class CalculationController  extends Controller
 
         $mmcalculation->save();
         session()->flash('message', $cal_messages);
-      //  $mmcalculation =   MmcalculationModel::find($id);
         return redirect('ais/formCalculation/'.$mmcalculation->A);
        // return view('ais.form_calculation', ['mmcalculation'=>$mmcalculation]);
     }
