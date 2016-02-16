@@ -658,7 +658,7 @@ var bindGridPoinList = function(){
 			 if($("#pointCompare").is(':checked')==true){
 				 //alert("commpare checked");
 				 var countPointArray=$("input.point:checked").get();
-				 alert(countPointArray.length);
+				 //alert(countPointArray.length);
 				 if(countPointArray.length>1){
 					 alert("compare point เลือกได้แค่ 1 point");
 					 return false;

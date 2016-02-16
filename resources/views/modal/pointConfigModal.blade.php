@@ -17,10 +17,10 @@
                         </div>
                     </div>
                     <div class="form-group"><label class="col-lg-3 control-label padding5">Tag Atom</label>
-                        <div class="col-lg-7 padding5">
+                        <div class="col-lg-7 padding5" id="poiAtomSelect">
                             <select id="poiAtom" name="poiAtom" class="form-control ">
                                 <option value="Value">Value</option>
-                                <option>...</option>
+                                <option value="Alarm">Alarm</option>
                             </select>
                         </div>
                     </div>

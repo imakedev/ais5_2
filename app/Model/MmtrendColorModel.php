@@ -14,4 +14,5 @@ class MmtrendColorModel
 {
     protected $table = 'mmtrend_color_table';
     protected $primaryKey = 'ZZ';
+    public $timestamps = false;
 }

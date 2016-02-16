@@ -17,6 +17,7 @@ use \App\Model\MmpointModel;
 use \App\Model\MmcalculationModel;
 use Log;
 use Illuminate\Support\Facades\Auth;
+use \App\Utils\DBUtils;
 class TrendDesignAjax extends Controller
 {
     public function __construct()
@@ -27,8 +28,8 @@ class TrendDesignAjax extends Controller
         Log::info("Into TrendDesignAjax callAjax");
         //Log::info(request('xx')['yy']);
         $g_data=request('zz');
-        $mmnameM = DB::table('mmname_table')->where('ZZ', $g_data)->first();
-        $trendDesignsM = DB::table('mmtrend_table as mmtrend ')
+        $mmnameM = DB::connection(DBUtils::getDBName())->table('mmname_table')->where('ZZ', $g_data)->first();
+        $trendDesignsM = DB::connection(DBUtils::getDBName())->table('mmtrend_table as mmtrend ')
           //  ->join('mmname_table as mmname ', 'mmtrend.G', '=', 'mmname.ZZ')
             //   ->join('orders', 'users.id', '=', 'orders.user_id')
             //   ->select('users.*', 'contacts.phone', 'orders.price')
@@ -49,7 +50,7 @@ class TrendDesignAjax extends Controller
         $key=request('key');
 
 
-        $mmtagM = DB::table('mmtag_table')->where('A', $key)->first();
+        $mmtagM = DB::connection(DBUtils::getDBName())->table('mmtag_table')->where('A', $key)->first();
 
         // Log::info("lenth ".sizeof($mmtrendM));
         return response()->json(['mmtagM'=>json_encode($mmtagM)]);
@@ -59,15 +60,15 @@ class TrendDesignAjax extends Controller
         $g_data=request('G');
         Log::info("Into getMmTrend callAjax ZZ[".$zz_data."],G[".$g_data."]");
 
-        $mmtrendM = DB::table('mmtrend_table')->where('ZZ', $zz_data)->first();
+        $mmtrendM = DB::connection(DBUtils::getDBName())->table('mmtrend_table')->where('ZZ', $zz_data)->first();
         $mmnameM =null;
         $mmpointM=null;
 
-        $mmnameM = DB::table('mmname_table')->where('ZZ', $g_data)->first();
+        $mmnameM = DB::connection(DBUtils::getDBName())->table('mmname_table')->where('ZZ', $g_data)->first();
 
         if($mmtrendM!=null) {
             Log::info("H " . $mmtrendM->H);
-            $mmpointM = DB::table('mmpoint_table')->where('A', $mmtrendM->H)->first();
+            $mmpointM = DB::connection(DBUtils::getDBName())->table('mmpoint_table')->where('A', $mmtrendM->H)->first();
         }
 
        // Log::info("lenth ".sizeof($mmtrendM));
@@ -78,12 +79,13 @@ class TrendDesignAjax extends Controller
     public function getMmname(Request $request){
         Log::info("Into getMmname callAjax");
         // do something
-        $mmnameM = MmnameModel::where('ZZ', request('ZZ'))
+        $mmnameM = MmnameModel::on(DBUtils::getDBName())->where('ZZ', request('ZZ'))
            // ->orderBy('name', 'desc')
            // ->take(10)
             ->get();
         //return response()->json(['mmnameM'=>json_encode($mmnameM)]);
-        $mmtrend_groups = DB::table('mmtrend_group')->get();
+        //$mmtrend_groups = DB::connection(DBUtils::getDBName())->table('mmtrend_group')->where('mmplant','=',session()->get('user_mmplant'))->get();
+        $mmtrend_groups = DB::table('mmtrend_group')->where('mmplant','=',session()->get('user_mmplant'))->get();
 
         return response()->json(['mmnameM'=>json_encode($mmnameM),'mmtrend_groups'=>json_encode($mmtrend_groups)]);
     }
@@ -103,9 +105,9 @@ class TrendDesignAjax extends Controller
         $mmnameModel=null;
         Log::info("test->".$request->input('A'));
         if($b=='-1' || $b=='0'){
-            $mmpointM = DB::table('mmcalculation_table')->where('A', $a)->first();
+            $mmpointM = DB::connection(DBUtils::getDBName())->table('mmcalculation_table')->where('A', $a)->first();
         }else {
-            $mmpointM = DB::table('mmpoint_table')->where('A', $a)->first();
+            $mmpointM = DB::connection(DBUtils::getDBName())->table('mmpoint_table')->where('A', $a)->first();
         }
         $c=null;
         $d=null;
@@ -134,12 +136,13 @@ class TrendDesignAjax extends Controller
         }
         if($mode=='add'){
             if(sizeof($mmplants)>0){
-                $maxId = DB::table('mmtrend_table')->where("G",$g)->max('A');
+                $maxId = DB::connection(DBUtils::getDBName())->table('mmtrend_table')->where("G",$g)->max('A');
                 Log::info("maxId->".$maxId);
 
                 $index=1;
                 foreach($mmplants as $mmplant) {
                     $mmtrendModel = new MmtrendModel();
+                    $mmtrendModel->setConnection(DBUtils::getDBName());
                     $mmtrendModel->A =$maxId+$index;
                     $mmtrendModel->B =$mmplant;
                     $mmtrendModel->C =$c;
@@ -155,7 +158,8 @@ class TrendDesignAjax extends Controller
                 }
             }else{
                 $mmtrendModel = new MmtrendModel();
-                $maxId = DB::table('mmtrend_table')->where("G",$g)->max('A');
+                $mmtrendModel->setConnection(DBUtils::getDBName());
+                $maxId = DB::connection(DBUtils::getDBName())->table('mmtrend_table')->where("G",$g)->max('A');
                 Log::info("maxId->".$maxId);
                 $mmtrendModel->A =$maxId+1;;
 
@@ -174,7 +178,7 @@ class TrendDesignAjax extends Controller
 
             session()->flash('message', ' Save successfuly.');
         }else{
-            $mmtrendModel = MmtrendModel::find($mmname_zz);
+            $mmtrendModel = MmtrendModel::on(DBUtils::getDBName())->find($mmname_zz);
             $mmtrendModel->B =$b;
             $mmtrendModel->C =$c;
             $mmtrendModel->D =$d;
@@ -203,6 +207,7 @@ class TrendDesignAjax extends Controller
         Log::info("test->".$request->input('A'));
         if($mode=='add'){
             $mmnameModel = new MmnameModel();
+            $mmnameModel->setConnection(DBUtils::getDBName());
             $mmnameModel->A =$mmname_a;
             if($mmname_b=='9'){
                 $mmname_b=Auth::user()->empId;
@@ -211,7 +216,7 @@ class TrendDesignAjax extends Controller
             $mmnameModel->save();
             session()->flash('message', ' Save successfuly.');
         }else{
-            $mmnameModel = MmnameModel::find($mmname_zz);
+            $mmnameModel = MmnameModel::on(DBUtils::getDBName())->find($mmname_zz);
             $mmnameModel->A =$mmname_a;
             if($mmname_b=='9'){
                 $mmname_b=Auth::user()->empId;
@@ -229,18 +234,18 @@ class TrendDesignAjax extends Controller
         if($mode=='deleteAll'){
             $ids=request('ids');
             foreach($ids as $id) {
-                $mmnameM= MmnameModel::find($id);
+                $mmnameM= MmnameModel::on(DBUtils::getDBName())->find($id);
                 $mmnameM->delete();
-                DB::table('mmtrend_table')->where('G', '=', $id)->delete();
+                DB::connection(DBUtils::getDBName())->table('mmtrend_table')->where('G', '=', $id)->delete();
 
             }
 
         }else{
             $id=request('ZZ');
             Log::info("deleteMmname [".$id."] x");
-            $mmnameM= MmnameModel::find($id);
+            $mmnameM= MmnameModel::on(DBUtils::getDBName())->find($id);
             $mmnameM->delete();
-            DB::table('mmtrend_table')->where('G', '=', $id)->delete();
+            DB::connection(DBUtils::getDBName())->table('mmtrend_table')->where('G', '=', $id)->delete();
         }
         session()->flash('message', ' Delete successfuly.');
         return response()->json(['mmnameM'=>json_encode($mmnameM)]);
@@ -251,14 +256,14 @@ class TrendDesignAjax extends Controller
         if($mode=='deleteAll'){
             $ids=request('ids');
             foreach($ids as $id) {
-                $mmtrendM= MmtrendModel::find($id);
+                $mmtrendM= MmtrendModel::on(DBUtils::getDBName())->find($id);
                 $mmtrendM->delete();
             }
 
         }else{
             $id=request('ZZ');
             Log::info("deleteMmtrend [".$id."] x");
-            $mmtrendM= MmtrendModel::find($id);
+            $mmtrendM= MmtrendModel::on(DBUtils::getDBName())->find($id);
             $mmtrendM->delete();
         }
         session()->flash('message', ' Delete successfuly.');
@@ -268,32 +273,42 @@ class TrendDesignAjax extends Controller
         $keyword=request('keyword');
         $h_id=request('H');
         $p_id=request('P');
+        Log::info("h_id [".$h_id."] ,p_id [".$p_id."]");
         if($p_id=='0' || $p_id=='-1'){
-            $datas = MmcalculationModel::query();
-            if (sizeof($keyword)>0) {
+            //$datas = MmcalculationModel::query();
+            $datas =DB::connection(DBUtils::getDBName())->table('mmcalculation_table');
+            //if (sizeof($keyword)>0) {
                // $datas->where('C','LIKE', "%".$keyword."%");
-                $datas= $datas->Where(function ($datas) use ($keyword){
-                    $datas->orWhere('C', 'LIKE', "%$keyword%")
-                        ->orWhere('D', 'LIKE',"%$keyword%");
+            $datas->Where(function ($datas) use ($keyword,$p_id){
+                    if (sizeof($keyword)>0) {
+                        $datas->orWhere('C', 'LIKE', "%$keyword%")
+                            ->orWhere('D', 'LIKE', "%$keyword%");
+                            //->where('H','=',"'".Auth::user()->empId."'");
+                    }
+
+
                 });
-            }
             if($p_id=='0'){
-                $datas->where('H','=', "'".Auth::user()->empId."'");
+                Log::info("Auth [".Auth::user()->empId."] ");
+                $datas->where('H','=',''.Auth::user()->empId.'');
+
             }
+
             $lists = $datas->take(9);
+
             if($h_id!='0'){
-                $lists = DB::table('mmcalculation_table')->where('A',$h_id)->union($lists);
+                $lists = DB::connection(DBUtils::getDBName())->table('mmcalculation_table')->where('A',$h_id)->union($lists);
             }
 
         }else{
-            $datas = MmpointModel::query();
+            $datas = MmpointModel::on(DBUtils::getDBName())->newQuery();
             Log::info("keyword [".$keyword."] ");
             if (sizeof($keyword)>0) {
                 $datas->where('B','LIKE', "%".$keyword."%");
             }
             $lists = $datas->take(9);
             if($h_id!='0'){
-                $lists = DB::table('mmpoint_table')->where('A',$h_id)->union($lists);
+                $lists = DB::connection(DBUtils::getDBName())->table('mmpoint_table')->where('A',$h_id)->union($lists);
             }
            // $lists =$lists->get();
         }
@@ -308,7 +323,7 @@ class TrendDesignAjax extends Controller
        // $h_id=request('H');
         $p_id=request('P');
         if($p_id=='0' || $p_id=='-1'){
-            $datas = MmcalculationModel::query();
+            $datas = MmcalculationModel::on(DBUtils::getDBName())->newQuery();
             if (sizeof($keyword)>0) {
                 // $datas->where('C','LIKE', "%".$keyword."%");
                 $datas= $datas->Where(function ($datas) use ($keyword){
@@ -317,7 +332,7 @@ class TrendDesignAjax extends Controller
                 });
             }
             if($p_id=='0'){
-                $datas->where('H','=', "'".Auth::user()->empId."'");
+                $datas->where('H','=', ''.Auth::user()->empId.'');
             }
             $lists = $datas->take(9);
             /*
@@ -327,7 +342,7 @@ class TrendDesignAjax extends Controller
             */
 
         }else{
-            $datas = MmpointModel::query();
+            $datas = MmpointModel::on(DBUtils::getDBName())->newQuery();
             Log::info("keyword [".$keyword."] ");
             if (sizeof($keyword)>0) {
                 $datas->where('B','LIKE', "%".$keyword."%");
@@ -352,11 +367,11 @@ class TrendDesignAjax extends Controller
         $type=request('type');
         $datas=null;
         if($type=='0' || $type=='-1'){
-            $datas = MmcalculationModel::find($key);
+            $datas = MmcalculationModel::on(DBUtils::getDBName())->find($key);
 
 
         }else{
-            $datas = MmpointModel::find($key);
+            $datas = MmpointModel::on(DBUtils::getDBName())->find($key);
         }
       //  $lists =$datas->get();
 
@@ -364,11 +379,21 @@ class TrendDesignAjax extends Controller
         //$lists = $datas->orderBy('B','ASC')->take(9)->union($old_mmpoint)->get();
         return response()->json(['formula'=>json_encode($datas)]);
     }
+    public function getMmTrendById(Request $request){
+        $zz_data=request('ZZ');
+        Log::info("Into getMmTrendById callAjax ZZ[".$zz_data."]");
+
+        $mmtrendM = DB::connection(DBUtils::getDBName())->table('mmtrend_table')->where('ZZ', $zz_data)->first();
+
+
+        // Log::info("lenth ".sizeof($mmtrendM));
+        return response()->json(['mmtrendM'=>json_encode($mmtrendM)]);
+    }
     public function mulipleDB(Request $request){
 
-        $account = DB::connection('lportal')->table('Account_')->get();
+        $account = DB::connection(DBUtils::getDBName())->connection('lportal')->table('Account_')->get();
         Log::info("Into mulipleDB callAjax".$account[0]->name);
-        $mmpoint = DB::table('mmpoint_table')->get();
+        $mmpoint = DB::connection(DBUtils::getDBName())->table('mmpoint_table')->get();
         Log::info("Into mulipleDB callAjax".$mmpoint[0]->A);
         return response()->json(['account'=>json_encode($account),'mmpoint'=>json_encode($mmpoint)]);
     }

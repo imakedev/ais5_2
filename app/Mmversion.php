@@ -8,4 +8,5 @@ class Mmversion extends Model
 {
     //
     protected $table = 'mmversion_table';
+    public $timestamps = false;
 }

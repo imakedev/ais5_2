@@ -13,4 +13,5 @@ class trendGroupModel extends Model
 {
     protected $table = 'mmtrend_group';
     protected $primaryKey = 'B';
+    public $timestamps = false;
 }

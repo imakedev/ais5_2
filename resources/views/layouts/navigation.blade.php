@@ -54,7 +54,7 @@
                     <li><a href="{{  url('/ais/trendColor')  }}">Design Trend Color</a></li>
                     <li><a href="{{  url('/ais/designTrend')  }}"> Design Trend</a></li>
                     <li><a href="{{  url('/ais/designCalculation')  }}">Design Calcultion</a></li>
-                    <li><a href="{{  url('/ais/specialMenu')  }}">Special Menu</a></li>
+                    <li><a href="{{  url('/ais/special')  }}">Special Menu</a></li>
                 </ul>
             </li>
             <li class="landing_link">

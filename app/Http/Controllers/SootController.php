@@ -10,6 +10,7 @@ use Log;
 use DB;
 use \DateTime;
 use \SplFixedArray;
+use \App\Utils\DBUtils;
 class SootController extends Controller
 {
     /**
@@ -116,7 +117,14 @@ class SootController extends Controller
             $sootView='1';
         }
         if(!Input::has('sootUnit')) {
-            $sootUnit='4';
+            $user_mmplant=session()->get('user_mmplant');
+            if($user_mmplant=='1'){
+                $sootUnit='4';
+            }else if($user_mmplant=='2'){
+                $sootUnit='8';
+            }if($user_mmplant=='3') {
+                $sootUnit = '8';
+            }
         }
         $sootDates = explode("/", $sootDate);
         $phase_start_times=['00:00:00','08:00:00','16:00:00'];
@@ -142,7 +150,7 @@ class SootController extends Controller
             $query="SELECT EVTIME, D4, D990, D991, D992, D993, D994, D995, D996, D997, D998, D999
                 from datau0$sootUnit
                 WHERE EvTime BETWEEN  '$sootStartDate_phase' AND '$sootEndDate_phase'";
-            $data_phase_list[$i] = DB::select($query);
+            $data_phase_list[$i] = DB::connection(DBUtils::getDBName())->select($query);
             $data_compare='';
             $max=0;
             $k=0;

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
-
+use \App\Utils\DBUtils;
 use Log;
 class AddUserController extends Controller
 {
@@ -27,10 +27,22 @@ class AddUserController extends Controller
     }
     public function search()
     {
+        Log::info("x dbName->y");
+        $dbName=DBUtils::getDBName();
+        Log::info("x dbName->".$dbName);
         $search = Input::get('search');
         $sortBy = Input::get('sortBy');
         $orderBy= Input::get('orderBy');
-        $datas = AddUserModel::query();
+      //  $users = DB::connection('foo');
+        // solution 1
+        /*
+        $someModel=new AddUserModel();
+        $someModel->setConnection('mysql_ais_473');
+        $datas = $someModel->newQuery();
+        */
+        // solution 2  ::on('connection_name')
+        $datas=AddUserModel::query();
+
         if(Input::has('page')){ // paging
             Log::info("into paging");
             $search = session()->get('addUser_search');
@@ -90,6 +102,8 @@ class AddUserController extends Controller
             $emp->save();
             session()->flash('message', ' Update successfuly.');
         }else{
+            //$users = DB::connection('mysql2')->select(...);
+            //$maxId = DB::connection(DBUtils::getDBName())->table('mmemployee_table')->max('ZZ');
             $maxId = DB::table('mmemployee_table')->max('ZZ');
             $emp = new AddUserModel();
             $emp->ZZ = $maxId+1;

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Pagination\LengthAwarePaginator;
 use DB;
 use Log;
+use \App\Utils\DBUtils;
 class PointConfigController extends Controller
 {
     /**
@@ -28,7 +29,7 @@ class PointConfigController extends Controller
         $search = Input::get('search');
         $sortBy = Input::get('sortBy');
         $orderBy= Input::get('orderBy');
-        $datas = PointConfigModel::query();
+        $datas = PointConfigModel::on(DBUtils::getDBName())->newQuery();
         if(Input::has('page')){ // paging
             Log::info("into paging");
             $search = session()->get('pointConf_search');
@@ -59,7 +60,7 @@ class PointConfigController extends Controller
         $search = Input::get('search');
         $sortBy = Input::get('sortBy');
         $orderBy= Input::get('orderBy');
-        $datas = PointConfigModel::query();
+        $datas = PointConfigModel::on(DBUtils::getDBName())->newQuery();
         if(Input::has('page')){ // paging
             Log::info("into paging");
             $search = session()->get('pointConf_search');
@@ -91,7 +92,7 @@ class PointConfigController extends Controller
         $id = $request->input('poiId');
         if($id!=null) {
             $avgChk = Input::has('avg') ? Input::get('avg') : null;
-            $point = PointConfigModel::find($id);
+            $point = PointConfigModel::on(DBUtils::getDBName())->find($id);
             $point->D = $request->input('poiAtom');
             if(isset($avgChk)){
                 $point->E = "Yes";
@@ -105,9 +106,10 @@ class PointConfigController extends Controller
             $point->save();
             session()->flash('message', ' Update successfuly.');
         }else{
-            $maxId = DB::table('mmpoint_table')->max('A');
+            $maxId = DB::connection(DBUtils::getDBName())->table('mmpoint_table')->max('A');
             $avgChk = Input::has('avg') ? Input::get('avg') : null;
             $point = new PointConfigModel();
+            $point->setConnection(DBUtils::getDBName());
             $point->A = $maxId+1;
             $point->D = $request->input('poiAtom');
             if(isset($avgChk)){
@@ -168,9 +170,9 @@ class PointConfigController extends Controller
 
         foreach($_GET['checkbox'] as $check) {
 
-            $pointConfigModel = PointConfigModel::find($check);
+            $pointConfigModel = PointConfigModel::on(DBUtils::getDBName())->find($check);
             $pointConfigModel->delete();
-            DB::table('mmtag_table')->where('A', '=', $pointConfigModel->H)->delete();
+            DB::connection(DBUtils::getDBName())->table('mmtag_table')->where('A', '=', $pointConfigModel->H)->delete();
         }
         session()->flash('message', ' Delete successfuly.');
         return redirect('ais/pointConfiguration');
@@ -178,9 +180,9 @@ class PointConfigController extends Controller
 
     public function destroy($id)
     {
-        $pointConfigModel = PointConfigModel::find($id);
+        $pointConfigModel = PointConfigModel::on(DBUtils::getDBName())->find($id);
         $pointConfigModel->delete();
-        DB::table('mmtag_table')->where('A', '=', $pointConfigModel->H)->delete();
+        DB::connection(DBUtils::getDBName())->table('mmtag_table')->where('A', '=', $pointConfigModel->H)->delete();
         session()->flash('message', ' Delete successfuly.');
         return redirect('ais/pointConfiguration');
     }

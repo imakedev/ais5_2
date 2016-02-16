@@ -110,32 +110,80 @@ function templateFormat(category,series,value) {
 		 dateTimeEventTime=dateTimeEventTime[0];
 		 
 		 dateTimeEvent=dateTimeEventDate+" "+dateTimeEventTime;
-		// console.log(dateTimeEvent);
+		 /*
+		 console.log("1dateTimeEvent1");
+		 console.log("category"+category);
+		 console.log(dateTimeEvent);
+		 */
 		 
 		 
 	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Day'){
-		 //fixed for test
-		 dateTimeEvent="2014-05-01 00:00:33";
-		 //for production
+
+		 //12/05/2014
+		 dateTimeEvent = category.split("/");
+		 dateTimeEvent=dateTimeEvent[0]+"-"+dateTimeEvent[1]+"-"+dateTimeEvent[2]+" 00:00:00";
+		
 		 
 		 
 	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Month'){
 		 //fixed for test
-		 dateTimeEvent="2014-05-01 00:00:34";
+		 //05/2014
+		 //dateTimeEvent="2014-05-01 00:00:34";
+		 dateTimeEvent = category.split("/");
+		 dateTimeEvent="01-"+dateTimeEvent[0]+"-"+dateTimeEvent[1]+" 00:00:00";
 		 
 	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Second'){
 		 //fixed for test
-		 dateTimeEvent="2014-05-01 00:00:35";
+		 //2014-05-20 00:00:31 น.
+		
+		 
+		 var second="";
+		 var date="";
+		 var time="";
+		 var paramFromDate=$("#paramFromDate-"+trendActive).val();
+			paramFromDate=paramFromDate.split(" ");
+	        date=paramFromDate[0];
+	        time=category;
+	        
+	        date=date.split("-");
+	        time=time.split(":");
+	        paramFromDate=date[2]+"-"+date[1]+"-"+date[0]+" 00:00:"+parseInt(time[2]);
+			
+			console.log(paramFromDate);
+		 
 		 
 	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Hour'){
 		 //fixed for test
-		 dateTimeEvent="2014-05-01 00:00:36";
+		 //12/05/2014 12 น.
+		 //["12/05/2014", "04", "น."]
+		
+		
+		 				 
+		 dateTimeEvent = category[0].split("/");
+		 dateTimeEvent = dateTimeEvent[0]+"-"+dateTimeEvent[1]+"-"+dateTimeEvent[2]+" "+category[1]+":00:00";
+		 //console.log("dateTimeEvent="+dateTimeEvent);
+
+		 
+		 
+	 }else{
+		 
+		 //default minuate
+		 dateTimeEventDate=$("#paramStartDateOnProccess-"+trendActive).val();
+		 dateTimeEventDate =dateTimeEventDate.split(" ");
+		 dateTimeEventDate = dateTimeEventDate[0];
+		 dateTimeEventTime= category.split(" ");
+		 dateTimeEventTime=dateTimeEventTime[0];
+		 dateTimeEvent=dateTimeEventDate+" "+dateTimeEventTime;
+	
 	 }
 	 
 	// ### Manage dateTime for get event on Tooltip End ###
 	 var paramStartDate="";
 	 var paramEndDate="";
 	 var paramTagList="";
+	 
+	 
+
 	 
 	 paramStartDate=intervalDelFn(dateTimeEvent,'minute','5');
 	 paramEndDate=intervalAddFn(dateTimeEvent,'minute','5');

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use \App\Model\MmtrendColorModel;
 use Log;
 use DB;
+use \App\Utils\DBUtils;
 use Illuminate\Support\Facades\Auth;
 class TrendColorController extends Controller
 {
@@ -23,22 +24,29 @@ class TrendColorController extends Controller
     //
     public function index()
     {
-        $user=Auth::user()->empId;//'admin';
+        $user = Auth::user()->empId;//'admin';
 
-        $mmtrend_color = DB::table('mmtrend_color_table as mmtrend_color ')
-             ->where('O','=',$user)
+        $mmtrend_color = DB::connection(DBUtils::getDBName())->table('mmtrend_color_table as mmtrend_color ')
+            ->where('O', '=', $user)
             ->first();
-        if($mmtrend_color==null)
-            $mmtrend_color=new MmtrendColorModel();
+        if ($mmtrend_color == null) {
+
+            $mmtrend_color = new MmtrendColorModel();
+            $mmtrend_color->setConnection(DBUtils::getDBName());
+        }
+
         return view('ais.trend_color',['mmtrend_color'=>$mmtrend_color,'userid'=>$user]);
     }
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $user = $request->input('userid');
-        $mmtrend_color = MmtrendColorModel::where('O',$user)
-             ->first();
-        if($mmtrend_color==null)
-            $mmtrend_color=new MmtrendColorModel();
+        $mmtrend_color = MmtrendColorModel::on(DBUtils::getDBName())->where('O', $user)
+            ->first();
+        if ($mmtrend_color == null) {
+            $mmtrend_color = new MmtrendColorModel();
+            $mmtrend_color->setConnection(DBUtils::getDBName());
+        }
         $mmtrend_color->O=$user;
         $mmtrend_color->A = $request->input('color_point_A');
         $mmtrend_color->B = $request->input('color_point_B');

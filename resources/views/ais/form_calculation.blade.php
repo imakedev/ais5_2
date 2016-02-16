@@ -83,9 +83,11 @@
                                                <option value="Enthalpy_s_p(s;p)">Enthalpy_s_p(s;p)</option>
                                               <option value="Enthalpy_Tsat(t;x)">Enthalpy_Tsat(t;x)</option>
                                                <option value="Enthalpy_Psat(p;x)">Enthalpy_Psat(p;x)</option>
+
                                               <option value="Entropy(t;p)">Entropy(t;p)</option>
                                               <option value="Entropy_Tsat(t;x)">Entropy_Tsat(t;x)</option>
                                                <option value="Entropy_Psat(p;x)">Entropy_Psat(t;p)</option>
+
                                               <option value="Density(t;p)">Density(t;p)</option>
                                                <option value="Viscosity(t;p)">Viscosity(t;p)</option>
                                               <option value="Density_Tsat(t;x)">Density_Tsat(t;x)</option>
@@ -108,12 +110,16 @@
                                               <option value="^"> ^ </option>
                                               <option value="%"> % </option>
                                               <option value=";"> ; </option>
+                                              <!--
                                               <option value="["> [ </option>
                                               <option value="{"> { </option>
+                                              -->
                                               <option value="("> ( </option>
                                               <option value=")"> ) </option>
+                                              <!--
                                               <option value="}"> } </option>
                                               <option value="]"> ] </option>
+                                              -->
                                         </select> 
                                         
                                     </div>
@@ -122,27 +128,44 @@
                                 <div class='col-xs-6'>
                                      <label><input type='radio'  name='cal' value="function" > Function</label>
                                      <div class="input-group">
+                                         <!-- Sgn function vb -->
                                           <select class="form-control input-sm" id="function" name="function">
-                                            <option value="Abs(x)">Abs(x)</option>
+                                            <option value="abs(x)">Abs(x)</option>
+                                              <!--
                                               <option value="Fix(x)">Fix(x)</option>
-                                              <option value="Int(x)">Int(x)</option>
-                                              <option value="Dec(x)">Dec(x)</option>
+                                              -->
+                                              <option value="int(x)">Int(x)</option>
+                                              <option value="decimal(x)">Dec(x)</option>
+                                              <!--
                                               <option value="Fact(x)">Fact(x)</option>
-                                              <option value="Rnd(X)">Rnd(x)</option>
-                                              <option value="Sgn(x)">Sgn(x)</option>
-                                              <option value="Sqr(x)">Sqr(x)</option>
-                                              <option value="Cbr(x)">Cbr(x)</option>
-                                              <option value="Exp(x)">Exp(x)</option>
+                                              -->
+                                              <option value="random()">Rnd(x)</option> <!-- rnd() -->
+                                              <option value="signum(x)">Signum(x)</option> <!-- signum(x) -->
+                                              <option value="sqrt(x)">Sqrt(x)</option> <!-- sqrt(x) build in -->
+                                              <option value="cbrt(x)">Cbrt(x)</option>
+                                              <option value="exp(x)">Exp(x)</option>
+                                              <!--
                                               <option value="Ln(x)">Ln(x)</option>
-                                              <option value="Log(x)">Log(x)</option>
-                                              <option value="LogN(x;n)">LogN(x;n)</option>
+                                              -->
+                                              <option value="log(x)">Log(x)</option> <!-- log  build in -->
+                                              <option value="log10(x)">Log10(x)</option> <!-- log  build in -->
+                                              <option value="log2(x)">Log2(x)</option> <!-- log  build in -->
+                                              <!--
+                                              <option value="LogN(x;n)">LogN(x;n)</option> <!-- log10 log2 buid in -->
+                                              -->
+                                              <!--
                                               <option value="Root(x;n)">Root(x;n)</option>
-                                              <option value="Mod(a;b)">Mod(a;b)</option>
+                                              -->
+                                              <option value="mod(a;b)">Mod(a;b)</option> <!-- (x%y) -->
+                                              <!--
                                               <option value="Comb(n;k)">Comb(n;k)</option>
-                                              <option value="Max(a;b)">Max(a;b)</option>
-                                              <option value="Min(a;b)">Min(a;b)</option>
+                                              -->
+                                              <option value="max(a;b)">Max(a;b)</option>
+                                              <option value="min(a;b)">Min(a;b)</option>
+                                              <!--
                                               <option value="Mcd(a;b)">Mcd(a;b)</option>
                                               <option value="Mcm(a;b)">Mcm(a;b)</option>
+                                              -->
                                         </select> 
                                         
                                     </div>
@@ -153,18 +176,18 @@
                                      <div class="input-group">
                                           <select class="form-control input-sm" id="trigon" name="trigon">
                                          
-                                            <option value="Sin(x)">Sin(x)</option>
-                                              <option value="Cos(x)">Cos(x)</option>
-                                              <option value="Tan(x)">Tan(x)</option>
-                                              <option value="Asin(x)">Asin(x)</option>
-                                              <option value="Acos(x)">Acos(x)</option>
-                                              <option value="Atan(x)">Atan(x)</option>
-                                              <option value="Sinh(x)">Sinh(x)</option>
-                                              <option value="Cosh(x)">Cosh(x)</option>
-                                              <option value="Tanh(x)">Tanh(x)</option>
-                                              <option value="Asinh(x)">Asinh(x)</option>
-                                              <option value="Acosh(x)">Acosh(x)</option>
-                                              <option value="Atanh(x)">Atanh(x)</option>
+                                            <option value="sin(x)">Sin(x)</option>
+                                              <option value="cos(x)">Cos(x)</option>
+                                              <option value="tan(x)">Tan(x)</option>
+                                              <option value="asin(x)">Asin(x)</option>
+                                              <option value="acos(x)">Acos(x)</option>
+                                              <option value="atan(x)">Atan(x)</option>
+                                              <option value="sinh(x)">Sinh(x)</option>
+                                              <option value="cosh(x)">Cosh(x)</option>
+                                              <option value="tanh(x)">Tanh(x)</option>
+                                              <option value="asinh(x)">Asinh(x)</option>
+                                              <option value="acosh(x)">Acosh(x)</option>
+                                              <option value="atanh(x)">Atanh(x)</option>
                                         </select> 
                                         
                                     </div>
@@ -182,11 +205,14 @@
             <!-- btn start -->
              <div class="row bgParam">
 	            <div class="col-xs-12">
-		            <a class="btn btn-primary  btn-sm">Clone </a>
+
+                    @if($mode=='EDIT')
+		            <a class="btn btn-primary  btn-sm" onclick="doClone()">Clone </a>
+                    @endif
 		            <a class="btn btn-w-m btn-warning  btn-sm" onclick="clearCalculation()">Clear </a>
 		            <a class="btn btn-w-m btn-danger  btn-sm" onclick="changeRate()">Change </a>
 		            <a class="btn btn-w-m btn-danger  btn-sm" onclick="displayAddPoint()" id='btnAddPoint'>Add Point </a>
-                    <a class="btn btn-w-m btn-danger  btn-sm">Priview </a>
+                    <a class="btn btn-w-m btn-danger  btn-sm" onclick="previewFomala()">Preview </a>
 	            </div>
 	           
             </div>
@@ -205,11 +231,31 @@
 	               <div class='param'>
 	                   MM Plant
 	                   <select id="cal_slelect_b" name="cal_slelect_b"  class="form-control input-sm">
-                            <option value="4">MM04</option>
-                            <option value="5">MM05</option>
-                            <option value="6">MM06</option>
-                            <option value="7">MM07</option>
-                           <option value="47">MM47</option>
+                           @if(Session::get('user_mmplant')=='1')
+                               <option value="4">MM04</option>
+                               <option value="5">MM05</option>
+                               <option value="6">MM06</option>
+                               <option value="7">MM07</option>
+                               <option value="47">MM47</option>
+                           @endif
+                           @if(Session::get('user_mmplant')=='2')
+                                   <option value="8">MM08</option>
+                                   <option value="9">MM09</option>
+                                   <option value="10">MM10</option>
+                                   <option value="11">MM11</option>
+                                   <option value="12">MM12</option>
+                                   <option value="13">MM13</option>
+                                   <option value="813">MM813</option>
+                               @endif
+                               @if(Session::get('user_mmplant')=='3')
+                                   <option value="8">MM08</option>
+                                   <option value="9">MM09</option>
+                                   <option value="10">MM10</option>
+                                   <option value="11">MM11</option>
+                                   <option value="12">MM12</option>
+                                   <option value="13">MM13</option>
+                                   <option value="813">MM813</option>
+                               @endif
                         </select>
                        <input type="hidden" id="cal_slelect_b_hidden" value="{{ $mmcalculation->B }}" />
 	               </div>
@@ -258,7 +304,7 @@
 	                   <input type='text' id="cal_f1" name="cal_f1" value="{{ $mmcalculation->F1 }}" class='form-control input-sm'>
 
                    </div>
-                    <input type="hidden" id="cal_h" value="{{ $mmcalculation->H }}" />
+                    <input type="hidden" id="cal_h" name="cal_h" value="{{ $mmcalculation->H }}" />
                     <!--
 	               <div class=paramFamulaType>
 	                   Formula type
@@ -388,12 +434,28 @@
 	             <div class="row">
 	               <div class="col-xs-4 ">
                        <select id="mmtrend_table_B" class="form-control m-b" onchange="searchAddMmpoint(this.value)">
-
+                           @if(Session::get('user_mmplant')=='1')
                            <option value="4">MM04</option>
                            <option value="5">MM05</option>
                            <option value="6">MM06</option>
                            <option value="7">MM07</option>
-
+                            @endif
+                               @if(Session::get('user_mmplant')=='2')
+                                   <option value="8">MM08</option>
+                                   <option value="9">MM09</option>
+                                   <option value="10">MM10</option>
+                                   <option value="11">MM11</option>
+                                   <option value="12">MM12</option>
+                                   <option value="13">MM13</option>
+                               @endif
+                               @if(Session::get('user_mmplant')=='3')
+                                   <option value="8">MM08</option>
+                                   <option value="9">MM09</option>
+                                   <option value="10">MM10</option>
+                                   <option value="11">MM11</option>
+                                   <option value="12">MM12</option>
+                                   <option value="13">MM13</option>
+                               @endif
                            <option value="0">My Calculation</option>
 
                            <option value="-1">All Calculation</option>
@@ -432,12 +494,46 @@
           </div>
          <div class="modal-footer">
          <button class="btn btn-primary" type="button" onclick="doAddMmpoint()">Add</button>
-         <button data-dismiss="modal" class="btn btn-white" type="button">Cancel</button>
+         <button data-dismiss="modal" class="btn btn-white" type="button">Canc
+<div aria-hidden="true" role="dialog" tabindex="-1" id="myModalFormula" class="modal inmodal in" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h5 class="modal-title">Preview</h5>
+
+            </div>
+            <div class="modal-body">
+                <div id="formula_tilte_section"></div>
+                <div id="extract_section"></div>
+                <div id="result_section"></div>
+            </div>
+        </div>
+    </div>
+</div>
+el</button>
         
       </div>
      </div>
    </div>
   </div>
+
+<div aria-hidden="true" role="dialog" tabindex="-1" id="myModalFormula" class="modal inmodal in" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h5 class="modal-title">Preview</h5>
+
+            </div>
+            <div class="modal-body">
+                <div id="formula_tilte_section"></div>
+                <div id="extract_section"></div>
+                <div id="result_section"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Modal add point End -->
   @stop
     @section('footer')

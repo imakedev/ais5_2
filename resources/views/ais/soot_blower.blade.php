@@ -46,10 +46,28 @@
                         <label for="product_name" class="control-label">Unit</label>
                         <input type="hidden" id="sootUnitHidden" value="{{Input::get("sootUnit")}}"/>
                         <select name="sootUnit" class="form-control input-sm">
+                            @if(Session::get('user_mmplant')=='1')
                             <option value="4">Unit 4</option>
                             <option value="5">Unit 5</option>
                             <option value="6">Unit 6</option>
                             <option value="7">Unit 7</option>
+                            @endif
+                             @if(Session::get('user_mmplant')=='2')
+                                    <option value="8">Unit 8</option>
+                                    <option value="9">Unit 9</option>
+                                    <option value="10">Unit 10</option>
+                                    <option value="11">Unit 11</option>
+                                    <option value="12">Unit 12</option>
+                                    <option value="13">Unit 13</option>
+                             @endif
+                              @if(Session::get('user_mmplant')=='3')
+                                    <option value="8">Unit 8</option>
+                                    <option value="9">Unit 9</option>
+                                    <option value="10">Unit 10</option>
+                                    <option value="11">Unit 11</option>
+                                    <option value="12">Unit 12</option>
+                                    <option value="13">Unit 13</option>
+                              @endif
                         </select>
                     </div>
                 </div>

@@ -13,4 +13,5 @@ class memberModel extends Model
 {
     protected $table = 'member';
     protected $primaryKey = 'id';
+    public $timestamps = false;
 }

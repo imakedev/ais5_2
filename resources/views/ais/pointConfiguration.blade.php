@@ -93,10 +93,28 @@
                                 </th>
                                 <th data-field="field1"><b>Point Index</b></th>
                                 <th class="center" data-field="field2"><b>Point&nbsp;Desc</b></th>
+                                @if(Session::get('user_mmplant')=='1')
                                 <th class="center" data-field="field3"><b>Tag4</b></th>
                                 <th class="center" data-field="field4"><b>Tag5</b></th>
                                 <th class="center" data-field="field5"><b>Tag6</b></th>
                                 <th class="center" data-field="field6"><b>Tag7</b></th>
+                                @endif
+                                @if(Session::get('user_mmplant')=='2')
+                                    <th class="center" data-field="field3"><b>Tag8</b></th>
+                                    <th class="center" data-field="field4"><b>Tag9</b></th>
+                                    <th class="center" data-field="field5"><b>Tag10</b></th>
+                                    <th class="center" data-field="field6"><b>Tag11</b></th>
+                                    <th class="center" data-field="field6"><b>Tag12</b></th>
+                                    <th class="center" data-field="field6"><b>Tag13</b></th>
+                                @endif
+                                @if(Session::get('user_mmplant')=='3')
+                                    <th class="center" data-field="field3"><b>Tag8</b></th>
+                                    <th class="center" data-field="field4"><b>Tag9</b></th>
+                                    <th class="center" data-field="field5"><b>Tag10</b></th>
+                                    <th class="center" data-field="field6"><b>Tag11</b></th>
+                                    <th class="center" data-field="field6"><b>Tag12</b></th>
+                                    <th class="center" data-field="field6"><b>Tag13</b></th>
+                                @endif
                                 <th class="center" data-field="field7"><b>Tag&nbsp;Atom</b></th>
                                 <th class="center" data-field="field8"><b>Average</b></th>
                                 <th class="center" data-field="field9"><b>Unit</b></th>
@@ -114,10 +132,28 @@
                                     </td>
                                     <td>{{$poi_config->A}}</td>
                                     <td>{{$poi_config->B}}</td>
+                                    @if(Session::get('user_mmplant')=='1')
                                     <td class="settext">{{$poi_config->C4}}</td>
                                     <td class="settext">{{$poi_config->C5}}</td>
                                     <td class="settext">{{$poi_config->C6}}</td>
                                     <td class="settext">{{$poi_config->C7}}</td>
+                                    @endif
+                                    @if(Session::get('user_mmplant')=='2')
+                                        <td class="settext">{{$poi_config->C8}}</td>
+                                        <td class="settext">{{$poi_config->C9}}</td>
+                                        <td class="settext">{{$poi_config->C10}}</td>
+                                        <td class="settext">{{$poi_config->C11}}</td>
+                                        <td class="settext">{{$poi_config->C12}}</td>
+                                        <td class="settext">{{$poi_config->C13}}</td>
+                                    @endif
+                                    @if(Session::get('user_mmplant')=='3')
+                                        <td class="settext">{{$poi_config->C8}}</td>
+                                        <td class="settext">{{$poi_config->C9}}</td>
+                                        <td class="settext">{{$poi_config->C10}}</td>
+                                        <td class="settext">{{$poi_config->C11}}</td>
+                                        <td class="settext">{{$poi_config->C12}}</td>
+                                        <td class="settext">{{$poi_config->C13}}</td>
+                                    @endif
                                     <td class="settext">{{$poi_config->D}}</td>
                                     <td class="settext">{{$poi_config->E}}</td>
                                     <td class="settext">{{$poi_config->F}}</td>

@@ -14,4 +14,5 @@ class UserLoginLog extends Model
 {
     protected $table = 'user_login_log';
     protected $primaryKey = 'user_login_log_id';
+    public $timestamps = false;
 }

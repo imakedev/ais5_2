@@ -26,7 +26,7 @@ class serviceTrendController  extends Controller{
         $numberHasZero="";
         //Session::put('sess_emp_id', '00002');
         //for test local
-        Session::put('user_mmplant', '0');
+        //Session::put('user_mmplant', '0');
 
         $this->middleware('auth');
         
@@ -265,7 +265,7 @@ class serviceTrendController  extends Controller{
         WHERE datau04.EvTime BETWEEN '".$startTime."' and '".$endTime."'
         ORDER BY EvTime2
         )queryA
-        GROUP BY month(EvTime)
+        GROUP BY month(EvTime2)
         ";
         /*
          $query="select EvTime, $pointAvg from datahru$unit
@@ -947,7 +947,9 @@ public function readEventDataTrendByEvent($tagName,$startDateTime,$endDateTime,$
         //$reslutQuery = DB::select($query);
         
         if($user_mmplant==1){
-            
+            //FOR TEST
+            $unit=4;
+            //FOR TEST
             if($unit==4){
                 $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
             }else if($unit==5){
@@ -984,6 +986,9 @@ public function readEventDataTrendByEvent($tagName,$startDateTime,$endDateTime,$
                 	";
       if($user_mmplant==1){
             
+            //FOR TEST
+            $unit=4;
+            //FOR TEST
             if($unit==4){
                 $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
             }else if($unit==5){
@@ -1016,7 +1021,9 @@ public function readEventDataTrendByEvent($tagName,$startDateTime,$endDateTime,$
                 AND action_raw.sys_date BETWEEN '$startDateTime'  AND  '$endDateTime' 
                 	";
       if($user_mmplant==1){
-            
+          //FOR TEST
+          $unit=4;
+          //FOR TEST
             if($unit==4){
                 $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
             }else if($unit==5){

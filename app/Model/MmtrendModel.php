@@ -13,5 +13,6 @@ class MmtrendModel extends Model
 {
     protected $table = 'mmtrend_table';
     protected $primaryKey = 'ZZ';
+    public $timestamps = false;
 
 }
