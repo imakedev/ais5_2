@@ -177,7 +177,9 @@
 <!-- Table trend end-->
 
                                     <!-- Table show point start-->
-                                    <div id="trend_element" class="col-lg-12" style="display:none" >
+                                    <input type="hidden" id="mmtrend_pageNo" name="mmtrend_pageNo" />
+                                   <input type="hidden" id="mmtrend_pageSize" name="mmtrend_pageSize" value="10" />
+                    <div id="trend_element" class="col-lg-12" style="display:none" >
                                         <div class="ibox float-e-margins">
                                             <div class="ibox-title">
                                                 <h5 id="trend_element_header">
@@ -283,9 +285,16 @@
                                                             </table>
                                                         </div>
                                                     </div>
+                                                    <div id="paging_element" style="float: right;display: none;">
+
+
+                                                    </div>
+                                                    <br style="clear:both">
+                                                    <!--
                                                     <div id="trend_paging" style="float: right;">
 
                                                     </div>
+                                                    -->
                                                 </div>
                                             </div>
                                         </div>

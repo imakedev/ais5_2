@@ -28,6 +28,8 @@ class TrendDesignAjax extends Controller
         Log::info("Into TrendDesignAjax callAjax");
         //Log::info(request('xx')['yy']);
         $g_data=request('zz');
+        $pageNo=request('pageNo');
+        $pageSize=request('pageSize');
         $mmnameM = DB::connection(DBUtils::getDBName())->table('mmname_table')->where('ZZ', $g_data)->first();
         $trendDesignsM = DB::connection(DBUtils::getDBName())->table('mmtrend_table as mmtrend ')
           //  ->join('mmname_table as mmname ', 'mmtrend.G', '=', 'mmname.ZZ')
@@ -35,14 +37,17 @@ class TrendDesignAjax extends Controller
             //   ->select('users.*', 'contacts.phone', 'orders.price')
           //  ->select('mmtrend.*', 'mmname.A')
             ->where('mmtrend.G', '=', $g_data)
-            ->orderBy('mmtrend.A','ASC')->paginate(100);
-          //  ->orderBy('mmtrend.updated_at','DESC')
-            //->paginate(10);
+            ->orderBy('mmtrend.A','ASC')
+            ->skip(($pageNo-1)*$pageSize)->take($pageSize)->get();
+            //->paginate(100);
+        $count = DB::connection(DBUtils::getDBName())->table('mmtrend_table')->where('G','=',$g_data)->count();
        // $data   = array('value' => request('xx').' some data');
        // return response()->json(['name' => 'Abigail', 'state' => 'CA']);
         //return response()->json($trendDesignsM);
-        return response()->json(['trendDesignsM'=>$trendDesignsM->toJson(),
-            'paging' => $trendDesignsM->render(),
+        //return response()->json(['trendDesignsM'=>$trendDesignsM->toJson(),
+        return response()->json(['trendDesignsM'=>json_encode($trendDesignsM),
+            'count'=>json_encode($count),
+           // 'paging' => $trendDesignsM->render(),
             'mmnameM'=>json_encode($mmnameM)]);
     }
 
