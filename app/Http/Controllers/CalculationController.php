@@ -187,7 +187,7 @@ class CalculationController  extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
