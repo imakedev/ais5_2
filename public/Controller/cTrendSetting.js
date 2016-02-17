@@ -285,7 +285,7 @@ var bindGridPoinList = function(){
 			async:false,
 			success:function(data){
 				
-				console.log(data);
+				//console.log(data);
 				
 				var tableTrendHTML="";
 				
@@ -449,7 +449,7 @@ var bindGridPoinList = function(){
 			  
 			
 			getPointListFn(trendID,unitID);
-			console.log("-----------");
+			
 			//console.log($(this).parent().prev().text());
 			var trendName=$(this).prev().text();
 			$("#trendName").html(trendName);
