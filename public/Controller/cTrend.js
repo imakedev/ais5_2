@@ -746,18 +746,6 @@ function tooltipCustom(paramTrendID){
 				type:"get",
 				dataType:"json",
 				async:false,
-				/*
-				data:{
-						"starttime":starttime,
-						"endtime":endtime,
-						"mmunit":mmunit,
-						"point":point,
-						"_unit":_unit,
-						"paramTrendID":paramTrendID
-						
-					  
-					 },
-				*/
 				success:function(data){
 					//alert(data);
 					if(data=='createJsonSuccess'){

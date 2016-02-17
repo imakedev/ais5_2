@@ -80,13 +80,25 @@ function postMmname(){
 
     });
 }
-
+function doPaging(pageNo){
+    $("#mmtrend_pageNo").val(pageNo);
+    showmmtrend($("#mmtrend_zz").val())
+}
 // for mmtrend list section start
 function showmmtrend(zz){
     $("#mmtrend_zz").val(zz)
     $("#trend_element").show();
+    var mmtrend_pageNo=$("#mmtrend_pageNo").val();
+    var mmtrend_pageSize=$("#mmtrend_pageSize").val();
+    if(mmtrend_pageNo.length==0){
+        mmtrend_pageNo="1";
+    }
+ //   mmtrend_pageNo="1";
+   // mmtrend_pageSize="20"
     var obj={
-        zz:zz
+        zz:zz,
+        pageNo:mmtrend_pageNo,
+        pageSize:mmtrend_pageSize
     }
     $.ajax({
         url: "/ajax/mmtrends/list",
@@ -96,8 +108,9 @@ function showmmtrend(zz){
         console.log(data, status, xhr);
        // alert(data.data.length)
         var trendDesignsM = jQuery.parseJSON(data.trendDesignsM);
+        var count = jQuery.parseJSON(data.count);
        var mmnameM = jQuery.parseJSON(data.mmnameM);
-       // alert(mmnameM)
+       // alert(count)
         if(mmnameM!=null){
             $("#trend_element_header").html("แสดง Point ของ "+mmnameM.A);
         }
@@ -155,6 +168,7 @@ function showmmtrend(zz){
         "    </tr> "+
         "    </thead> "+
         "    <tbody> ";
+        /*
         if(trendDesignsM.data!=null && trendDesignsM.data.length>0){
             for(var i=0;i<trendDesignsM.data.length;i++){
                 str=str+
@@ -177,11 +191,87 @@ function showmmtrend(zz){
                     " </tr> ";
             }
         }
-
+        */
+        if(trendDesignsM!=null && trendDesignsM.length>0){
+            for(var i=0;i<trendDesignsM.length;i++){
+                str=str+
+                    "    <tr class=\"gradeA odd\" role=\"row\"> "+
+                    "    <td class=\"sorting_1\"> "+
+                    "    <input type='checkbox' name=\"checkbox_inner[]\" "+
+                    " class=\"ck_inner\" data-id=\"checkbox\"  value=\""+trendDesignsM[i].ZZ+"\"> "+
+                    "    </td> "+
+                    "   <td>"+trendDesignsM[i].A+"</td> "+
+                    "   <td>"+trendDesignsM[i].B+"</td> "+
+                    "   <td>"+trendDesignsM[i].C+"</td> "+
+                    " <td>"+trendDesignsM[i].D+"</td> "+
+                    " <td>"+trendDesignsM[i].E+"</td> "+
+                    " <td>"+trendDesignsM[i].F0+"</td> "+
+                    " <td>"+trendDesignsM[i].F1+"</td> "+
+                    " <td> "+
+                    "  <a id=\"btnEdit\" onclick=\"displayMmtrend('edit','"+trendDesignsM[i].ZZ+"','"+trendDesignsM[i].H+"')\" class=\"btn btn-dropbox btn-xs\"><i style=\"color: #47a447;\" class=\"glyphicon glyphicon-edit\"></i></a>| "+
+                    " <a onclick=\"displayMmtrendDelete('delete','"+trendDesignsM[i].ZZ+"')\" class=\"btn btn-dropbox btn-xs\"><i class=\"glyphicon glyphicon-trash text-danger\"></i></a> "+
+                    " </td>" +
+                    " </tr> ";
+            }
+        }
         str=str+" </tbody> "+
         " </table> ";
+        var pageStr="<ul class=\"pagination\">";
+        var pageNo=parseInt(mmtrend_pageNo);
+        var pageSize=parseInt(mmtrend_pageSize);
+        var totals=parseInt(count);
+        var loopPage=parseInt(totals/pageSize);
+        var obsetPage=parseInt(totals%pageSize);
+        if(obsetPage>0)
+            loopPage++;
+        var activePrev="";
+        var linkPrev="<a  onclick=\"doPaging('"+(pageNo-1)+"')\" rel=\"prev\">«</a> ";
+        if(pageNo==1){
+            linkPrev="<span>«</span>";
+            activePrev="class=\"disabled\" ";
+        }
+        if(loopPage>1)
+            pageStr=pageStr+" <li "+activePrev+">"+linkPrev+"</li>";
+        for(var i=1;i<=loopPage;i++){
+            var active="";
+            var activeLink="<a onclick=\"doPaging('"+i+"')\" >"+i+"</a>";
+                // href=\"http://localhost:8000/ais/statistics?page="+i+"\"
+            if(i==pageNo){
+                activeLink="<span>"+i+"</span>";
+                active=" class=\"active\" ";
+            }
 
+            pageStr=pageStr+" <li "+active+">"+activeLink+"</li>";
+        }
+        var activeNext="";
+        var linkNext="<a onclick=\"doPaging('"+(pageNo+1)+"')\" rel=\"next\">»</a> ";
+        if(pageNo==loopPage){
+            linkNext="<span>»</span>";
+            activeNext="class=\"disabled\" ";
+        }
+        if(loopPage>1)
+            pageStr=pageStr+" <li "+activeNext+">"+linkNext+" </li>";
+        pageStr=pageStr+"</ul>";
+        //alert(loopPage)
+        //alert(obsetPage)
+            /*
+        <div id="paging_element" style="float: right;display: none;">
+            <ul class="pagination">
+            <li class="disabled"><span>«</span></li>
+        <li class="active"><span>1</span>
+            </li><li><a href="http://localhost:8000/ais/statistics?page=2">2</a></li>
+            <li><a href="http://localhost:8000/ais/statistics?page=3">3</a></li>
+            <li><a href="http://localhost:8000/ais/statistics?page=4">4</a></li>
+            <li><a href="http://localhost:8000/ais/statistics?page=5">5</a></li>
+            <li><a href="http://localhost:8000/ais/statistics?page=6">6</a></li><li>
+            <li><a href="http://localhost:8000/ais/statistics?page=2" rel="next">»</a></li>
+        </ul>
+
+        </div>
+            */
         $("#trend_element_table").html(str);
+        $("#paging_element").html(pageStr);
+        $("#paging_element").show();
         $('#checkAll_inner').click(function (event) {
             if(this.checked){
                 $('.ck_inner').each(function(){

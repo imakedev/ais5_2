@@ -28,6 +28,8 @@ class TrendDesignAjax extends Controller
         Log::info("Into TrendDesignAjax callAjax");
         //Log::info(request('xx')['yy']);
         $g_data=request('zz');
+        $pageNo=request('pageNo');
+        $pageSize=request('pageSize');
         $mmnameM = DB::connection(DBUtils::getDBName())->table('mmname_table')->where('ZZ', $g_data)->first();
         $trendDesignsM = DB::connection(DBUtils::getDBName())->table('mmtrend_table as mmtrend ')
           //  ->join('mmname_table as mmname ', 'mmtrend.G', '=', 'mmname.ZZ')
@@ -35,14 +37,17 @@ class TrendDesignAjax extends Controller
             //   ->select('users.*', 'contacts.phone', 'orders.price')
           //  ->select('mmtrend.*', 'mmname.A')
             ->where('mmtrend.G', '=', $g_data)
-            ->orderBy('mmtrend.A','ASC')->paginate(100);
-          //  ->orderBy('mmtrend.updated_at','DESC')
-            //->paginate(10);
+            ->orderBy('mmtrend.A','ASC')
+            ->skip(($pageNo-1)*$pageSize)->take($pageSize)->get();
+            //->paginate(100);
+        $count = DB::connection(DBUtils::getDBName())->table('mmtrend_table')->where('G','=',$g_data)->count();
        // $data   = array('value' => request('xx').' some data');
        // return response()->json(['name' => 'Abigail', 'state' => 'CA']);
         //return response()->json($trendDesignsM);
-        return response()->json(['trendDesignsM'=>$trendDesignsM->toJson(),
-            'paging' => $trendDesignsM->render(),
+        //return response()->json(['trendDesignsM'=>$trendDesignsM->toJson(),
+        return response()->json(['trendDesignsM'=>json_encode($trendDesignsM),
+            'count'=>json_encode($count),
+           // 'paging' => $trendDesignsM->render(),
             'mmnameM'=>json_encode($mmnameM)]);
     }
 
@@ -112,7 +117,7 @@ class TrendDesignAjax extends Controller
 
         $mmnameModel=null;
         Log::info("test->".$request->input('A'));
-        if($b=='-1' || $b=='0'){
+        if($b=='-1' || $b=='0' || $b=='1'){
             $mmpointM = DB::connection(DBUtils::getDBName())->table('mmcalculation_table')->where('A', $a)->first();
         }else {
             $mmpointM = DB::connection(DBUtils::getDBName())->table('mmpoint_table')->where('A', $a)->first();
@@ -135,7 +140,7 @@ class TrendDesignAjax extends Controller
                 $mmplants=['4','5','6','7'];
                 $mmplants_d=[$mmpointM->C4,$mmpointM->C5,$mmpointM->C6,$mmpointM->C7];
             }
-            if($b=='-1' || $b=='0'){
+            if($b=='-1' || $b=='0' || $b=='1'){
                 $d=$mmpointM->D;
                 $c=$mmpointM->C;
                 $b=$mmpointM->B;
@@ -160,7 +165,13 @@ class TrendDesignAjax extends Controller
                     $mmtrendModel->F0 =$g0;
                     $mmtrendModel->F1 =$g1;
                     $mmtrendModel->G =$g;
-                    $mmtrendModel->H =$a;
+                    if($b=='-1' || $b=='0' || $b=='1'){ // cal culation
+                        $mmtrendModel->I =$a;
+                        $mmtrendModel->H =0;
+                    }else{
+                        $mmtrendModel->H =$a;
+                        $mmtrendModel->I =0;
+                    }
                     $mmtrendModel->ZZ =$mmname_zz;
                     $mmtrendModel->save();
                     $index=$index+1;
@@ -179,7 +190,14 @@ class TrendDesignAjax extends Controller
                 $mmtrendModel->F0 =$g0;
                 $mmtrendModel->F1 =$g1;
                 $mmtrendModel->G =$g;
-                $mmtrendModel->H =$a;
+                if($b=='-1' || $b=='0' || $b=='1'){ // cal culation
+                    $mmtrendModel->I =$a;
+                    $mmtrendModel->H =0;
+                }else{
+                    $mmtrendModel->H =$a;
+                    $mmtrendModel->I =0;
+                }
+
                 $mmtrendModel->ZZ =$mmname_zz;
                 $mmtrendModel->save();
             }
@@ -195,7 +213,14 @@ class TrendDesignAjax extends Controller
             $mmtrendModel->F0 =$g0;
             $mmtrendModel->F1 =$g1;
             $mmtrendModel->G =$g;
-            $mmtrendModel->H =$a;
+            if($b=='-1' || $b=='0' || $b=='1'){ // cal culation
+                $mmtrendModel->I =$a;
+                $mmtrendModel->H =0;
+            }else{
+                $mmtrendModel->H =$a;
+                $mmtrendModel->I =0;
+            }
+
             //$mmtrendModel->ZZ =$mmname_zz;
             $mmtrendModel->save();
             session()->flash('message', ' Update successfuly.');
