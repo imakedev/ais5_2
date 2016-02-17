@@ -172,7 +172,6 @@ class TrendDesignAjax extends Controller
                         $mmtrendModel->H =$a;
                         $mmtrendModel->I =0;
                     }
-
                     $mmtrendModel->ZZ =$mmname_zz;
                     $mmtrendModel->save();
                     $index=$index+1;
