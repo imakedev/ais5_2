@@ -26,7 +26,7 @@ class serviceTrendController  extends Controller{
         $numberHasZero="";
         //Session::put('sess_emp_id', '00002');
         //for test local
-        //Session::put('user_mmplant', '0');
+        Session::put('user_mmplant', '0');
 
         $this->middleware('auth');
         
@@ -74,6 +74,18 @@ class serviceTrendController  extends Controller{
 		ORDER BY EvTime2
         )queryA
 
+
+        select  EvTime2 as EvTime,U04D1,U05D1,U07D1,CONCAT(U07D1_CAL1 ,",",U07D1_CAL2) as CALCUALTION1 from(
+        SELECT datau04.EvTime AS EvTime2,
+				(SELECT D1 FROM datau04  WHERE EvTime=EvTime2) AS U04D1,
+        (SELECT D1 FROM datau05  WHERE EvTime=EvTime2) AS U05D1,
+        (SELECT D1 FROM datau07  WHERE EvTime=EvTime2) AS U07D1,
+				(SELECT D1 FROM datau07  WHERE EvTime=EvTime2) AS U07D1_CAL1,
+				(SELECT D1 FROM datau07  WHERE EvTime=EvTime2) AS U07D1_CAL2
+        FROM datau04 
+        WHERE EvTime BETWEEN '2014-05-01 00:00:00' and '2014-05-02 00:00:00' 
+		ORDER BY EvTime2
+        )queryA
         ";
         */
         

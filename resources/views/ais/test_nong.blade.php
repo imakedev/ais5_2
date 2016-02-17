@@ -9,11 +9,161 @@
     @section('content')
    
    
+   <!-- http://10.249.99.107/steamtable/rest/calculation 
+   $.ajax({
+        url: "your url which return json",
+        type: "POST",
+        crossDomain: true,
+        data: data,
+        dataType: "json",
+        success:function(result){
+            alert(JSON.stringify(result));
+        },
+        error:function(xhr,status,error){
+            alert(status);
+        }
+    });
+   ================ Send Start =================
+   {
+
+  "formula": [
+
+    {
+
+      "key": "1",
+
+      "value": "(100/3)*20"
+
+    },
+
+    {
+
+      "key": "2",
+
+      "value": "(300/3)*20"
+
+    }
+
+  ]
+
+}
+================ Send End =================
+================ Result ===================
+   {
+
+  "formula" : [ {
+
+    "key" : "1",
+
+    "value" : "(100/3)*20",
+
+    "result" : "700"
+
+  }, {
+
+    "key" : "2",
+
+    "value" : "(300/3)*20",
+
+    "result" : "600"
+
+  } ]
+
+}
+================ Result ===================
+   -->
    
-   
+   <button id='btnCallWSAndData'>btnCallWSAndData</button>
+   <button id='btnCallWS2'>btnCallWebService2</button>
    <button id='btnCallAjax'>btnCallAjax</button>
     <script>
+    function callBackFormula(data){
+        console.log(data);
+    }
+    $(document).ready(function(){
+
+    	//data test
+    	//U04D260,D05D260,(U04D26+U05D260)
+    	$("#btnCallWSAndData").click(function(){
+    		var data=  {
+    			    
+          		  "formula": [
+  
+          		    {
+  
+          		      "key": "1",
+  
+          		      "value": "(100/3)*20"
+  
+          		    },
+  
+          		    {
+  
+          		      "key": "2",
+  
+          		      "value": "(300/3)*20"
+  
+          		    }
+  
+          		  ],
+          		  "callBackName":"callBackFormula"
+  
+          		};
+      		
+    	    $.ajax({
+      	        url: "http://10.249.99.107/steamtable/rest/calculation",
+      	        method: "POST",
+      	        crossDomain: true,
+      	        data: data,
+      	        dataType: "jsonp",
+      	        jsonp:"callBackFormula"
+      	       
+      	    });
+   	    
+       });
+
+
+    	$("#btnCallWS2").click(function(){
+            var data=  {
+    
+            		  "formula": [
+    
+            		    {
+    
+            		      "key": "A1",
+    
+            		      "value": "(100/3)*20"
+    
+            		    },
+    
+            		    {
+    
+            		      "key": "A2",
+    
+            		      "value": "(300/3)*20"
+    
+            		    }
+    
+            		  ],
+            		  "callBackName":"callBackFormula"
+    
+            		};
+        	 $.ajax({
+        	        url: "http://10.249.99.107/steamtable/rest/calculation",
+        	        method: "POST",
+        	        crossDomain: true,
+        	        data: data,
+        	        dataType: "jsonp",
+        	        jsonp:"callBackFormula"
+        	       
+        	    });
+     	    
+        });
+
+        
+    });
   //2014-05-20 00:00:31 น.
+  
 	 var second="";
 	 var date="";
 	 var time="";

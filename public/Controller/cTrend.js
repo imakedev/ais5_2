@@ -183,7 +183,7 @@ function templateFormat(category,series,value) {
 	 var paramTagList="";
 	 
 	 
-
+	 
 	 
 	 paramStartDate=intervalDelFn(dateTimeEvent,'minute','5');
 	 paramEndDate=intervalAddFn(dateTimeEvent,'minute','5');
@@ -740,8 +740,7 @@ function tooltipCustom(paramTrendID){
 			//alert("hello createFileServiceChart");
 			
 		}else{
-			//console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-			//console.log(generateQueryGetPointFn("Minute",paramTrendID));
+
 			$.ajax({
 				url:"/ais/serviceTrend/createDataMinuteu/"+paramTrendID+"/"+starttime+"/"+endtime+"/"+generateQueryGetPointFn("Minute",paramTrendID)+"/"+unitIdPointId,
 				type:"get",
