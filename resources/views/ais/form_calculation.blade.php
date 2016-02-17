@@ -27,6 +27,20 @@
         </div>
     </div>
     <div class="ibox-content">
+        @if(session()->has('message'))
+            <div class="col-md-12">
+                <div class="alert alert-success" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
+                    <i class="glyphicon glyphicon-ok-sign"></i> {{ session()->get('message') }}
+                </div>
+            </div>
+        @elseif(session()->has('error_message'))
+            <div class="col-md-12">
+                <div class="alert alert-danger" style="margin: 5px 0px; padding: 5px 3px;" role="alert">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                    <b>{{ session()->get('error_message') }}</b>{{ session()->get('error_message') }}
+                </div>
+            </div>
+            @endif
            <!-- btn start -->
              <div class="row bgParam">
 	            <div class="col-xs-8">
@@ -120,7 +134,7 @@
                                               <option value="}"> } </option>
                                               <option value="]"> ] </option>
                                               -->
-                                        </select> 
+                                        </select>
                                         
                                     </div>
                                 </div>
@@ -166,7 +180,7 @@
                                               <option value="Mcd(a;b)">Mcd(a;b)</option>
                                               <option value="Mcm(a;b)">Mcm(a;b)</option>
                                               -->
-                                        </select> 
+                                        </select>
                                         
                                     </div>
                                 </div>
@@ -304,17 +318,20 @@
 	                   <input type='text' id="cal_f1" name="cal_f1" value="{{ $mmcalculation->F1 }}" class='form-control input-sm'>
 
                    </div>
-                    <input type="hidden" id="cal_h" name="cal_h" value="{{ $mmcalculation->H }}" />
                     <!--
+                    <input type="hidden" id="cal_h" name="cal_h" value="{{ $mmcalculation->H }}" />
+                    -->
 	               <div class=paramFamulaType>
 	                   Formula type
 	                  <select id="cal_h" name="cal_h" class="form-control input-sm">
-                            <option value="">Standard</option>
+                          @if (session()->get('user_priority') >= 254)
+                            <option value="{{Auth::user()->empId}}">Standard</option>
+                          @endif
                             <option value="{{Auth::user()->empId}}">My Calculation</option>
                         </select>
                        <input type="hidden" id="cal_h_hidden" value="{{ $mmcalculation->H }}" />
 	               </div>
-	               -->
+
 	               <div class='paramSave'>
 	                   <button class="btn btn-primary  btn-sm" type="button" onclick="submitCalculation()">Save</button>
 	               </div>
@@ -352,13 +369,18 @@
                 </div>
               <div class="col-md-8">
                   <input type="hidden" id="empId" name="empId" value="{{Auth::user()->empId}}"/>
+                  <input type="hidden" id="empLevel" name="empLevel" value="{{session()->get('user_priority')}}" />
                   <!--
                     Constant Type
                     -->
                             <select style="width: 150px;" name="constantType" id="constantType" onchange="searchConstant()" class="form-control input-sm">
                                 <option value="0">My Constant</option>
-                                <option value="-1">Standard Consant</option>
-
+                                 @if (session()->get('user_priority') >= 128)
+                                        <option value="-1">Standard Consant</option>
+                                  @endif
+                                @if (session()->get('user_priority') >= 254)
+                                    <option value="-2">All Consant</option>
+                                @endif
                             </select>
 
                 </div>
@@ -388,18 +410,20 @@
                     	<input type="text" id="B_value" name="B_value" class="form-control input-sm" placeholder="Value">
                     </div>
                 </div>
-                <!--
+                <!--  -->
                 <div class="form-group"><label class="col-lg-3 control-label padding5">Constant Type</label>
 
                     <div class="col-lg-9 padding5">
-                        <select name="constantType" id="constantType" onchange="searchConstant()" class="form-control input-sm">
-                            <option value="0">My Constant</option>
-                            <option value="-1">Standard Consant</option>
+                        <select name="constantType" id="constantType"  class="form-control input-sm">
+                            <option value="{{Auth::user()->empId}}">My Constant</option>
+                            @if (session()->get('user_priority') >= 254)
+                            <option value="{{Auth::user()->empId}}">Standard Consant</option>
+                                @endif
                            
                         </select>
                     </div>
                 </div>
-                -->
+
             </form>
             <!-- form constant end -->
             
@@ -457,8 +481,12 @@
                                    <option value="13">MM13</option>
                                @endif
                            <option value="0">My Calculation</option>
-
+                               @if (session()->get('user_priority') >= 128)
+                                   <option value="1">Standard Calculation</option>
+                               @endif
+                               @if (session()->get('user_priority') >= 254)
                            <option value="-1">All Calculation</option>
+                               @endif
                            <!-- -->
                        </select>
 
@@ -494,24 +522,7 @@
           </div>
          <div class="modal-footer">
          <button class="btn btn-primary" type="button" onclick="doAddMmpoint()">Add</button>
-         <button data-dismiss="modal" class="btn btn-white" type="button">Canc
-<div aria-hidden="true" role="dialog" tabindex="-1" id="myModalFormula" class="modal inmodal in" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content animated flipInY">
-            <div class="modal-header">
-                <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <h5 class="modal-title">Preview</h5>
-
-            </div>
-            <div class="modal-body">
-                <div id="formula_tilte_section"></div>
-                <div id="extract_section"></div>
-                <div id="result_section"></div>
-            </div>
-        </div>
-    </div>
-</div>
-el</button>
+         <button data-dismiss="modal" class="btn btn-white" type="button">Cancel</button>
         
       </div>
      </div>

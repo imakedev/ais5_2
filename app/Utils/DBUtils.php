@@ -22,7 +22,7 @@ class DBUtils
         }else if($user_mmplant=='3'){
             $dbName='mysql_ais_fgd813';
         }
-        Log::info("dbName->".$dbName);
+        //Log::info("dbName->".$dbName);
         return $dbName;
     }
 }

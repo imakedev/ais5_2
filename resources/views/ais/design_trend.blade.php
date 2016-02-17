@@ -58,16 +58,20 @@
                                     <!--  btn -->
                                     <input type="hidden" id="design_trend_B_hidden" value="{{session()->get('design_trend_B')}}"/>
                                     <select id="design_trend_B" name="design_trend_B">
-                                        <option value="-1">All Trend</option>
+                                        @if(session()->get('user_priority')>=128)
+                                            <option value="-1">All Trend</option>
+                                        @endif
                                         <!--
                                         <option value="empId">My Trend</option>
                                         -->
                                         @foreach($mmtrend_groups as $mmtrend_group)
-                                            @if($mmtrend_group=='9')
+                                            @if($mmtrend_group->B=='9')
                                                 <option value="{{Auth::user()->empId}}">{{$mmtrend_group->group_name}}</option>
                                             @endif
-                                            @if($mmtrend_group!='9')
-                                                <option value="{{$mmtrend_group->B}}">{{$mmtrend_group->group_name}}</option>
+                                            @if(session()->get('user_priority')>=128)
+                                                @if($mmtrend_group->B!='9')
+                                                    <option value="{{$mmtrend_group->B}}">{{$mmtrend_group->group_name}}</option>
+                                                @endif
                                             @endif
                                         @endforeach
                                         <!--
@@ -303,7 +307,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form class="form-horizontal">
-                                            <div class="form-group">
+                                            <div id="trend_name_element" class="form-group">
                                                 <label class="col-lg-2 control-label padding5">ชื่อ Trend</label>
 
                                                 <div class="col-lg-10 padding5">
@@ -382,8 +386,12 @@
                                                                         <option value="813">MM08-13</option>
                                                                     @endif
                                                                 <option value="0">My Calculation</option>
-
+                                                                    @if (session()->get('user_priority') >= 128)
+                                                                    <option value="1">Standard Calculation</option>
+                                                                    @endif
+                                                                    @if (session()->get('user_priority') >= 254)
                                                                 <option value="-1">All Calculation</option>
+                                                                        @endif
                                                                 <!-- -->
                                                             </select>
                                                         </div>
@@ -468,7 +476,7 @@
                                                                     <tbody>
                                                                     <tr class="gradeA odd" role="row">
                                                                         <td class="sorting_1">
-                                                                                <input type="radio" name="point_ids_input[]"
+                                                                                <input type="radio"  name="point_ids_input[]"
                                                                                        class="i-checks">
                                                                         </td>
                                                                         <td>Point001</td>
@@ -485,57 +493,7 @@
                                                                 </table>
                                                             </div>
                                                         </div>
-                                                        <!--
-                                                        <div class="row">
-                                                            <div class="col-sm-5">
-                                                                <div class="dataTables_info" id="editable_info"
-                                                                     role="status" aria-live="polite">Showing 1 to 10 of
-                                                                    57 entries
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-7">
-                                                                <div class="dataTables_paginate paging_simple_numbers"
-                                                                     id="editable_paginate">
-                                                                    <ul class="pagination">
-                                                                        <li class="paginate_button previous disabled"
-                                                                            id="editable_previous">
-                                                                            <a href="#" aria-controls="editable"
-                                                                               data-dt-idx="0" tabindex="0">Previous</a>
-                                                                        </li>
-                                                                        <li class="paginate_button active">
-                                                                            <a href="#" aria-controls="editable"
-                                                                               data-dt-idx="1" tabindex="0">1</a>
-                                                                        </li>
-                                                                        <li class="paginate_button">
-                                                                            <a href="#" aria-controls="editable"
-                                                                               data-dt-idx="2" tabindex="0">2</a>
-                                                                        </li>
-                                                                        <li class="paginate_button">
-                                                                            <a href="#" aria-controls="editable"
-                                                                               data-dt-idx="3" tabindex="0">3</a>
-                                                                        </li>
-                                                                        <li class="paginate_button">
-                                                                            <a href="#" aria-controls="editable"
-                                                                               data-dt-idx="4" tabindex="0">4</a>
-                                                                        </li>
-                                                                        <li class="paginate_button">
-                                                                            <a href="#" aria-controls="editable"
-                                                                               data-dt-idx="5" tabindex="0">5</a>
-                                                                        </li>
-                                                                        <li class="paginate_button">
-                                                                            <a href="#" aria-controls="editable"
-                                                                               data-dt-idx="6" tabindex="0">6</a>
-                                                                        </li>
-                                                                        <li class="paginate_button next"
-                                                                            id="editable_next">
-                                                                            <a href="#" aria-controls="editable"
-                                                                               data-dt-idx="7" tabindex="0">Next</a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        -->
+
                                                     </div>
                                                     <div class='col-md-2'>
                                                         <input id="mmpoint_table_G0" type="text" placeholder="Max" class="form-control ">
@@ -547,7 +505,7 @@
                                                         หน่วยวัด:
                                                     </div>
                                                     <div class='col-md-2 lableText'>
-                                                        <input id="mmpoint_table_F" type="text" placeholder="" class="form-control ">
+                                                        <input id="mmpoint_table_F" readonly="readonly" type="text" placeholder="" class="form-control ">
                                                     </div>
                                                     <br>
                                                 </div>

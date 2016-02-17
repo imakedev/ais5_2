@@ -153,7 +153,10 @@ function showmmtrend(zz){
 }
 
 function  displayMmNameById(mode,id){
-
+    $("#trend_name_element").removeClass("has-error");
+    $("#trend_copy_name").attr("placeholder", "ชื่อ Trend");
+    $("#error_message").html( "");
+    $("#move_errormessage").hide();
     var obj={
         "ZZ":id
 
@@ -203,16 +206,41 @@ function doMoveTrend(){
         method: "POST",
         data: obj
     }).done(function(data, status, xhr) {
-        location.reload()
-        $("#moveModal").modal('hide')
+        console.log(data, status, xhr);
+        var count = jQuery.parseJSON(data.count);
+        var isExcessTrend = jQuery.parseJSON(data.isExcessTrend);
+        //alert((count))
+        if(isExcessTrend){
+            var maxTrend = jQuery.parseJSON(data.maxTrend);
+            $("#error_message").html("คุณเพิ่ม Trend ได้มากที่สุด ["+maxTrend+"] Trends");
+            $("#move_errormessage").show();
+            return false;
+        }else{
+            var countInt=parseInt(count);
+            if(countInt>0){
+
+                $("#error_message").html( "ชื่อ Trend ซ้ำ กับ Target Trend.");
+                $("#move_errormessage").show();
+            }else {
+                location.reload()
+                $("#moveModal").modal('hide')
+            }
+        }
     });
 }
 function doCopyTrend(){
+    $("#trend_name_element").removeClass("has-error");
+    $("#trend_copy_name").attr("placeholder", "ชื่อ Trend");
     var ZZ=$("#move_copy_id").val();
     var mm_group_copy_target_select=$("#mm_group_copy_target_select").val();
     var mm_unit_copy_target_select=$("#mm_unit_copy_target_select").val();
-    var trend_copy_name=$("#trend_copy_name").val();
+    var trend_copy_name= $.trim($("#trend_copy_name").val());
 
+    if(trend_copy_name.length==0){
+        $("#trend_name_element").addClass("has-error");
+        $("#trend_copy_name").attr("placeholder", "กรุณากรอก ชื่อ Trend ");
+        return false;
+    }
     var obj={
         "ZZ":ZZ,
         "target_group":mm_group_copy_target_select,
@@ -225,7 +253,29 @@ function doCopyTrend(){
         method: "POST",
         data: obj
     }).done(function(data, status, xhr) {
-        location.reload()
-        $("#copyModal").modal('hide')
+        console.log(data, status, xhr);
+        var count = jQuery.parseJSON(data.count);
+        var isExcessTrend = jQuery.parseJSON(data.isExcessTrend);
+         //alert((count))
+        if(isExcessTrend){
+            $("#trend_name_element").addClass("has-error");
+            //alert("คุณไม่สามารถเพิ่ม Trend ได้");
+
+            var maxTrend = jQuery.parseJSON(data.maxTrend);
+            $("#trend_copy_name").val("");
+            $("#trend_copy_name").attr("placeholder", "คุณเพิ่ม Trend ได้มากที่สุด ["+maxTrend+"] Trends");
+            return false;
+        }else{
+            var countInt=parseInt(count);
+            if(countInt>0){
+                $("#trend_name_element").addClass("has-error");
+                $("#trend_copy_name").val("");
+                $("#trend_copy_name").attr("placeholder", "ชื่อ Trend ["+trend_copy_name+"] ซ้ำ.");
+            }else {
+                location.reload()
+                $("#copyModal").modal('hide')
+            }
+        }
+
     });
 }

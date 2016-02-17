@@ -46,7 +46,7 @@ function doAddMmpoint(){
 		console.log(data);
 		var formula = jQuery.parseJSON(data.formula);
 		var formula_result='';
-		if(mmtrend_table_B=='0' || mmtrend_table_B=='-1'){
+		if(mmtrend_table_B=='0' || mmtrend_table_B=='-1'|| mmtrend_table_B=='1'){
 			formula_result=formula.G;
 		}else{
 			formula_result="U0"+obj.type+"D"+obj.key;
@@ -146,6 +146,7 @@ function searchConstant(){
 	var obj={
 		"constantType":constantType
 	}
+	var empLevel=parseInt($("#empLevel").val());
 	//alert(constantType)
 	$.ajax({
 		url: "/ajax/constant/search",
@@ -201,14 +202,17 @@ function searchConstant(){
 				str = str +"    <td>"+constantM[i].B+"</td> "+
 					" <td>" +
 					"<a onclick=\"selectConstant('"+constantM[i].ZZ+"')\" "+
-			" class=\"btn btn-primary  btn-xs\">Select</a> | "+
-				"<a id=\"btnEdit\" onclick=\"addOrEditConstant('"+constantM[i].ZZ+"')\" " +
-				" class=\"btn btn-dropbox btn-xs\"><i style=\"color: #47a447;\" class=\"glyphicon glyphicon-edit\"></i>" +
-				"</a>| "+
-				"<a onclick=\"doDeleteConstant('"+constantM[i].ZZ+"')\"  " +
-				"class=\"btn btn-dropbox btn-xs\"><i class=\"glyphicon glyphicon-trash text-danger\"></i></a>" +
-					"</td> "+
-					"  </tr> ";
+			" class=\"btn btn-primary  btn-xs\">Select</a> ";
+				if(empLevel>=254 || empId==constantM[i].C){
+					str=str+"| <a id=\"btnEdit\" onclick=\"addOrEditConstant('"+constantM[i].ZZ+"')\" " +
+					" class=\"btn btn-dropbox btn-xs\"><i style=\"color: #47a447;\" class=\"glyphicon glyphicon-edit\"></i>" +
+					"</a>| "+
+					"<a onclick=\"doDeleteConstant('"+constantM[i].ZZ+"')\"  " +
+					"class=\"btn btn-dropbox btn-xs\"><i class=\"glyphicon glyphicon-trash text-danger\"></i></a>" +
+					"</td> ";
+				}
+
+				str = str +"  </tr> ";
 			}
 		}
 		str=str+" </tbody> "+
@@ -387,7 +391,7 @@ function searchAddMmpoint(mmtrend_table_B_selected){
 		"   </tr> "+
 		"   </thead> "+
 		"   <tbody> ";
-	if(mmtrend_table_B=='0' || mmtrend_table_B=='-1') {
+	if(mmtrend_table_B=='0' || mmtrend_table_B=='-1' || mmtrend_table_B=='1') {
 		str = "" +
 			" <table id=\"editable\" " +
 			" class=\"table table-striped table-bordered table-hover  dataTable\" " +
@@ -460,7 +464,7 @@ function searchAddMmpoint(mmtrend_table_B_selected){
 		data: obj
 	}).done(function(data, status, xhr) {
 		console.log(data);
-		if(mmtrend_table_B=='0' || mmtrend_table_B=='-1'){
+		if(mmtrend_table_B=='0' || mmtrend_table_B=='-1' || mmtrend_table_B=='1'){
 			var mmpointM = jQuery.parseJSON(data.mmpointM);
 			// alert(mmpointM.length)
 			if(mmpointM!=null && mmpointM.length>0) {

@@ -25,7 +25,7 @@ class processViewController  extends Controller{
     
     public function __construct(){
 
-        //Session::put('user_mmplant', '0');
+        Session::put('user_mmplant', '0');
 
     }
     /*################################## PCVSteam47 START #######################################*/
