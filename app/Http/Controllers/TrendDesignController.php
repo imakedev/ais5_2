@@ -70,7 +70,8 @@ class TrendDesignController extends Controller
         session()->put('orderBy',$orderBy);
         session()->put('design_trend_search',$search);
         session()->put('design_trend_B',$design_trend_B);
-        $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+      //  $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+        $datas=$datas->paginate(10);
         //$mmtrend_groups = DB::connection(DBUtils::getDBName())->table('mmtrend_group')->where('mmplant','=',session()->get('user_mmplant'))->get();
         $mmtrend_groups = DB::table('mmtrend_group')->where('mmplant','=',session()->get('user_mmplant'))->get();
         return view('ais/design_trend', ['mmtrendsM'=>$datas,'mmtrend_groups'=>$mmtrend_groups]);

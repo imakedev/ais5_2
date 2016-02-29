@@ -26,13 +26,13 @@ class TrendColorController extends Controller
     {
         $user = Auth::user()->empId;//'admin';
 
-        $mmtrend_color = DB::connection(DBUtils::getDBName())->table('mmtrend_color_table as mmtrend_color ')
+        $mmtrend_color = DB::table('mmtrend_color_table as mmtrend_color ')
             ->where('O', '=', $user)
             ->first();
         if ($mmtrend_color == null) {
 
             $mmtrend_color = new MmtrendColorModel();
-            $mmtrend_color->setConnection(DBUtils::getDBName());
+            //$mmtrend_color->setConnection(DBUtils::getDBName());
         }
 
         return view('ais.trend_color',['mmtrend_color'=>$mmtrend_color,'userid'=>$user]);
@@ -41,11 +41,11 @@ class TrendColorController extends Controller
     {
 
         $user = $request->input('userid');
-        $mmtrend_color = MmtrendColorModel::on(DBUtils::getDBName())->where('O', $user)
+        $mmtrend_color = MmtrendColorModel::where('O', $user)
             ->first();
         if ($mmtrend_color == null) {
             $mmtrend_color = new MmtrendColorModel();
-            $mmtrend_color->setConnection(DBUtils::getDBName());
+           // $mmtrend_color->setConnection(DBUtils::getDBName());
         }
         $mmtrend_color->O=$user;
         $mmtrend_color->A = $request->input('color_point_A');

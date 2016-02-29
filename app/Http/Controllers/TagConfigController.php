@@ -50,15 +50,27 @@ class TagConfigController extends Controller
         session()->put('sortBy',$sortBy);
         session()->put('orderBy',$orderBy);
         session()->put('tagConf_search',$search);
-        $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+        //$datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+        $datas=$datas->paginate(10);
 
         /*
         $tags_config = TagConfigModel::orderBy('updated_at','DESC')
             ->paginate(12);
         */
         //$tags_config->setPath('/ais/tagConfiguration');
+        $mmplant=session()->get('user_mmplant');
+        $columns=null;
+        $c_unit = 'C';
+        $efgh_array = ['E','F','G','H'];
+        if($mmplant=='1'){// 4-7
+            $columns=['4','5','6','7'];
+        }else if($mmplant=='2'){// 4-7
+            $columns=['8','9','10','11','12','13'];
+        }else if($mmplant=='3'){// 4-7
+            $columns=['8','9','10','11','12','13'];
+        }
 
-        return view('ais/tagConfiguration', ['tags_config'=>$datas]);
+        return view('ais/tagConfiguration', ['tags_config'=>$datas,'columns'=>$columns,'c_unit'=>$c_unit,'efgh_array'=>$efgh_array]);
     }
     /**
      * Show the form for creating a new resource.

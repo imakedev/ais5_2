@@ -615,27 +615,78 @@ function tooltipCustom(paramTrendID){
 		callServiceGetPointByTrend('100','1','04','2014-05-01 00:00:0','2014-05-01 05:00:00');
 	});
 	
+	
+	function generateQueryByCalFn(paramTrendID){
+		
+		var paramPointAndUnitArray=$("#paramPointEmbed-"+paramTrendID).val().split(","); 
+		var paramFromDate=$("#paramFromDate-"+paramTrendID).val();
+		var paramToDate=$("#paramToDate-"+paramTrendID).val();
+		$.each(paramPointAndUnitArray,function(index,indexEntry){
+
+			 queryPointArray=indexEntry.split("-");
+			 queryPointCalArray=queryPointArray[0]; 
+			 queryPointCal=queryPointCalArray.substr(0,2);
+			 if(queryPointCal=='DC'){
+				 pointCal=queryPointArray[3];
+				 createFomala("2014-05-01 :00:01:00","2014-05-01 :00:10:00",pointCal,""+paramTrendID+"",""+queryPointArray[0]+"");
+				 
+			 }
+		});
+		
+		
+		
+		
+	}
+	function readQueryByCalFn(paramTrendID){
+		var data= $(".calData-"+paramTrendID).text();
+		return data;
+	}
+	
 	function generateQueryGetPointFn(scaleTime,paramTrendID){
 		
 		var queryPoint="";
 		var queryPointArray="";
 		var paramPointAndUnitArray=$("#paramPointEmbed-"+paramTrendID).val().split(","); 
-	
+		var queryPointCalArray="";
+		var paramFromDate=$("#paramFromDate-"+paramTrendID).val();
+		var paramToDate=$("#paramToDate-"+paramTrendID).val();
 		
 		
 		
 		if(scaleTime=="Minute"){
+			var $i=0;
 			$.each(paramPointAndUnitArray,function(index,indexEntry){
 				 //alert(indexEntry);
+				 //D3-4-88331
 				 queryPointArray=indexEntry.split("-");
 				 
-					 if(index==0){
-						 //(SELECT D1 FROM datau04  WHERE EvTime=EvTime2) AS U04D1
-						 queryPoint+="(SELECT "+queryPointArray[0]+" FROM datau0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
-					 }else{
-						 queryPoint+=",(SELECT "+queryPointArray[0]+" FROM datau0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
-					}
-						
+				 queryPointCalArray=queryPointArray[0]; 
+				 queryPointCal=queryPointCalArray.substr(0,2);
+				 if(queryPointCal=='DC'){
+				       
+				        pointCal=queryPointArray[3];
+				        console.log("pointCal1");
+				        console.log(pointCal);
+				        
+				       /*
+				        var formulaData="U04D1+ U04D2+Enthalpy(U05D3;U06D4)";
+				        createFomala("2014-05-01 :00:01:00","2014-05-01 :00:10:00",formulaData,"88","c102");
+				        */
+				        var formulaData="U04D1+ U04D2+Enthalpy(U05D3;U06D4)";
+				        //createFomala("2014-05-01 :00:01:00","2014-05-01 :00:10:00",pointCal,""+paramTrendID+"",""+queryPointArray[0]+"");
+				        
+				        
+				    }else{
+				    	
+						 if($i==0){
+							 //(SELECT D1 FROM datau04  WHERE EvTime=EvTime2) AS U04D1
+							 queryPoint+="(SELECT "+queryPointArray[0]+" FROM datau0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
+						 }else{
+							 queryPoint+=",(SELECT "+queryPointArray[0]+" FROM datau0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
+						}
+						 
+				    }
+					$i++;	
 			});
 		}else if(scaleTime=="Hour"){
 			$.each(paramPointAndUnitArray,function(index,indexEntry){
@@ -739,8 +790,22 @@ function tooltipCustom(paramTrendID){
 			createFileServiceChart.createFileBySecondu(paramTrendID,generateQueryGetPointFn("Second",paramTrendID),unitIdPointId);
 			//alert("hello createFileServiceChart");
 			
+		}else if(scaleTime=="Minute"){
+			
+			createFileServiceChart.createFileByMinuteu(paramTrendID,generateQueryGetPointFn("Minute",paramTrendID),unitIdPointId);
+			
 		}else{
-
+			
+			//generateQueryByCalFn(paramTrendID);
+			createFileServiceChart.createFileByMinuteu(paramTrendID,generateQueryGetPointFn("Minute",paramTrendID),unitIdPointId);
+			
+			
+			//generateQueryByCalFn(paramTrendID);
+			//setTimeout(function(){
+				//alert(readQueryByCalFn(paramTrendID));
+			//},5000);
+			
+			/*
 			$.ajax({
 				url:"/ais/serviceTrend/createDataMinuteu/"+paramTrendID+"/"+starttime+"/"+endtime+"/"+generateQueryGetPointFn("Minute",paramTrendID)+"/"+unitIdPointId,
 				type:"get",
@@ -750,7 +815,7 @@ function tooltipCustom(paramTrendID){
 					//alert(data);
 					if(data=='createJsonSuccess'){
 						
-
+						
 						var data2=readJsonFilterFile(startDateTime5HaGoFn(endDatetimeHisFn(endtime)),endDatetimeHisFn(endtime),paramTrendID);
 						//console.log(data2);
 						
@@ -782,6 +847,7 @@ function tooltipCustom(paramTrendID){
 					}
 				}
 			});
+			*/
 		}
 			/*
 			$.ajax({
@@ -1265,8 +1331,8 @@ function tooltipCustom(paramTrendID){
 	 
 	 
 	 function startUpFn(paramInitail,paramTrendID,paramScaleTime,paramHour,paramMinute,paramFromDate,paramToDate){
-			
-			
+			//create query for cal
+		 	//generateQueryByCalFn(paramTrendID);
 			//alert(paramHour);
 			//alert(paramMinute);
 			

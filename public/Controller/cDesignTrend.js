@@ -306,6 +306,11 @@ function searchMmpoint(mmtrend_table_B_selected){
         "H":mmtrend_point_h,
         "P":mmtrend_table_B
     }
+    var tags=['4','5','6','7'];
+    var user_mmplant=$("#user_mmplant").val();
+    if(user_mmplant!='1'){
+        tags=['8','9','10','11','12','13'];
+    }
     //alert(id)
     var str=""+
         " <table id=\"editable\" "+
@@ -323,7 +328,16 @@ function searchMmpoint(mmtrend_table_B_selected){
     " colspan=\"1\" style=\"width: 20%;\" "+
     " aria-label=\"Browser: activate to sort column ascending\"> "+
     "   Point Name "+
-    " </th> "+
+    " </th> ";
+    for(var i=0;i<tags.length;i++){
+        str=str+" <th class=\"\" tabindex=\"0\" "+
+            " aria-controls=\"editable\" rowspan=\"1\" "+
+            " colspan=\"1\" style=\"width: 13%;\" "+
+            " aria-label=\"Platform(s): activate to sort column ascending\"> "+
+            "   Tag"+tags[i]+" "+
+            "   </th> ";
+    }
+    /*
     " <th class=\"\" tabindex=\"0\" "+
     " aria-controls=\"editable\" rowspan=\"1\" "+
     " colspan=\"1\" style=\"width: 13%;\" "+
@@ -348,7 +362,8 @@ function searchMmpoint(mmtrend_table_B_selected){
     " aria-label=\"Platform(s): activate to sort column ascending\"> "+
     "   Tag7 "+
     "   </th> "+
-    "   <th class=\"\" tabindex=\"0\" "+
+    */
+    str=str+"   <th class=\"\" tabindex=\"0\" "+
     " aria-controls=\"editable\" rowspan=\"1\" "+
     " colspan=\"1\" style=\"width: 5%;\" "+
     " aria-label=\"Platform(s): activate to sort column ascending\"> "+
@@ -494,12 +509,25 @@ function searchMmpoint(mmtrend_table_B_selected){
                         "  <input type=\"radio\" onclick=\"setMaxMinValue('"+mmpointM[i].G0+"','"+mmpointM[i].G1+"','"+mmpointM[i].F+"')\" name=\"point_ids_input[]\" "+checked_str+" value=\""+mmpointM[i].A+"\"> "+
                             //  " class=\"i-checks\"> "+
                         "     </td> "+
-                        "    <td>"+mmpointM[i].B+"</td> "+
-                        "    <td>"+mmpointM[i].C4+"</td> "+
-                        " <td>"+mmpointM[i].C5+"</td> "+
-                        " <td>"+mmpointM[i].C6+"</td> "+
-                        " <td>"+mmpointM[i].C7+"</td> "+
-                        " <td>"+mmpointM[i].F+"</td> "+
+                        "    <td>"+mmpointM[i].B+"</td> ";
+
+                    if(user_mmplant!='1'){
+                        str = str +
+                            " <td>"+mmpointM[i].C8+"</td> "+
+                        " <td>"+mmpointM[i].C9+"</td> "+
+                        " <td>"+mmpointM[i].C10+"</td> "+
+                            " <td>"+mmpointM[i].C11+"</td> "+
+                            " <td>"+mmpointM[i].C12+"</td> "+
+                        " <td>"+mmpointM[i].C12+"</td> ";
+                    }else{
+                        str = str +
+                            "  <td>"+mmpointM[i].C4+"</td> "+
+                            " <td>"+mmpointM[i].C5+"</td> "+
+                            " <td>"+mmpointM[i].C6+"</td> "+
+                            " <td>"+mmpointM[i].C7+"</td> ";
+                    }
+
+                    str = str +"  <td>"+mmpointM[i].F+"</td> "+
                         " <td>"+mmpointM[i].G0+"</td> "+
                         " <td>"+mmpointM[i].G1+"</td> "+
                             // " <td>435</td> "+

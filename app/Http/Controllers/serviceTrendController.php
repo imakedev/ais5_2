@@ -75,18 +75,49 @@ class serviceTrendController  extends Controller{
         )queryA
 
 
-        select  EvTime2 as EvTime,U04D1,U05D1,U07D1,CONCAT(U07D1_CAL1 ,",",U07D1_CAL2) as CALCUALTION1 from(
-        SELECT datau04.EvTime AS EvTime2,
+//test query by cal start
+       select  EvTime2 as EvTime,queryA.* from(
+
+
+         SELECT datau04.EvTime AS EvTime2,
+
+
 				(SELECT D1 FROM datau04  WHERE EvTime=EvTime2) AS U04D1,
         (SELECT D1 FROM datau05  WHERE EvTime=EvTime2) AS U05D1,
         (SELECT D1 FROM datau07  WHERE EvTime=EvTime2) AS U07D1,
-				(SELECT D1 FROM datau07  WHERE EvTime=EvTime2) AS U07D1_CAL1,
-				(SELECT D1 FROM datau07  WHERE EvTime=EvTime2) AS U07D1_CAL2
+        
+        (
+        select DC101 FROM(
+        SELECT  "2014-05-01 00:00:00" as EvTime,"0.333" AS DC101
+        UNION
+        SELECT  "2014-05-01 00:01:00" as EvTime,"1.223" AS DC101
+        UNION
+        SELECT  "2014-05-01 00:02:00" as EvTime,"1.00" AS DC101
+        UNION
+        SELECT  "2014-05-01 00:03:00" as EvTime,"1.00" AS DC101
+        UNION
+        SELECT  "2014-05-01 00:04:00" as EvTime,"1.00" AS DC101
+        UNION
+        SELECT  "2014-05-01 00:05:00" as EvTime,"1.00" AS DC101
+        UNION
+        SELECT  "2014-05-01 00:06:00" as EvTime,"1.00" AS DC101
+        UNION
+        SELECT  "2014-05-01 00:07:00" as EvTime,"1.00" AS DC101
+        UNION
+        SELECT  "2014-05-01 00:08:00" as EvTime,"1.00" AS DC101
+        UNION
+        SELECT  "2014-05-01 00:09:00" as EvTime,"1.00" AS DC101
+        UNION
+        SELECT  "2014-05-01 00:10:00" as EvTime,"1.00" AS DC101
+        )queryA where  EvTime=EvTime2) as DC101
+
+
         FROM datau04 
         WHERE EvTime BETWEEN '2014-05-01 00:00:00' and '2014-05-02 00:00:00' 
 		ORDER BY EvTime2
         )queryA
-        ";
+        
+        //test query by cal end
         */
         
         $query="
@@ -301,7 +332,7 @@ class serviceTrendController  extends Controller{
          {
             //write flie here start.
         
-                $strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$user_mmplant.txt";
+                //$strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$user_mmplant.txt";
                 $objFopen = fopen($strFileName, 'w');
                     $strText1 = json_encode($reslutQuery);
                     fwrite($objFopen, $strText1);

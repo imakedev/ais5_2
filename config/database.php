@@ -89,7 +89,7 @@ return [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST_813', '10.249.91.96'),
             'database'  => env('DB_DATABASE_813', 'ais'),
-            'username'  => env('DB_USERNAME_47', 'ais'),
+            'username'  => env('DB_USERNAME_813', 'ais'),
             'password'  => env('DB_PASSWORD_813', 'ais413'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',

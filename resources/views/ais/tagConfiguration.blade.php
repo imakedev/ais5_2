@@ -102,30 +102,20 @@
                             </th>
                             <th class="center" data-field="field1"><b>Item</b></th>
                             <th class="center" data-field="field2"><b>Point&nbsp;Description</b></th>
-                            @if(Session::get('user_mmplant')=='1')
-                            <th class="center" data-field="field3"><b>Tag4</b></th>
-                            <th class="center" data-field="field4"><b>Tag5</b></th>
-                            <th class="center" data-field="field5"><b>Tag6</b></th>
-                            <th class="center" data-field="field6"><b>Tag7</b></th>
-                            @endif
-                            @if(Session::get('user_mmplant')=='2')
-                                <th class="center" data-field="field3"><b>Tag8</b></th>
-                                <th class="center" data-field="field4"><b>Tag9</b></th>
-                                <th class="center" data-field="field5"><b>Tag10</b></th>
-                                <th class="center" data-field="field6"><b>Tag11</b></th>
-                                <th class="center" data-field="field6"><b>Tag12</b></th>
-                                <th class="center" data-field="field6"><b>Tag13</b></th>
-                            @endif
-                            @if(Session::get('user_mmplant')=='3')
-                                <th class="center" data-field="field3"><b>Tag8</b></th>
-                                <th class="center" data-field="field4"><b>Tag9</b></th>
-                                <th class="center" data-field="field5"><b>Tag10</b></th>
-                                <th class="center" data-field="field6"><b>Tag11</b></th>
-                                <th class="center" data-field="field6"><b>Tag12</b></th>
-                                <th class="center" data-field="field6"><b>Tag13</b></th>
-                            @endif
+                            @foreach($columns as $index2 => $column)
+                                <?php $tag_show = 'Tag'.$column; ?>
+                                <td class="settext">{{$tag_show}}</td>
+                            @endforeach
+
                             <th class="center" data-field="field7"><b>Type</b></th>
 
+                            @foreach($columns as $index2 => $column)
+                                <th class="center" ><b>L</b></th>
+                                <th class="center" ><b>P</b></th>
+                                <th class="center" ><b>M</b></th>
+                                <th class="center" ><b>B</b></th>
+                            @endforeach
+                            <!--
                             <th class="center" data-field="field8"><b>L</b></th>
                             <th class="center" data-field="field9"><b>P</b></th>
                             <th class="center" data-field="field10"><b>M</b></th>
@@ -145,10 +135,12 @@
                             <th class="center" data-field="field21"><b>P</b></th>
                             <th class="center" data-field="field22"><b>M</b></th>
                             <th class="center" data-field="field23"><b>B</b></th>
+                            -->
                             <th class="center" data-field="field24" width="70px"><b></b></th>
                         </tr>
                     </thead>
                     <tbody id="gridTagListbody">
+
                         @foreach($tags_config as $index => $tag_config)
                            <tr>
                                 <td class="settext">
@@ -157,49 +149,20 @@
                                 </td>
                                 <td>{{$tag_config->A}}</td>
                                 <td class="">{{$tag_config->B}}</td>
-                               @if(Session::get('user_mmplant')=='1')
-                                <td class="settext">{{$tag_config->C4}}</td>
-                                <td class="settext">{{$tag_config->C5}}</td>
-                                <td class="settext">{{$tag_config->C6}}</td>
-                                <td class="settext">{{$tag_config->C7}}</td>
-                               @endif
-                               @if(Session::get('user_mmplant')=='2')
-                                   <td class="settext">{{$tag_config->C8}}</td>
-                                   <td class="settext">{{$tag_config->C9}}</td>
-                                   <td class="settext">{{$tag_config->C10}}</td>
-                                   <td class="settext">{{$tag_config->C11}}</td>
-                                   <td class="settext">{{$tag_config->C12}}</td>
-                                   <td class="settext">{{$tag_config->C13}}</td>
-                               @endif
-                               @if(Session::get('user_mmplant')=='3')
-                                   <td class="settext">{{$tag_config->C8}}</td>
-                                   <td class="settext">{{$tag_config->C9}}</td>
-                                   <td class="settext">{{$tag_config->C10}}</td>
-                                   <td class="settext">{{$tag_config->C11}}</td>
-                                   <td class="settext">{{$tag_config->C12}}</td>
-                                   <td class="settext">{{$tag_config->C13}}</td>
-                               @endif
+                               @foreach($columns as $index2 => $column)
+                                   <?php $unit_show = $c_unit.$column; ?>
+                                   <td class="settext">{{$tag_config->$unit_show}}</td>
+                               @endforeach
+
                                 <td class="settext">{{$tag_config->D}}</td>
 
-                                <td class="settext">{{$tag_config->E4}}</td>
-                                <td class="settext">{{$tag_config->F4}}</td>
-                                <td class="settext">{{$tag_config->G4}}</td>
-                                <td class="settext">{{$tag_config->H4}}</td>
+                               @foreach($columns as $index2 => $column)
+                                   @foreach($efgh_array as $index3 => $efgh)
+                                       <?php $efgh_show = $efgh.$column; ?>
+                                       <td class="settext">{{$tag_config->$efgh_show}}</td>
+                                   @endforeach
+                               @endforeach
 
-                                <td class="settext">{{$tag_config->E5}}</td>
-                                <td class="settext">{{$tag_config->F5}}</td>
-                                <td class="settext">{{$tag_config->G5}}</td>
-                                <td class="settext">{{$tag_config->H5}}</td>
-
-                                <td class="settext">{{$tag_config->E6}}</td>
-                                <td class="settext">{{$tag_config->F6}}</td>
-                                <td class="settext">{{$tag_config->G6}}</td>
-                                <td class="settext">{{$tag_config->H6}}</td>
-
-                                <td class="settext">{{$tag_config->E7}}</td>
-                                <td class="settext">{{$tag_config->F7}}</td>
-                                <td class="settext">{{$tag_config->G7}}</td>
-                                <td class="settext">{{$tag_config->H7}}</td>
 
                                <td class="center">
                                    <a id="btnTagconfig" class="btn btn-dropbox btn-xs" onclick="return editBtn('{{Session::get("user_mmplant")}}','{{$index}}')"><i style="color: #47a447;" class="glyphicon glyphicon-edit"></i></a>|

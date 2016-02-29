@@ -25,8 +25,73 @@ function addBtn() {
 /* btn Add in pointConfig */
 function editBtn(index) {
     var data = $('#gridPointListbody').children()[index].children;
+    var obj={
+        "key":data[1].childNodes[0].data
+    };
+    $.ajax({
+        url: "/ajax/mmpoint/get",
+        method: "POST",
+        data: obj
+    }).done(function(dataCallBack, status, xhr) {
+        console.log(dataCallBack);
+        var mmpointM = jQuery.parseJSON(dataCallBack.mmpointM);
+        $('#avgVal').val(mmpointM.E);
+        var val = document.getElementById("avgVal").value
+        if (val == 'Yes') {
+            document.getElementById("avg").checked = true;
+        } else {
+            document.getElementById("avg").checked = false;
+        }
+        $('#poiId').val(data[1].childNodes[0].data)
+        if (mmpointM.F!=null) {
+            $('#poiUnit').val(mmpointM.F);
+        }
+
+        if (mmpointM.G0!=null) {
+            $('#poiMax').val(mmpointM.G0);
+        }
+
+        if (mmpointM.G1!=null) {
+            $('#poiMin').val(mmpointM.G1);
+        }
+        $.ajax({
+            url: "/ajax/mmtag/get",
+            method: "POST",
+            data: obj
+        }).done(function(dataCallBack2, status, xhr) {
+            console.log(dataCallBack2);
+            var mmtagM = jQuery.parseJSON(dataCallBack2.mmtagM);
+            var strSelect="<select id=\"poiAtom\" name=\"poiAtom\" class=\"form-control \">";
+
+            if(mmtagM!=null){
+                if(mmtagM.D=='ANALOG'){
+                    strSelect=strSelect+"<option value=\"Value\">Value</option>";
+                    strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
+                }else if(mmtagM.D=='DIGITAL'){
+                    strSelect=strSelect+"<option value=\"Status\">Status</option>";
+                }else{
+                    strSelect=strSelect+"<option value=\"Value\">Value</option>";
+                    strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
+                }
+            }else{
+                strSelect=strSelect+"<option value=\"Value\">Value</option>";
+                strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
+            }
+            strSelect=strSelect+"</select>";
+            $("#poiAtomSelect").html(strSelect);
+            //alert(mmtagM.D)
+            //  $("#poiAtom").val();
+            if (mmpointM.D!=null) {
+                $('#poiAtom').val(mmpointM.D);
+            }
+            $('#modalPointConFig').modal();
+        });
+
+    });
+
 
    // alert(data[8].childNodes.length)
+    /*
     if (data[8].childNodes.length > 0) {
         $('#avgVal').val(data[8].childNodes[0].data);
         var val = document.getElementById("avgVal").value
@@ -52,42 +117,14 @@ function editBtn(index) {
     if (data[11].childNodes.length > 0) {
         $('#poiMin').val(data[11].childNodes[0].data);
     }
+    */
    // alert($('#poiId').val())
+    /*
     var obj={
         "key":$('#poiId').val()
     };
-    $.ajax({
-        url: "/ajax/mmtag/get",
-        method: "POST",
-        data: obj
-    }).done(function(dataCallBack, status, xhr) {
-        console.log(dataCallBack);
-        var mmtagM = jQuery.parseJSON(dataCallBack.mmtagM);
-        var strSelect="<select id=\"poiAtom\" name=\"poiAtom\" class=\"form-control \">";
+    */
 
-        if(mmtagM!=null){
-            if(mmtagM.D=='ANALOG'){
-                strSelect=strSelect+"<option value=\"Value\">Value</option>";
-                strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
-            }else if(mmtagM.D=='DIGITAL'){
-                strSelect=strSelect+"<option value=\"Status\">Status</option>";
-            }else{
-                strSelect=strSelect+"<option value=\"Value\">Value</option>";
-                strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
-            }
-        }else{
-            strSelect=strSelect+"<option value=\"Value\">Value</option>";
-            strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
-        }
-        strSelect=strSelect+"</select>";
-    $("#poiAtomSelect").html(strSelect);
-        //alert(mmtagM.D)
-      //  $("#poiAtom").val();
-        if (data[7].childNodes.length > 0) {
-            $('#poiAtom').val(data[7].childNodes[0].data);
-        }
-    });
-        $('#modalPointConFig').modal();
 
 }
 

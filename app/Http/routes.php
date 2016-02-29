@@ -235,6 +235,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::post('/ajax/mmpoint/search','Ajax\TrendDesignAjax@searchMmpoint');
     Route::get('/ajax/multipledb/get','Ajax\TrendDesignAjax@mulipleDB');
+    Route::post('/ajax/mmpoint/get','Ajax\PointDesignAjax@getMmPoint');
 
     Route::post('/ajax/addmmpoint/search','Ajax\TrendDesignAjax@searchAddPointMmpoint');
     Route::post('/ajax/addmmpoint/doAdd','Ajax\TrendDesignAjax@doAddPointMmpoint');
@@ -246,6 +247,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/ajax/constant/delete','Ajax\ConstantAjax@delete');
 
     Route::post('/ajax/calculation/extract','Ajax\CalculationAjax@extractFormula');
+    Route::post('/ajax/calculation/extractByTrend','Ajax\CalculationAjax@extractFormulaByTrend');
+    Route::get('/ajax/calculation/readExtractFormulaByTrend/{trendID}/{calID}','Ajax\CalculationAjax@readExtractFormulaByTrend');
+    
     /*
     Route::get('/ajax/get', function () {
         // pass back some data
@@ -368,8 +372,7 @@ Route::group(['middleware' => 'web'], function () {
 
 //test 009
 
-
-
-
+   // Route::get('/ais/secdata', 'DataSecController@getSecdata');
+     Route::post('/ajax/secdata', 'Ajax\DataSecAjaxController@getSecData');
 });
 

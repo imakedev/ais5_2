@@ -671,8 +671,8 @@ function previewFomala(){
 
 			var formulas={
 				"formula":[
-					{"key":"1","value":str.toLowerCase()} // ,
-					// {"key":"2","value":"(300/3)*20"}
+					{"key":"1","value":str.toLowerCase(),"time":"99"} // ,
+						// {"key":"3","value":"(300/3)*20"}
 				],
 				"callBackName":"callBackFormula"
 			}
@@ -708,8 +708,8 @@ function previewFomala(){
 function nomalFormula(str){
 	var formulas={
 		"formula":[
-			{"key":"1","value":str.toLowerCase()} // ,
-			// {"key":"2","value":"(300/3)*20"}
+				{"key":"1","value":str.toLowerCase()} // ,
+
 		],
 		"callBackName":"callBackFormula"
 	}
@@ -741,4 +741,21 @@ function doClone(){
 	var cal_a=$("#cal_a").val();
 	//alert(cal_a)
 	window.location.href="/ais/formCalculation/clone/"+cal_a;
+}
+function testCallDataSec(){
+
+	var obj={
+		"formula":"(U08D122+U08D122)*U08D123",
+		"startTime":"2014-05-20 00:02:00",
+		"endTime":"2014-05-20 00:02:00"
+	}
+	$.ajax({
+		url: "/ajax/secdata",
+		method: "POST",
+		data: obj
+	}).done(function(data, status, xhr) {
+		console.log(data);
+		var sources = jQuery.parseJSON(data.sources);
+		var dataWithTimes = jQuery.parseJSON(data.dataWithTimes);
+	});
 }

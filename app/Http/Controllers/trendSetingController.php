@@ -107,8 +107,11 @@ class trendSetingController extends Controller
        // Log::info($trendID);
        // Log::info($unitID);
         
-        $query="select * from mmtrend_table where G='$trendID'  
-                AND (B='$unitID' or 'All'='$unitID')";
+        $query="select mmt.*,mmc.G as FORMULA from mmtrend_table mmt 
+                LEFT JOIN mmcalculation_table mmc 
+                ON mmt.I=mmc.A
+                where mmt.G='$trendID' 
+                AND (mmt.B='$unitID' or 'All'='$unitID')";
         
         $reslutQuery = DB::select($query);
         //$reslutQuery = DB::connection('mysql_ais_47')->select($query);

@@ -48,8 +48,8 @@ class PointConfigController extends Controller
         session()->put('sortBy',$sortBy);
         session()->put('orderBy',$orderBy);
         session()->put('pointConf_search',$search);
-        $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
-
+        //$datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+        $datas=$datas->paginate(10);
         /*
         $points_config = PointConfigModel::orderBy('updated_at','DESC')->paginate(12);
         $points_config->setPath('/ais/pointConfiguration');
@@ -79,13 +79,24 @@ class PointConfigController extends Controller
         session()->put('sortBy',$sortBy);
         session()->put('orderBy',$orderBy);
         session()->put('pointConf_search',$search);
-        $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
-
+        //$datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+        $datas=$datas->paginate(10);
+        $mmplant=session()->get('user_mmplant');
+        $columns=null;
+        $c_unit = 'C';
+        $efgh_array = ['E','F','G','H'];
+        if($mmplant=='1'){// 4-7
+            $columns=['4','5','6','7'];
+        }else if($mmplant=='2'){// 4-7
+            $columns=['8','9','10','11','12','13'];
+        }else if($mmplant=='3'){// 4-7
+            $columns=['8','9','10','11','12','13'];
+        }
         /*
         $points_config = PointConfigModel::orderBy('updated_at','DESC')->paginate(12);
         $points_config->setPath('/ais/pointConfiguration');
         */
-        return view('ais/pointConfiguration', ['points_config'=>$datas]);
+        return view('ais/pointConfiguration', ['points_config'=>$datas,'columns'=>$columns,'c_unit'=>$c_unit,'efgh_array'=>$efgh_array]);
     }
     public function store(Request $request)
     {

@@ -366,6 +366,8 @@
                                                         <input type="hidden" id="mmtrend_mode" />
                                                         <input type="hidden" id="mmtrend_point_zz" />
                                                         <input type="hidden" id="mmtrend_point_h" />
+
+                                                        <input type="hidden" id="user_mmplant" value="{{Session::get('user_mmplant')}}"/>
                                                         <div class="col-md-3 lableDropdownList">MMPlant</div>
                                                         <div class="col-md-3">
                                                             <select id="mmtrend_table_B" class="form-control m-b" onclick="searchMmpoint(this.value)">

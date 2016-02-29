@@ -106,7 +106,8 @@ class CalculationController  extends Controller
         }
         */
 
-        $datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+        //$datas=$datas->orderBy('updated_at','DESC')->paginate(10);
+        $datas=$datas->paginate(10);
         return view('ais/design_calculation', ['lists'=>$datas]);
     }
     /**

@@ -71,25 +71,53 @@ function editBtn(mmplant,index) {
    // alert(mmplant)
     var data = $('#gridTagListbody').children()[index].children;
     $('#tagId').val(data[1].childNodes[0].data);
+    var obj={
+        "key":data[1].childNodes[0].data
+    };
+    $.ajax({
+        url: "/ajax/mmtag/get",
+        method: "POST",
+        data: obj
+    }).done(function(dataCallBack, status, xhr) {
+        console.log(dataCallBack);
+        var mmtagM = jQuery.parseJSON(dataCallBack.mmtagM);
+        $('#tagDescription').val(mmtagM.B);
+        if(mmplant=='1'){
+            names=['04','05','06','07'];
+        }else if(mmplant=='2'){
+            names=['08','09','10','11','12','13'];
+        }else if(mmplant=='3'){
+            names=['08','09','10','11','12','13'];
+        }
+
+        for(var i=0;i<names.length;i++){
+            var unit='C'+parseInt(names[i])
+           // alert(mmtagM[unit])
+            $('#tag'+parseInt(names[i])).val(mmtagM[unit]);
+        }
+        $('#tagTitle').val(data[index++].childNodes[0].data);
+        var signs=['L','P','M','B']
+        var efgh_array = ['E','F','G','H'];
+        for(var i=0;i<names.length;i++){
+            for(var j=0;j<signs.length;j++){
+                var efgh=efgh_array[j]+parseInt(names[i])
+                $('#mm'+names[i]+signs[j]).val(mmtagM[efgh]);
+            }
+
+        }
+
+        $('#modalAddEditTag').modal();
+
+    });
+    /*
     $('#tagDescription').val(data[2].childNodes[0].data);
     var index=3;
     var names=[];
-    if(mmplant=='1'){
-        names=['04','05','06','07'];
-    }else if(mmplant=='2'){
-        names=['08','09','10','11','12','13'];
-    }else if(mmplant=='3'){
-        names=['08','09','10','11','12','13'];
-    }
+
     for(var i=0;i<names.length;i++){
         $('#tag'+parseInt(names[i])).val(data[index++].childNodes[0].data);
     }
-    /*
-    $('#tag4').val(data[3].childNodes[0].data);
-    $('#tag5').val(data[4].childNodes[0].data);
-    $('#tag6').val(data[5].childNodes[0].data);
-    $('#tag7').val(data[6].childNodes[0].data);
-    */
+
     $('#tagTitle').val(data[index++].childNodes[0].data);
     var signs=['L','P','M','B']
     for(var i=0;i<names.length;i++){
@@ -98,29 +126,10 @@ function editBtn(mmplant,index) {
         }
 
     }
-    /*
-    $('#mm04L').val(data[8].childNodes[0].data);
-    $('#mm04P').val(data[9].childNodes[0].data);
-    $('#mm04M').val(data[10].childNodes[0].data);
-    $('#mm04B').val(data[11].childNodes[0].data);
+     $('#modalAddEditTag').modal();
+    */
 
 
-    $('#mm05L').val(data[12].childNodes[0].data);
-    $('#mm05P').val(data[13].childNodes[0].data);
-    $('#mm05M').val(data[14].childNodes[0].data);
-    $('#mm05B').val(data[15].childNodes[0].data);
-
-    $('#mm06L').val(data[16].childNodes[0].data);
-    $('#mm06P').val(data[17].childNodes[0].data);
-    $('#mm06M').val(data[18].childNodes[0].data);
-    $('#mm06B').val(data[19].childNodes[0].data);
-
-    $('#mm07L').val(data[20].childNodes[0].data);
-    $('#mm07P').val(data[21].childNodes[0].data);
-    $('#mm07M').val(data[22].childNodes[0].data);
-    $('#mm07B').val(data[23].childNodes[0].data);
-     */
-    $('#modalAddEditTag').modal();
 }
 /*
 function deleteBtn() {
@@ -165,6 +174,11 @@ function deleteBtn() {
 //});
 
 $(document).ready(function(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     $('#checkAll').click(function (event) {
         if(this.checked){
             $('.ck').each(function(){

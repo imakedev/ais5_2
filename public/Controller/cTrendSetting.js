@@ -304,7 +304,12 @@ var bindGridPoinList = function(){
 							tableTrendHTML+=" <tr>";
 
 					            tableTrendHTML+="<td>";
-					            tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' class='point' id='point-"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'  name='point' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'></div>";
+					            if(indexEntry['I']!=0){
+					            	tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' class='point' id='point-C"+indexEntry['I']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'  name='point' value='C"+indexEntry['I']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"-"+indexEntry['FORMULA']+"'></div>";	
+					            }else{
+					            	tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' class='point' id='point-"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'  name='point' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'></div>";
+					            }
+					            
 					            tableTrendHTML+="</td>";
 					            tableTrendHTML+="<td>"+indexEntry['A']+"</td>";
 					            tableTrendHTML+="<td>"+indexEntry['B']+"</td>";
@@ -700,18 +705,23 @@ var bindGridPoinList = function(){
 			 }
 			 var pointIDArray = $(this).val().split("-");
 			 var pointID=pointIDArray[0];
+			 var pointIDNotFormula="";
+			 pointIDNotFormula=$(this).val().split("-");
+			 pointIDNotFormula=pointIDNotFormula[0]+"-"+pointIDNotFormula[1]+"-"+pointIDNotFormula[2];
 			 
 			 if($(this).prop( "checked" )==true){
 				 if($("#pointCompare").is(':checked')==false){
 					  var paramPoint="";
-					  paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+$(this).val()+"' name='paramPointEmbedPrePlot-"+$(this).val()+"' value='"+$(this).val()+"'>";
+					 
+						 //alert(pointIDNotFormula);
+					  paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+pointIDNotFormula+"' name='paramPointEmbedPrePlot-"+pointIDNotFormula+"' value='"+$(this).val()+"'>";
 					  $("body").append(paramPoint);
 				 }
 			 }else{
 				 if($("#pointCompare").is(':checked')==true){
 					 $(".paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()).remove();
 				 }else{
-					 $("#paramPointEmbedPrePlot-"+$(this).val()+"").remove();
+					 $("#paramPointEmbedPrePlot-"+pointIDNotFormula+"").remove();
 				 }
 			 }
 			 

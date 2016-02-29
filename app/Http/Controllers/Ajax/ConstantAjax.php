@@ -24,12 +24,14 @@ class ConstantAjax extends Controller
     }
     public  function get(Request $request){
         $kk_id=request('kk_id');
-        $mmConstantM = MmConstantModel::on(DBUtils::getDBName())->find($kk_id);
+        //$mmConstantM = MmConstantModel::on(DBUtils::getDBName())->find($kk_id);
+        $mmConstantM = MmConstantModel::find($kk_id);
         return response()->json(['constantM'=>json_encode($mmConstantM)]);
     }
     public  function delete(Request $request){
          $kk_id=request('kk_id');
-         MmConstantModel::on(DBUtils::getDBName())->find($kk_id)->delete();
+         //MmConstantModel::on(DBUtils::getDBName())->find($kk_id)->delete();
+        MmConstantModel::find($kk_id)->delete();
         return response()->json(['kk_id'=>$kk_id]);
     }
 
@@ -45,11 +47,13 @@ class ConstantAjax extends Controller
             Log::info("Into xxxx [".$constantType."],empId[".Auth::user()->empId."]");
             //$datas= $datas->where('C','=', "'".Auth::user()->empId."'");
            // $lists->where('C','=', "'".Auth::user()->empId."'");
-            $lists=DB::connection(DBUtils::getDBName())->table('mmconstant_table')->where('C','=',''.Auth::user()->empId.'')->get();
+            //$lists=DB::connection(DBUtils::getDBName())->table('mmconstant_table')->where('C','=',''.Auth::user()->empId.'')->get();
+            $lists=DB::table('mmconstant_table')->where('C','=',''.Auth::user()->empId.'')->get();
             //$lists=$lists->get();
         }else if($constantType=='-1'){ // standard
             Log::info("Into yyy [".$constantType."]");
-            $lists=DB::connection(DBUtils::getDBName())->table('mmconstant_table');
+            //$lists=DB::connection(DBUtils::getDBName())->table('mmconstant_table');
+            $lists=DB::table('mmconstant_table');
             $user_admins = DB::table('mmemployee_table')->where('D0','>=',254)->get();
             if(!empty($user_admins)) {
                 $index=0;
@@ -63,7 +67,8 @@ class ConstantAjax extends Controller
             }
 
         }else{//all
-            $lists=DB::connection(DBUtils::getDBName())->table('mmconstant_table')->get();
+            //$lists=DB::connection(DBUtils::getDBName())->table('mmconstant_table')->get();
+            $lists=DB::table('mmconstant_table')->get();
         }
 
         //$lists = $datas->orderBy('B','ASC')->take(9)->union($old_mmpoint)->get();
@@ -74,7 +79,8 @@ class ConstantAjax extends Controller
         $id = $request->input('ZZ');
         $mmConstantM=null;
             if(!empty($id)){
-                $mmConstantM = MmConstantModel::on(DBUtils::getDBName())->find($id);
+                //$mmConstantM = MmConstantModel::on(DBUtils::getDBName())->find($id);
+                $mmConstantM = MmConstantModel::find($id);
                 $mmConstantM->A = $request->input('A');
                 $mmConstantM->B = $request->input('B');
 
@@ -84,7 +90,7 @@ class ConstantAjax extends Controller
             }else{
 
                 $mmConstantM = new MmConstantModel();
-                $mmConstantM->setConnection(DBUtils::getDBName());
+               // $mmConstantM->setConnection(DBUtils::getDBName());
                 $mmConstantM->A = $request->input('A');
                 $mmConstantM->B = $request->input('B');
                 $mmConstantM->C = Auth::user()->empId;
