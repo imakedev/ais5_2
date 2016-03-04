@@ -2,7 +2,17 @@
  
  
 <script src="/Controller/cListLeftPoint.js"></script>
+<?php 
+$calID = $_GET['calID'];
 
+if(($calID!='') and ($calID!='0') and ($calID!=0)){
+    $id="DC".$calID;
+}else{
+    
+    $id="U0".$_GET['unit_plant']."D".$_GET['point'];
+}
+
+?>
 
 <!-- $_GET['paramTrendID'] -->
 <!-- list point start-->
@@ -15,7 +25,8 @@
                             <!-- <span class="label label-success" >1</span> Point1-->
                             <!-- btn seting grach1 start-->
                             <!-- U05D260 -->
-                            <button id='U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?>'  type="button" style='background: <?=$_GET['colorFlatTheme']?>;color:white;' class="btn  btn-xs btnSetingPoint btnSetingPoint-<?=$_GET['point']?>" data-container="body" 
+                            
+                            <button id='<?=$id?>'  type="button" style='background: <?=$_GET['colorFlatTheme']?>;color:white;' class="btn  btn-xs btnSetingPoint btnSetingPoint-<?=$_GET['point']?>" data-container="body" 
                                 data-toggle="popover" data-placement="bottom" title="Event Seting"  data-html="true"
                                 data-content="
                                  
@@ -45,9 +56,9 @@
                                      -->
                                     <tr>
                                         <td colspan='2'>
-                                            <input type='checkbox' name='pointEvent' class='pointEvent i-checks' id='event-U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?>-<?=$_GET['paramTrendID']?>' value='event'>&nbsp;Event
-                                            &nbsp; <input type='checkbox' class='pointEvent i-checks' name='pointEvent' id='action-U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?>-<?=$_GET['paramTrendID']?>' value='action'>&nbsp;Action
-                                            &nbsp;<input type='checkbox' class='pointEvent i-checks' name='pointEvent' id='vpser-U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?>-<?=$_GET['paramTrendID']?>' value='vpser'>&nbsp;VPSER
+                                            <input type='checkbox' name='pointEvent' class='pointEvent i-checks' id='event-<?=$id?>-<?=$_GET['paramTrendID']?>' value='event'>&nbsp;Event
+                                            &nbsp; <input type='checkbox' class='pointEvent i-checks' name='pointEvent' id='action-<?=$id?>-<?=$_GET['paramTrendID']?>' value='action'>&nbsp;Action
+                                            &nbsp;<input type='checkbox' class='pointEvent i-checks' name='pointEvent' id='vpser-<?=$id?>-<?=$_GET['paramTrendID']?>' value='vpser'>&nbsp;VPSER
                                         </td>
                                       
                                     </tr>
@@ -78,11 +89,11 @@
                                         <td colspan='2' >
                                             <div style='padding:5px;'>
                                             <!-- unit_plant U04D260-->
-                                            <button class='btn btn-primary btn-xs  btnOkSetingPoint' id='psOk-U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?>' type='button'>
+                                            <button class='btn btn-primary btn-xs  btnOkSetingPoint' id='psOk-<?=$id?>' type='button'>
                                                 <!-- <i class='fa fa-save'></i>&nbsp; -->
                                                OK
                                             </button>
-                                             <button class='btn btn-white btn-xs  btnCancelSetingPoint' id='psCancel-U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?>' type='button'>
+                                             <button class='btn btn-white btn-xs  btnCancelSetingPoint' id='psCancel-<?=$id?>' type='button'>
                                                 <!--  <i class='fa fa-power-off'></i>&nbsp;-->
                                                Cancel
                                             </button>
@@ -99,14 +110,14 @@
                              </button>
                              <span style='color:<?=$_GET['colorFlatTheme']?>'>
                              
-                             <span class='clickHideShowPoint showPoint' id='showPoint-U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?>-<?=$_GET['paramTrendID']?>'>
+                             <span class='clickHideShowPoint showPoint' id='showPoint-<?=$id?>-<?=$_GET['paramTrendID']?>'>
                               <div class='pointName pointName-<?=$_GET['paramTrendID']?>'>
                              <?=$_GET['pointname'];?>
                              </div>
                               <div class='pointTag pointTag-<?=$_GET['paramTrendID']?>' >,<?=$_GET['tag'];?></div>
                              <!-- U04D260 -->
                              <!-- <div class='pointId pointId-<?=$_GET['paramTrendID']?>'>,D<?=$_GET['point']?></div> -->
-                             <div class='pointId pointId-<?=$_GET['paramTrendID']?>' >,U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?></div>
+                             <div class='pointId pointId-<?=$_GET['paramTrendID']?>' >,<?=$id?></div>
                              <div class='pointId2 pointId2-<?=$_GET['paramTrendID']?>' >,D<?=$_GET['point']?>-<?=$_GET['unit_plant']?>-<?=$_GET['pointId']?></div>
                             
                              </span>
@@ -138,11 +149,11 @@
                             00.00
                         </span>
                         -->
-                        <span class="pull-left valuePoint" id='valuePoint-U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?>-<?=$_GET['paramTrendID']?>' style='color:<?=$_GET['colorFlatTheme']?>'>
+                        <span class="pull-left valuePoint" id='valuePoint-<?=$id?>-<?=$_GET['paramTrendID']?>' style='color:<?=$_GET['colorFlatTheme']?>'>
                             
                             00.00
                         </span>
-                         <span class="pull-right planPoint" id='planPoint-U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?>-<?=$_GET['paramTrendID']?>' style='color:<?=$_GET['colorFlatTheme']?>'>
+                         <span class="pull-right planPoint" id='planPoint-<?=$id?>-<?=$_GET['paramTrendID']?>' style='color:<?=$_GET['colorFlatTheme']?>'>
                             00.00
                         </span>
                    
@@ -166,7 +177,7 @@
     </li>
     <div style='display: none;'>
     
-        <div class='paramEmbedArea' id='paramEmbedArea-U0<?=$_GET['unit_plant']?>D<?=$_GET['point']?>-<?=$_GET['paramTrendID']?>'>
+        <div class='paramEmbedArea' id='paramEmbedArea-<?=$id?>-<?=$_GET['paramTrendID']?>'>
             
         </div>
     </div>

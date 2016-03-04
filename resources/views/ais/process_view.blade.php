@@ -85,11 +85,20 @@
                                                                 <label class="control-label" for="paramPcv">PCV</label>
                                                                 <select class="form-control input-sm bgBlack" id='paramPcv' name="paramPcv">
                                                                     
-        
+                                                                     <?php if(Session::get('user_mmplant')==1){
+                                                                     ?>
                                                                     <option value='plantow47' selected='selected'>Plant Overview </option>
                                                                     <option value='steam47' >STEAM </option>
                                                                     <option value='fgd67'>FGD </option>
                                                                     <option value='turbine47'>Turbine </option>
+                                                                    <?php }else{
+                                                                    ?>
+                                                                     <option selected='selected' value='steam813' >STEAM</option> 
+                                                                     <option value='fring'>FRING</option>
+                                                                     <option value='pulv'>PULV</option>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
                                                                    <!--  <option value='steam813' >STEAM(813)</option> -->
                                                                     
                                                                     <!-- 
@@ -114,11 +123,25 @@
                                                             <div class="form-group">
                                                                 <label class="control-label" for="product_name">Unit</label>
                                                                 <select class="form-control input-sm bgBlack" name="paramUnit" id='paramUnit'>
-                                                                 
+                                                                 <?php if(Session::get('user_mmplant')==1){
+                                                                     ?>
                                                                     <option value='4'>MM04</option>
                                                                     <option value='5'>MM05</option>
                                                                     <option value='6'>MM06</option>
                                                                     <option value='7'>MM07</option>
+                                                                     <?php 
+                                                                 }else{
+                                                                     ?>
+                                                                    <option value='8'>MM08</option>
+                                                                    <option value='9'>MM09</option>
+                                                                    <option value='10'>MM10</option>
+                                                                    <option value='11'>MM11</option>
+                                                                    <option value='12'>MM12</option>
+                                                                    <option value='13'>MM13</option>
+                                                                     <?php 
+                                                                 }
+                                                                 ?>
+                                                                   
                                                                    
                                                                 </select> 
                                                             </div>

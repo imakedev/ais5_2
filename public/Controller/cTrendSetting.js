@@ -199,7 +199,15 @@ var bindGridPoinList = function(){
 																					//<input type="checkbox" value="260-4-6131" name="point" id="point-260-4-6131" class="point">
 					            tableTrendHTML+="<td>";
 					            //tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' name='point' class='trend-"+trendID+"' id='trend-"+trendID+"' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'></div>";
-					            tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' name='pointEdit-"+trendID+"' class='pointEdit-"+trendID+"' id='pointEdit-"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'></div>";
+					           
+					            
+					            if(indexEntry['I']!=0){
+					            	tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' class='pointEdit-"+trendID+"' id='pointEdit-"+indexEntry['I']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'  name='pointEdit-"+trendID+"' value='C"+indexEntry['I']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"-"+indexEntry['FORMULA']+"'></div>";	
+					            }else{
+					            	tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' name='pointEdit-"+trendID+"' class='pointEdit-"+trendID+"' id='pointEdit-"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'></div>";
+					            }
+					            
+					           
 					            tableTrendHTML+="</td>";
 					            tableTrendHTML+="<td>"+indexEntry['A']+"</td>";
 					            tableTrendHTML+="<td>"+indexEntry['B']+"</td>";
@@ -230,6 +238,7 @@ var bindGridPoinList = function(){
 
 						 if($(indexEntry2).val()==$(indexEntry).val()){
 							 
+							 
 							 console.log("#point-"+$(indexEntry2).val());
 							 
 							 $("#pointEdit-"+$(indexEntry2).val()).attr('checked',true);
@@ -244,7 +253,7 @@ var bindGridPoinList = function(){
 				//embed point id for plot graph start
 				$(document).off("click",".pointEdit-"+trendID);
 				$(document).on("click",".pointEdit-"+trendID,function(){
-					 alert($(this).val());
+					 //alert($(this).val());
 					 var pointIDArray = $(this).val().split("-");
 					 var pointID=pointIDArray[0];
 					 
@@ -658,6 +667,11 @@ var bindGridPoinList = function(){
 		 //embed point id for plot graph start
 		$(document).on("click",".point",function(){
 			// alert($(this).val());
+			var countPointArray=$("input.point:checked").get();
+			 if(countPointArray.length>12){
+				 alert("ไม่ควรเลือก Point เกิน 12 Point");
+				 return false;
+			 }
 			
 			//alert($("#pointCompare").is(':checked'));
 			 if($("#pointCompare").is(':checked')==true){

@@ -77,7 +77,167 @@
    <button id='btnCallWS2'>btnCallWebService2</button>
    <!--<button id='btnCallAjax'>btnCallAjax</button>-->
    <button id='btnTestSplitFormula'>btnTestSplitFormula3</button>
+   <button id='readJsonFilterFile'>readJsonFilterFile</button>
     <script>
+
+  //toTimestamp();
+
+    //read file json start
+$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+	
+	 function readJsonFilterFile(startTime,endTime,paramTrendID){
+		 //return ("ok");
+		// alert(startTime);
+		 //alert(endTime);
+		 //Read Data Cal Start
+		 
+		 var jsonData="";
+		 jsonData+="[";
+		 for(var i=0;i<=2;i++){
+			 
+		 var obj={
+					key:paramTrendID+"-c10"+i,
+					startTime:startTime,
+					endTime:endTime,
+					scaleType:"minute",
+					//scaleType:"month",
+					server:"47",
+			        value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
+				}
+
+				$.ajax({
+					url:"/ajax/executeCalculation",
+					method: "POST",
+					data: obj,
+					async:false,
+				}).done(function(data, status, xhr) {
+					//console.log(data);
+					var dataObj=eval("("+data+")");
+					
+					//var results = jQuery.parseJSON(data);
+					console.log(dataObj['formula'][0]);
+					
+					
+					
+					$.each(dataObj['formula'],function(index,indexEntry){
+						var calID=indexEntry['key'].split("-");
+						calID=calID[2];
+						if(index==0){
+							if(i==0){	
+								if(indexEntry['status']=='OK'){
+									jsonData+="{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":"+indexEntry['result']+"}";
+								}else{
+									jsonData+="{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":0}";
+								}
+							}else{
+								if(indexEntry['status']=='OK'){
+									jsonData+=",{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":"+indexEntry['result']+"}";
+								}else{
+									jsonData+=",{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":0}";
+								}
+							}
+						}else{
+							if(indexEntry['status']=='OK'){
+								jsonData+=",{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":"+indexEntry['result']+"}";
+							}else{
+								jsonData+=",{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":0}";
+							}
+						}
+					
+						
+					});
+					
+					console.log(jsonData);
+					//console.log(eval("("+jsonData+")"));
+					
+					
+					
+					
+				});
+		 }
+		 jsonData+="]";
+		 //Read Data Cal End
+
+		 
+		 var jsonFilter = new Array();
+		 $.ajax({
+				url:"/ais/serviceTrend/readDataMinuteu/"+paramTrendID+"",
+				type:"get",
+				async:false,
+				dataType:"json",
+				//data:{"paramTrendID":paramTrendID},
+				success:function(data){
+					console.log(data);
+					
+					/*
+					 if(data==""){
+						return false;
+					}
+					*/
+					$.each(data,function(index,indexEntry){
+						
+						if((toTimestamp(indexEntry['EvTime'])>=toTimestamp(startTime)) && (toTimestamp(indexEntry['EvTime'])<=toTimestamp(endTime))) {
+							
+							//jsonFilter.push(indexEntry);
+							
+							console.log("---------");
+							console.log(indexEntry["EvTime"]);
+							console.log(indexEntry);
+							
+							//console.log(eval("("+indexEntry+")"));
+							/*
+							EvTime
+	
+								"2014-05-03 15:06:00"
+							U04D3
+								
+								15.039799690247
+							U04D4
+								
+								-0.00066692900145426
+							U04D7
+								
+								80.909301757812
+							 */
+							
+						}
+						
+					});
+					
+					//console.log(jsonFilter);
+					
+					
+					
+				}
+		 });
+		 //return jsonFilter;
+		 //alert(jsonFilter);
+		 alert(jsonData);
+		 
+	 }
+	 //test
+	 $("#readJsonFilterFile").click(function(){
+		 readJsonFilterFile("2014-5-3 10:00:00","2014-5-3 10:49:11","3041");
+     });
+	 
+	 
+
+
+
+
+
+
+
+
+
+
+
+
+    
     function callBackFormula_bk(data){
  
         //Formatt start

@@ -1,7 +1,59 @@
 var paramTrendID="";
 
 
+function callPostFormula(){
 
+	var obj={
+		key:"88-c102",
+		startTime:"2014-05-01 00:00:00",
+		endTime:"2014-05-01 00:05:00",
+		scaleType:"minute",
+		//scaleType:"month",
+		server:"47",
+        value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
+	}
+
+	$.ajax({
+		url:"/ajax/executeCalculation",
+		method: "POST",
+		data: obj
+	}).done(function(data, status, xhr) {
+		
+		//console.log(data);
+		var dataObj=eval("("+data+")");
+		
+		//var results = jQuery.parseJSON(data);
+		console.log(dataObj['formula'][0]);
+		
+		var jsonData="";
+		jsonData+="[";
+		$.each(dataObj['formula'],function(index,indexEntry){
+			var calID=indexEntry['key'].split("-");
+			calID=calID[2];
+			if(index==0){
+					if(indexEntry['status']=='OK'){
+						jsonData+="{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":"+indexEntry['result']+"}";
+					}else{
+						jsonData+="{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":0}";
+					}
+				
+			}else{
+				if(indexEntry['status']=='OK'){
+					jsonData+=",{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":"+indexEntry['result']+"}";
+				}else{
+					jsonData+=",{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":0}";
+				}
+			}
+		
+			
+		});
+		jsonData+="]";
+		console.log(jsonData);
+		console.log(eval("("+jsonData+")"));
+		alert(jsonData);
+		
+	});
+}
 
 //function calculation start
 
@@ -690,7 +742,37 @@ function getDataByDateSecond(data,point){
 	
 	};
 // createTrendChart end
-	
+function getDataFromPointEmbedNotCalID(){
+	 var unitIdPointIdNotCalID="";
+	 var pointCalArray=$("#paramPointEmbed-"+$("#trendTabActive").val()+"").val().split(",");;
+	 //alert(pointCalArray);
+	 var numCal=0;
+	 var dataArray="";
+	 var unit="";
+	 var data="";
+	 $.each(pointCalArray,function(index,indexEntry){
+		// alert(indexEntry);
+		 
+		 var pointCal=indexEntry.substr(0,2);
+		 if(pointCal=='DC'){
+			//alert("DC");
+		 }else{
+			 dataArray=indexEntry.split("-");
+			 //D3-4-88331
+			 data=dataArray[0];
+			 unit=dataArray[1];
+			 if(numCal==0){
+				 unitIdPointIdNotCalID+="U0"+unit+""+data;
+			 }else{
+				 unitIdPointIdNotCalID+=",U0"+unit+""+data;
+			 }
+			 numCal++;
+		 }
+		 
+	 });
+	 
+	 return unitIdPointIdNotCalID;
+}	
 function getDataFromPointEmbed(returnType){
 
 		var pointData = $("#paramPointEmbed-"+$("#trendTabActive").val()+"").val();
@@ -701,23 +783,36 @@ function getDataFromPointEmbed(returnType){
 		var unitIdPointId="";
 		var pointId="";
 		var pointDataSub="";
-		
+		var pointDataCalID="";
 		//alert(pointData.length);
 		
 		
 		for(var i=0;i<pointData.length;i++){
 			//alert(pointData[i]);
 			pointDataSub=pointData[i].split("-");
+			var pointCal=pointDataSub[0].substr(0,2);
 			if(i==0){
 				pointDataId+=pointDataSub[0];
 				pointUnitId+=pointDataSub[1];
 				pointId+=pointDataSub[2];
-				unitIdPointId+="U0"+pointDataSub[1]+""+pointDataSub[0];
+				
+				
+				 if(pointCal=='DC'){
+					 unitIdPointId+=pointDataSub[0];
+				 }else{
+					 unitIdPointId+="U0"+pointDataSub[1]+""+pointDataSub[0];
+				 }
 			}else{
 				pointDataId+=','+pointDataSub[0];
 				pointUnitId+=','+pointDataSub[1];
 				pointId+=','+pointDataSub[2];
-				unitIdPointId+=",U0"+pointDataSub[1]+""+pointDataSub[0];
+				
+				 if(pointCal=='DC'){
+					 unitIdPointId+=","+pointDataSub[0];
+				 }else{
+					 unitIdPointId+=",U0"+pointDataSub[1]+""+pointDataSub[0];
+				 }
+				
 			}
 			
 		}
@@ -944,17 +1039,29 @@ var createFileServiceChart={
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
+
+
+
 		
+		 var obj={
+				 "paramTrendID":paramTrendID,
+				 "paramFromDate":paramFromDate,
+				 "paramToDate":paramToDate,
+				 "queryPoint":queryPoint,
+				 "unitIdPointId":unitIdPointId,
+				}
 		
 		//alert(pointDataId);
 		//alert(paramFromDate);
 		//alert(paramToDate);
 		
 		$.ajax({
-			url:"/ais/serviceTrend/getDataHru/"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"/"+queryPoint+"/"+unitIdPointId+"",
-			type:"get",
+			url:"/ais/serviceTrend/getDataHru",
+			///"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"/"+queryPoint+"/"+unitIdPointId+"
+			type:"post",
 			dataType:"json",
 			async:false,
+			data:obj,
 			success:function(data){
 				
 				if(data=='createJsonSuccess'){
@@ -996,14 +1103,27 @@ var createFileServiceChart={
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
 		
+		
+		
+		var obj={
+				 "paramTrendID":paramTrendID,
+				 "paramFromDate":paramFromDate,
+				 "paramToDate":paramToDate,
+				 "queryPoint":queryPoint,
+				 "unitIdPointId":unitIdPointId,
+				}
+		
+		
 		//alert(paramFromDate);
 		//alert(paramToDate);
 		
 		$.ajax({
-			url:"/ais/serviceTrend/getDataDayu/"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"/"+queryPoint+"/"+unitIdPointId+"",
-			type:"get",
+			///"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"/"+queryPoint+"/"+unitIdPointId+"
+			url:"/ais/serviceTrend/getDataDayu",
+			type:"post",
 			dataType:"json",
 			async:false,
+			data:obj,
 			success:function(data){
 				
 				if(data=='createJsonSuccess'){
@@ -1037,14 +1157,24 @@ var createFileServiceChart={
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
 		
+		var obj={
+				 "paramTrendID":paramTrendID,
+				 "paramFromDate":paramFromDate,
+				 "paramToDate":paramToDate,
+				 "queryPoint":queryPoint,
+				 "unitIdPointId":unitIdPointId,
+				}
+		
 		//alert(paramFromDate);
 		//alert(paramToDate);
 		
 		$.ajax({
-			url:"/ais/serviceTrend/getDataMonthu/"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"/"+queryPoint+"/"+unitIdPointId+"",
-			type:"get",
+			///"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"/"+queryPoint+"/"+unitIdPointId+"
+			url:"/ais/serviceTrend/getDataMonthu",
+			type:"post",
 			dataType:"json",
 			async:false,
+			data:obj,
 			success:function(data){
 				
 				if(data=='createJsonSuccess'){
@@ -1077,11 +1207,20 @@ var createFileServiceChart={
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
 		
+		 var obj={
+				 "paramTrendID":paramTrendID,
+				 "paramFromDate":paramFromDate,
+				 "paramToDate":paramToDate,
+				 "queryPoint":queryPoint,
+				 "unitIdPointId":unitIdPointId,
+				}
 		$.ajax({
-			url:"/ais/serviceTrend/createDataMinuteu/"+paramTrendID+"/"+paramFromDate+"/"+paramToDate+"/"+queryPoint+"/"+unitIdPointId,
-			type:"get",
+			url:"/ais/serviceTrend/createDataMinuteu",
+			//url:"/ais/serviceTrend/createDataMinuteu/"+paramTrendID+"/"+paramFromDate+"/"+paramToDate+"/"+queryPoint+"/"+unitIdPointId,
+			type:"post",
 			dataType:"json",
 			async:false,
+			data: obj,
 			success:function(data){
 				//alert(data);
 				if(data=='createJsonSuccess'){

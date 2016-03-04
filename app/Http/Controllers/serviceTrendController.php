@@ -19,6 +19,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Log;
 use Session;
 use Auth;
+use GuzzleHttp\Client;
 
 class serviceTrendController  extends Controller{
 
@@ -42,7 +43,14 @@ class serviceTrendController  extends Controller{
     starttime:2014-05-06 00:00:00
     */
     
-    public function createDataMinuteu($trendID,$startTime,$endTime,$queryPoint,$unitIdPointId){
+    public function createDataMinuteu(){
+        //$trendID,$startTime,$endTime,$queryPoint,$unitIdPointId
+        /*{trendID}/{startTime}/{endTime}/{queryPoint}/{unitIdPointId}*/
+        $trendID= request('paramTrendID');
+        $startTime= request('paramFromDate');
+        $endTime= request('paramToDate');
+        $queryPoint= request('queryPoint');
+        $unitIdPointId= request('unitIdPointId');
         
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
@@ -122,7 +130,7 @@ class serviceTrendController  extends Controller{
         
         $query="
         select  EvTime2 as EvTime,$unitIdPointId  from(
-        SELECT datau04.EvTime AS EvTime2,
+        SELECT datau04.EvTime AS EvTime2
         $queryPoint
         FROM datau04
         WHERE datau04.EvTime BETWEEN '".$startTime."' and '".$endTime."'
@@ -191,21 +199,23 @@ class serviceTrendController  extends Controller{
     }
     
     
-    public function getDataHru($startTime,$endTime,$trendID,$queryPoint,$unitIdPointId){
+    public function getDataHru(){
         
         Log::info("Into getDataHru");
+        //$startTime,$endTime,$trendID,$queryPoint,$unitIdPointId
+        $trendID= request('paramTrendID');
+        $startTime= request('paramFromDate');
+        $endTime= request('paramToDate');
+        $queryPoint= request('queryPoint');
+        $unitIdPointId= request('unitIdPointId');
         
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
-        /*
-        $query="select EvTime, $point from datahru$unit 
-                WHERE EvTime BETWEEN  '$startTime' AND '$endTime'";
-        */
-        //$reslutQuery = DB::select($query);
+       
         
         $query="
         select  EvTime2 as EvTime,$unitIdPointId  from(
-        SELECT datahru04.EvTime AS EvTime2,
+        SELECT datahru04.EvTime AS EvTime2
         $queryPoint
         FROM datahru04
         WHERE datahru04.EvTime BETWEEN '".$startTime."' and '".$endTime."'
@@ -281,12 +291,18 @@ class serviceTrendController  extends Controller{
                      
     }
     /*##################### GET DATA MONTH SART ######################*/
-    public function getDataMonthu($startTime,$endTime,$trendID,$queryPoint,$unitIdPointId){
+    public function getDataMonthu(){
     
         Log::info("Into getDataMonthu");
-        
+        //$startTime,$endTime,$trendID,$queryPoint,$unitIdPointId
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
+        
+        $trendID= request('paramTrendID');
+        $startTime= request('paramFromDate');
+        $endTime= request('paramToDate');
+        $queryPoint= request('queryPoint');
+        $unitIdPointId= request('unitIdPointId');
         
         
         
@@ -302,7 +318,7 @@ class serviceTrendController  extends Controller{
         //echo $pointAvg;
         $query="
         select  EvTime2 as EvTime,$pointAvg  from(
-        SELECT datau04.EvTime AS EvTime2,
+        SELECT datau04.EvTime AS EvTime2
         $queryPoint
         FROM datau04
         WHERE datau04.EvTime BETWEEN '".$startTime."' and '".$endTime."'
@@ -737,9 +753,15 @@ class serviceTrendController  extends Controller{
     
     
     
-    public function getDataDayu($startTime,$endTime,$trendID,$queryPoint,$unitIdPointId){
+    public function getDataDayu(){
     
         
+        //$startTime,$endTime,$trendID,$queryPoint,$unitIdPointId
+            $trendID= request('paramTrendID');
+            $startTime= request('paramFromDate');
+            $endTime= request('paramToDate');
+            $queryPoint= request('queryPoint');
+            $unitIdPointId= request('unitIdPointId');
         
         
             $sess_emp_id= Auth::user()->id;
@@ -753,7 +775,7 @@ class serviceTrendController  extends Controller{
             */
             $query="
             select  EvTime2 as EvTime,$unitIdPointId  from(
-            SELECT datadayu04.EvTime AS EvTime2,
+            SELECT datadayu04.EvTime AS EvTime2
             $queryPoint
             FROM datadayu04
             WHERE datadayu04.EvTime BETWEEN '".$startTime."' and '".$endTime."'

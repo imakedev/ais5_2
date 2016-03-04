@@ -249,7 +249,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/ajax/calculation/extract','Ajax\CalculationAjax@extractFormula');
     Route::post('/ajax/calculation/extractByTrend','Ajax\CalculationAjax@extractFormulaByTrend');
     Route::get('/ajax/calculation/readExtractFormulaByTrend/{trendID}/{calID}','Ajax\CalculationAjax@readExtractFormulaByTrend');
-    
+
     /*
     Route::get('/ajax/get', function () {
         // pass back some data
@@ -285,19 +285,21 @@ Route::group(['middleware' => 'web'], function () {
     /*trend service start*/
     
     //$point,$unit,$trendID,$empId,$mmPlant,$startTime,$endTime
-    Route::get('/ais/serviceTrend/createDataMinuteu/{trendID}/{startTime}/{endTime}/{queryPoint}/{unitIdPointId}','serviceTrendController@createDataMinuteu');
+    Route::post('/ais/serviceTrend/createDataMinuteu','serviceTrendController@createDataMinuteu');
+   // Route::get('/ais/serviceTrend/createDataMinuteu/{trendID}/{startTime}/{endTime}/{queryPoint}/{unitIdPointId}','serviceTrendController@createDataMinuteu');
     //readDataMinuteu(trendID,empID,mmPlant)
     Route::get('/ais/serviceTrend/readDataMinuteu/{trendID}/','serviceTrendController@readDataMinuteu');
     
-    Route::get('/ais/serviceTrend/getDataHru/{startTime}/{endTime}/{trendID}/{queryPoint}/{unitIdPointId}','serviceTrendController@getDataHru');
+    //Route::get('/ais/serviceTrend/getDataHru/{startTime}/{endTime}/{trendID}/{queryPoint}/{unitIdPointId}','serviceTrendController@getDataHru');
+    Route::post('/ais/serviceTrend/getDataHru','serviceTrendController@getDataHru');
     Route::get('/ais/serviceTrend/readDataHru/{trendID}/','serviceTrendController@readDataHru');
     
     
-    Route::get('/ais/serviceTrend/getDataDayu/{startTime}/{endTime}/{trendID}/{queryPoint}/{unitIdPointId}','serviceTrendController@getDataDayu');
+    Route::post('/ais/serviceTrend/getDataDayu','serviceTrendController@getDataDayu');
     Route::get('/ais/serviceTrend/readDataDayu/{trendID}/','serviceTrendController@readDataDayu');
     
     
-    Route::get('/ais/serviceTrend/getDataMonthu/{startTime}/{endTime}/{trendID}/{queryPoint}/{unitIdPointId}','serviceTrendController@getDataMonthu');
+    Route::post('/ais/serviceTrend/getDataMonthu','serviceTrendController@getDataMonthu');
     Route::get('/ais/serviceTrend/readDataMonthu/{trendID}','serviceTrendController@readDataMonthu');
     
     
@@ -372,7 +374,12 @@ Route::group(['middleware' => 'web'], function () {
 
 //test 009
 
+
    // Route::get('/ais/secdata', 'DataSecController@getSecdata');
      Route::post('/ajax/secdata', 'Ajax\DataSecAjaxController@getSecData');
+    Route::post('/ajax/postFormula', 'Ajax\CalculationAjax@postFormula');
+    Route::post('/ajax/executeCalculation', 'Ajax\CalculationAjax@executeCalculation');
+
+
 });
 

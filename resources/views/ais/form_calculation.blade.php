@@ -228,6 +228,7 @@
 		            <a class="btn btn-w-m btn-danger  btn-sm" onclick="displayAddPoint()" id='btnAddPoint'>Add Point </a>
                     <a class="btn btn-w-m btn-danger  btn-sm" onclick="previewFomala()">Preview </a>
                     <a class="btn btn-w-m btn-danger  btn-sm" onclick="testCallDataSec()">Call Data Second </a>
+                      <a class="btn btn-w-m btn-danger  btn-sm" onclick="testCallPostFormula()">Call PostFormula </a>
 	            </div>
 	           
             </div>

@@ -705,6 +705,24 @@ function previewFomala(){
 	});
 	*/
 }
+function nomalFormulaBK(str){
+	var formulas={
+		"formula":[
+			{"key":"1","value":str.toLowerCase()} // ,
+
+		]//,
+		//"callBackName":"callBackFormula"
+	}
+	$.ajax({
+		//url:"http://10.249.99.107:8080/steamtable/rest/calculation",
+		url: "http://localhost:3000/v1/calculation",
+		method: "POST",
+		// dataType: "jsonp",
+		// jsonp: "callBackFormula",
+		data: formulas
+	});
+
+}
 function nomalFormula(str){
 	var formulas={
 		"formula":[
@@ -757,5 +775,40 @@ function testCallDataSec(){
 		console.log(data);
 		var sources = jQuery.parseJSON(data.sources);
 		var dataWithTimes = jQuery.parseJSON(data.dataWithTimes);
+
+		var data2={
+			"formula1":data.dataWithTimes,
+			"formula2":dataWithTimes
+		}
+		$.ajax({
+			url: "/ajax/postFormula",
+			method: "POST",
+			data: data2
+		}).done(function(data22, status, xhr) {
+			console.log(data22);
+		});
+
+	});
+}
+function testCallPostFormula(){
+
+	var obj={
+		key:"88-c102",
+		startTime:"2014-05-01 00:00:00",
+		endTime:"2014-05-02 00:00:00",
+		//scaleType:"minute",
+		scaleType:"month",
+		server:"47",
+        value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
+	}
+
+	$.ajax({
+		url:"/ajax/executeCalculation",
+		method: "POST",
+		data: obj
+	}).done(function(data, status, xhr) {
+		console.log(data);
+		var results = jQuery.parseJSON(data);
+		//console.log(results.formula[0].key);
 	});
 }

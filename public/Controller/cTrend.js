@@ -1,3 +1,4 @@
+
 //function callTrendFn(){
 
 //function for tooltip start
@@ -560,6 +561,7 @@ function tooltipCustom(paramTrendID){
 						"colorFlatTheme":colorFlatTheme[index],
 						"paramTrendID":paramTrendID,
 						"index":index,
+						"calID":indexEntry['I'],
 					 },
 				
 				success:function(data){
@@ -641,6 +643,78 @@ function tooltipCustom(paramTrendID){
 		var data= $(".calData-"+paramTrendID).text();
 		return data;
 	}
+	function genrateQueryCalFn(key,startTime,endTime,scaleType,server){
+		var queryCalFormula="";
+		var obj={
+				key:"88-c102",
+				startTime:"2014-05-01 00:00:00",
+				endTime:"2014-05-01 00:05:00",
+				scaleType:"minute",
+				//scaleType:"month",
+				server:"47",
+		        value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
+			}
+
+			$.ajax({
+				url:"/ajax/executeCalculation",
+				method: "POST",
+				data: obj,
+				async:false,
+			}).done(function(data, status, xhr) {
+				//console.log(data);
+				var dataObj=eval("("+data+")");
+				
+				console.log(dataObj);
+					
+				 queryCalFormula="(";
+				var calID="";
+				var trendID="";
+		        $.each(dataObj['formula'],function(index,indexEntry){
+		        	
+		            var keyArray=indexEntry['key'].split("-");
+		            
+		            calID=keyArray[2];
+		            trendID=keyArray[1];
+
+		            /*
+		            (
+		            select DC101 FROM(
+		            SELECT  "2014-05-01 00:00:00" as EvTime,"0.333" AS DC101
+		            UNION
+		            SELECT  "2014-05-01 00:01:00" as EvTime,"1.223" AS DC101
+		            )queryA where  EvTime="2014-05-01 00:01:00") as DC101
+		            */
+		            if(index==0){
+		                if(indexEntry['status']=='OK'){
+
+		                    
+		                	    queryCalFormula+="select "+calID+" FROM(";
+		                	    queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\""+indexEntry['result']+"\" AS "+calID+"";
+		                           
+		                    }else{
+		                    	queryCalFormula+="select "+calID+" FROM(";
+		                    	queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\"0\" AS "+calID+"";
+		                    	   
+		                    }
+		            }else{
+		            	if(indexEntry['status']=='OK'){
+		            	       queryCalFormula+=" UNION ";
+		            		   queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\""+indexEntry['result']+"\" AS "+calID+"";
+		                    
+		             }else{
+		            	       queryCalFormula+=" UNION ";
+		            	       queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\"0\" AS "+calID+"";
+		             	   
+		             }
+		            }
+		        });
+		        queryCalFormula+=")queryA where  EvTime=EvTime2) as "+calID+"";
+		        
+		       return queryCalFormula;
+		        //alert(queryCalFormula);
+	});
+}
+
 	
 	function generateQueryGetPointFn(scaleTime,paramTrendID){
 		
@@ -653,67 +727,460 @@ function tooltipCustom(paramTrendID){
 		
 		
 		
-		if(scaleTime=="Minute"){
+		if(scaleTime=="Minute2"){
+			var obj={
+					key:"88-c102",
+					startTime:"2014-05-01 00:00:00",
+					endTime:"2014-05-01 00:05:00",
+					scaleType:"minute",
+					//scaleType:"month",
+					server:"47",
+			        value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
+				}
+
+				$.ajax({
+					url:"/ajax/executeCalculation",
+					method: "POST",
+					data: obj
+				}).done(function(data, status, xhr) {
+					console.log(data);
+					var results = jQuery.parseJSON(data);
+					//console.log(results.formula[0].key);
+				});
+		
+		}else if(scaleTime=="Minute"){
 			var $i=0;
+			var $cal=0;
+			var queryCal="";
+			var queryCalFormula="";
+			//var dataCheckFormula=false;
 			$.each(paramPointAndUnitArray,function(index,indexEntry){
 				 //alert(indexEntry);
 				 //D3-4-88331
+				
 				 queryPointArray=indexEntry.split("-");
-				 
 				 queryPointCalArray=queryPointArray[0]; 
 				 queryPointCal=queryPointCalArray.substr(0,2);
+				 
 				 if(queryPointCal=='DC'){
 				       
 				        pointCal=queryPointArray[3];
 				        console.log("pointCal1");
 				        console.log(pointCal);
+				       
+				      //Read Data Cal Start
+						// alert(queryPointArray[0]);
 				        
-				       /*
-				        var formulaData="U04D1+ U04D2+Enthalpy(U05D3;U06D4)";
-				        createFomala("2014-05-01 :00:01:00","2014-05-01 :00:10:00",formulaData,"88","c102");
-				        */
-				        var formulaData="U04D1+ U04D2+Enthalpy(U05D3;U06D4)";
-				        //createFomala("2014-05-01 :00:01:00","2014-05-01 :00:10:00",pointCal,""+paramTrendID+"",""+queryPointArray[0]+"");
+						
+						queryCalFormula+=",(";	
+						
+						 //for(var i=0;i<=2;i++){
+						var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
+						var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();	 
+						//var endDate = currentDateTime();
+						//var startDate=intervalDelFn(endDate,'hour',5);
+						
+						//alert(startDate);
+						//alert(endDate);
+						 var obj={
+									key:paramTrendID+"-"+queryPointArray[0],
+									startTime:paramFromDate,
+									endTime:paramToDate,
+									scaleType:"minute",
+									//scaleType:scaleTime,
+									server:"47",
+							        //value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
+							        value:pointCal
+								}
+
+								$.ajax({
+									url:"/ajax/executeCalculation",
+									method: "POST",
+									data: obj,
+									async:false,
+								}).done(function(data, status, xhr) {
+									console.log("data");
+									
+									var dataObj=eval("("+data+")");
+									//check data not null
+									if(dataObj['formula'][0]!=null){
+										
+									//dataCheckFormula=true;
+									
+									$.each(dataObj['formula'],function(index,indexEntry){
+										 var keyArray=indexEntry['key'].split("-");
+								            
+								            calID=keyArray[2];
+								            trendID=keyArray[1];
+
+								            /*
+								            (
+								            select DC101 FROM(
+								            SELECT  "2014-05-01 00:00:00" as EvTime,"0.333" AS DC101
+								            UNION
+								            SELECT  "2014-05-01 00:01:00" as EvTime,"1.223" AS DC101
+								            )queryA where  EvTime="2014-05-01 00:01:00") as DC101
+								            */
+								            if(index==0){
+								                if(indexEntry['status']=='OK'){
+
+								                    
+								                	    queryCalFormula+="select "+calID+" FROM(";
+								                	    queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,"+indexEntry['result']+" AS "+calID+"";
+								                           
+								                    }else{
+								                    	queryCalFormula+="select "+calID+" FROM(";
+								                    	queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\"0\" AS "+calID+"";
+								                    	   
+								                    }
+								            }else{
+								            	if(indexEntry['status']=='OK'){
+								            	       queryCalFormula+=" UNION ";
+								            		   queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,"+indexEntry['result']+" AS "+calID+"";
+								                    
+								             }else{
+								            	       queryCalFormula+=" UNION ";
+								            	       queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\"0\" AS "+calID+"";
+								             	   
+								             }
+								            }
+										
+									});
+									
+									//console.log(queryCalFormula);
+									//console.log(eval("("+jsonData+")"));
+									queryCalFormula+=")queryA where  EvTime=EvTime2) as "+queryPointArray[0]+"";
+									
+								}else{
+									
+									queryCalFormula+="select "+queryPointArray[0]+" FROM(";
+			                    	queryCalFormula+="SELECT  \"00-00-00 00:00:00\" as EvTime,\"0\" AS "+queryPointArray[0]+"";
+									queryCalFormula+=")queryA where  EvTime=EvTime2) as "+queryPointArray[0]+"";
+								}
+								//check data is not null
+									
+								});
+						 //}
+						 
+						 //Read Data Cal End
+						 
+				        
+				        
+				        
+				        
+				        
+				        
 				        
 				        
 				    }else{
-				    	
-						 if($i==0){
+						 
 							 //(SELECT D1 FROM datau04  WHERE EvTime=EvTime2) AS U04D1
-							 queryPoint+="(SELECT "+queryPointArray[0]+" FROM datau0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
-						 }else{
 							 queryPoint+=",(SELECT "+queryPointArray[0]+" FROM datau0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
-						}
 						 
 				    }
-					$i++;	
+						
+					
 			});
+				
+					queryPoint+=queryCalFormula;
+			
+				
+				//alert(queryPoint);
+				console.log(queryPoint);
+				//alert(queryPoint):
+				//return false;
 		}else if(scaleTime=="Hour"){
+			
+			var queryCalFormula="";
+			var queryPoint="";
 			$.each(paramPointAndUnitArray,function(index,indexEntry){
 				 //alert(indexEntry);
-				 queryPointArray=indexEntry.split("-");
+				
 				 
+				 
+				 
+				 
+				 /*cal start*/
+				 	
+				 	var queryPointArray=indexEntry.split("-");
+					var paramPointAndUnitArray=$("#paramPointEmbed-"+paramTrendID).val().split(","); 
+					var queryPointCalArray="";
+					var paramFromDate=$("#paramFromDate-"+paramTrendID).val();
+					var paramToDate=$("#paramToDate-"+paramTrendID).val();
+					
+					
+				 queryPointCalArray=queryPointArray[0]; 
+				 queryPointCal=queryPointCalArray.substr(0,2);
+				 
+				 if(queryPointCal=='DC'){
+				       
+				        pointCal=queryPointArray[3];
+				        console.log("pointCal1");
+				        console.log(pointCal);
+				       
+				      //Read Data Cal Start
+						// alert(queryPointArray[0]);
+				        
+						
+						queryCalFormula+=",(";	
+						
+						 //for(var i=0;i<=2;i++){
+						var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
+						var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();	 
+						//var endDate = currentDateTime();
+						//var startDate=intervalDelFn(endDate,'hour',5);
+						
+						//alert(startDate);
+						//alert(endDate);
+						 var obj={
+									key:paramTrendID+"-"+queryPointArray[0],
+									startTime:paramFromDate,
+									endTime:paramToDate,
+									scaleType:"hour",
+									//scaleType:scaleTime,
+									server:"47",
+							        //value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
+							        value:pointCal
+								}
+
+								$.ajax({
+									url:"/ajax/executeCalculation",
+									method: "POST",
+									data: obj,
+									async:false,
+								}).done(function(data, status, xhr) {
+									console.log("data");
+									
+									var dataObj=eval("("+data+")");
+									//check data not null
+									if(dataObj['formula'][0]!=null){
+										
+									//dataCheckFormula=true;
+									
+									$.each(dataObj['formula'],function(index,indexEntry){
+										 var keyArray=indexEntry['key'].split("-");
+								            
+								            calID=keyArray[2];
+								            trendID=keyArray[1];
+
+								            /*
+								            (
+								            select DC101 FROM(
+								            SELECT  "2014-05-01 00:00:00" as EvTime,"0.333" AS DC101
+								            UNION
+								            SELECT  "2014-05-01 00:01:00" as EvTime,"1.223" AS DC101
+								            )queryA where  EvTime="2014-05-01 00:01:00") as DC101
+								            */
+								            if(index==0){
+								                if(indexEntry['status']=='OK'){
+
+								                    
+								                	    queryCalFormula+="select "+calID+" FROM(";
+								                	    queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,"+indexEntry['result']+" AS "+calID+"";
+								                           
+								                    }else{
+								                    	queryCalFormula+="select "+calID+" FROM(";
+								                    	queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\"0\" AS "+calID+"";
+								                    	   
+								                    }
+								            }else{
+								            	if(indexEntry['status']=='OK'){
+								            	       queryCalFormula+=" UNION ";
+								            		   queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,"+indexEntry['result']+" AS "+calID+"";
+								                    
+								             }else{
+								            	       queryCalFormula+=" UNION ";
+								            	       queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\"0\" AS "+calID+"";
+								             	   
+								             }
+								            }
+										
+									});
+									
+									//console.log(queryCalFormula);
+									//console.log(eval("("+jsonData+")"));
+									queryCalFormula+=")queryA where  EvTime=EvTime2) as "+queryPointArray[0]+"";
+									
+								}else{
+									
+									queryCalFormula+="select "+queryPointArray[0]+" FROM(";
+			                    	queryCalFormula+="SELECT  \"00-00-00 00:00:00\" as EvTime,\"0\" AS "+queryPointArray[0]+"";
+									queryCalFormula+=")queryA where  EvTime=EvTime2) as "+queryPointArray[0]+"";
+								}
+								//check data is not null
+									
+								});
+						 //}
+						 
+						 //Read Data Cal End
+
+				    }else{
+				    	//alert("0="+queryPointArray[0]);
+				    	//alert("1="+queryPointArray[1]);
+				    	queryPoint+=",(SELECT "+queryPointArray[0]+" FROM datahru0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
+				    	//alert("queryPoint="+queryPoint);
+				    }
+				 /*cal end*/
+				 	/*
 					 if(index==0){
 						 //(SELECT D1 FROM datau04  WHERE EvTime=EvTime2) AS U04D1
 						 queryPoint+="(SELECT "+queryPointArray[0]+" FROM datahru0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
 					 }else{
 						 queryPoint+=",(SELECT "+queryPointArray[0]+" FROM datahru0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
 					}
+					*/
 						
+				 
 			});
+			
+			queryPoint+=queryCalFormula;
+			
+			
+			//alert(queryPoint);
+			console.log(queryPoint);
+			
 		}else if(scaleTime=="Month"){
+			
+			var queryCalFormula="";
+			var queryPoint="";
+			
+			
 			$.each(paramPointAndUnitArray,function(index,indexEntry){
 				 //alert(indexEntry);
-				 queryPointArray=indexEntry.split("-");
+				 //queryPointArray=indexEntry.split("-");
+				/*cal start*/
+			 	
+			 	var queryPointArray=indexEntry.split("-");
+				var paramPointAndUnitArray=$("#paramPointEmbed-"+paramTrendID).val().split(","); 
+				var queryPointCalArray="";
+				var paramFromDate=$("#paramFromDate-"+paramTrendID).val();
+				var paramToDate=$("#paramToDate-"+paramTrendID).val();
+				
+				
+			 queryPointCalArray=queryPointArray[0]; 
+			 queryPointCal=queryPointCalArray.substr(0,2);
+			 
+			 if(queryPointCal=='DC'){
+			       
+			        pointCal=queryPointArray[3];
+			        console.log("pointCal1");
+			        console.log(pointCal);
+			       
+			      //Read Data Cal Start
+					// alert(queryPointArray[0]);
+			        
+					
+					queryCalFormula+=",(";	
+					
+					 //for(var i=0;i<=2;i++){
+					var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
+					var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();	 
+					//var endDate = currentDateTime();
+					//var startDate=intervalDelFn(endDate,'hour',5);
+					
+					//alert(startDate);
+					//alert(endDate);
+					 var obj={
+								key:paramTrendID+"-"+queryPointArray[0],
+								startTime:paramFromDate,
+								endTime:paramToDate,
+								scaleType:"month",
+								//scaleType:scaleTime,
+								server:"47",
+						        //value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
+						        value:pointCal
+							}
+
+							$.ajax({
+								url:"/ajax/executeCalculation",
+								method: "POST",
+								data: obj,
+								async:false,
+							}).done(function(data, status, xhr) {
+								console.log("data");
+								
+								var dataObj=eval("("+data+")");
+								//check data not null
+								if(dataObj['formula'][0]!=null){
+									
+								//dataCheckFormula=true;
+								
+								$.each(dataObj['formula'],function(index,indexEntry){
+									 var keyArray=indexEntry['key'].split("-");
+							            
+							            calID=keyArray[2];
+							            trendID=keyArray[1];
+
+							            /*
+							            (
+							            select DC101 FROM(
+							            SELECT  "2014-05-01 00:00:00" as EvTime,"0.333" AS DC101
+							            UNION
+							            SELECT  "2014-05-01 00:01:00" as EvTime,"1.223" AS DC101
+							            )queryA where  EvTime="2014-05-01 00:01:00") as DC101
+							            */
+							            if(index==0){
+							                if(indexEntry['status']=='OK'){
+
+							                    
+							                	    queryCalFormula+="select "+calID+" FROM(";
+							                	    queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,"+indexEntry['result']+" AS "+calID+"";
+							                           
+							                    }else{
+							                    	queryCalFormula+="select "+calID+" FROM(";
+							                    	queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\"0\" AS "+calID+"";
+							                    	   
+							                    }
+							            }else{
+							            	if(indexEntry['status']=='OK'){
+							            	       queryCalFormula+=" UNION ";
+							            		   queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,"+indexEntry['result']+" AS "+calID+"";
+							                    
+							             }else{
+							            	       queryCalFormula+=" UNION ";
+							            	       queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\"0\" AS "+calID+"";
+							             	   
+							             }
+							            }
+									
+								});
+								
+								//console.log(queryCalFormula);
+								//console.log(eval("("+jsonData+")"));
+								queryCalFormula+=")queryA where  EvTime=EvTime2) as "+queryPointArray[0]+"";
+								
+							}else{
+								
+								queryCalFormula+="select "+queryPointArray[0]+" FROM(";
+		                    	queryCalFormula+="SELECT  \"00-00-00 00:00:00\" as EvTime,\"0\" AS "+queryPointArray[0]+"";
+								queryCalFormula+=")queryA where  EvTime=EvTime2) as "+queryPointArray[0]+"";
+							}
+							//check data is not null
+								
+							});
+					 //}
+					 
+					 //Read Data Cal End
+
+			    }else{
+			 
+			    	queryPoint+=",(SELECT "+queryPointArray[0]+" FROM datadayu0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
+			
+			    }
 				 
+				 /*
 					 if(index==0){
 						 //(SELECT D1 FROM datau04  WHERE EvTime=EvTime2) AS U04D1
 						 queryPoint+="(SELECT "+queryPointArray[0]+" FROM datahru0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
 					 }else{
 						 queryPoint+=",(SELECT "+queryPointArray[0]+" FROM datahru0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
 					}
-						
+				*/		
 			});
+			
+			queryPoint+=queryCalFormula;
+			console.log(queryPoint);
+			
 		}else if(scaleTime=="Second"){
 			$.each(paramPointAndUnitArray,function(index,indexEntry){
 				 //alert(indexEntry);
@@ -728,25 +1195,154 @@ function tooltipCustom(paramTrendID){
 						
 			});
 		}else if(scaleTime=="Day"){
+			var queryCalFormula="";
+			var queryPoint="";
+			
 			$.each(paramPointAndUnitArray,function(index,indexEntry){
 				 //alert(indexEntry);
-				 queryPointArray=indexEntry.split("-");
+				// queryPointArray=indexEntry.split("-");
 				 
+				 
+				 
+				 /*cal start*/
+				 	
+				 	var queryPointArray=indexEntry.split("-");
+					var paramPointAndUnitArray=$("#paramPointEmbed-"+paramTrendID).val().split(","); 
+					var queryPointCalArray="";
+					var paramFromDate=$("#paramFromDate-"+paramTrendID).val();
+					var paramToDate=$("#paramToDate-"+paramTrendID).val();
+					
+					
+				 queryPointCalArray=queryPointArray[0]; 
+				 queryPointCal=queryPointCalArray.substr(0,2);
+				 
+				 if(queryPointCal=='DC'){
+				       
+				        pointCal=queryPointArray[3];
+				        console.log("pointCal1");
+				        console.log(pointCal);
+				       
+				      //Read Data Cal Start
+						// alert(queryPointArray[0]);
+				        
+						
+						queryCalFormula+=",(";	
+						
+						 //for(var i=0;i<=2;i++){
+						var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
+						var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();	 
+						//var endDate = currentDateTime();
+						//var startDate=intervalDelFn(endDate,'hour',5);
+						
+						//alert(startDate);
+						//alert(endDate);
+						 var obj={
+									key:paramTrendID+"-"+queryPointArray[0],
+									startTime:paramFromDate,
+									endTime:paramToDate,
+									scaleType:"day",
+									//scaleType:scaleTime,
+									server:"47",
+							        //value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
+							        value:pointCal
+								}
+
+								$.ajax({
+									url:"/ajax/executeCalculation",
+									method: "POST",
+									data: obj,
+									async:false,
+								}).done(function(data, status, xhr) {
+									console.log("data");
+									
+									var dataObj=eval("("+data+")");
+									//check data not null
+									if(dataObj['formula'][0]!=null){
+										
+									//dataCheckFormula=true;
+									
+									$.each(dataObj['formula'],function(index,indexEntry){
+										 var keyArray=indexEntry['key'].split("-");
+								            
+								            calID=keyArray[2];
+								            trendID=keyArray[1];
+
+								            /*
+								            (
+								            select DC101 FROM(
+								            SELECT  "2014-05-01 00:00:00" as EvTime,"0.333" AS DC101
+								            UNION
+								            SELECT  "2014-05-01 00:01:00" as EvTime,"1.223" AS DC101
+								            )queryA where  EvTime="2014-05-01 00:01:00") as DC101
+								            */
+								            if(index==0){
+								                if(indexEntry['status']=='OK'){
+
+								                    
+								                	    queryCalFormula+="select "+calID+" FROM(";
+								                	    queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,"+indexEntry['result']+" AS "+calID+"";
+								                           
+								                    }else{
+								                    	queryCalFormula+="select "+calID+" FROM(";
+								                    	queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\"0\" AS "+calID+"";
+								                    	   
+								                    }
+								            }else{
+								            	if(indexEntry['status']=='OK'){
+								            	       queryCalFormula+=" UNION ";
+								            		   queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,"+indexEntry['result']+" AS "+calID+"";
+								                    
+								             }else{
+								            	       queryCalFormula+=" UNION ";
+								            	       queryCalFormula+="SELECT  \""+indexEntry['time']+"\" as EvTime,\"0\" AS "+calID+"";
+								             	   
+								             }
+								            }
+										
+									});
+									
+									//console.log(queryCalFormula);
+									//console.log(eval("("+jsonData+")"));
+									queryCalFormula+=")queryA where  EvTime=EvTime2) as "+queryPointArray[0]+"";
+									
+								}else{
+									
+									queryCalFormula+="select "+queryPointArray[0]+" FROM(";
+			                    	queryCalFormula+="SELECT  \"00-00-00 00:00:00\" as EvTime,\"0\" AS "+queryPointArray[0]+"";
+									queryCalFormula+=")queryA where  EvTime=EvTime2) as "+queryPointArray[0]+"";
+								}
+								//check data is not null
+									
+								});
+						 //}
+						 
+						 //Read Data Cal End
+
+				    }else{
+				 
+				    	queryPoint+=",(SELECT "+queryPointArray[0]+" FROM datadayu0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
+				    }
+					 
+				 /*
 					 if(index==0){
 						 //(SELECT D1 FROM datau04  WHERE EvTime=EvTime2) AS U04D1
 						 queryPoint+="(SELECT "+queryPointArray[0]+" FROM datadayu0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
 					 }else{
 						 queryPoint+=",(SELECT "+queryPointArray[0]+" FROM datadayu0"+queryPointArray[1]+"  WHERE EvTime=EvTime2) AS U0"+queryPointArray[1]+""+queryPointArray[0]+"";
 					}
-						
+				*/		
 			});
+			
+			queryPoint+=queryCalFormula;
+			console.log(queryPoint);
+			
 		}
 		return queryPoint;
 		
 	}
 	function callCreateFileServiceChart(starttime,endtime,point,_unit,mmunit,scaleTime,paramTrendID,unitIdPointId){
 		
-		
+
 		//var queryPoint="111111";
 		/*
 		var queryPoint="";
@@ -923,7 +1519,8 @@ function tooltipCustom(paramTrendID){
 		$("input[name='pointEdit-"+paramTrendID+"']").filter(function() {
 			point1=$(this).val().split("-");
 			point1=point1[2];
-			//alert(point1);
+			//alert("point1="+point1+"="+paramPointId);
+			
 		    return point1 ==paramPointId; 
 		    
 		}).prop('checked', true);
@@ -1057,22 +1654,183 @@ function tooltipCustom(paramTrendID){
 		$(".popover").popover('hide');
 	});
 	 
+	 function validateTime (paramFromDate,paramToDate,scaleTime){
+		 var txt="";
+		 //alert("Month1");
+			 //test compare data here start...
+			 var fromDateTest= toTimestamp(paramFromDate);
+			 var toDateTest= toTimestamp(paramToDate);
+			 
+			 if(fromDateTest > toDateTest){
+					
+				 txt+="เลือกช่วงเวลาไม่ถูกต้อง /n";
+				//return false;
+			 }
+			 
+			 if(fromDateTest <= toDateTest){
+				 
+				 var a = moment(paramFromDate,'YYYY-M-D');
+				 var b = moment(paramToDate,'YYYY-M-D');
+				
+				 //alert("Month2");
+				if(scaleTime=='Month'){
+					
+					 var diffMonth = b.diff(a, 'months');
+					// alert(diffMonth);
+					 if(diffMonth>12){
+						 txt+="Scale Time Months ดูข้อมูลได้ไม่เกิน 12 เดือน \n";
+					 }
+					 
+				}else if(scaleTime=='Day'){
+					var diffMonth = b.diff(a, 'months');
+					 if(diffMonth>1){
+						 txt+="Scale Time Day ดูข้อมูลได้ไม่เกิน 1 เดือน \n";
+					 }
+				}else if(scaleTime=='Hour'){
+					var diffDays = b.diff(a, 'days');
+					 if(diffDays>7){
+						 txt+="Scale Time Hour ดูข้อมูลได้ไม่เกิน 7 วัน \n";
+					 }
+				}else if(scaleTime=='Minute'){
+					var diffDays = b.diff(a, 'days');
+					 if(diffDays>1){
+						 txt+="Scale Time Minute ดูข้อมูลได้ไม่เกิน 1 วัน \n";
+					 }
+				}else if(scaleTime=='Second'){
+					
+					var diffMinutes = b.diff(a, 'minutes');
+					 if(diffMinutes>10){
+						 txt+="Scale Time Second ดูข้อมูลได้ไม่เกิน 10 นาที \n";
+					 }
+					 
+				}
+				
+			//return false;
+				 
+			 }
+			 
+			 
+			 
+			
+			 
+			 
+		return txt;	
+			
+	 }
+	 
+	
+	 
+	 
+	 
 	 $(document).on("click",".btnScaleTime",function(event){
 		
 		var paramTrendID=this.id.split("-");
 		paramTrendID=paramTrendID[1];
-		 
-		startUpFn('N',paramTrendID);
+		
+		
+		
+		
+		var dateFrom = $("#dateFrom-"+paramTrendID).val();
+		var dateTo = $("#dateTo-"+paramTrendID).val();
+		var scaleTime = $("#scaleTime-"+paramTrendID).val();
+		/*
+		alert("dateFrom="+dateFrom);
+		alert("dateTo="+dateTo);
+		alert("scaleTime="+scaleTime);
+		*/
+		 var validate=validateTime(dateFrom,dateTo,scaleTime);
+		 if(validate!=""){
+			 alert(validate);
+			 return false;
+		 }else{
+			 startUpFn('N',paramTrendID);
+		 }
 		//$(".btnScaleTimeArea").click();
+		
+		
 		$(".popover").popover('hide');
 		
 	 });
 	 
-	 
+	
 	 //read file json start
 
 	 function readJsonFilterFile(startTime,endTime,paramTrendID){
 		 //return ("ok");
+		 /*
+		 alert(startTime);
+		 alert(endTime);
+		 //Read Data Cal Start
+		 
+		 var jsonData="";
+		 jsonData+="[";
+		 for(var i=0;i<=2;i++){
+			 
+		 var obj={
+					key:paramTrendID+"-c10"+i,
+					startTime:startTime,
+					endTime:endTime,
+					scaleType:"minute",
+					//scaleType:"month",
+					server:"47",
+			        value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
+				}
+
+				$.ajax({
+					url:"/ajax/executeCalculation",
+					method: "POST",
+					data: obj,
+					async:false,
+				}).done(function(data, status, xhr) {
+					//console.log(data);
+					var dataObj=eval("("+data+")");
+					
+					//var results = jQuery.parseJSON(data);
+					console.log(dataObj['formula'][0]);
+					
+					
+					
+					$.each(dataObj['formula'],function(index,indexEntry){
+						var calID=indexEntry['key'].split("-");
+						calID=calID[2];
+						if(index==0){
+							if(i==0){	
+								if(indexEntry['status']=='OK'){
+									jsonData+="{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":"+indexEntry['result']+"}";
+								}else{
+									jsonData+="{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":0}";
+								}
+							}else{
+								if(indexEntry['status']=='OK'){
+									jsonData+=",{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":"+indexEntry['result']+"}";
+								}else{
+									jsonData+=",{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":0}";
+								}
+							}
+						}else{
+							if(indexEntry['status']=='OK'){
+								jsonData+=",{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":"+indexEntry['result']+"}";
+							}else{
+								jsonData+=",{\"EvTime\":\""+indexEntry['time']+"\",\""+calID+"\":0}";
+							}
+						}
+					
+						
+					});
+					
+					console.log(jsonData);
+					//console.log(eval("("+jsonData+")"));
+					
+					
+					
+					
+				});
+		 }
+		 jsonData+="]";
+		 */
+		 //Read Data Cal End
+
+		 
 		 var jsonFilter = new Array();
 		 $.ajax({
 				url:"/ais/serviceTrend/readDataMinuteu/"+paramTrendID+"",
@@ -1091,8 +1849,24 @@ function tooltipCustom(paramTrendID){
 					$.each(data,function(index,indexEntry){
 						
 						if((toTimestamp(indexEntry['EvTime'])>=toTimestamp(startTime)) && (toTimestamp(indexEntry['EvTime'])<=toTimestamp(endTime))) {
+							
 							jsonFilter.push(indexEntry);
-							//console.log(indexEntry);
+							//console.log("---------");
+							//console.log(eval("("+indexEntry+")"));
+							/*
+							EvTime
+	
+								"2014-05-03 15:06:00"
+							U04D3
+								
+								15.039799690247
+							U04D4
+								
+								-0.00066692900145426
+							U04D7
+								
+								80.909301757812
+							 */
 							
 						}
 						
@@ -1101,13 +1875,17 @@ function tooltipCustom(paramTrendID){
 					//console.log(jsonFilter);
 					
 					
+					
 				}
 		 });
 		 return jsonFilter;
+		 //alert(jsonFilter);
+		 //alert(jsonData);
 		 
 	 }
+	 //test
+	 //readJsonFilterFile("2014-5-3 10:00:00","2014-5-3 10:49:11","3041");
 	 
-	
 	
 	 function dateFromPicker(paramTrendID){
 		 
@@ -1458,6 +2236,10 @@ function tooltipCustom(paramTrendID){
 			}
 			//alert("paramUnitEmbedCall="+paramUnitEmbedCall);
 			
+			
+			
+			//alert(getDataFromPointEmbedNotCalID());
+			//alert(unitIdPointId);
 			callCreateFileServiceChart(fromDate,toDate,pointDataId,mmPlant,paramUnitEmbedCall,scaleTime,paramTrendID,unitIdPointId);
 			
 			
@@ -1757,7 +2539,9 @@ function tooltipCustom(paramTrendID){
 						
 						
 						$("select#editUnit").change(function(){
+							
 							  editTrendPointFn(paramTrendID,$(this).val());
+							  
 							  $("#paramUnitEmbed-"+paramTrendID+"").remove();
 							  var paramUnit="";
 							  paramUnit+="<input type='hidden' id='paramUnitEmbed-"+paramTrendID+"' name='paramUnitEmbed-"+paramTrendID+"' value='"+$(this).val()+"'>";
@@ -1830,7 +2614,14 @@ function tooltipCustom(paramTrendID){
 					
 					 
 		}
-	 
+	 $(document).ready(function(){
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
+	
+		});
 	
 	 
 //});

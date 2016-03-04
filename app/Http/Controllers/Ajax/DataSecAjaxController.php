@@ -168,7 +168,7 @@ class DataSecAjaxController extends Controller
             $result_key_array[$key]=$new_array_inner;
 
         }
-        Log::info($result_key_array);
+        //Log::info($result_key_array);
         return response()->json(['sources'=>json_encode($result_array),'dataWithTimes'=>json_encode($result_key_array)]);
         //Log:info($result_key_array['2014-05-20 00:02:59']['formula']);
     }

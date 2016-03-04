@@ -95,7 +95,7 @@ function callReadDataEventPCVBySlideFn(paramPcv,paramUnit,paramEmpId,indexDate){
 		
 	}if(paramPcv=='steam813'){
 		
-		//Read Stean47 start
+		//Read steam813 start
 		stream813.readDataPCVFn(paramPcv,paramUnit,paramEmpId,indexDate);
 		if($("#eventAction").val()=='showEvent'){
 			
@@ -104,7 +104,7 @@ function callReadDataEventPCVBySlideFn(paramPcv,paramUnit,paramEmpId,indexDate){
 			},2000);
 		
 		}
-		//Read Stean47 end
+		//Read steam813 end
 		
 	}if(paramPcv=='plantow47'){
 		
