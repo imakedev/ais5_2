@@ -322,9 +322,15 @@ class CalculationAjax extends Controller
                 $data_str = "avg(" . $fomula["data"] . ")";
             }
 
-            $sql = " select evTime , " . $data_str . " as data  from ais_db." . $data_table . strtolower($fomula["unit"]) .
+            $sql = " select evTime , " . $data_str . " as data  from ais." . $data_table . strtolower($fomula["unit"]) .
                 " where evTime between '" . $startTime_param . "' " .
                 " and '" . $endTime_param . "' " . $groupby;
+            
+            /* run local
+            $sql = " select evTime , " . $data_str . " as data  from ais_db." . $data_table . strtolower($fomula["unit"]) .
+            " where evTime between '" . $startTime_param . "' " .
+            " and '" . $endTime_param . "' " . $groupby;
+            */
             $lists = DB::connection('mysql')->select($sql);
 
             // Log::info($sql);
