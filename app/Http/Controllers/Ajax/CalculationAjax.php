@@ -429,11 +429,16 @@ class CalculationAjax extends Controller
         value:"U04D1+ U04D2+Enthalpy(U04D2;U04D2)"
         */
         $key_params = request('key');
+        $trendID=request('trendID');;
         $startTime_param = request('startTime');
         $endTime_param = request('endTime');
         $scaleType_param = request('scaleType');
         $server_param = request('server');
         $formulas_params = request('formulas');
+        
+        $sess_emp_id= Auth::user()->id;
+        $user_mmplant= Session::get('user_mmplant');
+        
         //Log::info("value_param ".$formulas_params[0]);
         $fomula_array = array();
         foreach ($formulas_params as $key_formula_param => $formulas_param) {
@@ -546,7 +551,8 @@ class CalculationAjax extends Controller
         $result_final_json = json_encode($result_final_array);
         //Log::info($result_final_json);
         //$result_final_json=json_encode($result_final_array);
-        $url = env('CALCULATION_HOST', 'http://localhost:3000/v1/');
+        //$url = env('CALCULATION_HOST', 'http://localhost:3000/v1/');
+        $url = env('CALCULATION_HOST', 'http://10.249.99.107/steamtable/rest/calculation');
         $json_str = "{
                 \"formula\" :$result_final_json
         }";
@@ -581,6 +587,54 @@ class CalculationAjax extends Controller
 
        // Log::info(json_encode($result_plot_array));
         //return $data_result;
-        return json_encode($result_plot_array);
+        //return json_encode($result_plot_array);
+        //$scaleType_param = request('scaleType');
+        //$server_param = request('server');
+        
+        $strFileName = "webservice/fileTrend/trendJson-$scaleType_param-$trendID-$sess_emp_id-$user_mmplant.txt";
+        $objCreate = fopen($strFileName, 'w');
+        if($objCreate)
+        {
+            $objFopen = fopen($strFileName, 'w');
+            $strText1 = json_encode($result_plot_array);
+            //echo "strText1=".$strText1;
+            fwrite($objFopen, $strText1);
+            if($objFopen)
+            {
+                echo '["createJsonSuccess"]';
+            }
+            else
+            {
+                echo '["error"]';
+            }
+            fclose($objFopen);
+        
+        }else{
+            echo "File Not Create.";
+        }
+        
+        
     }
+    
+    public function readData($scaleType,$trendID){
+    
+        Log::info("Into readDataMinuteu");
+    
+        $sess_emp_id= Auth::user()->id;
+        $user_mmplant= Session::get('user_mmplant');
+       
+    
+        $strFileName = "webservice/fileTrend/trendJson-$scaleType-$trendID-$sess_emp_id-$user_mmplant.txt";
+        $objFopen = fopen($strFileName, 'r');
+        if ($objFopen) {
+            while (!feof($objFopen)) {
+                $file = fgets($objFopen, 4096);
+                echo $file;
+            }
+            fclose($objFopen);
+        }
+    
+        //http://localhost:9952/ajax/readData/minute/88
+    }
+    
 }
