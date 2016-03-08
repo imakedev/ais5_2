@@ -763,28 +763,31 @@ function doClone(){
 function testCallDataSec(){
 
 	var obj={
-		"formula":"(U08D122+U08D122)*U08D123",
+		"key":["88-c102","89-c102"],
+		"formulas":["(U08D122+U08D122)*U08D123","U08D122+U08D123"],
 		"startTime":"2014-05-20 00:02:00",
 		"endTime":"2014-05-20 00:02:00"
 	}
+
 	$.ajax({
 		url: "/ajax/secdata",
 		method: "POST",
 		data: obj
 	}).done(function(data, status, xhr) {
-		console.log(data);
+		//console.log(data.dataWithTimes);
 		var sources = jQuery.parseJSON(data.sources);
 		var dataWithTimes = jQuery.parseJSON(data.dataWithTimes);
 
 		var data2={
-			"formula1":data.dataWithTimes,
-			"formula2":dataWithTimes
+			//"formula1":data.dataWithTimes,
+			"formula":dataWithTimes
 		}
 		$.ajax({
 			url: "/ajax/postFormula",
 			method: "POST",
 			data: data2
 		}).done(function(data22, status, xhr) {
+			//alert(data22)
 			console.log(data22);
 		});
 
@@ -793,13 +796,13 @@ function testCallDataSec(){
 function testCallPostFormula(){
 
 	var obj={
-		key:"88-c102",
+		key:["88-c102","89-c102"],
 		startTime:"2014-05-01 00:00:00",
-		endTime:"2014-05-02 00:00:00",
-		//scaleType:"minute",
-		scaleType:"month",
+		endTime:"2014-05-01 00:01:00",
+		scaleType:"minute",
+		//scaleType:"month",
 		server:"47",
-        value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
+		formulas:["U04D123+ U04D2+Enthalpy(U04D2;U04D2)","U04D123+U04D122"]
 	}
 
 	$.ajax({

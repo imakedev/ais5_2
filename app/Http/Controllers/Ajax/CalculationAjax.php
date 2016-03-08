@@ -19,7 +19,6 @@ use GuzzleHttp\Client;
 use Session;
 class CalculationAjax extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -213,7 +212,6 @@ class CalculationAjax extends Controller
 
     public function postFormula(Request $request)
     {
-
         $url = env('CALCULATION_HOST', 'http://localhost:3000/v1/');
         $json_str = "{
   \"formula\" : [ {
@@ -225,18 +223,20 @@ class CalculationAjax extends Controller
   } ]
 }";
 
-        Log::info(sizeof(request('formula2')));
+       // Log::info(sizeof(request('formula2')));
 
         $formulas_init = array();
-        foreach (request('formula2') as $key => $val) {
+        foreach (request('formula') as $key => $val) {
             $formulas = array();
-            $formulas["key"] = $key;
+            //$formulas["key"] = $key;
+            $formulas["key"] =  $val["key"];
             $formulas["value"] = $val["value"];
+            $formulas["time"] = $val["time"];//$key;
             array_push($formulas_init, $formulas);
         }
-        Log::info(sizeof($formulas_init));
+        //Log::info(sizeof($formulas_init));
         $jsonStr = json_encode($formulas_init);
-        Log::info($jsonStr);
+       // Log::info($jsonStr);
 
         $json_str = "{
   \"formula\" : $jsonStr
@@ -254,10 +254,32 @@ class CalculationAjax extends Controller
         $response = $client->request('POST', 'calculation', [
             'body' => $json_str
         ]);
-        Log::info($response->getBody());
+       //  $data_result=$response->getBody();
+        //return $data_result;
+
+        $contents = (string) $response->getBody();
+        $contentsObj=json_decode($contents);
+        Log::info($contents);
+
+        $formulaObjList=$contentsObj->formula;
+        Log::info($formulaObjList);
+        $result_plot_array = array();
+        foreach ($formulaObjList as $key => $formulaObj) {
+            if (!array_key_exists($formulaObj->{'time'}, $result_plot_array)) {
+                $new_result_plot_inner = array();
+                $new_result_plot_inner['EvTime'] =$formulaObj->{'time'};
+                $new_result_plot_inner[$formulaObj->{'key'}] =$formulaObj->{'result'};
+                $result_plot_array[$formulaObj->{'time'}] = $new_result_plot_inner;
+            }else{
+                $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=$formulaObj->{'result'};
+            }
+        }
+
+        return json_encode($result_plot_array);
+
     }
 
-    public function executeCalculation()
+    public function executeCalculationBK()
     {
         /*
         key:"88-c102"
@@ -278,7 +300,8 @@ class CalculationAjax extends Controller
         $scaleType_param = request('scaleType');
         $server_param = request('server');
         $value_param = request('value');
-        $str = $value_param;//"U04D1+ U04D2+Enthalpy(U04D2;U04D2)";
+        Log::info("value_param ".$value_param[0]);
+        $str = $value_param[0];//"U04D1+ U04D2+Enthalpy(U04D2;U04D2)";
         $str = str_replace(";", ":", $str);
         $str = strtoupper($str);
         preg_match_all('/(U[0-9]{1,2})(D[0-9]{1,4})/', $str, $matches);
@@ -321,18 +344,16 @@ class CalculationAjax extends Controller
             if ($scaleType_param == 'month') {
                 $data_str = "avg(" . $fomula["data"] . ")";
             }
-
-            $sql = " select evTime , " . $data_str . " as data  from ais." . $data_table . strtolower($fomula["unit"]) .
+            /*
+            $sql = " select evTime , " . $data_str . " as data  from ais_db." . $data_table . strtolower($fomula["unit"]) .
                 " where evTime between '" . $startTime_param . "' " .
                 " and '" . $endTime_param . "' " . $groupby;
-            
-            /* run local
-            $sql = " select evTime , " . $data_str . " as data  from ais_db." . $data_table . strtolower($fomula["unit"]) .
-            " where evTime between '" . $startTime_param . "' " .
-            " and '" . $endTime_param . "' " . $groupby;
             */
-            $lists = DB::connection('mysql')->select($sql);
-
+            $sql = " select evTime , " . $data_str . " as data  from " . $data_table . strtolower($fomula["unit"]) .
+                " where evTime between '" . $startTime_param . "' " .
+                " and '" . $endTime_param . "' " . $groupby;
+            //$lists = DB::connection('mysql')->select($sql);
+            $lists = DB::connection(DBUtils::getDBName())->select($sql);
             // Log::info($sql);
             //Log::info($lists);
             $lists_str = json_encode($lists);
@@ -378,9 +399,7 @@ class CalculationAjax extends Controller
         $result_final_json = json_encode($result_final_array);
         //Log::info($result_final_json);
         //$result_final_json=json_encode($result_final_array);
-       // $url = env('CALCULATION_HOST', 'http://localhost:3000/v1/');
-        $url = env('CALCULATION_HOST', 'http://10.249.99.107/steamtable/rest/calculation');
-        
+        $url = env('CALCULATION_HOST', 'http://localhost:3000/v1/');
         $json_str = "{
                 \"formula\" :$result_final_json
         }";
@@ -394,5 +413,174 @@ class CalculationAjax extends Controller
         Log::info($data_result);
         return $data_result;
     }
+    public function executeCalculation()
+    {
+        /*
+        key:"88-c102"
 
+        startTime:"2014-05-01 00:01:00"
+
+        endTime:"2014-05-01 00:50:00"
+
+        scaleType:'minute'
+
+        server:’47’
+
+        value:"U04D1+ U04D2+Enthalpy(U04D2;U04D2)"
+        */
+        $key_params = request('key');
+        $startTime_param = request('startTime');
+        $endTime_param = request('endTime');
+        $scaleType_param = request('scaleType');
+        $server_param = request('server');
+        $formulas_params = request('formulas');
+        //Log::info("value_param ".$formulas_params[0]);
+        $fomula_array = array();
+        foreach ($formulas_params as $key_formula_param => $formulas_param) {
+            $str = $formulas_param;//"U04D1+ U04D2+Enthalpy(U04D2;U04D2)";
+            $str = str_replace(";", ":", $str);
+            $str = strtoupper($str);
+            // udate formula_param
+            $formulas_params[$key_formula_param]=$str;
+            preg_match_all('/(U[0-9]{1,2})(D[0-9]{1,4})/', $str, $matches);
+
+
+            if (!empty($matches)) {
+                $full_formats = $matches[0]; //full format
+                $first_groups = $matches[1];//first group (U0x)
+                $second_groups = $matches[2];//second group (Dyyy)
+                foreach ($full_formats as $key => $full_format) {
+                    if (!array_key_exists($full_format, $fomula_array)) {
+                        $new_array_inner = array();
+                        $new_array_inner['unit'] = $first_groups[$key];
+                        $new_array_inner['data'] = $second_groups[$key];
+                        $new_array_inner['time'] = '';
+                        $new_array_inner['value'] = '';
+                        $fomula_array[$full_format] = $new_array_inner;
+                    }
+                }
+            }
+        }
+
+        // Log::info($fomula_array);
+        $groupby = "";
+        $data_table = "";
+        if ($scaleType_param == 'minute') {
+            $data_table = "data";
+        } else if ($scaleType_param == 'hour') {
+            $data_table = "datahr";
+        }
+        if ($scaleType_param == 'day') {
+            $data_table = "dataday";
+        }
+        if ($scaleType_param == 'month') {
+            $data_table = "dataday";
+            $groupby = " group by month(evTime) ";
+        }
+        $result_array = array();
+        $result_key_time_array = array();
+        foreach ($fomula_array as $key => $fomula) {
+            $data_str = $fomula["data"];
+            if ($scaleType_param == 'month') {
+                $data_str = "avg(" . $fomula["data"] . ")";
+            }
+            /*
+            $sql = " select evTime , " . $data_str . " as data  from ais_db." . $data_table . strtolower($fomula["unit"]) .
+                " where evTime between '" . $startTime_param . "' " .
+                " and '" . $endTime_param . "' " . $groupby;
+            */
+            $sql = " select evTime , " . $data_str . " as data  from " . $data_table . strtolower($fomula["unit"]) .
+                " where evTime between '" . $startTime_param . "' " .
+                " and '" . $endTime_param . "' " . $groupby;
+            //$lists = DB::connection('mysql')->select($sql);
+            $lists = DB::connection(DBUtils::getDBName())->select($sql);
+            // Log::info($sql);
+            //Log::info($lists);
+            $lists_str = json_encode($lists);
+            foreach ($lists as $key2 => $result) {
+                $new_array_result_inner = array();
+                $new_array_result_inner['data'] = $result->data;
+                $result_array[$result->evTime . "|" . $key] = $new_array_result_inner;
+                $result_key_time_array[$result->evTime] = $result->evTime;
+                // Log::info("key2[".$key2."]->".$result->evTime);
+            }
+            //Log::info($lists_str);
+        }
+        // Log::info($result_array);
+        // Log::info(sizeof($result_array));
+        //  Log::info(json_encode($result_key_time_array));
+        // Log::info(sizeof($result_key_time_array));
+        // Log::info($result_array['2014-05-01 00:00:00|U04D123']['data']);
+
+        $result_final_array = array();
+        $index = 0;
+        foreach ($result_key_time_array as $key_time => $result_key_time) {
+            foreach ($formulas_params as $key_p => $formulas_param) {
+                $new_data = $formulas_param;//$str;
+                foreach ($fomula_array as $key_fomula => $fomula) {
+                    $key = $key_time . "|" . $key_fomula;
+                    // Log::info($key);
+                    //Log::info($result_array['2014-05-01 00:00:00|U04D123']['data']);
+                    // Log::info("[.$key_time."|".$key_fomula.]".$result_array[$key_time."|".$key_fomula]['data']);
+                    $new_data = str_replace($key_fomula, $result_array[$key]['data'], $new_data);
+                    // Log::info($result_array[$key]['data']);
+                }
+                $new_data = str_replace(" ", "", $new_data);
+
+                $new_data = str_replace(":", ",", $new_data);
+                $new_data = strtolower($new_data);
+                Log::info($new_data);
+                $new_array_result_final_inner = array();
+             //   $new_array_result_final_inner['key'] = $index . "-" . $key_param;
+               // Log::info("key_p=>".$key_p);
+                $new_array_result_final_inner['key'] =$key_params[$key_p];
+                $new_array_result_final_inner['value'] = $new_data;
+                $new_array_result_final_inner['result'] = "";
+                $new_array_result_final_inner['time'] = $key_time;
+                //$result_final_array[$key_time]=$new_array_result_final_inner;
+                array_push($result_final_array, $new_array_result_final_inner);
+                $index++;
+            }
+
+        }
+        $result_final_json = json_encode($result_final_array);
+        //Log::info($result_final_json);
+        //$result_final_json=json_encode($result_final_array);
+        $url = env('CALCULATION_HOST', 'http://localhost:3000/v1/');
+        $json_str = "{
+                \"formula\" :$result_final_json
+        }";
+        //Log::info("xx=>".$json_str);
+        // Create a client with a base URI
+        $client = new Client(['base_uri' => $url]);
+        $response = $client->request('POST', 'calculation', [
+            'body' => $json_str
+        ]);
+        $data_result = $response->getBody();
+
+
+        // Log::info($xxx->formula[0]->{'key'}); // ok
+     //   Log::info($data_result['formula']); // ok
+        $contents = (string) $response->getBody();
+        $contentsObj=json_decode($contents);
+        Log::info($contents);
+
+        $formulaObjList=$contentsObj->formula;
+        Log::info($formulaObjList);
+        $result_plot_array = array();
+        foreach ($formulaObjList as $key => $formulaObj) {
+            if (!array_key_exists($formulaObj->{'time'}, $result_plot_array)) {
+                $new_result_plot_inner = array();
+                $new_result_plot_inner['EvTime'] =$formulaObj->{'time'};
+                $new_result_plot_inner[$formulaObj->{'key'}] =$formulaObj->{'result'};
+                $result_plot_array[$formulaObj->{'time'}] = $new_result_plot_inner;
+            }else{
+                $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=$formulaObj->{'result'};
+            }
+        }
+
+       // Log::info(json_encode($result_plot_array));
+        //return $data_result;
+        return json_encode($result_plot_array);
+    }
 }

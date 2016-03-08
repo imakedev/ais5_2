@@ -42,7 +42,31 @@ class serviceTrendController  extends Controller{
     point:D32,D223,D131
     starttime:2014-05-06 00:00:00
     */
+    public function createDataMinuteuTest(){
+        
     
+        
+    
+        $query='
+        select  EvTime2 as EvTime,'.$unitIdPointId.'  from(
+        SELECT datau04.EvTime AS EvTime2
+    
+        '.$queryPoint.'
+    
+        FROM datau04
+        WHERE datau04.EvTime BETWEEN "'.$startTime.'" and "'.$endTime.'"
+        ORDER BY EvTime2
+        )queryA
+        ';
+       
+        $reslutQuery = DB::connection('mysql_ais_47')->select($query);
+        
+        
+        echo json_encode($reslutQuery);
+    
+       
+    
+      }
     public function createDataMinuteu(){
         //$trendID,$startTime,$endTime,$queryPoint,$unitIdPointId
         /*{trendID}/{startTime}/{endTime}/{queryPoint}/{unitIdPointId}*/
@@ -128,15 +152,17 @@ class serviceTrendController  extends Controller{
         //test query by cal end
         */
         
-        $query="
-        select  EvTime2 as EvTime,$unitIdPointId  from(
+        $query='
+        select  EvTime2 as EvTime,'.$unitIdPointId.'  from(
         SELECT datau04.EvTime AS EvTime2
-        $queryPoint
+                
+        '.$queryPoint.'
+                
         FROM datau04
-        WHERE datau04.EvTime BETWEEN '".$startTime."' and '".$endTime."'
+        WHERE datau04.EvTime BETWEEN "'.$startTime.'" and "'.$endTime.'"
         ORDER BY EvTime2
         )queryA
-        ";
+        ';
         if($user_mmplant==1){
             $reslutQuery = DB::connection('mysql_ais_47')->select($query);
         }else if($user_mmplant==2){
@@ -144,6 +170,7 @@ class serviceTrendController  extends Controller{
         }else if($user_mmplant==3){
             $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
         }else{
+            
             $reslutQuery = DB::select($query);
         }
       

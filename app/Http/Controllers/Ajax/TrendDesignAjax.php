@@ -114,9 +114,10 @@ class TrendDesignAjax extends Controller
         $g=request("G");
         $mmname_zz=request("ZZ");
 
-
+        Log::info(" Old b ".$b);
         $mmnameModel=null;
         Log::info("test->".$request->input('A'));
+        $old_b="";
         if($b=='-1' || $b=='0' || $b=='1'){
             $mmpointM = DB::connection(DBUtils::getDBName())->table('mmcalculation_table')->where('A', $a)->first();
         }else {
@@ -143,7 +144,8 @@ class TrendDesignAjax extends Controller
             if($b=='-1' || $b=='0' || $b=='1'){
                 $d=$mmpointM->D;
                 $c=$mmpointM->C;
-                $b=$mmpointM->B;
+                //$b=$mmpointM->B;
+                $old_b=$mmpointM->B;
                // $f=$mmpointM->E;
             }
         }
@@ -183,7 +185,8 @@ class TrendDesignAjax extends Controller
                 Log::info("maxId->".$maxId);
                 $mmtrendModel->A =$maxId+1;;
 
-                $mmtrendModel->B =$b;
+                //$mmtrendModel->B =$b;
+                $mmtrendModel->B=$old_b;
                 $mmtrendModel->C =$c;
                 $mmtrendModel->D =$d;
                 $mmtrendModel->E =$f;
@@ -206,20 +209,25 @@ class TrendDesignAjax extends Controller
             session()->flash('message', ' Save successfuly.');
         }else{
             $mmtrendModel = MmtrendModel::on(DBUtils::getDBName())->find($mmname_zz);
-            $mmtrendModel->B =$b;
+            //$mmtrendModel->B =$b;
+            $mmtrendModel->B=$old_b;
             $mmtrendModel->C =$c;
             $mmtrendModel->D =$d;
             $mmtrendModel->E =$f;
             $mmtrendModel->F0 =$g0;
             $mmtrendModel->F1 =$g1;
             $mmtrendModel->G =$g;
-            if($b=='-1' || $b=='0' || $b=='1'){ // cal culation
+            if($b=='-1' || $b=='0' || $b=='1'){ // cal culculation
+                Log::info("Into Calculation");
                 $mmtrendModel->I =$a;
                 $mmtrendModel->H =0;
             }else{
+                Log::info("Into not Calculation");
                 $mmtrendModel->H =$a;
                 $mmtrendModel->I =0;
             }
+            Log::info("Into update 1 ".request("B"));
+            Log::info("Into update 2 ".$b);
 
             //$mmtrendModel->ZZ =$mmname_zz;
             $mmtrendModel->save();
