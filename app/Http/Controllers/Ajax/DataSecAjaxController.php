@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 class DataSecAjaxController extends Controller
 {
     public function __construct()
@@ -34,6 +35,7 @@ class DataSecAjaxController extends Controller
         $startTime_param='2014-05-20 00:02:00';
         $endTime_param='2014-05-20 00:02:00';
         */
+
         $new_array = array();
         foreach ($formula_params as $key_formula_param => $formula_param) {
             //$str = strtoupper($formula_params);
@@ -194,11 +196,40 @@ class DataSecAjaxController extends Controller
         $startTime_param='2014-05-20 00:02:00';
         $endTime_param='2014-05-20 00:02:00';
         */
+        $constant_array = array();
+        foreach ($formula_params as $key_formula_param => $formula_param) {
+            $str = $formula_param;//"U04D1+ U04D2+Enthalpy(U04D2;U04D2)";
+            $str = strtoupper($str);
+            preg_match_all('/(CONSTANT@[\w]+)/', $str, $matches);
+            if (!empty($matches)) {
+                $full_constants = $matches[0]; //full constant
+                $first_constant = $matches[1];//first constant ()
+
+                foreach ($full_constants as $key => $full_constant) {
+                    if (!array_key_exists($full_constant, $constant_array)) {
+                        $new_array_constant_inner = array();
+                        $new_array_constant_inner['name'] = str_replace("CONSTANT@", "", $first_constant[$key]);
+                        $constant = DB::select('SELECT A,B FROM mmconstant_table where A=\'' . $new_array_constant_inner['name'] . '\' limit 1');
+                        if (!empty($constant)) {
+                            $new_array_constant_inner['value']= $constant[0]->B;
+                        }else
+                            $new_array_constant_inner['value'] ='';
+                        //Log::info('CONSTANT=>'.str_replace("CONSTANT@", "", $first_constant[$key]).' value=>'.$new_array_constant_inner['value']);
+                        $constant_array[$full_constant] = $new_array_constant_inner;
+                    }
+                }
+            }
+        }
         $new_array = array();
         foreach ($formula_params as $key_formula_param => $formula_param) {
             //$str = strtoupper($formula_params);
             $str = strtoupper($formula_param);
-
+            foreach ($constant_array as $key_constant_param => $constant_value) {
+                $str=str_replace('CONSTANT@'.$constant_value['name'], $constant_value['value'], $str);
+                // Log::info('CONSTANT2=>'. $constant_value['name'].' value=>'.$constant_value['value']);
+            }
+            // udate formula_param
+            $formula_params[$key_formula_param]=$str;
             preg_match_all('/(U[0-9]{1,2})(D[0-9]{1,4})/', $str, $matches);
 
 

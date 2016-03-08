@@ -179,10 +179,6 @@ class serviceTrendController  extends Controller{
         $objCreate = fopen($strFileName, 'w');
         if($objCreate)
         {
-            //echo '["createJsonSuccess"]';
-        
-        
-            //$strFileName = "webservice/fileTrend/trendJsonMinuteu-$trendID-$sess_emp_id-$user_mmplant.txt";
             $objFopen = fopen($strFileName, 'w');
             $strText1 = json_encode($reslutQuery);
             //echo "strText1=".$strText1;
@@ -196,8 +192,6 @@ class serviceTrendController  extends Controller{
                 echo '["error"]';
             }
             fclose($objFopen);
-        
-        
         
         }else{
             echo "File Not Create.";

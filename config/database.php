@@ -74,6 +74,7 @@ return [
             'prefix'    => '',
             'strict'    => false,
         ],
+        
         'mysql_ais_47' => [
         'driver'    => 'mysql',
         'host'      => env('DB_HOST_47', '10.249.91.96'),

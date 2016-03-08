@@ -19,11 +19,11 @@ use GuzzleHttp\Client;
 use Session;
 class CalculationAjax extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
     }
-
 
     public function extractFormulaByTrend(Request $request)
     {
@@ -212,6 +212,7 @@ class CalculationAjax extends Controller
 
     public function postFormula(Request $request)
     {
+
         $url = env('CALCULATION_HOST', 'http://localhost:3000/v1/');
         $json_str = "{
   \"formula\" : [ {
@@ -269,9 +270,11 @@ class CalculationAjax extends Controller
                 $new_result_plot_inner = array();
                 $new_result_plot_inner['EvTime'] =$formulaObj->{'time'};
                 $new_result_plot_inner[$formulaObj->{'key'}] =$formulaObj->{'result'};
+                $new_result_plot_inner[$formulaObj->{'key'}.'-status'] =$formulaObj->{'status'};
                 $result_plot_array[$formulaObj->{'time'}] = $new_result_plot_inner;
             }else{
                 $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=$formulaObj->{'result'};
+                $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}.'-status']=$formulaObj->{'status'};
             }
         }
 
@@ -435,16 +438,44 @@ class CalculationAjax extends Controller
         $scaleType_param = request('scaleType');
         $server_param = request('server');
         $formulas_params = request('formulas');
-        
+        $constant_array = array();
+        foreach ($formulas_params as $key_formula_param => $formulas_param) {
+            $str = $formulas_param;//"U04D1+ U04D2+Enthalpy(U04D2;U04D2)";
+            $str = strtoupper($str);
+            preg_match_all('/(CONSTANT@[\w]+)/', $str, $matches);
+            if (!empty($matches)) {
+                $full_constants = $matches[0]; //full constant
+                $first_constant = $matches[1];//first constant ()
+
+                foreach ($full_constants as $key => $full_constant) {
+                    if (!array_key_exists($full_constant, $constant_array)) {
+                        $new_array_constant_inner = array();
+                        $new_array_constant_inner['name'] = str_replace("CONSTANT@", "", $first_constant[$key]);
+                        $constant = DB::select('SELECT A,B FROM mmconstant_table where A=\'' . $new_array_constant_inner['name'] . '\' limit 1');
+                        if (!empty($constant)) {
+                            $new_array_constant_inner['value']= $constant[0]->B;
+                        }else
+                            $new_array_constant_inner['value'] ='';
+                        //Log::info('CONSTANT=>'.str_replace("CONSTANT@", "", $first_constant[$key]).' value=>'.$new_array_constant_inner['value']);
+                        $constant_array[$full_constant] = $new_array_constant_inner;
+                    }
+                }
+            }
+        }
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
-        
+
         //Log::info("value_param ".$formulas_params[0]);
         $fomula_array = array();
         foreach ($formulas_params as $key_formula_param => $formulas_param) {
             $str = $formulas_param;//"U04D1+ U04D2+Enthalpy(U04D2;U04D2)";
             $str = str_replace(";", ":", $str);
             $str = strtoupper($str);
+
+            foreach ($constant_array as $key_constant_param => $constant_value) {
+                $str=str_replace('CONSTANT@'.$constant_value['name'], $constant_value['value'], $str);
+               // Log::info('CONSTANT2=>'. $constant_value['name'].' value=>'.$constant_value['value']);
+            }
             // udate formula_param
             $formulas_params[$key_formula_param]=$str;
             preg_match_all('/(U[0-9]{1,2})(D[0-9]{1,4})/', $str, $matches);
@@ -579,18 +610,19 @@ class CalculationAjax extends Controller
                 $new_result_plot_inner = array();
                 $new_result_plot_inner['EvTime'] =$formulaObj->{'time'};
                 $new_result_plot_inner[$formulaObj->{'key'}] =$formulaObj->{'result'};
+                $new_result_plot_inner[$formulaObj->{'key'}.'-status'] =$formulaObj->{'status'};
                 $result_plot_array[$formulaObj->{'time'}] = $new_result_plot_inner;
             }else{
                 $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=$formulaObj->{'result'};
+                $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}.'-status']=$formulaObj->{'status'};
             }
         }
-
        // Log::info(json_encode($result_plot_array));
         //return $data_result;
         //return json_encode($result_plot_array);
         //$scaleType_param = request('scaleType');
         //$server_param = request('server');
-        
+
         $strFileName = "webservice/fileTrend/trendJson-$scaleType_param-$trendID-$sess_emp_id-$user_mmplant.txt";
         $objCreate = fopen($strFileName, 'w');
         if($objCreate)
@@ -608,22 +640,22 @@ class CalculationAjax extends Controller
                 echo '["error"]';
             }
             fclose($objFopen);
-        
+
         }else{
             echo "File Not Create.";
         }
-        
-        
+
+        return json_encode($result_plot_array);
     }
-    
+
     public function readData($scaleType,$trendID){
-    
+
         Log::info("Into readDataMinuteu");
-    
+
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
-       
-    
+
+
         $strFileName = "webservice/fileTrend/trendJson-$scaleType-$trendID-$sess_emp_id-$user_mmplant.txt";
         $objFopen = fopen($strFileName, 'r');
         if ($objFopen) {
@@ -633,8 +665,7 @@ class CalculationAjax extends Controller
             }
             fclose($objFopen);
         }
-    
+
         //http://localhost:9952/ajax/readData/minute/88
     }
-    
 }

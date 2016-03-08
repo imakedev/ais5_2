@@ -1200,6 +1200,64 @@ var createFileServiceChart={
 		});
 		
 	},
+	createFileByMinuteu_bk:function(paramTrendID,queryPoint,unitIdPointId){
+		
+		var pointDataId= getDataFromPointEmbed("unitIdPointId");
+		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
+		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
+		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
+		
+		 var obj={
+				 "paramTrendID":paramTrendID,
+				 "paramFromDate":paramFromDate,
+				 "paramToDate":paramToDate,
+				 "queryPoint":queryPoint,
+				 "unitIdPointId":unitIdPointId,
+				}
+		$.ajax({
+			url:"/ais/serviceTrend/createDataMinuteu",
+			//url:"/ais/serviceTrend/createDataMinuteu/"+paramTrendID+"/"+paramFromDate+"/"+paramToDate+"/"+queryPoint+"/"+unitIdPointId,
+			type:"post",
+			dataType:"json",
+			async:false,
+			data: obj,
+			success:function(data){
+				//alert(data);
+				if(data=='createJsonSuccess'){
+					
+					
+					var data2=readJsonFilterFile(startDateTime5HaGoFn(endDatetimeHisFn(paramToDate)),endDatetimeHisFn(paramToDate),paramTrendID);
+					//console.log(data2);
+					
+					if(data2==''){
+						alert("Data is empty!");
+						return false;
+					}
+					
+					var minute=startDateTime5HaGoFn(endDatetimeHisFn(paramToDate)).split(" ");
+					minute=minute[1];
+					$("#startTimeForDisplay-"+paramTrendID+"").val(minute);
+					//embed param startDate On Proccess
+					 $("#paramStartDateOnProccess-"+paramTrendID).remove();
+					 $("body").append("<input type='hidden' name='paramStartDateOnProccess-"+paramTrendID+"' id='paramStartDateOnProccess-"+paramTrendID+"' value='"+startDateTime5HaGoFn(endDatetimeHisFn(paramToDate))+"'>");
+					 
+					setTimeout(function(){
+						//unitIdPointId
+						//alert(point)
+						//createTrendChart(getDataByMenute(data2,point),point,"60",paramTrendID);
+						
+						
+						createTrendChart(getDataByMenute(data2,unitIdPointId),unitIdPointId,"60",paramTrendID);
+						var lastObject = data2.pop();
+						//setDefaultPointAndPlan(lastObject,point,paramTrendID);
+						setDefaultPointAndPlan(lastObject,unitIdPointId,paramTrendID);
+					},1000);
+					
+					
+				}
+			}
+		});
+	},
 	createFileByMinuteu:function(paramTrendID,queryPoint,unitIdPointId){
 		
 		var pointDataId= getDataFromPointEmbed("unitIdPointId");

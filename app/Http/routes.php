@@ -286,6 +286,8 @@ Route::group(['middleware' => 'web'], function () {
     
     //$point,$unit,$trendID,$empId,$mmPlant,$startTime,$endTime
     Route::post('/ais/serviceTrend/createDataMinuteu','serviceTrendController@createDataMinuteu');
+    Route::get('/ais/serviceTrend/createDataMinuteuTest','serviceTrendController@createDataMinuteuTest');
+     
    // Route::get('/ais/serviceTrend/createDataMinuteu/{trendID}/{startTime}/{endTime}/{queryPoint}/{unitIdPointId}','serviceTrendController@createDataMinuteu');
     //readDataMinuteu(trendID,empID,mmPlant)
     Route::get('/ais/serviceTrend/readDataMinuteu/{trendID}/','serviceTrendController@readDataMinuteu');
@@ -379,6 +381,8 @@ Route::group(['middleware' => 'web'], function () {
      Route::post('/ajax/secdata', 'Ajax\DataSecAjaxController@getSecData');
     Route::post('/ajax/postFormula', 'Ajax\CalculationAjax@postFormula');
     Route::post('/ajax/executeCalculation', 'Ajax\CalculationAjax@executeCalculation');
+    Route::get('/ajax/readData/{scaleType}/{trendID}', 'Ajax\CalculationAjax@readData');
+    
 
 
 });

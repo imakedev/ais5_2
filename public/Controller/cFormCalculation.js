@@ -796,13 +796,14 @@ function testCallDataSec(){
 function testCallPostFormula(){
 
 	var obj={
-		key:["88-c102","89-c102"],
+		key:["88-c102","88-c103","88-U04D260"],
 		startTime:"2014-05-01 00:00:00",
-		endTime:"2014-05-01 00:01:00",
+		endTime:"2014-05-01 00:05:00",
 		scaleType:"minute",
 		//scaleType:"month",
 		server:"47",
-		formulas:["U04D123+ U04D2+Enthalpy(U04D2;U04D2)","U04D123+U04D122"]
+		trendID:"88",
+		formulas:["U04D123+ U04D2+Enthalpy(U04D2;U04D2)","U04D123+U04D122","U04D260"]
 	}
 
 	$.ajax({
