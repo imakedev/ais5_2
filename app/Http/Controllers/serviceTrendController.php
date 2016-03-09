@@ -20,6 +20,7 @@ use Log;
 use Session;
 use Auth;
 use GuzzleHttp\Client;
+use \App\Utils\DBUtils;
 
 class serviceTrendController  extends Controller{
 
@@ -171,7 +172,7 @@ class serviceTrendController  extends Controller{
             $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
         }else{
             
-            $reslutQuery = DB::select($query);
+            $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
         }
       
        
@@ -244,15 +245,9 @@ class serviceTrendController  extends Controller{
         )queryA
         ";
         
-        if($user_mmplant==1){
-            $reslutQuery = DB::connection('mysql_ais_47')->select($query);
-        }else if($user_mmplant==2){
-            $reslutQuery = DB::connection('mysql_ais_813')->select($query);
-        }else if($user_mmplant==3){
-            $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
-        }else{
-            $reslutQuery = DB::select($query);
-        }
+       
+       $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
+       
         /*write flie here start.*/
         
         
@@ -353,15 +348,9 @@ class serviceTrendController  extends Controller{
         GROUP BY month(EvTime)";
          */
         
-         if($user_mmplant==1){
-             $reslutQuery = DB::connection('mysql_ais_47')->select($query);
-         }else if($user_mmplant==2){
-             $reslutQuery = DB::connection('mysql_ais_813')->select($query);
-         }else if($user_mmplant==3){
-             $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
-         }else{
-             $reslutQuery = DB::select($query);
-         }
+         
+         $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
+         
          
          $strFileName = "webservice/fileTrend/trendJsonMonthu-$trendID-$sess_emp_id-$user_mmplant.txt";
          $objCreate = fopen($strFileName, 'w');
@@ -805,15 +794,9 @@ class serviceTrendController  extends Controller{
             ";
             
             
-            if($user_mmplant==1){
-                $reslutQuery = DB::connection('mysql_ais_47')->select($query);
-            }else if($user_mmplant==2){
-                $reslutQuery = DB::connection('mysql_ais_813')->select($query);
-            }else if($user_mmplant==3){
-                $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
-            }else{
-                $reslutQuery = DB::select($query);
-            }
+            
+             $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
+            
             /*write flie here start.*/
             $strFileName = "webservice/fileTrend/trendJsonDayu-$trendID-$sess_emp_id-$user_mmplant.txt";
             $objCreate = fopen($strFileName, 'w');
@@ -933,7 +916,7 @@ class serviceTrendController  extends Controller{
                 	and '2014-10-25 01:00:00'
                 )";
         
-        $reslutQuery = DB::select($query);
+        $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
         //$reslutQuery = DB::connection('mysql_ais_47')->select($query);
         
         return json_encode($reslutQuery);
@@ -962,11 +945,9 @@ class serviceTrendController  extends Controller{
                 	BETWEEN '$startTime' 
                 	and '$endTime'
                 )";
-        $reslutQuery = DB::select($query);
+        $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
         return json_encode($reslutQuery);
-        */
-}
-public function readEventDataTrendByEvent($tagName,$startDateTime,$endDateTime,$event){
+       DB::connection(DBUtils::getDBName())->select($query);ction readEventDataTrendByEvent($tagName,$startDateTime,$endDateTime,$event){
     //$unit,$startTime,$endTime
     //echo $point;
     $sess_emp_id= Auth::user()->id;
@@ -1030,7 +1011,7 @@ public function readEventDataTrendByEvent($tagName,$startDateTime,$endDateTime,$
             	
                     	";
         
-        //$reslutQuery = DB::select($query);
+        //$reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
         
         if($user_mmplant==1){
             //FOR TEST
@@ -1055,7 +1036,7 @@ public function readEventDataTrendByEvent($tagName,$startDateTime,$endDateTime,$
             
         }else{
            
-            $reslutQuery = DB::select($query);
+            $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
         }
         
         
@@ -1094,7 +1075,7 @@ public function readEventDataTrendByEvent($tagName,$startDateTime,$endDateTime,$
             
         }else{
             //for test
-            $reslutQuery = DB::select($query);
+            $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
         }
          return json_encode($reslutQuery);
          
@@ -1129,7 +1110,7 @@ public function readEventDataTrendByEvent($tagName,$startDateTime,$endDateTime,$
             
         }else{
            
-            $reslutQuery = DB::select($query);
+            $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
         }
          return json_encode($reslutQuery);
           

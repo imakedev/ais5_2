@@ -260,10 +260,10 @@ class CalculationAjax extends Controller
 
         $contents = (string) $response->getBody();
         $contentsObj=json_decode($contents);
-        Log::info($contents);
+       // Log::info($contents);
 
         $formulaObjList=$contentsObj->formula;
-        Log::info($formulaObjList);
+       // Log::info($formulaObjList);
         $result_plot_array = array();
         foreach ($formulaObjList as $key => $formulaObj) {
             if (!array_key_exists($formulaObj->{'time'}, $result_plot_array)) {
@@ -609,12 +609,23 @@ class CalculationAjax extends Controller
             if (!array_key_exists($formulaObj->{'time'}, $result_plot_array)) {
                 $new_result_plot_inner = array();
                 $new_result_plot_inner['EvTime'] =$formulaObj->{'time'};
-                $new_result_plot_inner[$formulaObj->{'key'}] =$formulaObj->{'result'};
-                $new_result_plot_inner[$formulaObj->{'key'}.'-status'] =$formulaObj->{'status'};
+                
+                if($formulaObj->{'status'}=='OK'){
+                    $new_result_plot_inner[$formulaObj->{'key'}] =$formulaObj->{'result'};
+                }else{
+                    $new_result_plot_inner[$formulaObj->{'key'}] =0;
+                }
+                
+                //$new_result_plot_inner[$formulaObj->{'key'}.'-status'] =$formulaObj->{'status'};
                 $result_plot_array[$formulaObj->{'time'}] = $new_result_plot_inner;
             }else{
-                $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=$formulaObj->{'result'};
-                $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}.'-status']=$formulaObj->{'status'};
+                if($formulaObj->{'status'}=='OK'){
+                    
+                    $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=$formulaObj->{'result'};
+                }else{
+                    $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=0;
+                //$result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}.'-status']=$formulaObj->{'status'};
+                }
             }
         }
        // Log::info(json_encode($result_plot_array));
@@ -645,7 +656,7 @@ class CalculationAjax extends Controller
             echo "File Not Create.";
         }
 
-        return json_encode($result_plot_array);
+        //return json_encode($result_plot_array);
     }
 
     public function readData($scaleType,$trendID){

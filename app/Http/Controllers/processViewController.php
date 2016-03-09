@@ -19,6 +19,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Log;
 use Session;
 use Auth;
+use \App\Utils\DBUtils;
 
 
 class processViewController  extends Controller{
@@ -79,7 +80,7 @@ class processViewController  extends Controller{
 
 
         if($user_mmplant==0){
-            $reslutQuery = DB::select($query);
+            $reslutQuery = DB::connection(DBUtils::getDBName())->select($query);
 
         }if($user_mmplant==1){
             $reslutQuery = DB::connection('mysql_ais_47')->select($query);
@@ -167,7 +168,7 @@ class processViewController  extends Controller{
           WHERE sys_date  BETWEEN '2014-10-07 00:00:00' AND '2014-10-07 16:23:00'
           AND ois_event REGEXP 'L|40SP01E131|40NA40L001|40NC03P001|40NA25T001|40NA26T001|40RA01T002|40RA03T001|40RA03P002|40RA03F001|40RC03T001|40NF01G004|40RA08T001|40RA08P001|40RC22P001|40RC22T001|40RC05T001|40RC04T001|40RC09T001|40RC07T001|40RB01T001|40RB02T001|40RB03T001|40RB03P003|40RB03F001|40RB04P001|40RB04T001|40RB05P001|40RB05T001|40NB35F001|40RF01P001|40RA07T001|40RA07P001|40SF62P001|40SF61P001'
           order by sys_date asc ";
-          $reslutQuery = DB::select($query);
+          $reslutQuery = DB::connection(DBUtils::getDBName())->select($query);
 
       }
 
@@ -284,7 +285,7 @@ class processViewController  extends Controller{
 
 
           if($user_mmplant==0){
-          $reslutQuery = DB::select($query);
+          $reslutQuery = DB::connection(DBUtils::getDBName())->select($query);
 
           }if($user_mmplant==1){
           $reslutQuery = DB::connection('mysql_ais_47')->select($query);
@@ -417,7 +418,7 @@ public function createDataEventPCVFGD($paramPCV,$paramUnit,$paramEmpId,$paramFro
                         45WF18U001
                             '
                 order by sys_date asc ";
-          $reslutQuery = DB::select($query);
+          $reslutQuery = DB::connection(DBUtils::getDBName())->select($query);
 
       }
 
@@ -530,7 +531,7 @@ public function createDataPCVTurbine47($paramPCV,$paramUnit,$paramEmpId,$paramFr
 
 
           if($user_mmplant==0){
-              $reslutQuery = DB::select($query);
+              $reslutQuery = DB::connection(DBUtils::getDBName())->select($query);
 
           }if($user_mmplant==1){
               $reslutQuery = DB::connection('mysql_ais_47')->select($query);
@@ -661,7 +662,7 @@ public function createDataEventPCVTurbine47($paramPCV,$paramUnit,$paramEmpId,$pa
                 40RW05L002
                     '
         order by sys_date asc ";
-  $reslutQuery = DB::select($query);
+  $reslutQuery = DB::connection(DBUtils::getDBName())->select($query);
 
 }
 
@@ -795,7 +796,7 @@ D150,
 D149
           from datau0$paramUnit
           WHERE EvTime BETWEEN  '$paramFromDate' AND '$paramToDate'";
-          $reslutQuery = DB::select($query);
+          $reslutQuery = DB::connection(DBUtils::getDBName())->select($query);
       
       
           //return json_encode($reslutQuery);
@@ -877,7 +878,7 @@ D149
           WHERE sys_date  BETWEEN '2014-10-07 00:00:00' AND '2014-10-07 16:23:00'
           AND ois_event REGEXP '40SP01E131|40NB01T001|40RM41D001|40RM42D001|40NB01P003|40NB01F001|40NB32F001|40RL11F001|40RL12F001|40RL13F001|40RA03T001|40RA03P002|40RA03F001|40SD11T001|40SD11T002|40VC21T001|40RC22T001|40NB35F001|40NC03P001|40NA40L001|40SD12L001|40SD11P001|40RL64T001|40RF50T00|40RB03T001|40RB03P003|40RB03F001|40NL85M901|40NG01F901|40NM11F001|40VC41T001|40NG14P002|40NG83P003|40RL61T00z|40RH30T001|40RH20T001|40RH12P001|40RM72T001|40RM68T001|40RM64T001|40RM61T001|40RH40T002|40RH40P005|40RH40L001'
           order by sys_date asc ";
-          $reslutQuery = DB::select($query);
+          $reslutQuery = DB::connection(DBUtils::getDBName())->select($query);
           
       }
       

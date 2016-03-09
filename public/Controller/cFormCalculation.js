@@ -764,9 +764,10 @@ function testCallDataSec(){
 
 	var obj={
 		"key":["88-c102","89-c102"],
-		"formulas":["(U08D122+U08D122)*U08D123","U08D122+U08D123"],
+		"formulas":["(U08D122+U08D122)*U08D123","U08D122+U08D123+CONSTANT@XXXXXX"],
 		"startTime":"2014-05-20 00:02:00",
-		"endTime":"2014-05-20 00:02:00"
+		"endTime":"2014-05-20 00:02:00",
+		"url":"http://localhost/"
 	}
 
 	$.ajax({
@@ -775,7 +776,8 @@ function testCallDataSec(){
 		data: obj
 	}).done(function(data, status, xhr) {
 		//console.log(data.dataWithTimes);
-		var sources = jQuery.parseJSON(data.sources);
+		//var sources = jQuery.parseJSON(data.sources);
+		//var dataWithTimes =data.dataWithTimes;
 		var dataWithTimes = jQuery.parseJSON(data.dataWithTimes);
 
 		var data2={
@@ -793,7 +795,7 @@ function testCallDataSec(){
 
 	});
 }
-function testCallPostFormula(){
+function testCallPostFormula_bk(){
 
 	var obj={
 		key:["88-c102","88-c103","88-U04D260"],
@@ -813,6 +815,85 @@ function testCallPostFormula(){
 	}).done(function(data, status, xhr) {
 		console.log(data);
 		var results = jQuery.parseJSON(data);
+		//console.log(results.formula[0].key);
+	});
+}
+function testCallPostFormula(){
+
+	var obj={
+		key:["DC102","DC103","U04D260"],
+		startTime:"2014-05-01 00:00:00",
+		endTime:"2014-05-01 00:05:00",
+		scaleType:"minute",
+		//scaleType:"month",
+		server:"47",
+		trendID:"88",
+		formulas:["U04D123+ U04D2+Enthalpy(U04D2;U04D2)","U04D123+U04D122","U04D260"]
+	}
+
+	$.ajax({
+		url:"/ajax/executeCalculation",
+		method: "POST",
+		data: obj
+	}).done(function(data, status, xhr) {
+		//console.log(data);
+		$obj=eval("("+data+")");
+		if($obj=='createJsonSuccess'){
+			
+			 $.ajax({
+					url:"/ajax/readData/minute/88",
+					type:"get",
+					async:false,
+					dataType:"json",
+					success:function(data){
+						
+						
+						
+						var jsonData="";
+						jsonData+="[";
+						$i=0;
+						$.each(data,function(index,indexEntry){
+							
+							console.log(index);
+							
+							if((toTimestamp(index)>=toTimestamp("2014-05-01 00:00:00")) && (toTimestamp(index)<=toTimestamp("2014-05-01 00:03:00"))) {
+							
+							
+							
+									
+									if($i==0){
+										jsonData+="{";	
+									}else{
+										jsonData+=",{";
+									}
+									$j=0;
+									$.each(indexEntry,function(index2,indexEntry2){
+		
+										if($j==0){
+											jsonData+="\""+index2+"\":\""+indexEntry2+"\"";
+										}else{
+											jsonData+=",\""+index2+"\":"+indexEntry2+"";
+										}
+										
+										$j++;
+									});
+									
+									jsonData+="}";
+									$i++;
+									
+									
+							}
+						});
+						
+						jsonData+="]";
+						
+						console.log(jsonData);
+					}
+			 });
+			 
+		}
+		//$.each(data)
+		//var results = jQuery.parseJSON(data);
 		//console.log(results.formula[0].key);
 	});
 }

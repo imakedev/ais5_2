@@ -15,6 +15,7 @@ use App\Http\Requests;
 use Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Client;
 class DataSecAjaxController extends Controller
 {
     public function __construct()
@@ -60,7 +61,6 @@ class DataSecAjaxController extends Controller
                 }
             }
         }
-
 
         //$jsonStr=json_encode($new_array);
         //$json = json_decode($jsonStr);
@@ -183,6 +183,59 @@ class DataSecAjaxController extends Controller
         //Log:info($result_key_array['2014-05-20 00:02:59']['formula']);
     }
     function getSecData(Request $request)
+    {
+        $key_params=request('key');
+        $formula_params=request('formulas');
+        $startTime_param=request('startTime');
+        $endTime_param=request('endTime');
+        $url_param=request('url');
+        $constant_array = array();
+        foreach ($formula_params as $key_formula_param => $formula_param) {
+            $str = $formula_param;//"U04D1+ U04D2+Enthalpy(U04D2;U04D2)";
+            $str = strtoupper($str);
+            preg_match_all('/(CONSTANT@[\w]+)/', $str, $matches);
+            if (!empty($matches)) {
+                $full_constants = $matches[0]; //full constant
+                $first_constant = $matches[1];//first constant ()
+
+                foreach ($full_constants as $key => $full_constant) {
+                    if (!array_key_exists($full_constant, $constant_array)) {
+                        $new_array_constant_inner = array();
+                        $new_array_constant_inner['name'] = str_replace("CONSTANT@", "", $first_constant[$key]);
+                        $constant = DB::select('SELECT A,B FROM mmconstant_table where A=\'' . $new_array_constant_inner['name'] . '\' limit 1');
+                        if (!empty($constant)) {
+                            $new_array_constant_inner['value']= $constant[0]->B;
+                        }else
+                            $new_array_constant_inner['value'] ='';
+                        //Log::info('CONSTANT=>'.str_replace("CONSTANT@", "", $first_constant[$key]).' value=>'.$new_array_constant_inner['value']);
+                        $constant_array[$full_constant] = $new_array_constant_inner;
+                    }
+                }
+            }
+        }
+        $url=$url_param;//"http://localhost/";
+        $client = new Client(['base_uri' => $url]);
+        $key_json=json_encode($key_params);
+        $formulas_json=json_encode($formula_params);
+        $constants_json=json_encode($constant_array);
+        $json_str = "{
+            \"key\":".$key_json.",
+		    \"formulas\":".$formulas_json.",
+		    \"startTime\":\"".$startTime_param."\",
+		    \"endTime\":\"".$endTime_param."\",
+		    \"constants\":".$constants_json."
+        }";
+       // Log::info($constants_json);
+        $response = $client->request('GET', 'datasec.php', [
+            'body' => $json_str
+
+        ]);
+
+        $contents = (string) $response->getBody();
+       // Log::info($contents);
+        return response()->json(['dataWithTimes'=>$contents]);
+    }
+    function getSecDataBkForTest(Request $request)
     {
         $root_path='/Users/imake/Desktop/AIS/data/MM';
         //$formula_param=request('formula');

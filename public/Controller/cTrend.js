@@ -1368,32 +1368,33 @@ function tooltipCustom(paramTrendID){
 		
 		if(scaleTime=="Hour"){
 			//alert("scaleTime"+scaleTime);
-			createFileServiceChart.createFileByHru(paramTrendID,generateQueryGetPointFn("Hour",paramTrendID),unitIdPointId);
+			createFileServiceChart.createFileByHru(paramTrendID,unitIdPointId);
 			//alert("hello create Hour");
 			
 		}else if(scaleTime=="Day"){
 			
-			createFileServiceChart.createFileByDayu(paramTrendID,generateQueryGetPointFn("Day",paramTrendID),unitIdPointId);
+			createFileServiceChart.createFileByDayu(paramTrendID,unitIdPointId);
 			//alert("hello create Day");
 			
 		}else if(scaleTime=="Month"){
 			
-			createFileServiceChart.createFileByMonthu(paramTrendID,generateQueryGetPointFn("Month",paramTrendID),unitIdPointId);
+			createFileServiceChart.createFileByMonthu(paramTrendID,unitIdPointId);
 			//alert("hello create Day");
 			
 		}else if(scaleTime=="Second"){
 			
-			createFileServiceChart.createFileBySecondu(paramTrendID,generateQueryGetPointFn("Second",paramTrendID),unitIdPointId);
+			createFileServiceChart.createFileBySecondu(paramTrendID,unitIdPointId);
 			//alert("hello createFileServiceChart");
 			
 		}else if(scaleTime=="Minute"){
 			
-			createFileServiceChart.createFileByMinuteu(paramTrendID,generateQueryGetPointFn("Minute",paramTrendID),unitIdPointId);
+			
+			createFileServiceChart.createFileByMinuteu(paramTrendID,unitIdPointId);
 			
 		}else{
 			
 			//generateQueryByCalFn(paramTrendID);
-			createFileServiceChart.createFileByMinuteu(paramTrendID,generateQueryGetPointFn("Minute",paramTrendID),unitIdPointId);
+			createFileServiceChart.createFileByMinuteu(paramTrendID,unitIdPointId);
 			
 			
 			//generateQueryByCalFn(paramTrendID);

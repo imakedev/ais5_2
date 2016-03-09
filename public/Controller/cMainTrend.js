@@ -772,7 +772,71 @@ function getDataFromPointEmbedNotCalID(){
 	 });
 	 
 	 return unitIdPointIdNotCalID;
-}	
+}
+function getformulaEmbedFn(paramTrendID){
+	var formulaEmbed="";
+	var pointID="";
+	var unitID="";
+	var calFomula="";
+	var checkCal="";
+	var queryPointArray="";
+	var paramPointAndUnitArray=$("#paramPointEmbed-"+paramTrendID).val().split(","); 
+	//var paramPointAndUnitArray="D3-4-88331,D4-4-88332,D7-4-88333,DC508-4-88334- U04D1+ U04D2+Enthalpy(U04D2;U04D2)".split(",");
+	$.each(paramPointAndUnitArray,function(index,indexEntry){
+		 //alert(indexEntry);
+		 //D3-4-88331
+		 checkCal="NO";
+		 queryPointArray=indexEntry.split("-");
+		 
+		
+		 if((queryPointArray[3]=='undefined') || (queryPointArray[3]==undefined)){
+			
+			 checkCal="NO";
+		 }else{
+			 calFomula=queryPointArray[3];
+			 checkCal="YES";
+		 }
+		 
+		 
+		 //alert(calFomula);
+		 
+		 
+		 unitID=queryPointArray[1]; 
+		 pointID=queryPointArray[0]; 
+		 
+		//alert(unitID);
+		//alert(pointID);
+	
+		// alert(checkCal);
+		 
+		 if(index==0){
+			 if(checkCal=='YES'){
+				 
+				 formulaEmbed+="\""+calFomula+"\"";
+			 }else{
+				
+				 formulaEmbed+="\"U0"+unitID+""+pointID+"\""; 
+			 }
+		 }else{
+			 if(checkCal=='YES'){
+				
+				 formulaEmbed+=",\""+calFomula+"\"";
+			 }else{
+				
+				 formulaEmbed+=",\"U0"+unitID+""+pointID+"\""; 
+			 }
+		 }
+		
+	});
+	
+	return formulaEmbed;
+}
+
+	
+
+	
+
+
 function getDataFromPointEmbed(returnType){
 
 		var pointData = $("#paramPointEmbed-"+$("#trendTabActive").val()+"").val();
@@ -784,9 +848,10 @@ function getDataFromPointEmbed(returnType){
 		var pointId="";
 		var pointDataSub="";
 		var pointDataCalID="";
+		var unitIdPointIdDoubleQuote="";
 		//alert(pointData.length);
 		
-		
+		//unitIdPointIdDoubleQuote+="[";
 		for(var i=0;i<pointData.length;i++){
 			//alert(pointData[i]);
 			pointDataSub=pointData[i].split("-");
@@ -799,8 +864,10 @@ function getDataFromPointEmbed(returnType){
 				
 				 if(pointCal=='DC'){
 					 unitIdPointId+=pointDataSub[0];
+					 unitIdPointIdDoubleQuote+="\""+pointDataSub[0]+"\"";
 				 }else{
 					 unitIdPointId+="U0"+pointDataSub[1]+""+pointDataSub[0];
+					 unitIdPointIdDoubleQuote+="\"U0"+pointDataSub[1]+""+pointDataSub[0]+"\"";
 				 }
 			}else{
 				pointDataId+=','+pointDataSub[0];
@@ -809,13 +876,16 @@ function getDataFromPointEmbed(returnType){
 				
 				 if(pointCal=='DC'){
 					 unitIdPointId+=","+pointDataSub[0];
+					 unitIdPointIdDoubleQuote+=",\""+pointDataSub[0]+"\"";
 				 }else{
 					 unitIdPointId+=",U0"+pointDataSub[1]+""+pointDataSub[0];
+					 unitIdPointIdDoubleQuote+=",\"U0"+pointDataSub[1]+""+pointDataSub[0]+"\"";
 				 }
 				
 			}
 			
 		}
+		//unitIdPointIdDoubleQuote+="]";
 		if(returnType=="pointDataId"){
 			return pointDataId;
 		}else if(returnType=="pointUnitId"){
@@ -824,6 +894,8 @@ function getDataFromPointEmbed(returnType){
 			return pointId;
 		}else if(returnType=="unitIdPointId"){
 			return unitIdPointId;
+		}else if(returnType=="unitIdPointIdDoubleQuote"){
+			return unitIdPointIdDoubleQuote;
 		}
 		
 		
@@ -899,7 +971,55 @@ function setDefaultPointAndPlan(lastObject,point,paramTrendID){
 var readJsonFilter={
 		
 	//readJsonFilterFileScaleTypeH:function(){
-	scaleTypeH:function(paramTrendID){
+	scaleTypeMinute:function(startTime,endTime,paramTrendID,scalType){
+		// var jsonFilter = new Array();
+		var jsonData="";
+		 $.ajax({
+				url:"/ajax/readData/"+scalType+"/"+paramTrendID+"",
+				type:"get",
+				async:false,
+				dataType:"json",
+				success:function(data){
+							
+							jsonData+="[";
+							$i=0;
+							$.each(data,function(index,indexEntry){
+							if((toTimestamp(index)>=toTimestamp(startTime)) && (toTimestamp(index)<=toTimestamp(endTime))) {
+									
+								if($i==0){
+									jsonData+="{";	
+								}else{
+									jsonData+=",{";
+								}
+								$j=0;
+								$.each(indexEntry,function(index2,indexEntry2){
+		
+									if($j==0){
+										jsonData+="\""+index2+"\":\""+indexEntry2+"\"";
+									}else{
+										jsonData+=",\""+index2+"\":"+indexEntry2+"";
+									}
+									
+									$j++;
+								});
+								
+								jsonData+="}";
+								$i++;
+							}
+							});
+							
+							jsonData+="]";
+							
+							//console.log(jsonData);
+							//return eval("("+jsonData+")");
+				}
+		 	
+		 });
+		 return eval("("+jsonData+")");
+		 
+	},
+	scaleTypeH:function(paramTrendID,scalType){
+		/*
 		 var jsonFilter = new Array();
 		 $.ajax({
 				url:"/ais/serviceTrend/readDataHru/"+paramTrendID+"",
@@ -913,9 +1033,56 @@ var readJsonFilter={
 				}
 		 });
 		 return jsonFilter;
+		 */
+		// var jsonFilter = new Array();
+		var jsonData="";
+		 $.ajax({
+				url:"/ajax/readData/"+scalType+"/"+paramTrendID+"",
+				type:"get",
+				async:false,
+				dataType:"json",
+				success:function(data){
+							
+							jsonData+="[";
+							$i=0;
+							$.each(data,function(index,indexEntry){
+							//if((toTimestamp(index)>=toTimestamp(startTime)) && (toTimestamp(index)<=toTimestamp(endTime))) {
+									
+								if($i==0){
+									jsonData+="{";	
+								}else{
+									jsonData+=",{";
+								}
+								$j=0;
+								$.each(indexEntry,function(index2,indexEntry2){
+		
+									if($j==0){
+										jsonData+="\""+index2+"\":\""+indexEntry2+"\"";
+									}else{
+										jsonData+=",\""+index2+"\":"+indexEntry2+"";
+									}
+									
+									$j++;
+								});
+								
+								jsonData+="}";
+								$i++;
+							//}
+							
+							});
+							
+							jsonData+="]";
+							
+							//console.log(jsonData);
+							//return eval("("+jsonData+")");
+				}
+		 	
+		 });
+		 return eval("("+jsonData+")");
 		 
 	},
-	scaleTypeD:function(paramTrendID){
+	scaleTypeD:function(paramTrendID,scalType){
+		/*
 		 var jsonFilter = new Array();
 		 $.ajax({
 				url:"/ais/serviceTrend/readDataDayu/"+paramTrendID+"",
@@ -929,9 +1096,105 @@ var readJsonFilter={
 				}
 		 });
 		 return jsonFilter;
+		 */
+		var jsonData="";
+		 $.ajax({
+				url:"/ajax/readData/"+scalType+"/"+paramTrendID+"",
+				type:"get",
+				async:false,
+				dataType:"json",
+				success:function(data){
+							
+							jsonData+="[";
+							$i=0;
+							$.each(data,function(index,indexEntry){
+							//if((toTimestamp(index)>=toTimestamp(startTime)) && (toTimestamp(index)<=toTimestamp(endTime))) {
+									
+								if($i==0){
+									jsonData+="{";	
+								}else{
+									jsonData+=",{";
+								}
+								$j=0;
+								$.each(indexEntry,function(index2,indexEntry2){
+		
+									if($j==0){
+										jsonData+="\""+index2+"\":\""+indexEntry2+"\"";
+									}else{
+										jsonData+=",\""+index2+"\":"+indexEntry2+"";
+									}
+									
+									$j++;
+								});
+								
+								jsonData+="}";
+								$i++;
+							//}
+							
+							});
+							
+							jsonData+="]";
+							
+							//console.log(jsonData);
+							//return eval("("+jsonData+")");
+				}
+		 	
+		 });
+		 return eval("("+jsonData+")");
 		 
 	},
-	scaleTypeMonth:function(paramTrendID){
+	scaleTypeMonth:function(paramTrendID,scalType){
+		
+		
+		
+		var jsonData="";
+		 $.ajax({
+				url:"/ajax/readData/"+scalType+"/"+paramTrendID+"",
+				type:"get",
+				async:false,
+				dataType:"json",
+				success:function(data){
+							
+							jsonData+="[";
+							$i=0;
+							$.each(data,function(index,indexEntry){
+							//if((toTimestamp(index)>=toTimestamp(startTime)) && (toTimestamp(index)<=toTimestamp(endTime))) {
+									
+								if($i==0){
+									jsonData+="{";	
+								}else{
+									jsonData+=",{";
+								}
+								$j=0;
+								$.each(indexEntry,function(index2,indexEntry2){
+		
+									if($j==0){
+										jsonData+="\""+index2+"\":\""+indexEntry2+"\"";
+									}else{
+										jsonData+=",\""+index2+"\":"+indexEntry2+"";
+									}
+									
+									$j++;
+								});
+								
+								jsonData+="}";
+								$i++;
+							//}
+							
+							});
+							
+							jsonData+="]";
+							
+							//console.log(jsonData);
+							//return eval("("+jsonData+")");
+				}
+		 	
+		 });
+		 return eval("("+jsonData+")");
+		 
+		 
+		 
+		/*
 		 var jsonFilter = new Array();
 		 $.ajax({
 				url:"/ais/serviceTrend/readDataMonthu/"+paramTrendID+"",
@@ -945,7 +1208,7 @@ var readJsonFilter={
 				}
 		 });
 		 return jsonFilter;
-		 
+		 */
 	},scaleTypeSecond:function(paramTrendID,paramStartTime,paramEndTime,pointDataId){
 		
 		/*
@@ -1034,46 +1297,46 @@ var createFileServiceChart={
 		
 	createFileByHru:function(paramTrendID,queryPoint,unitIdPointId){
 		
-		//var pointDataId= getDataFromPointEmbed("pointDataId");
 		var pointDataId= getDataFromPointEmbed("unitIdPointId");
+		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		var arrayUnitIdPointIdDoubleQuote = JSON.parse("[" + unitIdPointIdDoubleQuote + "]");
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
-
-
-
+		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID)+ "]");
 		
-		 var obj={
-				 "paramTrendID":paramTrendID,
-				 "paramFromDate":paramFromDate,
-				 "paramToDate":paramToDate,
-				 "queryPoint":queryPoint,
-				 "unitIdPointId":unitIdPointId,
-				}
 		
-		//alert(pointDataId);
-		//alert(paramFromDate);
-		//alert(paramToDate);
-		
-		$.ajax({
-			url:"/ais/serviceTrend/getDataHru",
-			///"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"/"+queryPoint+"/"+unitIdPointId+"
-			type:"post",
-			dataType:"json",
-			async:false,
-			data:obj,
-			success:function(data){
+		var obj={
 				
-				if(data=='createJsonSuccess'){
+				//key:["U04D3","U04D4","U04D7","DC508"],
+				key:arrayUnitIdPointIdDoubleQuote,
+				startTime:paramFromDate,
+				endTime:paramToDate,
+				scaleType:"hour",
+				//scaleType:"month",
+				server:"47",
+				trendID:paramTrendID,
+				//formulas:["U04D3","U04D4","U04D7"," U04D1+ U04D2+Enthalpy(U04D2;U04D2)"]
+				formulas:getformulaEmbed
+			}
+		$.ajax({
+			url:"/ajax/executeCalculation",
+			method: "POST",
+			data: obj,
+			async:false,
+			success:function(data){
+				//console.log(data);
+				$obj=eval("("+data+")");
+				if($obj=='createJsonSuccess'){
 					
-					var data2=readJsonFilter.scaleTypeH(paramTrendID);
-					//console.log("data2");
-					//console.log(data2);
-					
-					if(data2==''){
+					var data2=readJsonFilter.scaleTypeH(paramTrendID,"hour");
+			
+					if(data2==""){
+						
 						alert("Data is empty!");
 						return false;
 					}
+					
 					
 					setTimeout(function(){
 						//alert("create createTrendChart HRU");
@@ -1094,45 +1357,43 @@ var createFileServiceChart={
 	},
 	createFileByDayu:function(paramTrendID,queryPoint,unitIdPointId){
 		
-		
-		//var pointDataId= getDataFromPointEmbed("pointDataId");
+
 		var pointDataId= getDataFromPointEmbed("unitIdPointId");
-		
-		
+		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		var arrayUnitIdPointIdDoubleQuote = JSON.parse("[" + unitIdPointIdDoubleQuote + "]");
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
-		
+		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID)+ "]");
 		
 		
 		var obj={
-				 "paramTrendID":paramTrendID,
-				 "paramFromDate":paramFromDate,
-				 "paramToDate":paramToDate,
-				 "queryPoint":queryPoint,
-				 "unitIdPointId":unitIdPointId,
-				}
-		
-		
-		//alert(paramFromDate);
-		//alert(paramToDate);
-		
-		$.ajax({
-			///"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"/"+queryPoint+"/"+unitIdPointId+"
-			url:"/ais/serviceTrend/getDataDayu",
-			type:"post",
-			dataType:"json",
-			async:false,
-			data:obj,
-			success:function(data){
 				
-				if(data=='createJsonSuccess'){
+				//key:["U04D3","U04D4","U04D7","DC508"],
+				key:arrayUnitIdPointIdDoubleQuote,
+				startTime:paramFromDate,
+				endTime:paramToDate,
+				scaleType:"day",
+				//scaleType:"month",
+				server:"47",
+				trendID:paramTrendID,
+				//formulas:["U04D3","U04D4","U04D7"," U04D1+ U04D2+Enthalpy(U04D2;U04D2)"]
+				formulas:getformulaEmbed
+			}
+		$.ajax({
+			url:"/ajax/executeCalculation",
+			method: "POST",
+			data: obj,
+			async:false,
+			success:function(data){
+				//console.log(data);
+				$obj=eval("("+data+")");
+				if($obj=='createJsonSuccess'){
 					
-					var data2=readJsonFilter.scaleTypeD(paramTrendID);
-					//console.log("data2");
-					
-					//console.log(data2);
-					if(data2==''){
+					var data2=readJsonFilter.scaleTypeD(paramTrendID,"day");
+			
+					if(data2==""){
+						
 						alert("Data is empty!");
 						return false;
 					}
@@ -1150,40 +1411,44 @@ var createFileServiceChart={
 		});
 		
 	},
-	createFileByMonthu:function(paramTrendID,queryPoint,unitIdPointId){
-		//var pointDataId= getDataFromPointEmbed("pointDataId");
+	createFileByMonthu:function(paramTrendID,unitIdPointId){
+		
 		var pointDataId= getDataFromPointEmbed("unitIdPointId");
+		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		var arrayUnitIdPointIdDoubleQuote = JSON.parse("[" + unitIdPointIdDoubleQuote + "]");
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
+		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID)+ "]");
+		
 		
 		var obj={
-				 "paramTrendID":paramTrendID,
-				 "paramFromDate":paramFromDate,
-				 "paramToDate":paramToDate,
-				 "queryPoint":queryPoint,
-				 "unitIdPointId":unitIdPointId,
-				}
-		
-		//alert(paramFromDate);
-		//alert(paramToDate);
-		
-		$.ajax({
-			///"+paramFromDate+"/"+paramToDate+"/"+paramTrendID+"/"+queryPoint+"/"+unitIdPointId+"
-			url:"/ais/serviceTrend/getDataMonthu",
-			type:"post",
-			dataType:"json",
-			async:false,
-			data:obj,
-			success:function(data){
 				
-				if(data=='createJsonSuccess'){
+				//key:["U04D3","U04D4","U04D7","DC508"],
+				key:arrayUnitIdPointIdDoubleQuote,
+				startTime:paramFromDate,
+				endTime:paramToDate,
+				scaleType:"month",
+				//scaleType:"month",
+				server:"47",
+				trendID:paramTrendID,
+				//formulas:["U04D3","U04D4","U04D7"," U04D1+ U04D2+Enthalpy(U04D2;U04D2)"]
+				formulas:getformulaEmbed
+			}
+		$.ajax({
+			url:"/ajax/executeCalculation",
+			method: "POST",
+			data: obj,
+			async:false,
+			success:function(data){
+				//console.log(data);
+				$obj=eval("("+data+")");
+				if($obj=='createJsonSuccess'){
 					
-					var data2=readJsonFilter.scaleTypeMonth(paramTrendID);
-					
-					//console.log(data2);
-					
-					if(data2==''){
+					var data2=readJsonFilter.scaleTypeMonth(paramTrendID,"month");
+			
+					if(data2==""){
+						
 						alert("Data is empty!");
 						return false;
 					}
@@ -1234,6 +1499,7 @@ var createFileServiceChart={
 						return false;
 					}
 					
+					
 					var minute=startDateTime5HaGoFn(endDatetimeHisFn(paramToDate)).split(" ");
 					minute=minute[1];
 					$("#startTimeForDisplay-"+paramTrendID+"").val(minute);
@@ -1258,40 +1524,50 @@ var createFileServiceChart={
 			}
 		});
 	},
-	createFileByMinuteu:function(paramTrendID,queryPoint,unitIdPointId){
+	createFileByMinuteu:function(paramTrendID,unitIdPointId){
 		
 		var pointDataId= getDataFromPointEmbed("unitIdPointId");
+		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		var arrayUnitIdPointIdDoubleQuote = JSON.parse("[" + unitIdPointIdDoubleQuote + "]");
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
+		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID)+ "]");
+
 		
-		 var obj={
-				 "paramTrendID":paramTrendID,
-				 "paramFromDate":paramFromDate,
-				 "paramToDate":paramToDate,
-				 "queryPoint":queryPoint,
-				 "unitIdPointId":unitIdPointId,
-				}
+		var obj={
+				
+				//key:["U04D3","U04D4","U04D7","DC508"],
+				key:arrayUnitIdPointIdDoubleQuote,
+				startTime:paramFromDate,
+				endTime:paramToDate,
+				scaleType:"minute",
+				//scaleType:"month",
+				server:"47",
+				trendID:paramTrendID,
+				//formulas:["U04D3","U04D4","U04D7"," U04D1+ U04D2+Enthalpy(U04D2;U04D2)"]
+				formulas:getformulaEmbed
+			}
 		$.ajax({
-			url:"/ais/serviceTrend/createDataMinuteu",
-			//url:"/ais/serviceTrend/createDataMinuteu/"+paramTrendID+"/"+paramFromDate+"/"+paramToDate+"/"+queryPoint+"/"+unitIdPointId,
-			type:"post",
-			dataType:"json",
-			async:false,
+			url:"/ajax/executeCalculation",
+			method: "POST",
 			data: obj,
+			async:false,
 			success:function(data){
-				//alert(data);
-				if(data=='createJsonSuccess'){
+				//console.log(data);
+				$obj=eval("("+data+")");
+				if($obj=='createJsonSuccess'){
 					
-					
-					var data2=readJsonFilterFile(startDateTime5HaGoFn(endDatetimeHisFn(paramToDate)),endDatetimeHisFn(paramToDate),paramTrendID);
-					//console.log(data2);
-					
-					if(data2==''){
+					var data2=readJsonFilter.scaleTypeMinute(startDateTime5HaGoFn(endDatetimeHisFn(paramToDate)),endDatetimeHisFn(paramToDate),paramTrendID,"minute");
+			
+					if(data2==""){
+						
 						alert("Data is empty!");
 						return false;
 					}
 					
+					
+					
 					var minute=startDateTime5HaGoFn(endDatetimeHisFn(paramToDate)).split(" ");
 					minute=minute[1];
 					$("#startTimeForDisplay-"+paramTrendID+"").val(minute);
@@ -1300,11 +1576,7 @@ var createFileServiceChart={
 					 $("body").append("<input type='hidden' name='paramStartDateOnProccess-"+paramTrendID+"' id='paramStartDateOnProccess-"+paramTrendID+"' value='"+startDateTime5HaGoFn(endDatetimeHisFn(paramToDate))+"'>");
 					 
 					setTimeout(function(){
-						//unitIdPointId
-						//alert(point)
-						//createTrendChart(getDataByMenute(data2,point),point,"60",paramTrendID);
-						
-						
+					
 						createTrendChart(getDataByMenute(data2,unitIdPointId),unitIdPointId,"60",paramTrendID);
 						var lastObject = data2.pop();
 						//setDefaultPointAndPlan(lastObject,point,paramTrendID);
@@ -1313,10 +1585,16 @@ var createFileServiceChart={
 					
 					
 				}
+		
 			}
+		
 		});
+			
+		
+		
 	},
 	createFileBySecondu:function(paramTrendID){
+		
 		var pointDataId= getDataFromPointEmbed("pointDataId");
 		//var pointDataId= getDataFromPointEmbed("unitIdPointId");
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
@@ -1503,7 +1781,8 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 	 var startTime= paramStartDateOnProccess;
  	// var startTime= intervalDelFn(datetimeCurrentHFn($("#paramToDate-"+paramTrendID+"").val()),'hour',5);
 	 var endTime = intervalAddFn(startTime,'hour',scale);
-	 var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+	 //var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+	 var data2=readJsonFilter.scaleTypeMinute(startTime,endTime,paramTrendID,"minute");
 	 
 	 var paramPoint='';
 	 $("#paramPoint").val('');
@@ -1539,13 +1818,14 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,'3',startTime,endTime);
 		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,"10",paramTrendID);
 		 */
-		 var data2=readJsonFilter.scaleTypeH(paramTrendID);
+		 var data2=readJsonFilter.scaleTypeH(paramTrendID,"hour");
 		 createTrendChart(getDataByDateHour(data2,paramPoint),paramPoint,"12",paramTrendID);
 		 
 		 
 	 }else if(paramScaleTime=='Day'){
 
-		 var data2=readJsonFilter.scaleTypeD(paramTrendID);
+		// var data2=readJsonFilter.scaleTypeD(paramTrendID);
+		 var data2=readJsonFilter.scaleTypeD(paramTrendID,"day");
 		 createTrendChart(getDataByDateDay(data2,paramPoint),paramPoint,"1",paramTrendID);
 		 
 		 
@@ -1553,14 +1833,15 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 
 		
 		 
-		 var data2=readJsonFilter.scaleTypeMonth(paramTrendID);
+		 var data2=readJsonFilter.scaleTypeMonth(paramTrendID,"month");
 		 createTrendChart(getDataByDateMonth(data2,paramPoint),paramPoint,"1",paramTrendID);
 		 
 		 
 	 }else{
  	
 	 var endTime = intervalAddFn(startTime,'hour',scale);
-	 var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+	 //var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+	 var data2=readJsonFilter.scaleTypeMinute(startTime,endTime,paramTrendID,"minute");
 	 createTrendChart(getDataByMenute(data2,paramPoint),paramPoint,'',paramTrendID);
 	 
 	 }
@@ -1608,7 +1889,8 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		 
 	 }else if(paramScaleTime=='Day'){
 		 
-		 var data2=readJsonFilter.scaleTypeD(paramTrendID);
+		// var data2=readJsonFilter.scaleTypeD(paramTrendID);
+		 var data2=readJsonFilter.scaleTypeD(paramTrendID,"day");
 		 createTrendChart(getDataByDateDay(data2,point),point,"1",paramTrendID,$colorIndex);
 
 		 
@@ -1616,7 +1898,7 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		 
 	 }else if(paramScaleTime=='Month'){
 		 
-		 var data2=readJsonFilter.scaleTypeMonth(paramTrendID);
+		 var data2=readJsonFilter.scaleTypeMonth(paramTrendID,"month");
 		 createTrendChart(getDataByDateMonth(data2,point),point,"1",paramTrendID);
 
 		 
@@ -1624,7 +1906,8 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		 
 	 }else{
 	 	 var endTime = intervalAddFn(startTime,'hour',scale);
-		 var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+		 //var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+	 	 var data2=readJsonFilter.scaleTypeMinute(startTime,endTime,paramTrendID,"minute");
 		 createTrendChart(getDataByMenute(data2,point),point,'',paramTrendID,$colorIndex);
 	 }
 	 
@@ -1675,7 +1958,8 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 			 startTime= $("#paramStartDateOnProccess-"+paramTrendID+"").val();
 		}
 		 var endTime = intervalAddFn(startTime,'hour',seek);
-		 data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+		 //data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+		 var data2=readJsonFilter.scaleTypeMinute(startTime,endTime,paramTrendID,"minute");
 		 createTrendChart(getDataByMenute(data2,pointDataId),pointDataId,paramStep,paramTrendID);
 		 
 	}
@@ -1716,7 +2000,8 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		 var startTime= intervalDelFn(paramStartDateOnProccess,'hour',-seek);
 		 //alert("2="+startTime);
 		 var endTime = intervalAddFn(startTime,'hour',scale);
-		 var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+		 var data2=readJsonFilter.scaleTypeMinute(startTime,endTime,paramTrendID,"minute");
+		 //var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
 		 //var paramPoint=$("#paramPoint").val();
 		 createTrendChart(getDataByMenute(data2,paramPoint),paramPoint,'',paramTrendID);
 		 
@@ -1757,7 +2042,8 @@ var readJsonIncreaseStartTimeDisplayFn=function(seek,paramTrendID){
 		 
 		 var startTime= intervalDelFn(paramStartDateOnProccess,'hour',-seek);
 	 	 var endTime = intervalAddFn(startTime,'hour',scale);
-		 var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+		// var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+	 	var data2=readJsonFilter.scaleTypeMinute(startTime,endTime,paramTrendID,"minute");
 		 createTrendChart(getDataByMenute(data2,paramPoint),paramPoint,'',paramTrendID);
 	 }
 	 
@@ -1793,7 +2079,8 @@ var readJsonReduceDayDisplayFn=function(seek,paramTrendID){
 	 }else{
 		 var startTime= intervalDelFn(paramStartDateOnProccess,'day',-seek);
 		 var endTime = intervalAddFn(startTime,'hour',scale);
-		 var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+		 //var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+		 var data2=readJsonFilter.scaleTypeMinute(startTime,endTime,paramTrendID,"minute");
 		 createTrendChart(getDataByMenute(data2,paramPoint),paramPoint,'',paramTrendID);
 	 }
  
@@ -1824,7 +2111,8 @@ var readJsonIncreaseDayDisplayFn=function(seek,paramTrendID){
 	 }else{
 		var startTime= intervalDelFn(paramStartDateOnProccess,'day',-seek);
 		var endTime = intervalAddFn(startTime,'hour',scale);
-		var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+		//var data2=readJsonFilterFile(startTime,endTime,paramTrendID);
+		var data2=readJsonFilter.scaleTypeMinute(startTime,endTime,paramTrendID,"minute");
 		createTrendChart(getDataByMenute(data2,paramPoint),paramPoint,'',paramTrendID);
 	 }
 	
