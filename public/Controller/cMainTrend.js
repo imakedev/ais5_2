@@ -1209,7 +1209,7 @@ var readJsonFilter={
 		 });
 		 return jsonFilter;
 		 */
-	},scaleTypeSecond:function(paramTrendID,paramStartTime,paramEndTime,pointDataId){
+	},scaleTypeSecond_bk:function(paramTrendID,paramStartTime,paramEndTime,pointDataId){
 		
 		/*
 		alert(paramStartTime);
@@ -1258,11 +1258,6 @@ var readJsonFilter={
 							j++;
 							
 						}
-							
-						
-					
-					
-					
 						
 					});
 					jsonFilter+="]";
@@ -1288,7 +1283,60 @@ var readJsonFilter={
 		 //console.log("-----------2"+jsonFilter);
 		 //return eval("("+jsonFilter+")");
 		 
-	}
+	},scaleTypeSecond:function(paramTrendID,paramStartTime,paramEndTime,pointDataId){
+		
+		
+		
+
+		
+		var jsonData="";
+		 $.ajax({
+				url:"/ajax/readDataSecond/"+paramTrendID+"",
+				type:"get",
+				async:false,
+				dataType:"json",
+				success:function(data){
+							
+							jsonData+="[";
+							$i=0;
+							$.each(data,function(index,indexEntry){
+							//if((toTimestamp(index)>=toTimestamp(startTime)) && (toTimestamp(index)<=toTimestamp(endTime))) {
+									
+								if($i==0){
+									jsonData+="{";	
+								}else{
+									jsonData+=",{";
+								}
+								$j=0;
+								$.each(indexEntry,function(index2,indexEntry2){
+		
+									if($j==0){
+										jsonData+="\""+index2+"\":\""+indexEntry2+"\"";
+									}else{
+										jsonData+=",\""+index2+"\":"+indexEntry2+"";
+									}
+									
+									$j++;
+								});
+								
+								jsonData+="}";
+								$i++;
+							//}
+							
+							});
+							
+							jsonData+="]";
+							
+							//console.log(jsonData);
+							//return eval("("+jsonData+")");
+				}
+		 	
+		 });
+		 return eval("("+jsonData+")");
+		 
+		
+	}		
+
 }
 
 //console.log(readJsonFilter.scaleTypeSecond('88','3','2014-05-01 02:00:00','2014-05-01 02:02:00'));
@@ -1593,7 +1641,7 @@ var createFileServiceChart={
 		
 		
 	},
-	createFileBySecondu:function(paramTrendID){
+	createFileBySecondu_bk:function(paramTrendID){
 		
 		var pointDataId= getDataFromPointEmbed("pointDataId");
 		//var pointDataId= getDataFromPointEmbed("unitIdPointId");
@@ -1651,6 +1699,8 @@ var createFileServiceChart={
 					
 					//alert("createJsonSuccess");
 					readJsonFilter.scaleTypeSecond(paramTrendID,paramStartTime,intervalAddFn(paramStartTime,'minute','1'),pointDataId);
+					
+					
 					/*
 					var data2=readJsonFilter.scaleTypeSecond(paramTrendID,paramStartTime,intervalAddFn(paramStartTime,'minute','1'));
 					if(data2==''){
@@ -1681,6 +1731,116 @@ var createFileServiceChart={
 			setDefaultPointAndPlan(lastObject,pointDataId,paramTrendID);
 		},1000);
 		*/
+					
+			
+		
+	},
+	createFileBySecondu:function(paramTrendID){
+		
+		var pointDataId= getDataFromPointEmbed("pointDataId");
+		//var pointDataId= getDataFromPointEmbed("unitIdPointId");
+		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
+		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
+		var paramFromDateArray="";
+		var paramYear="";
+		var paramMonth="";
+		var paramMinute="";
+		var paramDay="";
+		var paramHour="";
+		
+		paramFromDateArray=paramFromDate.split("-");
+		
+
+		paramYear=paramFromDateArray[0];
+		paramMonth=paramFromDateArray[1];
+		paramDay=paramFromDateArray[2].split(" ");
+		paramDay=paramDay[0];
+		paramHour=$("#paramHour-"+paramTrendID+"").val();
+		paramMinute=$("#paramMinate-"+paramTrendID+"").val();
+		
+		var paramStartTime=paramYear+"-"+paramMonth+"-"+addZeroToNumber(paramDay)+" "+addZeroToNumber(paramHour)+":00:00";
+		var paramEndTime=paramYear+"-"+paramMonth+"-"+addZeroToNumber(paramDay)+" "+addZeroToNumber(paramHour)+":"+addZeroToNumber(paramMinute)+":00";
+		
+		$(".initDateTimeSecond-"+paramTrendID).remove();
+		$("body").append("" +
+				"<input type='hidden' name='initStartTimeSecond-"+paramTrendID+"' id='initStartTimeSecond-"+paramTrendID+"' class='initDateTimeSecond' value='"+paramStartTime+"'>" +
+				"<input type='hidden' name='initEndTimeSecond-"+paramTrendID+"' id='initEndTimeSecond-"+paramTrendID+"' class='initDateTimeSecond' value='"+paramEndTime+"'>");
+	
+		//startTimeForDisplay
+		
+		var menuteStartTime=paramStartTime.split(" ");
+		$("#startTimeForDisplay-"+paramTrendID+"").val(menuteStartTime[1]);
+		
+		$("#paramStartDateOnProccess-"+paramTrendID).remove();
+		$("body").append("<input type='hidden' name='paramStartDateOnProccess-"+paramTrendID+"' id='paramStartDateOnProccess-"+paramTrendID+"' value='"+paramStartTime+"'>");
+		/*
+		var obj={
+				
+				key:["U04D3","U04D4","U04D7","DC508"],
+				//key:arrayUnitIdPointIdDoubleQuote,
+				startTime:paramFromDate,
+				endTime:paramToDate,
+				scaleType:"second",
+				//scaleType:"month",
+				server:"47",
+				trendID:paramTrendID,
+				formulas:["U04D3","U04D4","U04D7"," U04D1+ U04D2+Enthalpy(U04D2;U04D2)"]
+				//formulas:getformulaEmbed
+			}
+			*/
+		/*
+		$.ajax({
+			url:"/ajax/executeCalculation",
+			method: "POST",
+			data: obj,
+			async:false,
+			success:function(data){
+				//console.log(data);
+				$obj=eval("("+data+")");
+				if($obj=='createJsonSuccess'){
+					*/
+		
+					var data2=readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+					
+					console.log("data22222");
+					console.log(data2);
+					if(data2=='[]'){
+						alert("Data is empty!");
+						return false;
+					}
+					//var data2 = eval("("+data2+")");
+					setTimeout(function(){
+						//alert(pointDataId);
+						createTrendChart(getDataByDateSecond(data2,pointDataId),pointDataId,"10",paramTrendID);
+						var lastObject = data2.pop();
+						setDefaultPointAndPlan(lastObject,pointDataId,paramTrendID);
+					},1000);
+	
+					
+					/*
+					var data2=readJsonFilter.scaleTypeSecond(paramTrendID,paramStartTime,intervalAddFn(paramStartTime,'minute','1'));
+					if(data2==''){
+						alert("Data is empty!");
+						return false;
+					}
+					console.log(data2);
+					alert(data2);
+					
+					
+					setTimeout(function(){
+						createTrendChart(getDataByDateSecond(data2,pointDataId),pointDataId,"10",paramTrendID);
+						var lastObject = data2.pop();
+						setDefaultPointAndPlan(lastObject,pointDataId,paramTrendID);
+					},1000);
+					*/
+					/*
+				}
+					
+			}
+		});
+		*/
+	
+		
 					
 			
 		

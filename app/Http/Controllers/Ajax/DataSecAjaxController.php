@@ -189,6 +189,7 @@ class DataSecAjaxController extends Controller
         $startTime_param=request('startTime');
         $endTime_param=request('endTime');
         $url_param=request('url');
+        $server_param=request('server');
         $constant_array = array();
         foreach ($formula_params as $key_formula_param => $formula_param) {
             $str = $formula_param;//"U04D1+ U04D2+Enthalpy(U04D2;U04D2)";
@@ -216,30 +217,32 @@ class DataSecAjaxController extends Controller
         $url=$url_param;//"http://localhost/";
         $client = new Client(['base_uri' => $url]);
         $key_json=json_encode($key_params);
+        $server_json=json_encode($server_param);
         $formulas_json=json_encode($formula_params);
         $constants_json=json_encode($constant_array);
         $json_str = "{
             \"key\":".$key_json.",
+            \"server\":".$server_json.",
 		    \"formulas\":".$formulas_json.",
 		    \"startTime\":\"".$startTime_param."\",
 		    \"endTime\":\"".$endTime_param."\",
 		    \"constants\":".$constants_json."
         }";
-       // Log::info($constants_json);
+        Log::info($json_str);
         $response = $client->request('GET', 'datasec.php', [
             'body' => $json_str
 
         ]);
 
         $contents = (string) $response->getBody();
-       // Log::info($contents);
+       //   Log::info($contents);
         return response()->json(['dataWithTimes'=>$contents]);
     }
     function getSecDataBkForTest(Request $request)
     {
         $root_path='/Users/imake/Desktop/AIS/data/MM';
         //$formula_param=request('formula');
-        //$formula_params=request('formula');
+
         $key_params=request('key');
         $formula_params=request('formulas');
         $startTime_param=request('startTime');

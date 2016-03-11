@@ -21,7 +21,10 @@ echo get_secdata();
 
 function get_secdata()
 {
-    $root_path='/Users/imake/Desktop/AIS/data/MM';
+    //$root_path='/Users/imake/Desktop/AIS/data/MM';
+    //$root_path='/mnt/aisdata/MM';
+    $root_path='';
+    $sub_path='';
     $data_back = json_decode(file_get_contents('php://input'));
 
     $key_params=$data_back->{'key'};//request('key');
@@ -29,7 +32,9 @@ function get_secdata()
     $startTime_param=$data_back->{'startTime'};//request('startTime');
     $endTime_param=$data_back->{'endTime'};//request('endTime');
     $constant_array=$data_back->{'constants'};//request('endTime');
-    //echo $data_back->{'endTime'};
+    $server_param=$data_back->{'server'};//request('server')
+
+    //echo $data_back->{'server'};
     $new_array = array();
     foreach ($formula_params as $key_formula_param => $formula_param) {
         //$str = strtoupper($formula_params);
@@ -88,7 +93,16 @@ function get_secdata()
     $vMinuteEnd= intval($vtimeEnd[1]);
 
     $folderNameStart=$vYearStart.$vMonthStart.$vDayStart;
+    $folderName=$vYearStart.'/'.$vMonthStart.'/'.$vDayStart;
     $folderNameEnd=$vYearEnd.$vMonthEnd.$vDayEnd;
+
+    if($server_param=='47'){
+        $root_path='D:/Data/MM';
+        $sub_path=$folderNameStart;
+    }else if($server_param=='813'){
+        $root_path='E:/MM';
+        $sub_path='/'.$folderName;
+    }
 
     $result_array = array();
     $result_times_array = array();
@@ -113,48 +127,61 @@ function get_secdata()
                 $unit=str_replace("U","",$valueOfArray['unit']);
                 $new_array[$keyOfArray]['time']=$folderNameStart.$hourStr.$minuteStr;
                 $valueOfArray['time']=$folderNameStart.$hourStr.$minuteStr;
+                //E:/MM -->08/0820140520/08201405200002.dat
+                //E:/MM -->08/2015/11/30/08201511301419.dat
+                if($server_param=='47'){
+                    $sub_path=$unit.$folderNameStart;
+                }else if($server_param=='813'){
+                    $sub_path=$folderName;
+                }
+                //$url = $root_path.$unit.'/'.$unit.$folderNameStart.'/'.$unit.$folderNameStart.$hourStr.$minuteStr.'.dat';
+                //$url = $root_path.$unit.'/'.$unit.'/'.$folderName.'/'.$unit.$folderNameStart.$hourStr.$minuteStr.'.dat';
+                $url = $root_path.$unit.'/'.$sub_path.'/'.$unit.$folderNameStart.$hourStr.$minuteStr.'.dat';
+                if ( file_exists($url) && ($hd = fopen($url, "rb"))!==false ) {
+                    $p = array(intval(str_replace("D","",$valueOfArray['data'])));
 
-                $url = $root_path.$unit.'/'.$unit.$folderNameStart.'/'.$unit.$folderNameStart.$hourStr.$minuteStr.'.dat';
-                $p = array(intval(str_replace("D","",$valueOfArray['data'])));
-
-                $hd = fopen($url, "rb");
-
-                $data = fread($hd, 6);
-                $ar = unpack("vid/fdata", $data);
-                fseek($hd, ($ar['data'] + 1) * 6);
-                while (!feof($hd)) {
+                   // $hd = fopen($url, "rb");
 
                     $data = fread($hd, 6);
-                    if (strlen($data) != 6) {
-                        //echo "length ".strlen($data);
-                        break;
-                    }
                     $ar = unpack("vid/fdata", $data);
-                    //  echo "sec : " . $ar['id'] . "->" . $ar['data'] . "<br>";
-                    for ($i = 0; $i <= $ar['data'] - 1; $i++) {
+                    fseek($hd, ($ar['data'] + 1) * 6);
+                    while (!feof($hd)) {
+
                         $data = fread($hd, 6);
-                        $arr = unpack("vid/fdata", $data);
-                        $trend_data[$arr['id']] = $arr['data'];
-                    }
-                    foreach ($p as $key => $value) {
-                        // echo "Point : " . $p[$key] . ", data : " . $trend_data[$value] . "<br />";
-                        $second_array_inner = array();
-                        $secondStr=(intval($ar['id'])>9)?$ar['id']:('0'.$ar['id']);
-                        $second_array_inner['time']=$vYearStart.'-'.$vMonthStart.'-'.$vDayStart.' '.$hourStr.':'.$minuteStr.':'.$secondStr;
-                        $second_array_inner['point']=$p[$key];
-                        $second_array_inner['unit']=$valueOfArray['unit'];
-                        $second_array_inner['data']=$valueOfArray['data'];
-                        $second_array_inner['value']=$trend_data[$value];
-                        $key_time=$vYearStart.'-'.$vMonthStart.'-'.$vDayStart.' '.$hourStr.':'.$minuteStr.':'.$secondStr;
-                        $minute_array_inner[$key_time]=$second_array_inner;
-                        // Log::info("key time->".$key_time);
-                        if(!array_key_exists($key_time, $result_times_array)){
-                            $result_times_array[$key_time]=$key_time;
+                        if (strlen($data) != 6) {
+                            //echo "length ".strlen($data);
+                            break;
                         }
-                        // Log::info("Point : " . $p[$key] . ", data : " . $trend_data[$value] . "<br />".$value." key ".$key);
+                        $ar = unpack("vid/fdata", $data);
+                        //  echo "sec : " . $ar['id'] . "->" . $ar['data'] . "<br>";
+                        for ($i = 0; $i <= $ar['data'] - 1; $i++) {
+                            $data = fread($hd, 6);
+                            $arr = unpack("vid/fdata", $data);
+                            $trend_data[$arr['id']] = $arr['data'];
+                        }
+                        foreach ($p as $key => $value) {
+                            // echo "Point : " . $p[$key] . ", data : " . $trend_data[$value] . "<br />";
+                            $second_array_inner = array();
+                            $secondStr=(intval($ar['id'])>9)?$ar['id']:('0'.$ar['id']);
+                            $second_array_inner['time']=$vYearStart.'-'.$vMonthStart.'-'.$vDayStart.' '.$hourStr.':'.$minuteStr.':'.$secondStr;
+                            $second_array_inner['point']=$p[$key];
+                            $second_array_inner['unit']=$valueOfArray['unit'];
+                            $second_array_inner['data']=$valueOfArray['data'];
+                            $second_array_inner['value']=$trend_data[$value];
+                            $key_time=$vYearStart.'-'.$vMonthStart.'-'.$vDayStart.' '.$hourStr.':'.$minuteStr.':'.$secondStr;
+                            $minute_array_inner[$key_time]=$second_array_inner;
+                            // Log::info("key time->".$key_time);
+                            if(!array_key_exists($key_time, $result_times_array)){
+                                $result_times_array[$key_time]=$key_time;
+                            }
+                            // Log::info("Point : " . $p[$key] . ", data : " . $trend_data[$value] . "<br />".$value." key ".$key);
+                        }
                     }
+                    fclose($hd);
+                }else{
+
                 }
-                fclose($hd);
+
             }
             $index++;
         }

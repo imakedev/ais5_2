@@ -107,7 +107,7 @@
                                         <option value='Day'>Day</option>
                                         <option value='Hour'>Hour</option>
                                         <option value='Minute' selected='selected'>Minute</option>
-                                        <option value='Second' disabled>Second</option>
+                                        <option value='Second' >Second</option>
                                         
                                     </select>
                                 </div>

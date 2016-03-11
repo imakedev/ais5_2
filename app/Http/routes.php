@@ -382,6 +382,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/ajax/postFormula', 'Ajax\CalculationAjax@postFormula');
     Route::post('/ajax/executeCalculation', 'Ajax\CalculationAjax@executeCalculation');
     Route::get('/ajax/readData/{scaleType}/{trendID}', 'Ajax\CalculationAjax@readData');
+    Route::get('/ajax/readDataSecond/{trendID}', 'Ajax\CalculationAjax@readDataSecond');
     
 
 

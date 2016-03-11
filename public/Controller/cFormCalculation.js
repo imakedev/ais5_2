@@ -761,13 +761,27 @@ function doClone(){
 	window.location.href="/ais/formCalculation/clone/"+cal_a;
 }
 function testCallDataSec(){
-
+	//2015/12/30/0820152300006
+	//0520140420/05201404200021.dat
 	var obj={
 		"key":["88-c102","89-c102"],
-		"formulas":["(U08D122+U08D122)*U08D123","U08D122+U08D123+CONSTANT@XXXXXX"],
+		//"formulas":["(U08D122+U08D122)*U08D123","U08D122+U08D123+CONSTANT@XXXXXX"],
+		"formulas":["U08D1"],
+		/*
 		"startTime":"2014-05-20 00:02:00",
 		"endTime":"2014-05-20 00:02:00",
-		"url":"http://localhost/"
+		*/
+		/*
+		"startTime":"2014-04-20 00:21:00",
+		"endTime":"2014-04-20 00:21:00",
+		*/
+		"startTime":"2015-12-30 00:06:00",
+		"endTime":"2015-12-30 00:06:00",
+		//"url":"http://localhost/",
+		//"url":"http://10.249.91.207/trendSecond813/",
+		//"server":"813"
+		"url":"http://10.249.91.96/trendSecond47/", // ok
+		"server":"47"
 	}
 
 	$.ajax({
@@ -775,27 +789,30 @@ function testCallDataSec(){
 		method: "POST",
 		data: obj
 	}).done(function(data, status, xhr) {
-		//console.log(data.dataWithTimes);
+		console.log(data.dataWithTimes);
 		//var sources = jQuery.parseJSON(data.sources);
 		//var dataWithTimes =data.dataWithTimes;
 		var dataWithTimes = jQuery.parseJSON(data.dataWithTimes);
 
-		var data2={
-			//"formula1":data.dataWithTimes,
-			"formula":dataWithTimes
-		}
-		$.ajax({
-			url: "/ajax/postFormula",
-			method: "POST",
-			data: data2
-		}).done(function(data22, status, xhr) {
-			//alert(data22)
-			console.log(data22);
-		});
+
+			var data2={
+				//"formula1":data.dataWithTimes,
+				"formula":dataWithTimes
+			}
+			$.ajax({
+				url: "/ajax/postFormula",
+				method: "POST",
+				data: data2
+			}).done(function(data22, status, xhr) {
+
+				console.log(data22);
+			});
+
+
 
 	});
 }
-function testCallPostFormula_bk(){
+function testCallPostFormula(){
 
 	var obj={
 		key:["88-c102","88-c103","88-U04D260"],
@@ -839,58 +856,58 @@ function testCallPostFormula(){
 		//console.log(data);
 		$obj=eval("("+data+")");
 		if($obj=='createJsonSuccess'){
-			
+
 			 $.ajax({
 					url:"/ajax/readData/minute/88",
 					type:"get",
 					async:false,
 					dataType:"json",
 					success:function(data){
-						
-						
-						
+
+
+
 						var jsonData="";
 						jsonData+="[";
 						$i=0;
 						$.each(data,function(index,indexEntry){
-							
+
 							console.log(index);
-							
+
 							if((toTimestamp(index)>=toTimestamp("2014-05-01 00:00:00")) && (toTimestamp(index)<=toTimestamp("2014-05-01 00:03:00"))) {
-							
-							
-							
-									
+
+
+
+
 									if($i==0){
-										jsonData+="{";	
+										jsonData+="{";
 									}else{
 										jsonData+=",{";
 									}
 									$j=0;
 									$.each(indexEntry,function(index2,indexEntry2){
-		
+
 										if($j==0){
 											jsonData+="\""+index2+"\":\""+indexEntry2+"\"";
 										}else{
 											jsonData+=",\""+index2+"\":"+indexEntry2+"";
 										}
-										
+
 										$j++;
 									});
-									
+
 									jsonData+="}";
 									$i++;
-									
-									
+
+
 							}
 						});
-						
+
 						jsonData+="]";
-						
+
 						console.log(jsonData);
 					}
 			 });
-			 
+
 		}
 		//$.each(data)
 		//var results = jQuery.parseJSON(data);

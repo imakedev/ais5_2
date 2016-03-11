@@ -227,6 +227,8 @@ class CalculationAjax extends Controller
        // Log::info(sizeof(request('formula2')));
 
         $formulas_init = array();
+
+        if(!empty(request('formula')))
         foreach (request('formula') as $key => $val) {
             $formulas = array();
             //$formulas["key"] = $key;
@@ -237,12 +239,12 @@ class CalculationAjax extends Controller
         }
         //Log::info(sizeof($formulas_init));
         $jsonStr = json_encode($formulas_init);
-       // Log::info($jsonStr);
+
 
         $json_str = "{
   \"formula\" : $jsonStr
 }";
-
+        Log::info($json_str);
         // Create a client with a base URI
         $client = new Client(['base_uri' => $url]);
         /*
@@ -260,7 +262,7 @@ class CalculationAjax extends Controller
 
         $contents = (string) $response->getBody();
         $contentsObj=json_decode($contents);
-       // Log::info($contents);
+        //Log::info($contents);
 
         $formulaObjList=$contentsObj->formula;
        // Log::info($formulaObjList);
@@ -278,8 +280,54 @@ class CalculationAjax extends Controller
             }
         }
 
-        return json_encode($result_plot_array);
+       // return json_encode($result_plot_array);
+/*
+        $strFileName = "webservice/fileTrend/trendJson-$scaleType_param-$trendID-$sess_emp_id-$user_mmplant.txt";
+        $objCreate = fopen($strFileName, 'w');
+        if($objCreate)
+        {
+            $objFopen = fopen($strFileName, 'w');
+            $strText1 = json_encode($result_plot_array);
+            //echo "strText1=".$strText1;
+            fwrite($objFopen, $strText1);
+            if($objFopen)
+            {
+                echo '["createJsonSuccess"]';
+            }
+            else
+            {
+                echo '["error"]';
+            }
+            fclose($objFopen);
+        
+        }else{
+            echo "File Not Create.";
+        }
+        */
 
+      return json_encode($result_plot_array);
+    }
+    public function readDataSecond($trendID){
+    
+        Log::info("Into readDataMinuteu");
+    
+        $sess_emp_id= Auth::user()->id;
+        $user_mmplant= Session::get('user_mmplant');
+    
+    
+        //$strFileName = "webservice/fileTrend/trendJson-$scaleType-$trendID-$sess_emp_id-$user_mmplant.txt";
+        $strFileName = "webservice/fileTrend/trendJson-second-3041-18-1.txt";
+        
+        $objFopen = fopen($strFileName, 'r');
+        if ($objFopen) {
+            while (!feof($objFopen)) {
+                $file = fgets($objFopen, 4096);
+                echo $file;
+            }
+            fclose($objFopen);
+        }
+    
+        //http://localhost:9952/ajax/readDataSecond/88
     }
 
     public function executeCalculationBK()

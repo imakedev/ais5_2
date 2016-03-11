@@ -16,7 +16,7 @@ class DBUtils
         Log::info("$user_mmplant->".$user_mmplant);
         $dbName='mysql';
         if($user_mmplant=='1'){
-            $dbName='mysql';//'mysql_ais_47';
+            $dbName='mysql_ais_47'; // 'mysql'
         }else if($user_mmplant=='2'){
             $dbName='mysql_ais_813';
         }else if($user_mmplant=='3'){

@@ -1697,10 +1697,15 @@ function tooltipCustom(paramTrendID){
 					 if(diffDays>1){
 						 txt+="Scale Time Minute ดูข้อมูลได้ไม่เกิน 1 วัน \n";
 					 }
-				}else if(scaleTime=='Second'){
+				}
+				
+				else if(scaleTime=='Second'){
+					//
 					
-					var diffMinutes = b.diff(a, 'minutes');
-					 if(diffMinutes>10){
+					var trendActive=$("#trendTabActive").val();
+					var paramMinute=$("#minute-"+trendActive).val();
+					
+					 if(paramMinute>=10){
 						 txt+="Scale Time Second ดูข้อมูลได้ไม่เกิน 10 นาที \n";
 					 }
 					 
