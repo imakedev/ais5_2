@@ -763,10 +763,46 @@ function doClone(){
 function testCallDataSec(){
 	//2015/12/30/0820152300006
 	//0520140420/05201404200021.dat
+	/*
+	endTime	
+	2015-12-11 11:12:00
+	formulas[]	
+	U04D3
+	formulas[]	
+	U04D4
+	formulas[]	
+	U04D7
+	formulas[]	
+	 U04D1+ U04D2+Enthalpy(U04D2;U04D2)
+	key[]	
+	U04D3
+	key[]	
+	U04D4
+	key[]	
+	U04D7
+	key[]	
+	DC508
+	server	
+	47
+	startTime	
+	2015-12-11 11:8:0
+	trendID	
+	3041
+	*/
+	var obj2={
+			"key":["U04D3","U04D4","U04D7","DC508"],
+			"formulas":["U04D3","U04D4","U04D7","U04D1+ U04D2+Enthalpy(U04D2;U04D2)"],
+			"startTime":"2015-12-30 00:08:00",
+			"endTime":"2015-12-30 00:09:00",
+			"url":"http://10.249.91.96/trendSecond47/", // ok
+			"server":"47",
+			"trendID":"88",
+		}
 	var obj={
-		"key":["88-c102","89-c102"],
+		"key":["U04D1","DC102"],
 		//"formulas":["(U08D122+U08D122)*U08D123","U08D122+U08D123+CONSTANT@XXXXXX"],
-		"formulas":["U08D1"],
+		"formulas":["U04D1","U04D1+U04D2"],
+		
 		/*
 		"startTime":"2014-05-20 00:02:00",
 		"endTime":"2014-05-20 00:02:00",
@@ -781,24 +817,32 @@ function testCallDataSec(){
 		//"url":"http://10.249.91.207/trendSecond813/",
 		//"server":"813"
 		"url":"http://10.249.91.96/trendSecond47/", // ok
-		"server":"47"
+		"server":"47",
+		
 	}
 
 	$.ajax({
 		url: "/ajax/secdata",
 		method: "POST",
-		data: obj
+		data: obj2
 	}).done(function(data, status, xhr) {
 		console.log(data.dataWithTimes);
+		
+		console.log("111data111");
+		console.log(data);
+		
 		//var sources = jQuery.parseJSON(data.sources);
 		//var dataWithTimes =data.dataWithTimes;
 		var dataWithTimes = jQuery.parseJSON(data.dataWithTimes);
-
+		
 
 			var data2={
 				//"formula1":data.dataWithTimes,
-				"formula":dataWithTimes
+				"formula":dataWithTimes,
+				"trendID":"88"
 			}
+			alert("---data2---");
+			console.log(data2);
 			$.ajax({
 				url: "/ajax/postFormula",
 				method: "POST",

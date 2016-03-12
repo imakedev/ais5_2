@@ -212,7 +212,12 @@ class CalculationAjax extends Controller
 
     public function postFormula(Request $request)
     {
-
+       
+        $sess_emp_id= Auth::user()->id;
+        $user_mmplant= Session::get('user_mmplant');
+        $trendID=request('trendID');
+        
+        
         $url = env('CALCULATION_HOST', 'http://localhost:3000/v1/');
         $json_str = "{
   \"formula\" : [ {
@@ -229,9 +234,12 @@ class CalculationAjax extends Controller
         $formulas_init = array();
 
         if(!empty(request('formula')))
+           
         foreach (request('formula') as $key => $val) {
             $formulas = array();
             //$formulas["key"] = $key;
+
+           // $trendID =  $val["trendID"];
             $formulas["key"] =  $val["key"];
             $formulas["value"] = $val["value"];
             $formulas["time"] = $val["time"];//$key;
@@ -271,18 +279,29 @@ class CalculationAjax extends Controller
             if (!array_key_exists($formulaObj->{'time'}, $result_plot_array)) {
                 $new_result_plot_inner = array();
                 $new_result_plot_inner['EvTime'] =$formulaObj->{'time'};
-                $new_result_plot_inner[$formulaObj->{'key'}] =$formulaObj->{'result'};
-                $new_result_plot_inner[$formulaObj->{'key'}.'-status'] =$formulaObj->{'status'};
+        
+                if($formulaObj->{'status'}=='OK'){
+                    $new_result_plot_inner[$formulaObj->{'key'}] =$formulaObj->{'result'};
+                }else{
+                    $new_result_plot_inner[$formulaObj->{'key'}] =0;
+                }
+        
+                //$new_result_plot_inner[$formulaObj->{'key'}.'-status'] =$formulaObj->{'status'};
                 $result_plot_array[$formulaObj->{'time'}] = $new_result_plot_inner;
             }else{
-                $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=$formulaObj->{'result'};
-                $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}.'-status']=$formulaObj->{'status'};
+                if($formulaObj->{'status'}=='OK'){
+        
+                    $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=$formulaObj->{'result'};
+                }else{
+                    $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=0;
+                    //$result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}.'-status']=$formulaObj->{'status'};
+                }
             }
         }
 
        // return json_encode($result_plot_array);
-/*
-        $strFileName = "webservice/fileTrend/trendJson-$scaleType_param-$trendID-$sess_emp_id-$user_mmplant.txt";
+
+        $strFileName = "webservice/fileTrend/trendJson-second-$trendID-$sess_emp_id-$user_mmplant.txt";
         $objCreate = fopen($strFileName, 'w');
         if($objCreate)
         {
@@ -303,9 +322,9 @@ class CalculationAjax extends Controller
         }else{
             echo "File Not Create.";
         }
-        */
+       
 
-      return json_encode($result_plot_array);
+     // return json_encode($result_plot_array);
     }
     public function readDataSecond($trendID){
     
@@ -315,8 +334,9 @@ class CalculationAjax extends Controller
         $user_mmplant= Session::get('user_mmplant');
     
     
-        //$strFileName = "webservice/fileTrend/trendJson-$scaleType-$trendID-$sess_emp_id-$user_mmplant.txt";
-        $strFileName = "webservice/fileTrend/trendJson-second-3041-18-1.txt";
+        
+        $strFileName = "webservice/fileTrend/trendJson-second-$trendID-$sess_emp_id-$user_mmplant.txt";
+        //$strFileName = "webservice/fileTrend/trendJson-second--$sess_emp_id-$user_mmplant.txt";
         
         $objFopen = fopen($strFileName, 'r');
         if ($objFopen) {
@@ -724,7 +744,5 @@ class CalculationAjax extends Controller
             }
             fclose($objFopen);
         }
-
-        //http://localhost:9952/ajax/readData/minute/88
     }
 }

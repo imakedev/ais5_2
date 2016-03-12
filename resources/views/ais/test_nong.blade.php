@@ -80,6 +80,44 @@
    <button id='readJsonFilterFile'>readJsonFilterFile</button>
     <script>
 
+
+            var paramHourMinuteTime="02:02";
+            var paramMinuteScale="5";
+            var paramDateTime= "2014-05-30 "+paramHourMinuteTime+":00";
+            
+            paramDateTime="2015-12-20 10:20:00";
+            var paramStartTime = intervalAddFn(paramDateTime,'minute',5);
+            var paramEndTime = intervalDelFn(paramDateTime,'minute',5);
+            //var paramStartTime = intervalAddFn(paramDateTime,'minute',parseInt(paramMinuteScale));
+            //var paramEndTime = intervalDelFn(paramDateTime,'minute',parseInt(paramMinuteScale));
+
+            //alert(paramStartTime);
+            //alert(paramEndTime);
+            
+
+            /*
+            var paramFromDateArray="";
+    		var paramYear="";
+    		var paramMonth="";
+    		var paramMinute="";
+    		var paramDay="";
+    		var paramHour="";
+    		
+    		paramFromDateArray=paramFromDate.split("-");
+    		
+
+    		paramYear=paramFromDateArray[0];
+    		paramMonth=paramFromDateArray[1];
+    		paramDay=paramFromDateArray[2].split(" ");
+    		paramDay=paramDay[0];
+    		paramHour=$("#paramHour-"+paramTrendID+"").val();
+    		paramMinute=$("#paramMinate-"+paramTrendID+"").val();
+    		
+    		var paramStartTime=paramYear+"-"+paramMonth+"-"+addZeroToNumber(paramDay)+" "+addZeroToNumber(paramHour)+":00:00";
+    		var paramEndTime=paramYear+"-"+paramMonth+"-"+addZeroToNumber(paramDay)+" "+addZeroToNumber(paramHour)+":"+addZeroToNumber(paramMinute)+":00";
+
+*/
+    		
   //toTimestamp();
 
     //read file json start

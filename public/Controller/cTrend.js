@@ -56,6 +56,10 @@ function templateFormat(category,series,value) {
 		var paramFromDate=$("#paramFromDate-"+trendActive).val();
 		paramFromDate=paramFromDate.split(" ");
 		paramFromDate=paramFromDate[0]+" "+category;
+		/*
+		console.log("--------------");
+		console.log("paramFromDate"+paramFromDate);
+		*/
 		$("#dateTimeInDataDisplaySecond-"+$("#trendTabActive").val()+"").html(convertDateHisTh(paramFromDate)+" น.");
 		
 		
@@ -186,13 +190,15 @@ function templateFormat(category,series,value) {
 	 
 	 
 	 
-	 paramStartDate=intervalDelFn(dateTimeEvent,'minute','5');
-	 paramEndDate=intervalAddFn(dateTimeEvent,'minute','5');
-	 paramTagList=$(".showPoint>.pointTag-"+trendActive+"").text().substring("1");
+	 
 	 
 	 
 	 if($("#paramevent-"+point+"-"+$("#trendTabActive").val()).val()=="event"){
-		
+		 
+		 paramStartDate=intervalDelFn(dateTimeEvent,'minute','5');
+		 paramEndDate=intervalAddFn(dateTimeEvent,'minute','5');
+		 paramTagList=$(".showPoint>.pointTag-"+trendActive+"").text().substring("1");
+		 
 		 
 
 		 $.ajax({
@@ -220,6 +226,12 @@ function templateFormat(category,series,value) {
 	 
 	 
 	 if($("#paramaction-"+point+"-"+$("#trendTabActive").val()).val()=="action"){
+		 
+		 
+		 paramStartDate=intervalDelFn(dateTimeEvent,'minute','5');
+		 paramEndDate=intervalAddFn(dateTimeEvent,'minute','5');
+		 paramTagList=$(".showPoint>.pointTag-"+trendActive+"").text().substring("1");
+		 
 		 
 		 $.ajax({
 				url:"/ais/serviceTrend/readEventDataTrendByEvent/"+paramTagList+"/"+paramStartDate+"/"+paramEndDate+"/action",
@@ -266,6 +278,12 @@ function templateFormat(category,series,value) {
 			*/
 	 }
 	 if($("#paramvpser-"+point+"-"+$("#trendTabActive").val()).val()=="vpser"){
+		 
+		 
+		 paramStartDate=intervalDelFn(dateTimeEvent,'minute','5');
+		 paramEndDate=intervalAddFn(dateTimeEvent,'minute','5');
+		 paramTagList=$(".showPoint>.pointTag-"+trendActive+"").text().substring("1");
+		 
 		 
 		 $.ajax({
 				url:"/ais/serviceTrend/readEventDataTrendByEvent/"+paramTagList+"/"+paramStartDate+"/"+paramEndDate+"/vpser",
@@ -465,7 +483,7 @@ function tooltipCustom(paramTrendID){
 				 */
 	 			
 				 if(($("#paramHour-"+paramTrendID).val()!=undefined) && ($("#paramHour-"+paramTrendID).val()!="undefined")&& ($("#paramHour-"+paramTrendID).val()!="")){
-					 $("#hour-"+paramTrendID).val(addZeroToNumber($("#paramHour-"+paramTrendID).val()));
+					 $("#hour-"+paramTrendID).val($("#paramHour-"+paramTrendID).val());
 					 //alert("Hour="+$("#paramHour-"+paramTrendID).val());
 				 }
 				 if(($("#paramMinate-"+paramTrendID).val()!=undefined)&&($("#paramMinate-"+paramTrendID).val()!="undefined")&&($("#paramMinate-"+paramTrendID).val()!="")){
@@ -1662,6 +1680,19 @@ function tooltipCustom(paramTrendID){
 			 var fromDateTest= toTimestamp(paramFromDate);
 			 var toDateTest= toTimestamp(paramToDate);
 			 
+			 
+		if(scaleTime=='Second'){
+			//
+			
+			var trendActive=$("#trendTabActive").val();
+			var paramMinute=$("#minute-"+trendActive).val();
+			
+			 if(paramMinute>=10){
+				 txt+="Scale Time Second ดูข้อมูลได้ไม่เกิน 10 นาที \n";
+			 }
+			 
+		}else{
+			
 			 if(fromDateTest > toDateTest){
 					
 				 txt+="เลือกช่วงเวลาไม่ถูกต้อง /n";
@@ -1699,24 +1730,14 @@ function tooltipCustom(paramTrendID){
 					 }
 				}
 				
-				else if(scaleTime=='Second'){
-					//
-					
-					var trendActive=$("#trendTabActive").val();
-					var paramMinute=$("#minute-"+trendActive).val();
-					
-					 if(paramMinute>=10){
-						 txt+="Scale Time Second ดูข้อมูลได้ไม่เกิน 10 นาที \n";
-					 }
-					 
-				}
+				
 				
 			//return false;
 				 
 			 }
 			 
 			 
-			 
+		}
 			
 			 
 			 

@@ -308,7 +308,7 @@ var secondsDel5h=starttimeDel5h.getSeconds();
 function setFormatDateTime(dateTime){
 	dateTime=dateTime.split("-");
 	dateTimeYear=dateTime[0];
-	dateTimeMonth=dateTime[1];
+	dateTimeMonth=parseInt(dateTime[1])-1;
 	dateTimeDayAndHis=dateTime[2];
 	dateTimeDayAndHis=dateTimeDayAndHis.split(" ");
 	dateTimeDay=dateTimeDayAndHis[0];
@@ -350,7 +350,7 @@ function intervalDelFn(dateTimeHis,interval,units){
 	
 	var dateTimeIntervalFormat="";
 	var yearDel=dateTimeInterval.getFullYear();
-	var monthDel=dateTimeInterval.getMonth();
+	var monthDel=parseInt(dateTimeInterval.getMonth())+1;
 	var dayDel=dateTimeInterval.getDate();
 	var HoursDel=dateTimeInterval.getHours();
 	var minutesDel=dateTimeInterval.getMinutes();
@@ -361,24 +361,26 @@ function intervalDelFn(dateTimeHis,interval,units){
 	
 }
 function intervalAddFn(dateTimeHis,interval,units){
-	
+	//alert(dateTimeHis);
 	var dateTimeHisFormat=setFormatDateTime(dateTimeHis);
 	
+	//alert(dateTimeHisFormat);
 	var d = new Date(dateTimeHisFormat);
 	
 	
 	var dateTimeInterval= new Date(dateAdd(d, interval, units));
 	//return dateTimeInterval;
 	
-	var dateTimeIntervalFormat="";
-	var yearDel=dateTimeInterval.getFullYear();
-	var monthDel=dateTimeInterval.getMonth();
-	var dayDel=dateTimeInterval.getDate();
-	var HoursDel=dateTimeInterval.getHours();
-	var minutesDel=dateTimeInterval.getMinutes();
-	var secondsDel=dateTimeInterval.getSeconds();
 	
-	dateTimeIntervalFormat=yearDel+"-"+addZeroToNumber(monthDel)+"-"+addZeroToNumber(dayDel)+" "+addZeroToNumber(HoursDel)+":"+addZeroToNumber(minutesDel)+":"+addZeroToNumber(secondsDel);
+	var dateTimeIntervalFormat="";
+	var yearAdd=dateTimeInterval.getFullYear();
+	var monthAdd=parseInt(dateTimeInterval.getMonth())+1;
+	var dayAdd=dateTimeInterval.getDate();
+	var HoursAdd=dateTimeInterval.getHours();
+	var minutesAdd=dateTimeInterval.getMinutes();
+	var secondsAdd=dateTimeInterval.getSeconds();
+	
+	dateTimeIntervalFormat=yearAdd+"-"+addZeroToNumber(monthAdd)+"-"+addZeroToNumber(dayAdd)+" "+addZeroToNumber(HoursAdd)+":"+addZeroToNumber(minutesAdd)+":"+addZeroToNumber(secondsAdd);
 	return dateTimeIntervalFormat;
 	
 }
@@ -394,7 +396,7 @@ function intervalDelNoneHisThFn(dateTimeHis,interval,units){
 	
 	var dateTimeIntervalFormat="";
 	var yearDel=dateTimeInterval.getFullYear();
-	var monthDel=dateTimeInterval.getMonth();
+	var monthDel=parseInt(dateTimeInterval.getMonth())+1;
 	var dayDel=dateTimeInterval.getDate();
 	var HoursDel=dateTimeInterval.getHours();
 	var minutesDel=dateTimeInterval.getMinutes();

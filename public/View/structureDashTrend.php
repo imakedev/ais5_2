@@ -161,10 +161,10 @@
                        <div class='row rowTopBottomMargin forSecondFormShow displaynone'>
                            
                             <div class='form-group' >
-                                <label class='col-lg-3 control-label textAlign'>ชั่วโมง</label>
+                                <label class='col-lg-3 control-label textAlign'>ชั่วโมง:นาที</label>
                                 <div class='col-lg-9 scaleTimeR'>
                                    
-                                       <input type='text' id='hour-<?=$_GET['paramTrendID']?>' value='00:00' class='form-control input-sm '>
+                                       <input type='text' id='hour-<?=$_GET['paramTrendID']?>' value='<?=date('H:i')?>' class='form-control input-sm '>
                                     
                                 </div>
                            </div>

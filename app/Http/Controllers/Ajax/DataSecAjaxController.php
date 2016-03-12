@@ -188,6 +188,7 @@ class DataSecAjaxController extends Controller
         $formula_params=request('formulas');
         $startTime_param=request('startTime');
         $endTime_param=request('endTime');
+        $trendID=request('trendID');
         $url_param=request('url');
         $server_param=request('server');
         $constant_array = array();
@@ -226,6 +227,7 @@ class DataSecAjaxController extends Controller
 		    \"formulas\":".$formulas_json.",
 		    \"startTime\":\"".$startTime_param."\",
 		    \"endTime\":\"".$endTime_param."\",
+		    \"trendID\":\"".$trendID."\",      
 		    \"constants\":".$constants_json."
         }";
         Log::info($json_str);
