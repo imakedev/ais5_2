@@ -2531,6 +2531,41 @@ function tooltipCustom(paramTrendID){
 						//alert 
 						//alert("อยู่ในระหว่างการปรับปรุง...");
 						//return false;
+						
+						
+						var unitHtml="";
+						$.ajax({
+							url:'/ais/trendSetting/getMMPlant',
+							dataType:'json',
+							async:false,
+							success:function(data){
+								//alert(data);
+								//console.log(data);
+								if(data==1){
+									
+								unitHtml+="<select name=\"editUnit\" id=\"editUnit\" class=\"form-control input-sm\">";
+									unitHtml+="<option selected value='All'>All Unit</option>";
+									unitHtml+="<option value='4'>MM04</option>";
+					                unitHtml+="<option value='5'>MM05</option>";
+					                unitHtml+="<option value='6'>MM06</option>";
+					                unitHtml+="<option value='7'>MM07</option>";
+					            unitHtml+="</select> ";
+								}else{
+								unitHtml+="<select name=\"editUnit\" id=\"editUnit\" class=\"form-control input-sm\">";
+									unitHtml+="<option selected value='All'>All Unit</option>";
+									unitHtml+="<option value='8'>MM08</option>";
+					                unitHtml+="<option value='9'>MM09</option>";
+					                unitHtml+="<option value='10'>MM10</option>";
+					                unitHtml+="<option value='11'>MM11</option>";
+					                unitHtml+="<option value='12'>MM12</option>";
+					                unitHtml+="<option value='13'>MM13</option>";
+					            unitHtml+="</select> ";
+					            
+								}
+							}
+						});
+						$("#listAllUnitArea").html(unitHtml);
+						
 						var paramTrendID=$("#trendTabActive").val();
 						var paramTrendName=$("#paramTrendNameEmbed-"+paramTrendID).val();
 						var paramUnit=$("#paramUnitEmbed-"+paramTrendID).val();

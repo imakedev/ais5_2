@@ -1,3 +1,4 @@
+<?php session_start();?>
 <script src='/Controller/cTrendSetting.js'></script>
 <link href="/css/trendSetting.css" rel="stylesheet">
 
@@ -116,13 +117,19 @@ $("#btnReadAjax").click(function(){
      <input type='checkbox'  name='pointCompare' id='pointCompare' value="Y"> Point Compare
  </div>
  <div class="col-xs-offset-0 col-xs-2 ">
+
+ 
         <div id='listAllUnitArea' class='displaynone'>
-            <select class="form-control input-sm" id='unit' name="unit">
+            <select  class="form-control input-sm " id='unit' name="unit">
                 <option selected value='All'>All Point</option>
+                
+            
                 <option  value='4'>MM04</option>
                 <option value='5'>MM05</option>
                 <option value='6'>MM06</option>
                 <option value='7'>MM07</option>
+               
+                
                
             </select> 
        </div>

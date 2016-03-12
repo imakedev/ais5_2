@@ -30,16 +30,23 @@ class trendSetingController extends Controller
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
     }
+    public function getMMPlant(){
+        $user_mmplant= Session::get('user_mmplant');
+        return json_encode($user_mmplant);
+    
+    }
+    
     public function getAllTrendGroup(){
         //Test 001
         Log::info("Into getAllGroup");
+        $user_mmplant= Session::get('user_mmplant');
        // $trendGroupModel = trendGroupModel::all();
         $myTrend= Auth::user()->empId;
         $query="
                 select * from(
                 select $myTrend AS B, 'My Trend' as group_name
                 UNION
-                select B,group_name from mmtrend_group where B!=9
+                select B,group_name from mmtrend_group where B!=9 and mmplant='$user_mmplant'
                 )queryA
                 ";
         $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);

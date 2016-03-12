@@ -408,15 +408,40 @@ var bindGridPoinList = function(){
 				return false;
 				
 			}else{
-				
 			var unitHtml="";
-			unitHtml+="<select class=\"form-control input-sm unit\" id=\"unit-"+trendID+"\" name=\"unit-"+trendID+"\">";
-				unitHtml+="<option selected value='All'>All Unit</option>";
-				unitHtml+="<option value='4'>MM04</option>";
-                unitHtml+="<option value='5'>MM05</option>";
-                unitHtml+="<option value='6'>MM06</option>";
-                unitHtml+="<option value='7'>MM07</option>";
-            unitHtml+="</select> ";
+			$.ajax({
+				url:'/ais/trendSetting/getMMPlant',
+				dataType:'json',
+				async:false,
+				success:function(data){
+					//alert(data);
+					//console.log(data);
+					if(data==1){
+					unitHtml+="<select class=\"form-control input-sm unit\" id=\"unit-"+trendID+"\" name=\"unit-"+trendID+"\">";
+						unitHtml+="<option selected value='All'>All Unit</option>";
+						unitHtml+="<option value='4'>MM04</option>";
+		                unitHtml+="<option value='5'>MM05</option>";
+		                unitHtml+="<option value='6'>MM06</option>";
+		                unitHtml+="<option value='7'>MM07</option>";
+		            unitHtml+="</select> ";
+					}else{
+					unitHtml+="<select class=\"form-control input-sm unit\" id=\"unit-"+trendID+"\" name=\"unit-"+trendID+"\">";
+						unitHtml+="<option selected value='All'>All Unit</option>";
+						unitHtml+="<option value='8'>MM08</option>";
+		                unitHtml+="<option value='9'>MM09</option>";
+		                unitHtml+="<option value='10'>MM10</option>";
+		                unitHtml+="<option value='11'>MM11</option>";
+		                unitHtml+="<option value='12'>MM12</option>";
+		                unitHtml+="<option value='13'>MM13</option>";
+		            unitHtml+="</select> ";
+		            
+					}
+				}
+			});
+			
+			
+			
+            
             $("#listAllUnitArea").html(unitHtml);
             setTimeout(function(){
             	$("#listAllUnitArea").show();

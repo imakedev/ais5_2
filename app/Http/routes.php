@@ -275,6 +275,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/ais/trendSetting/getPointByPointID/{pontID}','trendSetingController@getPointByPointID');
     Route::get('/ais/trendSetting/getPointCompareByTrendIDAndPointID/{trendID}/{pontID}','trendSetingController@getPointCompareByTrendIDAndPointID');
     Route::post('/ais/trendSetting/getDataByQuery/{query}','trendSetingController@getDataByQuery');
+    Route::get('/ais/trendSetting/getMMPlant','trendSetingController@getMMPlant');
     // Route::get('/trendSetting/edit/','trendSetingController@editMember');
 
     /*trend seting end00*/
