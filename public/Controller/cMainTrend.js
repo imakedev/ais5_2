@@ -1762,7 +1762,7 @@ var createFileServiceChart={
         
          var paramDateTime= ""+paramFromDate+" "+paramHourMinuteTime+":00";
         // paramDateTime="2015-12-20 10:20:00";
-         alert(paramDateTime);
+         //alert(paramDateTime);
          
          var paramStartTime = intervalDelFn(paramDateTime,'minute',parseInt(paramMinuteScale));
          //alert(paramStartTime);
