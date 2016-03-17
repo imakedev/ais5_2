@@ -84,7 +84,6 @@ class ConstantAjax extends Controller
                 $mmConstantM->A = $request->input('A');
                 $mmConstantM->B = $request->input('B');
 
-
                 $mmConstantM->save();
                 session()->flash('message', ' Update successfuly.');
             }else{

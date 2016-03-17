@@ -28,7 +28,7 @@ class serviceTrendController  extends Controller{
         $numberHasZero="";
         //Session::put('sess_emp_id', '00002');
         //for test local
-        Session::put('user_mmplant', '0');
+        //Session::put('user_mmplant', '0');
 
         $this->middleware('auth');
         
@@ -845,6 +845,7 @@ class serviceTrendController  extends Controller{
 
   /* read data event for trend start*/
   public function readEventDataTrend($point,$unit,$startTime,$endTime){
+  //public function readEventDataTrend($point,$unit,$startTime,$endTime){
         //$unit,$startTime,$endTime
         //echo $point;
         
@@ -921,7 +922,11 @@ class serviceTrendController  extends Controller{
         
         return json_encode($reslutQuery);
                 
-        
+  }
+  //{tagName}/{startDateTime}/{endDateTime}/{event}
+  public function readEventDataTrendByEvent($tagName,$startDateTime,$endDateTime,$event){    
+      $sess_emp_id= Auth::user()->id;
+      $user_mmplant= Session::get('user_mmplant');
         /* Real Data here
         $query="
                 select vpser_raw.sys_date as 'EvTime',vpser_raw.ois_vpser,event_raw.ois_event,action_raw.ois_action from vpser_raw
@@ -1018,12 +1023,17 @@ class serviceTrendController  extends Controller{
             $unit=4;
             //FOR TEST
             if($unit==4){
-                $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
+               // echo "data here mysql_ais_log_47_4";
+               // $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
+               $reslutQuery =  DB::connection()->select($query);
             }else if($unit==5){
+                //echo "data here mysql_ais_log_47_5";
                 $reslutQuery = DB::connection('mysql_ais_log_47_5')->select($query);
             }else if($unit==6){
+                //echo "data here mysql_ais_log_47_6";
                 $reslutQuery = DB::connection('mysql_ais_log_47_6')->select($query);
             }else if($unit==7){
+               // echo "data here mysql_ais_log_47_7";
                 $reslutQuery = DB::connection('mysql_ais_log_47_7')->select($query);
             }
             
@@ -1035,8 +1045,8 @@ class serviceTrendController  extends Controller{
             $reslutQuery = DB::connection('mysql_ais_fgd')->select($query);
             
         }else{
-           
-            $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
+            //echo "data here mysql";
+            //$reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
         }
         
         
@@ -1057,7 +1067,8 @@ class serviceTrendController  extends Controller{
             $unit=4;
             //FOR TEST
             if($unit==4){
-                $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
+                $reslutQuery =  DB::connection()->select($query);
+                //$reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
             }else if($unit==5){
                 $reslutQuery = DB::connection('mysql_ais_log_47_5')->select($query);
             }else if($unit==6){
@@ -1075,7 +1086,7 @@ class serviceTrendController  extends Controller{
             
         }else{
             //for test
-            $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
+           // $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
         }
          return json_encode($reslutQuery);
          
@@ -1092,7 +1103,10 @@ class serviceTrendController  extends Controller{
           $unit=4;
           //FOR TEST
             if($unit==4){
-                $reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
+                
+                $reslutQuery =  DB::connection()->select($query);
+                
+                //$reslutQuery = DB::connection('mysql_ais_log_47_4')->select($query);
             }else if($unit==5){
                 $reslutQuery = DB::connection('mysql_ais_log_47_5')->select($query);
             }else if($unit==6){
@@ -1110,7 +1124,7 @@ class serviceTrendController  extends Controller{
             
         }else{
            
-            $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
+            //$reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
         }
          return json_encode($reslutQuery);
           
@@ -1134,7 +1148,18 @@ public function readSessEmpID( ){
 
   /* read data event for trend end*/
     
+public function getColorTrendByUser(){
+
+
+    $empId= Auth::user()->empId;
     
+    $query="select * from mmtrend_color_table where O='$empId'";
+    $reslutQuery = DB::connection()->select($query);
+    return json_encode($reslutQuery);
+
+
+
+} 
     
     
     

@@ -56,10 +56,10 @@ function templateFormat(category,series,value) {
 		var paramFromDate=$("#paramFromDate-"+trendActive).val();
 		paramFromDate=paramFromDate.split(" ");
 		paramFromDate=paramFromDate[0]+" "+category;
-		/*
-		console.log("--------------");
+		
+		console.log("ๅๅ--------------55");
 		console.log("paramFromDate"+paramFromDate);
-		*/
+		console.log(convertDateHisTh(paramFromDate));
 		$("#dateTimeInDataDisplaySecond-"+$("#trendTabActive").val()+"").html(convertDateHisTh(paramFromDate)+" น.");
 		
 		
@@ -1968,7 +1968,7 @@ function tooltipCustom(paramTrendID){
 		
 		 var id=this.id.split("-");
 		 id=id[1];
-		 alert(id);
+		// alert(id);
 		 var paramEmbedEvent="";
 		 var dataForTooltipUl="";
 		 var dataForTooltipLi="";
@@ -2276,7 +2276,10 @@ function tooltipCustom(paramTrendID){
 			setScaleDateTimeFn(fromDate,toDate,paramTrendID);
 			//show date for left layout
 			$(".popover").popover('hide');
-			
+			/*
+			alert(toDate);
+			alert(convertDateTh(toDate));
+			*/
 			$("#dateInDataDisplay-"+paramTrendID).html(convertDateTh(toDate));
 			
 			//show structure dashboard trend when load is success.

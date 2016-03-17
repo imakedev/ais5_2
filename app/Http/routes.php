@@ -315,6 +315,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/ais/serviceTrend/readEventDataTrendByEvent/{tagName}/{startDateTime}/{endDateTime}/{event}/','serviceTrendController@readEventDataTrendByEvent');
     
     
+    Route::get('/ais/serviceTrend/getColorTrendByUser','serviceTrendController@getColorTrendByUser');
     
     /*trend service end*/
 

@@ -49,7 +49,8 @@ class trendSetingController extends Controller
                 select B,group_name from mmtrend_group where B!=9 and mmplant='$user_mmplant'
                 )queryA
                 ";
-        $reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
+        //$reslutQuery =  DB::connection(DBUtils::getDBName())->select($query);
+        $reslutQuery = DB::connection()->select($query);
         
         
         Log::info($reslutQuery); 
@@ -159,5 +160,7 @@ class trendSetingController extends Controller
         
         
     }
+   
+    
     
 }

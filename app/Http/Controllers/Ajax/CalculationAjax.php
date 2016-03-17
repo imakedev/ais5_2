@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use \App\Utils\DBUtils;
 use GuzzleHttp\Client;
 use Session;
+use \PDO;
 class CalculationAjax extends Controller
 {
 
@@ -212,12 +213,12 @@ class CalculationAjax extends Controller
 
     public function postFormula(Request $request)
     {
-       
+
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
         $trendID=request('trendID');
-        
-        
+
+
         $url = env('CALCULATION_HOST', 'http://localhost:3000/v1/');
         $json_str = "{
   \"formula\" : [ {
@@ -234,7 +235,6 @@ class CalculationAjax extends Controller
         $formulas_init = array();
 
         if(!empty(request('formula')))
-           
         foreach (request('formula') as $key => $val) {
             $formulas = array();
             //$formulas["key"] = $key;
@@ -279,18 +279,18 @@ class CalculationAjax extends Controller
             if (!array_key_exists($formulaObj->{'time'}, $result_plot_array)) {
                 $new_result_plot_inner = array();
                 $new_result_plot_inner['EvTime'] =$formulaObj->{'time'};
-        
+
                 if($formulaObj->{'status'}=='OK'){
                     $new_result_plot_inner[$formulaObj->{'key'}] =$formulaObj->{'result'};
                 }else{
                     $new_result_plot_inner[$formulaObj->{'key'}] =0;
                 }
-        
+
                 //$new_result_plot_inner[$formulaObj->{'key'}.'-status'] =$formulaObj->{'status'};
                 $result_plot_array[$formulaObj->{'time'}] = $new_result_plot_inner;
             }else{
                 if($formulaObj->{'status'}=='OK'){
-        
+
                     $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=$formulaObj->{'result'};
                 }else{
                     $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=0;
@@ -300,16 +300,18 @@ class CalculationAjax extends Controller
         }
 
        // return json_encode($result_plot_array);
-
+       // echo "trendID".$trendID;
+       
         $strFileName = "webservice/fileTrend/trendJson-second-$trendID-$sess_emp_id-$user_mmplant.txt";
+        unlink($strFileName);
         $objCreate = fopen($strFileName, 'w');
         if($objCreate)
         {
             $objFopen = fopen($strFileName, 'w');
             $strText1 = json_encode($result_plot_array);
             //echo "strText1=".$strText1;
-            fwrite($objFopen, $strText1);
-            if($objFopen)
+            $fwrite=fwrite($objFopen, $strText1);
+            if($fwrite)
             {
                 echo '["createJsonSuccess"]';
             }
@@ -318,23 +320,24 @@ class CalculationAjax extends Controller
                 echo '["error"]';
             }
             fclose($objFopen);
-        
+            chmod($strFileName, 0777);
+
         }else{
             echo "File Not Create.";
         }
-       
+
 
      // return json_encode($result_plot_array);
     }
     public function readDataSecond($trendID){
     
-        Log::info("Into readDataMinuteu");
+        Log::info("Into readDataSecond");
     
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
     
     
-        
+
         $strFileName = "webservice/fileTrend/trendJson-second-$trendID-$sess_emp_id-$user_mmplant.txt";
         //$strFileName = "webservice/fileTrend/trendJson-second--$sess_emp_id-$user_mmplant.txt";
         
@@ -486,6 +489,7 @@ class CalculationAjax extends Controller
     }
     public function executeCalculation()
     {
+        $user_mmplant= session()->get('user_mmplant');
         /*
         key:"88-c102"
 
@@ -569,44 +573,133 @@ class CalculationAjax extends Controller
         // Log::info($fomula_array);
         $groupby = "";
         $data_table = "";
+        /* for minite
+        $startTime_param='2015-11-29 23:59:00';
+        $endTime_param='2015-11-30 23:59:00';
+        */
+        /* for hour
+        $startTime_param='2015-11-30 14:10:00';
+        $endTime_param='2015-11-30 15:20:00';
+
+        $scaleType_param="minute";
+        */
+        $datetime1 = strtotime($startTime_param);
+        $datetime2 = strtotime($endTime_param);
+        $interval = abs($datetime2 - $datetime1);
         if ($scaleType_param == 'minute') {
             $data_table = "data";
-        } else if ($scaleType_param == 'hour') {
+            $minutes = round($interval / 60)+1;
+        } else if ($scaleType_param == 'hour') { // ok
             $data_table = "datahr";
+            $minutes = round($interval / (60*60))+1;
         }
-        if ($scaleType_param == 'day') {
+        if ($scaleType_param == 'day') { // 0k
             $data_table = "dataday";
+            $minutes = round($interval / (24*60*60))+1;
         }
         if ($scaleType_param == 'month') {
             $data_table = "dataday";
-            $groupby = " group by month(evTime) ";
+            $groupby = " group by month(EvTime) ";
+            $minutes = round($interval / (30*24*60*60))+1;
         }
         $result_array = array();
         $result_key_time_array = array();
+
+
+
+
+        //Log::info($minutes);
         foreach ($fomula_array as $key => $fomula) {
             $data_str = $fomula["data"];
             if ($scaleType_param == 'month') {
                 $data_str = "avg(" . $fomula["data"] . ")";
             }
+           // $dbh = new PDO('mysql:host=10.249.91.207;dbname=avg8-13', 'Administrator', 'larrabee');
             /*
             $sql = " select evTime , " . $data_str . " as data  from ais_db." . $data_table . strtolower($fomula["unit"]) .
                 " where evTime between '" . $startTime_param . "' " .
                 " and '" . $endTime_param . "' " . $groupby;
             */
-            $sql = " select evTime , " . $data_str . " as data  from " . $data_table . strtolower($fomula["unit"]) .
-                " where evTime between '" . $startTime_param . "' " .
-                " and '" . $endTime_param . "' " . $groupby;
+            /*   */
+            $sql = " select EvTime , " . $data_str . " as data  from " . $data_table . strtolower($fomula["unit"]) .
+               // " where EvTime between '" . $startTime_param . "' " .
+                // " and '" . $endTime_param . "' " . $groupby;
+                " where EvTime >= '" . $startTime_param . "' " .$groupby.
+                //" where EvTime <= '" . $endTime_param . "' " . $groupby.
+                " order by EvTime asc ".
+                " limit  ".$minutes;
+
+            $url="http://localhost/";
+
+
+            if($user_mmplant=='1'){
+                $host_db_params= env('DB_HOST_47', '10.249.91.96');
+                $user_db_params=env('DB_USERNAME_47', 'ais');
+                $pass_db_param=env('DB_PASSWORD_47', 'ais');
+                $schema_db_param=env('DB_DATABASE_47', 'ais413');
+            }else if($user_mmplant=='2'){
+                $host_db_params= env('DB_HOST_813x', '10.249.91.207');
+                $user_db_params=env('DB_USERNAME_813x', "Administrator");
+                $pass_db_param=env('DB_PASSWORD_813x', 'larrabee');
+                $schema_db_param=env('DB_DATABASE_813x', 'avg8-13');
+            }else if($user_mmplant=='3'){
+                $host_db_params= env('DB_HOST_FGD_813', '10.249.91.207');
+                $user_db_params=env('DB_USERNAME_FGD_813', 'root');
+                $pass_db_param=env('DB_PASSWORD_FGD_813', 'p@ssw0rd');
+                $schema_db_param=env('DB_DATABASE_FGD_813', 'ais_fgd813');
+            }
+
+            $client = new Client(['base_uri' => $url]);
+
+
+            $json_str = "{
+            \"host_db\":\"".$host_db_params."\",
+            \"user_db\":\"".$user_db_params."\",
+		    \"pass_db\":\"".$pass_db_param."\",
+		    \"schema_db\":\"".$schema_db_param."\",
+		    \"data_str\":\"".$data_str."\",
+		    \"data_table\":\"".$data_table."\",
+		    \"unit\":\"".$fomula["unit"]."\",
+		    \"startTime\":\"".$startTime_param."\",
+		    \"endTime\":\"".$endTime_param."\",
+		    \"groupby\":\"".$groupby."\",
+		    \"scaleType\":\"".$scaleType_param."\"
+        }";
+            Log::info($json_str);
+            $response = $client->request('GET', 'dataminute.php', [
+                'body' => $json_str
+
+            ]);
+
+            $contents = (string) $response->getBody();
+           // Log::info($sql);
+            //Log::info($contents);
+            /*
+            $sth = $dbh->prepare($sql);
+
+            $sth->execute();
+             //$result = $sth->fetch(PDO::FETCH_ASSOC);
+            $result = $sth->fetchAll();
+            Log::info(sizeof($result));
+            for( $i=0;$i<sizeof($result);$i++){
+                Log::info($result[$i]['EvTime']);
+            }
+            $dbh=null;
+            */
             //$lists = DB::connection('mysql')->select($sql);
-            $lists = DB::connection(DBUtils::getDBName())->select($sql);
-            // Log::info($sql);
-            //Log::info($lists);
+           // $lists = DB::connection(DBUtils::getDBName())->select($sql);
+
+             $lists=json_decode($contents);
+            //Log::info($contents);
+
+           // Log::info($lists);
             $lists_str = json_encode($lists);
             foreach ($lists as $key2 => $result) {
                 $new_array_result_inner = array();
                 $new_array_result_inner['data'] = $result->data;
-                $result_array[$result->evTime . "|" . $key] = $new_array_result_inner;
-                $result_key_time_array[$result->evTime] = $result->evTime;
-                // Log::info("key2[".$key2."]->".$result->evTime);
+                $result_array[$result->EvTime . "|" . $key] = $new_array_result_inner;
+                $result_key_time_array[$result->EvTime] = $result->EvTime;
+                 Log::info("key2[".$key2."]->".$result->EvTime);
             }
             //Log::info($lists_str);
         }
@@ -633,7 +726,7 @@ class CalculationAjax extends Controller
 
                 $new_data = str_replace(":", ",", $new_data);
                 $new_data = strtolower($new_data);
-                Log::info($new_data);
+                //Log::info($new_data);
                 $new_array_result_final_inner = array();
              //   $new_array_result_final_inner['key'] = $index . "-" . $key_param;
                // Log::info("key_p=>".$key_p);
@@ -668,10 +761,10 @@ class CalculationAjax extends Controller
      //   Log::info($data_result['formula']); // ok
         $contents = (string) $response->getBody();
         $contentsObj=json_decode($contents);
-        Log::info($contents);
+        //Log::info($contents);
 
         $formulaObjList=$contentsObj->formula;
-        Log::info($formulaObjList);
+        //Log::info($formulaObjList);
         $result_plot_array = array();
         foreach ($formulaObjList as $key => $formulaObj) {
             if (!array_key_exists($formulaObj->{'time'}, $result_plot_array)) {
@@ -734,7 +827,6 @@ class CalculationAjax extends Controller
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
 
-
         $strFileName = "webservice/fileTrend/trendJson-$scaleType-$trendID-$sess_emp_id-$user_mmplant.txt";
         $objFopen = fopen($strFileName, 'r');
         if ($objFopen) {
@@ -744,5 +836,16 @@ class CalculationAjax extends Controller
             }
             fclose($objFopen);
         }
+    }
+    public function testDynamicConnection(){
+        $dbh = new PDO('mysql:host=localhost;dbname=ais_db', 'root', '015482543');
+        $sth = $dbh->prepare("SELECT * FROM ais.mmpoint_table  limit 5 ");
+        $sth->execute();
+        // $result = $sth->fetch(PDO::FETCH_ASSOC);
+        $result = $sth->fetchAll();
+        for( $i=0;$i<sizeof($result);$i++){
+            Log::info($result[$i]['B']);
+        }
+        $dbh=null;
     }
 }

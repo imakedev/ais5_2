@@ -21,17 +21,59 @@ function stopLoading(){
 
 
 $(document).ajaxStart(function() {
-	startLoading();
+	//startLoading();
 });
 $(document).ajaxStop(function() {
-	stopLoading();
+	//stopLoading();
 });
 /* loading end */
 //theme
 var colorFlatTheme=["#10c4b2", "#ff7663", "#ffb74f", "#a2df53", "#10c4b2","#ff63a5","#1cc47b","#10c4b2","#ff7663","#ffb74f","#a2df53","#1c9ec4"];
 
+$.ajax({
+	url:'/ais/serviceTrend/getColorTrendByUser',
+	dataType:'json',
+	async:false,
+	success:function(data){
+		
+		
+		if((data[0]!='') && (data[0]!=undefined)){
+		colorFlatTheme=[];
+		colorFlatTheme[0]=data[0]['A'];
+		colorFlatTheme[1]=data[0]['B'];
+		colorFlatTheme[2]=data[0]['C'];
+		colorFlatTheme[3]=data[0]['D'];
+		colorFlatTheme[4]=data[0]['E'];
+		colorFlatTheme[5]=data[0]['F'];
+		colorFlatTheme[6]=data[0]['G'];
+		colorFlatTheme[7]=data[0]['H'];
+		colorFlatTheme[8]=data[0]['I'];
+		colorFlatTheme[9]=data[0]['J'];
+		colorFlatTheme[10]=data[0]['K'];
+		colorFlatTheme[12]=data[0]['L'];
+		
+		}
+	}
+});
+//alert(colorFlatTheme);
+
 //monthName
 var monthName = new Array();
+/*
+monthName[1] = "January";
+monthName[2] = "February";
+monthName[3] = "March";
+monthName[4] = "April";
+monthName[5] = "May";
+monthName[6] = "June";
+monthName[7] = "July";
+monthName[8] = "August";
+monthName[9] = "September";
+monthName[10] = "October";
+monthName[11] = "November";
+monthName[12] = "December";
+*/
+
 monthName[0] = "January";
 monthName[1] = "February";
 monthName[2] = "March";
@@ -141,7 +183,8 @@ function convertDateTh(dateTimeHis){
 	var d = new Date(dateTimeHisFormat);
 	 //var strDate = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
 	 
-	 var strDate = (d.getDate() + " " + monthNameTh[(d.getMonth()-1)] + " " +parseInt(d.getFullYear()+543)) ;
+	 //var strDate = (d.getDate() + " " + monthNameTh[(d.getMonth()-1)] + " " +parseInt(d.getFullYear()+543)) ;
+	 var strDate = (d.getDate() + " " + monthNameTh[(d.getMonth())] + " " +parseInt(d.getFullYear()+543)) ;
 	 
 	 return  strDate;
 }
@@ -163,7 +206,7 @@ function convertDateHisTh(dateTimeHis){
 	var d = new Date(dateTimeHisFormat);
 	 //var strDate = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
 	 
-	 var strDate = (addZeroToNumber(d.getDate()) + " " + addZeroToNumber(monthNameTh[(d.getMonth()-1)]) + " " +parseInt(d.getFullYear()+543) +"  เวลา "+addZeroToNumber(d.getHours())+ ":" + addZeroToNumber(d.getMinutes()) + ":" + addZeroToNumber(d.getSeconds())) ;
+	 var strDate = (addZeroToNumber(d.getDate()) + " " + addZeroToNumber(monthNameTh[(d.getMonth())]) + " " +parseInt(d.getFullYear()+543) +"  เวลา "+addZeroToNumber(d.getHours())+ ":" + addZeroToNumber(d.getMinutes()) + ":" + addZeroToNumber(d.getSeconds())) ;
 	 
 	 return  strDate;
 }
@@ -210,13 +253,18 @@ function toTimestamp(strDate){
 	
 
 	 strDate=yyyy+" "+mm+" "+dd;
-
+	 //alert(strDate);
 	 
 	// return strDate;
 	 var datum = Date.parse(strDate);
 	 return datum/1000;
+	 //alert(datum/1000);
+	 
 	 
 	}
+//toTimestamp("2014-05-15 00:00:00");
+//toTimestamp("2014-4-15 5:00:00");
+
 //==================end====================================
 
 
@@ -427,7 +475,7 @@ function startDateTime5HaGoFn(endDatetimeHis){
 	var secondsDel5h=starttimeDel5h.getSeconds();
 	
 	//startDatetimeHis=yearDel5h+"-"+monthDel5h+"-"+dayDel5h+" "+HoursDel5h+":"+minutesDel5h+":"+secondsDel5h;
-	startDatetimeHis=yearDel5h+"-"+monthDel5h+"-"+dayDel5h+" "+HoursDel5h+":00:00";
+	startDatetimeHis=yearDel5h+"-"+(parseInt(monthDel5h)+1)+"-"+dayDel5h+" "+HoursDel5h+":00:00";
 	return startDatetimeHis;
 }
 

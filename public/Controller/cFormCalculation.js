@@ -46,10 +46,15 @@ function doAddMmpoint(){
 		console.log(data);
 		var formula = jQuery.parseJSON(data.formula);
 		var formula_result='';
+		var typeInt=parseInt(obj.type);
 		if(mmtrend_table_B=='0' || mmtrend_table_B=='-1'|| mmtrend_table_B=='1'){
 			formula_result=formula.G;
 		}else{
-			formula_result="U0"+obj.type+"D"+obj.key;
+			var unitResult="U0"+obj.type;
+			if(typeInt>9)
+				unitResult="U"+obj.type;
+			formula_result=unitResult+"D"+obj.key;
+			//formula_result="U0"+obj.type+"D"+obj.key;
 		}
 		var cal_g_old=$("#cal_g").val();
 		//alert(cal_g_old)
@@ -320,6 +325,11 @@ function searchAddMmpoint(mmtrend_table_B_selected){
 		//"H":mmtrend_point_h,
 		"P":mmtrend_table_B
 	}
+	var tags=['4','5','6','7'];
+	var user_mmplant=$("#user_mmplant").val();
+	if(user_mmplant!='1'){
+		tags=['8','9','10','11','12','13'];
+	}
 	//alert(id)
 	var str=""+
 		" <table id=\"editable\" "+
@@ -328,7 +338,7 @@ function searchAddMmpoint(mmtrend_table_B_selected){
 		"   <thead> "+
 		"   <tr role=\"row\"> "+
 		"   <th class=\"\" tabindex=\"0\" aria-controls=\"\" "+
-		" rowspan=\"1\" colspan=\"1\" style=\"width: 0%;\" "+
+		" rowspan=\"1\" colspan=\"1\" style=\"width: 3%;\" "+
 		" aria-sort=\"\" aria-label=\"\"> "+
 		"  "+
 		"   </th> "+
@@ -337,13 +347,23 @@ function searchAddMmpoint(mmtrend_table_B_selected){
 		" colspan=\"1\" style=\"width: 20%;\" "+
 		" aria-label=\"Browser: activate to sort column ascending\"> "+
 		"   Point Name "+
-		" </th> "+
-		" <th class=\"\" tabindex=\"0\" "+
-		" aria-controls=\"editable\" rowspan=\"1\" "+
-		" colspan=\"1\" style=\"width: 13%;\" "+
-		" aria-label=\"Platform(s): activate to sort column ascending\"> "+
-		"   Tag4 "+
-		"   </th> "+
+		" </th> ";
+
+	for(var i=0;i<tags.length;i++){
+		str=str+" <th class=\"\" tabindex=\"0\" "+
+			" aria-controls=\"editable\" rowspan=\"1\" "+
+			" colspan=\"1\" style=\"width: 13%;\" "+
+			" aria-label=\"Platform(s): activate to sort column ascending\"> "+
+			"   Tag"+tags[i]+" "+
+			"   </th> ";
+	}
+	/*
+	 " <th class=\"\" tabindex=\"0\" "+
+	 " aria-controls=\"editable\" rowspan=\"1\" "+
+	 " colspan=\"1\" style=\"width: 13%;\" "+
+	 " aria-label=\"Platform(s): activate to sort column ascending\"> "+
+	 "   Tag4 "+
+	 "   </th> "
 		"   <th class=\"\" tabindex=\"0\"  "+
 		" aria-controls=\"editable\" rowspan=\"1\" "+
 		" colspan=\"1\" style=\"width: 13%;\" "+
@@ -362,7 +382,8 @@ function searchAddMmpoint(mmtrend_table_B_selected){
 		" aria-label=\"Platform(s): activate to sort column ascending\"> "+
 		"   Tag7 "+
 		"   </th> "+
-		"   <th class=\"\" tabindex=\"0\" "+
+		*/
+	str=str+"    <th class=\"\" tabindex=\"0\" "+
 		" aria-controls=\"editable\" rowspan=\"1\" "+
 		" colspan=\"1\" style=\"width: 5%;\" "+
 		" aria-label=\"Platform(s): activate to sort column ascending\"> "+
@@ -399,7 +420,7 @@ function searchAddMmpoint(mmtrend_table_B_selected){
 			"   <thead> " +
 			"   <tr role=\"row\"> " +
 			"   <th class=\"\" tabindex=\"0\" aria-controls=\"\" " +
-			" rowspan=\"1\" colspan=\"1\" style=\"width: 0%;\" " +
+			" rowspan=\"1\" colspan=\"1\" style=\"width: 3%;\" " +
 			" aria-sort=\"\" aria-label=\"\"> " +
 			"  " +
 			"   </th> " +
@@ -512,12 +533,28 @@ function searchAddMmpoint(mmtrend_table_B_selected){
 						"  <input type=\"radio\" name=\"point_ids_input[]\" "+checked_str+" value=\""+mmpointM[i].A+"\"> "+
 							//  " class=\"i-checks\"> "+
 						"     </td> "+
-						"    <td>"+mmpointM[i].B+"</td> "+
-						"    <td>"+mmpointM[i].C4+"</td> "+
+						"    <td>"+mmpointM[i].B+"</td> ";
+					if(user_mmplant!='1'){
+						str = str +
+							" <td>"+mmpointM[i].C8+"</td> "+
+							" <td>"+mmpointM[i].C9+"</td> "+
+							" <td>"+mmpointM[i].C10+"</td> "+
+							" <td>"+mmpointM[i].C11+"</td> "+
+							" <td>"+mmpointM[i].C12+"</td> "+
+							" <td>"+mmpointM[i].C12+"</td> ";
+					}else{
+						str = str +
+							"  <td>"+mmpointM[i].C4+"</td> "+
+							" <td>"+mmpointM[i].C5+"</td> "+
+							" <td>"+mmpointM[i].C6+"</td> "+
+							" <td>"+mmpointM[i].C7+"</td> ";
+					}
+					/* "    <td>"+mmpointM[i].C4+"</td> "+
 						" <td>"+mmpointM[i].C5+"</td> "+
 						" <td>"+mmpointM[i].C6+"</td> "+
 						" <td>"+mmpointM[i].C7+"</td> "+
-						" <td>"+mmpointM[i].F+"</td> "+
+						*/
+					str = str +"  <td>"+mmpointM[i].F+"</td> "+
 						" <td>"+mmpointM[i].G0+"</td> "+
 						" <td>"+mmpointM[i].G1+"</td> "+
 							// " <td>435</td> "+
@@ -764,45 +801,48 @@ function testCallDataSec(){
 	//2015/12/30/0820152300006
 	//0520140420/05201404200021.dat
 	/*
-	endTime	
+	endTime
 	2015-12-11 11:12:00
-	formulas[]	
+	formulas[]
 	U04D3
-	formulas[]	
+	formulas[]
 	U04D4
-	formulas[]	
+	formulas[]
 	U04D7
-	formulas[]	
+	formulas[]
 	 U04D1+ U04D2+Enthalpy(U04D2;U04D2)
-	key[]	
+	key[]
 	U04D3
-	key[]	
+	key[]
 	U04D4
-	key[]	
+	key[]
 	U04D7
-	key[]	
+	key[]
 	DC508
-	server	
+	server
 	47
-	startTime	
+	startTime
 	2015-12-11 11:8:0
-	trendID	
+	trendID
 	3041
 	*/
 	var obj2={
-			"key":["U04D3","U04D4","U04D7","DC508"],
-			"formulas":["U04D3","U04D4","U04D7","U04D1+ U04D2+Enthalpy(U04D2;U04D2)"],
+			"key":["DC08D7","DC508"],
+			//"formulas":["U04D3","U04D4","U04D7","U04D1+ U04D2+Enthalpy(U04D2;U04D2)"],
+			"formulas":["(U08D122+U08D122)*U08D123","U08D122+U08D123+CONSTANT@XXXXXX"],
 			"startTime":"2015-12-30 00:08:00",
 			"endTime":"2015-12-30 00:09:00",
-			"url":"http://10.249.91.96/trendSecond47/", // ok
-			"server":"47",
+			//"url":"http://10.249.91.96/trendSecond47/", // ok
+			//"server":"47",
+			"url":"http://10.249.91.207/trendSecond813/",
+			"server":"813",
 			"trendID":"88",
 		}
 	var obj={
 		"key":["U04D1","DC102"],
 		//"formulas":["(U08D122+U08D122)*U08D123","U08D122+U08D123+CONSTANT@XXXXXX"],
 		"formulas":["U04D1","U04D1+U04D2"],
-		
+
 		/*
 		"startTime":"2014-05-20 00:02:00",
 		"endTime":"2014-05-20 00:02:00",
@@ -814,11 +854,11 @@ function testCallDataSec(){
 		"startTime":"2015-12-30 00:06:00",
 		"endTime":"2015-12-30 00:06:00",
 		//"url":"http://localhost/",
-		//"url":"http://10.249.91.207/trendSecond813/",
-		//"server":"813"
-		"url":"http://10.249.91.96/trendSecond47/", // ok
-		"server":"47",
-		
+		"url":"http://10.249.91.207/trendSecond813/",
+		"server":"813"
+		//"url":"http://10.249.91.96/trendSecond47/", // ok
+		//"server":"47",
+
 	}
 
 	$.ajax({
@@ -827,14 +867,14 @@ function testCallDataSec(){
 		data: obj2
 	}).done(function(data, status, xhr) {
 		console.log(data.dataWithTimes);
-		
+
 		console.log("111data111");
 		console.log(data);
-		
+
 		//var sources = jQuery.parseJSON(data.sources);
 		//var dataWithTimes =data.dataWithTimes;
 		var dataWithTimes = jQuery.parseJSON(data.dataWithTimes);
-		
+
 
 			var data2={
 				//"formula1":data.dataWithTimes,
@@ -864,9 +904,13 @@ function testCallPostFormula(){
 		endTime:"2014-05-01 00:05:00",
 		scaleType:"minute",
 		//scaleType:"month",
-		server:"47",
+		//server:"47",
+		server:"813",
 		trendID:"88",
-		formulas:["U04D123+ U04D2+Enthalpy(U04D2;U04D2)","U04D123+U04D122","U04D260"]
+		//formulas:["U04D123+ U04D2+Enthalpy(U04D2;U04D2)","U04D123+U04D122","U04D260"]
+		//formulas:["U08D123+ U08D2+Enthalpy(U08D2;U08D2)","U08D123+U08D122","U08D260"]
+		formulas:["U08D123+U08D2","U08D26"]
+
 	}
 
 	$.ajax({
@@ -879,7 +923,8 @@ function testCallPostFormula(){
 		//console.log(results.formula[0].key);
 	});
 }
-function testCallPostFormula(){
+/*
+function testCallPostFormula_47(){
 
 	var obj={
 		key:["DC102","DC103","U04D260"],
@@ -957,4 +1002,6 @@ function testCallPostFormula(){
 		//var results = jQuery.parseJSON(data);
 		//console.log(results.formula[0].key);
 	});
+
 }
+*/

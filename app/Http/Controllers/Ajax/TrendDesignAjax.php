@@ -117,7 +117,7 @@ class TrendDesignAjax extends Controller
         Log::info(" Old b ".$b);
         $mmnameModel=null;
         Log::info("test->".$request->input('A'));
-        $old_b="";
+        $old_b=$b;
         if($b=='-1' || $b=='0' || $b=='1'){
             $mmpointM = DB::connection(DBUtils::getDBName())->table('mmcalculation_table')->where('A', $a)->first();
         }else {
@@ -140,6 +140,22 @@ class TrendDesignAjax extends Controller
             }else if($b=='47'){
                 $mmplants=['4','5','6','7'];
                 $mmplants_d=[$mmpointM->C4,$mmpointM->C5,$mmpointM->C6,$mmpointM->C7];
+            }
+            else if($b=='8'){
+                $d=$mmpointM->C8;
+            }else if($b=='9'){
+                $d=$mmpointM->C9;
+            }else if($b=='10'){
+                $d=$mmpointM->C10;
+            }else if($b=='11'){
+                $d=$mmpointM->C11;
+            }else if($b=='12'){
+                $d=$mmpointM->C12;
+            }else if($b=='13'){
+                $d=$mmpointM->C13;
+            }else if($b=='813'){
+                $mmplants=['8','9','10','11','12','13'];
+                $mmplants_d=[$mmpointM->C8,$mmpointM->C9,$mmpointM->C10,$mmpointM->C11,$mmpointM->C12,$mmpointM->C13];
             }
             if($b=='-1' || $b=='0' || $b=='1'){
                 $d=$mmpointM->D;

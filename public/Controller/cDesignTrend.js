@@ -319,7 +319,7 @@ function searchMmpoint(mmtrend_table_B_selected){
     "   <thead> "+
     "   <tr role=\"row\"> "+
     "   <th class=\"\" tabindex=\"0\" aria-controls=\"\" "+
-    " rowspan=\"1\" colspan=\"1\" style=\"width: 0%;\" "+
+    " rowspan=\"1\" colspan=\"1\" style=\"width: 3%;\" "+
     " aria-sort=\"\" aria-label=\"\"> "+
     "  "+
     "   </th> "+
@@ -400,7 +400,7 @@ function searchMmpoint(mmtrend_table_B_selected){
             "   <thead> " +
             "   <tr role=\"row\"> " +
             "   <th class=\"\" tabindex=\"0\" aria-controls=\"\" " +
-            " rowspan=\"1\" colspan=\"1\" style=\"width: 0%;\" " +
+            " rowspan=\"1\" colspan=\"1\" style=\"width: 3%;\" " +
             " aria-sort=\"\" aria-label=\"\"> " +
             "  " +
             "   </th> " +
@@ -783,7 +783,7 @@ function  doActionMmtrend(){
     var mmtrend_point_h=$("#mmtrend_point_h").val();
     var mmtrend_zz=$("#mmtrend_zz").val()
     var mmtrend_table_B= $("#mmtrend_table_B").val();
-   // alert(mode+","+mmtrend_table_B);
+    //alert(mode+","+mmtrend_table_B);
     var mmtrend_point_a="";
     var length = document.getElementsByName('point_ids_input[]').length;
     for (var i = 0; i < length; i++) {

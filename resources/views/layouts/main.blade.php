@@ -10,9 +10,10 @@
 
 
     <!-- kendo ui resource start -->
-    <!-- -->
-    <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.common.min.css" />
-    <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.default.min.css" />
+ 
+   <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.common.min.css" />
+   <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.default.min.css" />
+   
 
     <!-- kendo ui resource end -->
 
@@ -91,16 +92,8 @@
    <!--  <script src="//kendo.cdn.telerik.com/2015.3.930/js/kendo.all.min.js"></script> -->
   
     
-     <script src="/js/kendoCommercial/js/kendo.all.min2.js"></script>   
-     <script>
-     var foo = function(){};
-     if (typeof foo === "function") {
-    	   //alert("is function")
-     }else{
-    	   //alert("not function")
-     }
-     </script>
-    <!-- <script src="/js/kendoCommercial/js/kendo.all.min.js"></script>  -->
+    <!-- <script src="/js/kendoCommercial/js/kendo.all.min2.js"></script>  -->
+    <script src="/js/kendoCommercial/js/kendo.all.min.js"></script>   
 
     <script>
         function confirm_del(){

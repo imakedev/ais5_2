@@ -214,7 +214,7 @@
                     </div>
                 </div>    
             <!-- form cal start -->
-
+            <input type="hidden" id="user_mmplant" value="{{Session::get('user_mmplant')}}"/>
         <input type='hidden' id="cal_a" name="cal_a" value="{{ $mmcalculation->A }}" />
             <!-- btn start -->
              <div class="row bgParam">
@@ -227,8 +227,10 @@
 		            <a class="btn btn-w-m btn-danger  btn-sm" onclick="changeRate()">Change </a>
 		            <a class="btn btn-w-m btn-danger  btn-sm" onclick="displayAddPoint()" id='btnAddPoint'>Add Point </a>
                     <a class="btn btn-w-m btn-danger  btn-sm" onclick="previewFomala()">Preview </a>
+                    <!-- 
                     <a class="btn btn-w-m btn-danger  btn-sm" onclick="testCallDataSec()">Call Data Second </a>
-                      <a class="btn btn-w-m btn-danger  btn-sm" onclick="testCallPostFormula()">Call PostFormula </a>
+                    <a class="btn btn-w-m btn-danger  btn-sm" onclick="testCallPostFormula()">Call PostFormula </a>
+                     -->
 	            </div>
 	           
             </div>
@@ -443,7 +445,7 @@
 
   <!-- Modal add point Start -->
 <div aria-hidden="true" role="dialog" tabindex="-1" id="modalAddPoint" class="modal inmodal in" style="display: none;">
-     <div class="modal-dialog">
+     <div class="modal-dialog modal-lg">
       <div class="modal-content animated flipInY">
         <div class="modal-header">
           <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>

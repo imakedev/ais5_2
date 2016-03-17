@@ -1,5 +1,26 @@
 var paramTrendID="";
+var paramUrlSecond="";
 
+var paramServer="";
+$.ajax({
+	url:'/ais/trendSetting/getMMPlant',
+	dataType:'json',
+	async:false,
+	success:function(data){
+		//alert(data);
+		if(data==1){
+			paramServer="47";
+			paramUrlSecond="http://10.249.91.96/trendSecond47/";
+		}else if(data==2){
+			paramServer="813";
+			paramUrlSecond="http://10.249.91.207/trendSecond813/";
+		}else{
+			paramServer="47";
+			paramUrlSecond="http://10.249.91.96/trendSecond47/";
+		}
+	}
+		
+});
 
 function callPostFormula(){
 
@@ -9,7 +30,7 @@ function callPostFormula(){
 		endTime:"2014-05-01 00:05:00",
 		scaleType:"minute",
 		//scaleType:"month",
-		server:"47",
+		server:paramServer,
         value:"U04D123+ U04D2+Enthalpy(U04D2;U04D2)"
 	}
 
@@ -675,7 +696,8 @@ function getDataByDateSecond(data,point){
             style: "smooth",
         	markers: {
                 visible: false
-            }
+            },
+           // dashType:"solid"
         },
         //series:
         
@@ -921,7 +943,12 @@ function setDefaultPointAndPlan(lastObject,point,paramTrendID){
 			var timeHIS=lastObject['EvTime'].split(" ");
 			
 			if($("#paramScaleTime-"+paramTrendID+"").val()=="Minute"){
-
+				
+				/*
+				alert(lastObject['EvTime']);
+				alert(convertDateTh(lastObject['EvTime']));
+				*/
+				
 				$("#dateInDataDisplay-"+paramTrendID+"").html(convertDateTh(lastObject['EvTime']));
 				$("#timeInDataDisplay-"+paramTrendID+"").html("เวลา "+timeHIS[1]+" น.");
 				
@@ -943,6 +970,9 @@ function setDefaultPointAndPlan(lastObject,point,paramTrendID){
 				//$("#dateTimeInDataDisplayMonth-"+paramTrendID+"").html(lastObject['EvTime']);
 				
 			}else{
+				
+				
+				
 				$("#dateInDataDisplay-"+paramTrendID+"").html(convertDateTh(lastObject['EvTime']));
 				$("#timeInDataDisplay-"+paramTrendID+"").html("เวลา "+timeHIS[1]+" น.");
 			}
@@ -972,6 +1002,7 @@ var readJsonFilter={
 		
 	//readJsonFilterFileScaleTypeH:function(){
 	scaleTypeMinute:function(startTime,endTime,paramTrendID,scalType){
+	
 		// var jsonFilter = new Array();
 		var jsonData="";
 		 $.ajax({
@@ -984,8 +1015,27 @@ var readJsonFilter={
 							jsonData+="[";
 							$i=0;
 							$.each(data,function(index,indexEntry){
-							if((toTimestamp(index)>=toTimestamp(startTime)) && (toTimestamp(index)<=toTimestamp(endTime))) {
+								/*
+								console.log("index");
+								console.log(index);
+								console.log("startTime");
+								console.log(startTime);
+								console.log("endTime");
+								console.log(endTime);
+								*/
+								
+							if((toTimestamp(indexEntry['EvTime'])>=toTimestamp(startTime)) && (toTimestamp(indexEntry['EvTime'])<=toTimestamp(endTime))) {
+								
+								if($i<=10){
 									
+								console.log("อยู่ในเงื่อนไข");
+								console.log(toTimestamp(index)+">="+toTimestamp(startTime)+"&&"+toTimestamp(index)+"<="+toTimestamp(endTime));
+								console.log(index+">="+startTime+"&&"+index+"<="+endTime);
+								console.log(indexEntry['EvTime']);
+								console.log("-----");
+								
+								}
+								//console.log(toTimestamp(index)+"<="+toTimestamp(endTime));
 								if($i==0){
 									jsonData+="{";	
 								}else{
@@ -1005,12 +1055,22 @@ var readJsonFilter={
 								
 								jsonData+="}";
 								$i++;
+								
+								
+							}else{
+								/*
+								console.log("-----");
+								console.log("ไม่อยู่ในเงื่อนไข");
+								console.log(toTimestamp(index)+">="+toTimestamp(startTime)+"&&"+toTimestamp(index)+"<="+toTimestamp(endTime));
+								console.log(index+">="+startTime+"&&"+index+"<="+endTime);
+								console.log(indexEntry['EvTime']);
+								*/
 							}
 							});
 							
 							jsonData+="]";
-							
-							//console.log(jsonData);
+							console.log("jsonData");
+							console.log(jsonData);
 							//return eval("("+jsonData+")");
 				}
 		 	
@@ -1286,7 +1346,6 @@ var readJsonFilter={
 	},scaleTypeSecond:function(paramTrendID,paramStartTime,paramEndTime,pointDataId){
 		
 		
-		
 
 		
 		var jsonData="";
@@ -1353,7 +1412,6 @@ var createFileServiceChart={
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
 		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID)+ "]");
 		
-		
 		var obj={
 				
 				//key:["U04D3","U04D4","U04D7","DC508"],
@@ -1362,7 +1420,7 @@ var createFileServiceChart={
 				endTime:paramToDate,
 				scaleType:"hour",
 				//scaleType:"month",
-				server:"47",
+				server:paramServer,
 				trendID:paramTrendID,
 				//formulas:["U04D3","U04D4","U04D7"," U04D1+ U04D2+Enthalpy(U04D2;U04D2)"]
 				formulas:getformulaEmbed
@@ -1423,7 +1481,7 @@ var createFileServiceChart={
 				endTime:paramToDate,
 				scaleType:"day",
 				//scaleType:"month",
-				server:"47",
+				server:paramServer,
 				trendID:paramTrendID,
 				//formulas:["U04D3","U04D4","U04D7"," U04D1+ U04D2+Enthalpy(U04D2;U04D2)"]
 				formulas:getformulaEmbed
@@ -1478,7 +1536,7 @@ var createFileServiceChart={
 				endTime:paramToDate,
 				scaleType:"month",
 				//scaleType:"month",
-				server:"47",
+				server:paramServer,
 				trendID:paramTrendID,
 				//formulas:["U04D3","U04D4","U04D7"," U04D1+ U04D2+Enthalpy(U04D2;U04D2)"]
 				formulas:getformulaEmbed
@@ -1591,7 +1649,7 @@ var createFileServiceChart={
 				endTime:paramToDate,
 				scaleType:"minute",
 				//scaleType:"month",
-				server:"47",
+				server:paramServer,
 				trendID:paramTrendID,
 				//formulas:["U04D3","U04D4","U04D7"," U04D1+ U04D2+Enthalpy(U04D2;U04D2)"]
 				formulas:getformulaEmbed
@@ -1605,7 +1663,10 @@ var createFileServiceChart={
 				//console.log(data);
 				$obj=eval("("+data+")");
 				if($obj=='createJsonSuccess'){
-					
+					/*
+					alert(endDatetimeHisFn(paramToDate));
+					alert(startDateTime5HaGoFn(endDatetimeHisFn(paramToDate)));
+					*/
 					var data2=readJsonFilter.scaleTypeMinute(startDateTime5HaGoFn(endDatetimeHisFn(paramToDate)),endDatetimeHisFn(paramToDate),paramTrendID,"minute");
 			
 					if(data2==""){
@@ -1800,8 +1861,8 @@ var createFileServiceChart={
 				"formulas":getformulaEmbed,
 				"startTime":paramStartTime,
 				"endTime":paramEndTime,
-				"url":"http://10.249.91.96/trendSecond47/", // ok
-				"server":"47",
+				"url":paramUrlSecond, // ok
+				"server":paramServer,
 				"trendID":paramTrendID,
 			}
 
