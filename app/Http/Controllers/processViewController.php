@@ -78,13 +78,15 @@ class processViewController  extends Controller{
         WHERE EvTime BETWEEN  '$paramFromDate' AND '$paramToDate'";
 
 
-
+/*
         if($user_mmplant==0){
             $reslutQuery = DB::connection(DBUtils::getDBName())->select($query);
 
         }if($user_mmplant==1){
             $reslutQuery = DB::connection('mysql_ais_47')->select($query);
         }
+       */ 
+        $reslutQuery = DB::connection(DBUtils::getDBName())->select($query);
         
 
 

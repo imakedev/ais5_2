@@ -301,9 +301,12 @@ class CalculationAjax extends Controller
 
        // return json_encode($result_plot_array);
        // echo "trendID".$trendID;
-       
+
         $strFileName = "webservice/fileTrend/trendJson-second-$trendID-$sess_emp_id-$user_mmplant.txt";
+        if (file_exists($strFileName)) {
         unlink($strFileName);
+        }
+        
         $objCreate = fopen($strFileName, 'w');
         if($objCreate)
         {
@@ -629,7 +632,7 @@ class CalculationAjax extends Controller
                 " order by EvTime asc ".
                 " limit  ".$minutes;
 
-            $url="http://localhost/";
+            $url="http://localhost:9952/";
 
 
             if($user_mmplant=='1'){
@@ -838,6 +841,8 @@ class CalculationAjax extends Controller
         }
     }
     public function testDynamicConnection(){
+
+        /*
         $dbh = new PDO('mysql:host=localhost;dbname=ais_db', 'root', '015482543');
         $sth = $dbh->prepare("SELECT * FROM ais.mmpoint_table  limit 5 ");
         $sth->execute();
@@ -847,5 +852,18 @@ class CalculationAjax extends Controller
             Log::info($result[$i]['B']);
         }
         $dbh=null;
+        */
+        $paramFromDate="2015-11-09 00:00:00";
+        $paramToDate="2015-11-10 00:00:00";
+        $query="".
+      "select   sys_date ,ois_event from event_raw ".
+      " WHERE sys_date  BETWEEN \'".$paramFromDate."\' AND \'".$paramToDate."\' ".
+      " AND ois_event REGEXP \'40SP01E131|40NA40L001|40NC03P001|40NA25T001|40NA26T001|40RA01T002|40RA03T001|40RA03P002|40RA03F001|40RC03T001|40NF01G004|40RA08T001|40RA08P001|40RC22P001|40RC22T001|40RC05T001|40RC04T001|40RC09T001|40RC07T001|40RB01T001|40RB02T001|40RB03T001|40RB03P003|40RB03F001|40RB04P001|40RB04T001|40RB05P001|40RB05T001|40NB35F001|40RF01P001|40RA07T001|40RA07P001|40SF62P001|40SF61P001\' ".
+      " order by sys_date asc ";
+        $eventResult = DB::connection("mysql_ais_log_47_4")->select($query);
+        if (!empty($eventResult)) {
+            Log::info($eventResult);
+           // $constant_array[$key]["result"] = $constant[0]->B;
+        }
     }
 }

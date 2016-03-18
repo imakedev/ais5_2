@@ -205,11 +205,11 @@ $(document).ready(function(){
 	
 	//set current hour,minute
 
-	//$("#paramDate").val(currentDate());
+	$("#paramDate").val(currentDate());
 	//$("#paramHour").val(currentH2Time());
 	//$("#paramMinute").val(currentMinuteTime());
 	//Test
-	$("#paramDate").val("2014-05-01");
+	//$("#paramDate").val("2014-05-01");
 
 	$("#paramHour").val(currentH2Time());
 	$("#paramMinute").val(currentMinuteTime());
