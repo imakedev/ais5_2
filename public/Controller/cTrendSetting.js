@@ -194,7 +194,7 @@ var bindGridPoinList = function(){
 				   $("#editTrendPointArea").html(tableHTML);
 				
 				$.each(data,function(index,indexEntry){
-					
+					//alert("test");
 							tableTrendHTML+=" <tr>";
 																					//<input type="checkbox" value="260-4-6131" name="point" id="point-260-4-6131" class="point">
 					            tableTrendHTML+="<td>";
@@ -274,8 +274,13 @@ var bindGridPoinList = function(){
 				 
 				
 				$("#editGridPointList").kendoGrid({
+					
 			        sortable: true,
 			       // height: 300,
+			        dataSource: {
+			        	pageSize: 10,
+			        },
+			        
 			        pageable: {
 			            refresh: true,
 			            pageSizes: true,
@@ -283,6 +288,8 @@ var bindGridPoinList = function(){
 			        },
 			    });
 				
+				
+				 
 			}
 		});
 		

@@ -636,10 +636,19 @@ class CalculationAjax extends Controller
 
 
             if($user_mmplant=='1'){
+                //for test
+                $host_db_params= env('DB_HOST', 'localhost');
+                $user_db_params=env('DB_USERNAME', 'root');
+                $pass_db_param=env('DB_PASSWORD', '010535546');
+                $schema_db_param=env('DB_DATABASE', 'ais_db');
+                
+                /*
                 $host_db_params= env('DB_HOST_47', '10.249.91.96');
                 $user_db_params=env('DB_USERNAME_47', 'ais');
                 $pass_db_param=env('DB_PASSWORD_47', 'ais');
                 $schema_db_param=env('DB_DATABASE_47', 'ais413');
+                */
+                
             }else if($user_mmplant=='2'){
                 $host_db_params= env('DB_HOST_813x', '10.249.91.207');
                 $user_db_params=env('DB_USERNAME_813x', "Administrator");
@@ -693,7 +702,7 @@ class CalculationAjax extends Controller
            // $lists = DB::connection(DBUtils::getDBName())->select($sql);
 
              $lists=json_decode($contents);
-            //Log::info($contents);
+             Log::info($contents);
 
            // Log::info($lists);
             $lists_str = json_encode($lists);
@@ -722,7 +731,13 @@ class CalculationAjax extends Controller
                     // Log::info($key);
                     //Log::info($result_array['2014-05-01 00:00:00|U04D123']['data']);
                     // Log::info("[.$key_time."|".$key_fomula.]".$result_array[$key_time."|".$key_fomula]['data']);
-                    $new_data = str_replace($key_fomula, $result_array[$key]['data'], $new_data);
+                    if(array_key_exists($key, $result_array)){
+                        $new_data = str_replace($key_fomula, $result_array[$key]['data'], $new_data);
+                    }else{
+                        $new_array_result_inner = array();
+                        $new_array_result_inner['data'] = '0';
+                        $result_array[$key] = $new_array_result_inner;
+                    }
                     // Log::info($result_array[$key]['data']);
                 }
                 $new_data = str_replace(" ", "", $new_data);

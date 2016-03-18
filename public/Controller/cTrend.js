@@ -57,9 +57,7 @@ function templateFormat(category,series,value) {
 		paramFromDate=paramFromDate.split(" ");
 		paramFromDate=paramFromDate[0]+" "+category;
 		
-		console.log("ๅๅ--------------55");
-		console.log("paramFromDate"+paramFromDate);
-		console.log(convertDateHisTh(paramFromDate));
+
 		$("#dateTimeInDataDisplaySecond-"+$("#trendTabActive").val()+"").html(convertDateHisTh(paramFromDate)+" น.");
 		
 		
