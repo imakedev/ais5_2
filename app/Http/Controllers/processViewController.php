@@ -20,6 +20,9 @@ use Log;
 use Session;
 use Auth;
 use \App\Utils\DBUtils;
+use GuzzleHttp\Client;
+use \PDO;
+
 
 
 class processViewController  extends Controller{
@@ -28,6 +31,18 @@ class processViewController  extends Controller{
 
         //Session::put('user_mmplant', '0');
 
+    }
+    public function getEmpID_userMMplant(){
+        $sess_emp_id= Auth::user()->id;
+        $user_mmplant= Session::get('user_mmplant');
+        $p =[];
+        
+        array_push($p,$sess_emp_id);
+        array_push($p,$user_mmplant);
+        
+        return $p;
+        
+        
     }
     /*################################## PCVSteam47 START #######################################*/
     public function createDataPCVSteam47($paramPCV,$paramUnit,$paramEmpId,$paramFromDate,$paramToDate){
@@ -845,8 +860,6 @@ D149
       
       $sess_emp_id= Auth::user()->id;
       $user_mmplant= Session::get('user_mmplant');
-      
-      
 
       $query="
           select   sys_date ,ois_event from event_raw

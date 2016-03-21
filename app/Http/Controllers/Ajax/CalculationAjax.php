@@ -633,21 +633,24 @@ class CalculationAjax extends Controller
                 " limit  ".$minutes;
 
             $url="http://localhost:9952/";
+            //$url="http://localhost";
 
 
             if($user_mmplant=='1'){
                 //for test
+                /*
                 $host_db_params= env('DB_HOST', 'localhost');
                 $user_db_params=env('DB_USERNAME', 'root');
                 $pass_db_param=env('DB_PASSWORD', '010535546');
                 $schema_db_param=env('DB_DATABASE', 'ais_db');
+                	*/
                 
-                /*
+                
                 $host_db_params= env('DB_HOST_47', '10.249.91.96');
                 $user_db_params=env('DB_USERNAME_47', 'ais');
                 $pass_db_param=env('DB_PASSWORD_47', 'ais');
                 $schema_db_param=env('DB_DATABASE_47', 'ais413');
-                */
+              
                 
             }else if($user_mmplant=='2'){
                 $host_db_params= env('DB_HOST_813x', '10.249.91.207');
@@ -702,7 +705,7 @@ class CalculationAjax extends Controller
            // $lists = DB::connection(DBUtils::getDBName())->select($sql);
 
              $lists=json_decode($contents);
-             Log::info($contents);
+             //Log::info($contents);
 
            // Log::info($lists);
             $lists_str = json_encode($lists);
@@ -711,7 +714,7 @@ class CalculationAjax extends Controller
                 $new_array_result_inner['data'] = $result->data;
                 $result_array[$result->EvTime . "|" . $key] = $new_array_result_inner;
                 $result_key_time_array[$result->EvTime] = $result->EvTime;
-                 Log::info("key2[".$key2."]->".$result->EvTime);
+                 //Log::info("key2[".$key2."]->".$result->EvTime);
             }
             //Log::info($lists_str);
         }
@@ -734,9 +737,11 @@ class CalculationAjax extends Controller
                     if(array_key_exists($key, $result_array)){
                         $new_data = str_replace($key_fomula, $result_array[$key]['data'], $new_data);
                     }else{
+
                         $new_array_result_inner = array();
-                        $new_array_result_inner['data'] = '0';
+                        $new_array_result_inner['data'] = null;
                         $result_array[$key] = $new_array_result_inner;
+
                     }
                     // Log::info($result_array[$key]['data']);
                 }
@@ -791,6 +796,8 @@ class CalculationAjax extends Controller
                 
                 if($formulaObj->{'status'}=='OK'){
                     $new_result_plot_inner[$formulaObj->{'key'}] =$formulaObj->{'result'};
+                }else if($formulaObj->{'status'}=='ERROR' && $formulaObj->{'result'}=='Expression can not be empty'){
+                    $new_result_plot_inner[$formulaObj->{'key'}] =null;
                 }else{
                     $new_result_plot_inner[$formulaObj->{'key'}] =0;
                 }
@@ -801,13 +808,21 @@ class CalculationAjax extends Controller
                 if($formulaObj->{'status'}=='OK'){
                     
                     $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=$formulaObj->{'result'};
-                }else{
+                }else if($formulaObj->{'status'}=='ERROR' && $formulaObj->{'result'}=='Expression can not be empty') {
+                    $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=null;
+                }
+                else{
                     $result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}]=0;
                 //$result_plot_array[$formulaObj->{'time'}][$formulaObj->{'key'}.'-status']=$formulaObj->{'status'};
                 }
             }
+            /*
+            if($formulaObj->{'time'}=='2016-03-18 03:31:00'){
+                Log::info($formulaObj->{'key'}." | ".$formulaObj->{'result'}." | ".$formulaObj->{'status'});
+            }
+            */
         }
-       // Log::info(json_encode($result_plot_array));
+        //Log::info(json_encode($result_plot_array));
         //return $data_result;
         //return json_encode($result_plot_array);
         //$scaleType_param = request('scaleType');
@@ -856,7 +871,7 @@ class CalculationAjax extends Controller
         }
     }
     public function testDynamicConnection(){
-
+       // $conn = @mysql_connect('localhost', 'root', 'paswword');
         /*
         $dbh = new PDO('mysql:host=localhost;dbname=ais_db', 'root', '015482543');
         $sth = $dbh->prepare("SELECT * FROM ais.mmpoint_table  limit 5 ");
@@ -868,6 +883,7 @@ class CalculationAjax extends Controller
         }
         $dbh=null;
         */
+        
         $paramFromDate="2015-11-09 00:00:00";
         $paramToDate="2015-11-10 00:00:00";
         $query="".
@@ -880,5 +896,6 @@ class CalculationAjax extends Controller
             Log::info($eventResult);
            // $constant_array[$key]["result"] = $constant[0]->B;
         }
+        
     }
 }

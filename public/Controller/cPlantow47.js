@@ -20,6 +20,9 @@ var tripFnRed=[];
 var tripFnGreen=[];
 
 
+
+
+
 var getPointPlanTown = function(data){
 	var point="";
 	var pointList="";
@@ -733,11 +736,12 @@ var plantow47={
 			 var jsonFilter = new Array();
 			$.ajax({
 				url:"/ais/processView/readDataEventPCVPlantow47/"+paramPcv+"/"+paramUnit+"/"+paramEmpId+"",
+				
 				type:"get",
 				dataType:"json",
 				async:false,
 				success:function(data){
-					//console.log(data);
+					console.log(data);
 					
 					var paramSpanTime = (parseInt($("#paramSpanTimeEmbed").val())/2);
 					var paramFromDate2=intervalDelFn($("#paramToDateEmbed").val(),'minute',paramSpanTime);
@@ -749,14 +753,21 @@ var plantow47={
 					*/
 					$.each(data,function(index,indexEntry){
 						//Test start
-						paramFromDate2='2014-05-01 00:00:00';
-						paramToDate2='2014-05-01 02:00:00';
+						//paramFromDate2='2014-05-01 00:00:00';
+						//paramToDate2='2014-05-01 02:00:00';
 						//Test End
+						//console.log(indexEntry);
+						//console.log(indexEntry[0]);
+						
+						
+						
 						if((toTimestamp(indexEntry['sys_date'])>=toTimestamp(paramFromDate2)) && (toTimestamp(indexEntry['sys_date'])<=toTimestamp(paramToDate2))) {
 							jsonFilter.push(indexEntry);
+							//console.log("indexEntry");
 							//console.log(indexEntry);
 							
 						}
+						
 						
 					});
 					//console.log("jsonFilter");
@@ -873,8 +884,11 @@ var plantow47={
 			//{paramPCV}/{paramUnit}/{parmEmpId}/{paramFromDate}/{paramToDate}
 			
 			
+			
 			$.ajax({
-				url:"/ais/processView/createDataEventPCVPlantow47/"+paramPcv+"/"+paramUnit+"/"+paramEmpId+"/"+paramFromDate+"/"+paramToDate+"",
+				//url:"/ais/processView/createDataEventPCVPlantow47/"+paramPcv+"/"+paramUnit+"/"+paramEmpId+"/"+paramFromDate+"/"+paramToDate+"",
+				url:"/eventLog.php?paramPCV=plantow47&user_mmplant="+user_mmplant+
+						"&paramUnit="+paramUnit+"&paramEmpId="+paramEmpId+"&paramFromDate="+paramFromDate+"&paramToDate="+paramToDate+"",
 				type:"get",
 				dataType:"json",
 				async:false,
@@ -905,7 +919,7 @@ var mainPlantow47Fn = function(paramPcv,paramUnit,parmEmpId,paramFromDate,paramT
 //test read processViewJson-Plantow47-4-3.txt
 	plantow47.createDataPCVFn(paramPcv,paramUnit,parmEmpId,paramFromDate,paramToDate);	
 
-
+	
 	plantow47.createDataEventPCVFn(paramPcv,paramUnit,parmEmpId,paramFromDate,paramToDate);
 
 

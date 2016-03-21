@@ -32,17 +32,16 @@ function getData()
     $endTime_param = $data_back->{'endTime'};//request('server')
     $groupby_param = $data_back->{'groupby'};//request('server')
     $scaleType_param = $data_back->{'scaleType'};//request('server')
-    
-     /*
-    $host_db_params = 'localhost';
-    $user_db_params = 'root';
-    $pass_db_param ='010535546';
-    $schema_db_param ='ais_db';
+    /*
+    $host_db_params = '10.249.91.207';
+    $user_db_params = 'Administrator';
+    $pass_db_param ='larrabee';
+    $schema_db_param ='avg8-13';
     $data_str_param = "D260";
     $data_table_param ="data";
-    $unit_param ="U04";
-    $startTime_param = "2014-05-11 00:10:00";
-       $endTime_param ="2014-05-11 14:20:00";
+    $unit_param ="U08";
+    $startTime_param = "2015-11-30 14:10:00";
+    $endTime_param ="2015-11-30 15:20:00";
     $groupby_param ="";
     $scaleType_param ="minute";
     */

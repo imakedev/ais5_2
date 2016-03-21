@@ -322,6 +322,9 @@ Route::group(['middleware' => 'web'], function () {
 
 
     //process view start
+    
+    Route::get('/ais/processView/getEmpID_userMMplant','processViewController@getEmpID_userMMplant');
+    
     //Steam47 START
     Route::get('/ais/processView/createDataPCVSteam47/{paramPCV}/{paramUnit}/{paramEmpId}/{paramFromDate}/{paramToDate}','processViewController@createDataPCVSteam47');
     Route::get('/ais/processView/readDataPCVSteam47/{paramPCV}/{paramUnit}/{paramEmpId}','processViewController@readDataPCVSteam47');

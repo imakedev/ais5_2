@@ -1,6 +1,25 @@
 /*manage trip point start*/
 var tripFnRed=[];
 var tripFnGreen=[];
+
+var user_mmplant="";
+var emp_id="";
+$.ajax({
+	url:"/ais/processView/getEmpID_userMMplant",
+	type:"get",
+	dataType:"json",
+	async:false,
+	success:function(data){
+		
+		//alert(data[0]);
+		//alert(data[1]);
+		user_mmplant=data[1];
+		emp_id=data[0];
+		
+	}
+});
+
+
 function clearTripRedFn(tripFnRed){
 	//alert("clearTripRed");
 	//clear setTimeOut Start
@@ -270,7 +289,7 @@ $(document).ready(function(){
 		paramPCVEmbed+="<input type='hidden' id='paramFromDateEmbed' name='paramFromDateEmbed' class='paramPCVEmbed' value='"+paramFromDate+"'>";
 		paramPCVEmbed+="<input type='hidden' id='paramToDateEmbed' name='paramToDateEmbed' class='paramPCVEmbed' value='"+paramToDate+"'>";
 		paramPCVEmbed+="<input type='hidden' id='paramDateEmbed' name='paramDateEmbed' class='paramPCVEmbed' value='"+paramDate+"'>";
-		paramPCVEmbed+="<input type='hidden' id='paramEmpIdEmbed' name='paramEmpIdEmbed' class='paramPCVEmbed' value='3'>";
+		//paramPCVEmbed+="<input type='hidden' id='paramEmpIdEmbed' name='paramEmpIdEmbed' class='paramPCVEmbed' value='3'>";
 		
 		$("#paramEmbedArea").append(paramPCVEmbed);
 		//Embed Param End
@@ -291,23 +310,23 @@ $(document).ready(function(){
 					///ais/processView/createDataPCVSteam47/{paramPCV}/{paramUnit}/{parmEmpId}/{paramFromDate}/{paramToDate}
 					//alert(paramFromDate);
 					//alert(paramToDate);
-					mainSteam47Fn(paramPcv,paramUnit,$("#paramEmpIdEmbed").val(),paramFromDate,paramToDate);
+					mainSteam47Fn(paramPcv,paramUnit,emp_id,paramFromDate,paramToDate);
 
 				}if(pcvName=='plantow47'){
 					
-					mainPlantow47Fn(paramPcv,paramUnit,$("#paramEmpIdEmbed").val(),paramFromDate,paramToDate);
+					mainPlantow47Fn(paramPcv,paramUnit,emp_id,paramFromDate,paramToDate);
 
 				}if(pcvName=='steam813'){
 			
-					mainSteam813Fn(paramPcv,paramUnit,$("#paramEmpIdEmbed").val(),paramFromDate,paramToDate);
+					mainSteam813Fn(paramPcv,paramUnit,emp_id,paramFromDate,paramToDate);
 
 				}if(pcvName=='fgd67'){
 					
-					mainFGDFn(paramPcv,paramUnit,$("#paramEmpIdEmbed").val(),paramFromDate,paramToDate);
+					mainFGDFn(paramPcv,paramUnit,emp_id,paramFromDate,paramToDate);
 					
 				}if(pcvName=='turbine47'){
 					
-					mainTurbine47Fn(paramPcv,paramUnit,$("#paramEmpIdEmbed").val(),paramFromDate,paramToDate);
+					mainTurbine47Fn(paramPcv,paramUnit,emp_id,paramFromDate,paramToDate);
 					
 				}
 				//bindingGridlistEventFn();

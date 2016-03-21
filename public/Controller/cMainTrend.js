@@ -694,6 +694,8 @@ function getDataByDateSecond(data,point){
         seriesDefaults: {
             type: "line",
             style: "smooth",
+            missingValues: "gap",
+            stack: true,
         	markers: {
                 visible: false
             },
