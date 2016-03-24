@@ -299,6 +299,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <br style='clear:both'>
                                     <!-- Table show point end-->
                         </div>
                         <!-- Modal Start -->
