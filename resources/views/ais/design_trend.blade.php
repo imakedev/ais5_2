@@ -88,7 +88,7 @@
                                     <input type="text" name="search" class="form-control"
                                            placeholder="ค้นหา" value="{{session()->get('design_trend_search')}}">
                                 </div>
-                                <div class="col-md-3" style="margin-top: 8px;width: 180px">
+                                <div class="col-md-3" style="margin-top: 8px;width: 190px">
 
                                     Sort By:
                                     <!--  btn -->
