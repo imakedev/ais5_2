@@ -54,7 +54,7 @@
                     <div class="col-md-4" style="width:250px">
                         <input type="text" name="search" class="form-control" placeholder="ค้นหา" value="{{session()->get('pointConf_search')}}">
                     </div>
-                    <div class="col-md-4" style="margin-top: 8px;width: 200px">
+                    <div class="col-md-3" style="margin-top: 8px;">
 
                         Sort By:
                         <!--  btn -->
