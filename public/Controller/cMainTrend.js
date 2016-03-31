@@ -2,6 +2,24 @@ var paramTrendID="";
 var paramUrlSecond="";
 
 var paramServer="";
+
+var user_mmplant="";
+var emp_id="";
+$.ajax({
+	url:"/ais/processView/getEmpID_userMMplant",
+	type:"get",
+	dataType:"json",
+	async:false,
+	success:function(data){
+		
+		//alert(data[0]);
+		//alert(data[1]);
+		user_mmplant=data[1];
+		emp_id=data[0];
+		
+	}
+});
+
 $.ajax({
 	url:'/ais/trendSetting/getMMPlant',
 	dataType:'json',
@@ -611,7 +629,7 @@ function getDataByDateSecond(data,point){
 // createTrendChart start
 	var createTrendChart =function(dataJson,point,paramStep,paramTrendID,colorIndex){
 		
-		var labelFontSize="";
+		var labelFontSize="5px";
 		if($("#paramScaleTime-"+paramTrendID).val()=="Second"){
 			//labelFontSize="5px sans-serif";
 			labelFontSize="";
@@ -629,6 +647,7 @@ function getDataByDateSecond(data,point){
 		}else{
 			paramStep=paramStep;
 		}
+		//alert(paramStep);
 		
 		$("#trendChartArea-"+paramTrendID+"").html("<div id=\"trendChart-"+paramTrendID+"\" class='heightChart' style=\"background: center no-repeat url('/js/kendoCommercial/bg/world-map.png');\"></div>");
 		
@@ -666,9 +685,9 @@ function getDataByDateSecond(data,point){
 		
 		
 		seriesData=eval("("+seriesData+")");
-		
 	
-	//alert($("#boxLeft").width());
+	
+
 	$("#trendChart-"+paramTrendID+"").kendoChart({
 		theme: "Flat",
 		height:600,
@@ -694,6 +713,7 @@ function getDataByDateSecond(data,point){
         seriesDefaults: {
             type: "line",
             style: "smooth",
+            width:"2",
             missingValues: "gap",
             stack: true,
         	markers: {
@@ -1004,7 +1024,9 @@ var readJsonFilter={
 		
 	//readJsonFilterFileScaleTypeH:function(){
 	scaleTypeMinute:function(startTime,endTime,paramTrendID,scalType){
-	
+		//alert(startTime);
+		//alert(endTime);
+		
 		// var jsonFilter = new Array();
 		var jsonData="";
 		 $.ajax({
@@ -1361,7 +1383,7 @@ var readJsonFilter={
 							jsonData+="[";
 							$i=0;
 							$.each(data,function(index,indexEntry){
-							//if((toTimestamp(index)>=toTimestamp(startTime)) && (toTimestamp(index)<=toTimestamp(endTime))) {
+							if((toTimestamp(index)>=toTimestamp(startTime)) && (toTimestamp(index)<=toTimestamp(endTime))) {
 									
 								if($i==0){
 									jsonData+="{";	
@@ -1382,7 +1404,7 @@ var readJsonFilter={
 								
 								jsonData+="}";
 								$i++;
-							//}
+							}
 							
 							});
 							
@@ -1888,8 +1910,10 @@ var createFileServiceChart={
 					
 					var data2={
 						//"formula1":data.dataWithTimes,
+						
 						"formula":dataWithTimes,
-						"trendID":paramTrendID
+						"trendID2":paramTrendID
+						
 					}
 					
 					$.ajax({
@@ -2024,6 +2048,7 @@ var plotGraphFn=function(paramAction,paramTest,paramTrendID,paramScaleTime){
 			 }
 		  });
 			  $("[href='#tab-"+paramTrendID+"']").click();
+			  $("#trendSeting").hide();
 			  
 			 
 			  
@@ -2462,8 +2487,15 @@ $(document).ready(function(){
 	
 	
 	/*click create trend graph start*/
-	$("#downloadData").on("click",function(){
+	
+	$(document).on("click","#downloadData",function(event){
 		alert("อยู่ในระหว่างพัฒนา...");
+		$(".popover").popover('hide');
+		return false;
+	});
+	$(document).on("click","#cancelDownloadData",function(event){
+		 $(".popover").popover('hide');
+		 //alert("hello");
 		return false;
 	});
 	
@@ -2500,26 +2532,24 @@ $(document).ready(function(){
 	//delete tab start
 	$(document).on("click",".exitTrendPoint",function(){
 
+		if(confirm("Do you want to remove this graph?")){
+			
 		var id="";
 		id=this.id.split("-");
 		id=id[1];
 		$("ul#tabTrendTitle").find("a[href='#tab-"+id+"']").remove();
 		$("#tabTrendContent>#tab-"+id).remove();
 		
-		
-	
-		
-		
 
 		setTimeout(function(){
-			$("[href='#trendSeting']").click();
-			
+			//$("[href='#trendSeting']").click();
+			$("#trendSeting").show();
 			//delete embed param start
 			//alert(id);
 			$("#paramDateEmbed-"+id).remove();
 			$("#paramPointEmbed-"+id).remove();
 			$("#paramTrendNameEmbed-"+id).remove();
-			$("#paramUnitEmbed-"+id).remove();
+			//$("#paramUnitEmbed-"+id).remove();
 			$("#paramTrendIDEmbed-"+id).remove();
 			
 		});
@@ -2543,6 +2573,7 @@ $(document).ready(function(){
 		//delete file ajax end
 		
 		//alert("exitTrendPoint");
+		}
 		
 	});
 	//deleate tab end

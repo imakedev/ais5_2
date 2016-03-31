@@ -21,10 +21,10 @@ function stopLoading(){
 
 
 $(document).ajaxStart(function() {
-	//startLoading();
+	startLoading();
 });
 $(document).ajaxStop(function() {
-	//stopLoading();
+	stopLoading();
 });
 /* loading end */
 //theme
@@ -196,7 +196,7 @@ function convertDatetoMonthYearTh(dateTimeHis){
 	var d = new Date(dateTimeHisFormat);
 	 //var strDate = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
 	 
-	 var strDate = ( monthNameTh[(d.getMonth()-1)] + " " +parseInt(d.getFullYear()+543)) ;
+	 var strDate = ( monthNameTh[(d.getMonth())] + " " +parseInt(d.getFullYear()+543)) ;
 	 
 	 return  strDate;
 }

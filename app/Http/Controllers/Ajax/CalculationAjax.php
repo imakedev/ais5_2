@@ -216,7 +216,7 @@ class CalculationAjax extends Controller
 
         $sess_emp_id= Auth::user()->id;
         $user_mmplant= Session::get('user_mmplant');
-        $trendID=request('trendID');
+        
 
 
         $url = env('CALCULATION_HOST', 'http://localhost:3000/v1/');
@@ -300,9 +300,12 @@ class CalculationAjax extends Controller
         }
 
        // return json_encode($result_plot_array);
-       // echo "trendID".$trendID;
+       
+        $trendID2= request('trendID2');
+        //echo "trendID====".$trendID2;
 
-        $strFileName = "webservice/fileTrend/trendJson-second-$trendID-$sess_emp_id-$user_mmplant.txt";
+        //$strFileName = "webservice/fileTrend/trendJson-second-$trendID2-$sess_emp_id-$user_mmplant.txt";
+        $strFileName = "webservice/fileTrend/trendJson-second--$sess_emp_id-$user_mmplant.txt";
         if (file_exists($strFileName)) {
         unlink($strFileName);
         }
@@ -341,8 +344,8 @@ class CalculationAjax extends Controller
     
     
 
-        $strFileName = "webservice/fileTrend/trendJson-second-$trendID-$sess_emp_id-$user_mmplant.txt";
-        //$strFileName = "webservice/fileTrend/trendJson-second--$sess_emp_id-$user_mmplant.txt";
+        //$strFileName = "webservice/fileTrend/trendJson-second-$trendID-$sess_emp_id-$user_mmplant.txt";
+        $strFileName = "webservice/fileTrend/trendJson-second--$sess_emp_id-$user_mmplant.txt";
         
         $objFopen = fopen($strFileName, 'r');
         if ($objFopen) {
@@ -638,19 +641,19 @@ class CalculationAjax extends Controller
 
             if($user_mmplant=='1'){
                 //for test
-                /*
+                
                 $host_db_params= env('DB_HOST', 'localhost');
                 $user_db_params=env('DB_USERNAME', 'root');
                 $pass_db_param=env('DB_PASSWORD', '010535546');
                 $schema_db_param=env('DB_DATABASE', 'ais_db');
-                	*/
+                	
                 
-                
+                /*
                 $host_db_params= env('DB_HOST_47', '10.249.91.96');
                 $user_db_params=env('DB_USERNAME_47', 'ais');
                 $pass_db_param=env('DB_PASSWORD_47', 'ais');
                 $schema_db_param=env('DB_DATABASE_47', 'ais413');
-              
+              */
                 
             }else if($user_mmplant=='2'){
                 $host_db_params= env('DB_HOST_813x', '10.249.91.207');

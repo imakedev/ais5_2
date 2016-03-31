@@ -77,7 +77,9 @@ var createHtmlForGridEventFn = function(data){
      
    htmlTableGridEvent +=" </tbody>";
 htmlTableGridEvent +="</table>";
+
 	$("#gridPlantow47Area").html(htmlTableGridEvent);
+	//alert(htmlTableGridEvent);
 	//$("#gridEventList")
 };
 
@@ -742,7 +744,13 @@ var plantow47={
 				async:false,
 				success:function(data){
 					console.log(data);
-					
+					/*
+					alert(data);
+					if(data==null){
+						alert("null");
+						return false;
+					}
+					*/
 					var paramSpanTime = (parseInt($("#paramSpanTimeEmbed").val())/2);
 					var paramFromDate2=intervalDelFn($("#paramToDateEmbed").val(),'minute',paramSpanTime);
 					var paramToDate2=intervalAddFn($("#paramToDateEmbed").val(),'minute',paramSpanTime);
@@ -772,7 +780,7 @@ var plantow47={
 					});
 					//console.log("jsonFilter");
 					//console.log(jsonFilter);
-					
+					//alert(jsonFilter);
 					createHtmlForGridEventFn(jsonFilter);
 					bindingGridlistEventFn();
 					
@@ -920,7 +928,7 @@ var mainPlantow47Fn = function(paramPcv,paramUnit,parmEmpId,paramFromDate,paramT
 	plantow47.createDataPCVFn(paramPcv,paramUnit,parmEmpId,paramFromDate,paramToDate);	
 
 	
-	plantow47.createDataEventPCVFn(paramPcv,paramUnit,parmEmpId,paramFromDate,paramToDate);
+	//plantow47.createDataEventPCVFn(paramPcv,paramUnit,parmEmpId,paramFromDate,paramToDate);
 
 
 	plantow47.disPlayDateTimeFn(paramToDate);

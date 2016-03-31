@@ -9,7 +9,16 @@
         </div>
         <ul class="nav navbar-top-links navbar-right">
             <li>
-                <span class="m-r-sm text-muted welcome-message"><b>Analytical Information System</b></span>
+            <?php 
+            if(Session::get('user_mmplant')==1){
+                $servName='Server : 4-7';
+            }if(Session::get('user_mmplant')==2){
+                $servName='Server : 8-13';
+            }if(Session::get('user_mmplant')==3){
+                $servName='Server : FGD';
+            }
+            ?>
+                <span class="m-r-sm text-muted welcome-message"><b>Analytical Information System (<?=$servName?>)</b></span>
             </li>
             @if(session()->get('user_priority')>=254)
             <li class="dropdown">

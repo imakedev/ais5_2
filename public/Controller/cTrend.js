@@ -16,7 +16,7 @@ function templateFormat(category,series,value) {
 	var paramUnit= $("#paramUnitEmbed-"+trendActive).val();
 	
 	
-	$("#valuePoint-"+point+"-"+$("#trendTabActive").val()).html(addCommas(parseInt(value).toFixed(2)));
+	$("#valuePoint-"+point+"-"+$("#trendTabActive").val()).html(addCommas(parseFloat(value).toFixed(2)));
 	
 	if($("#paramScaleTime-"+trendActive+"").val()=="Hour"){
 		var dmy="";
@@ -134,6 +134,10 @@ function templateFormat(category,series,value) {
 		 //dateTimeEvent="2014-05-01 00:00:34";
 		 dateTimeEvent = category.split("/");
 		 dateTimeEvent="01-"+dateTimeEvent[0]+"-"+dateTimeEvent[1]+" 00:00:00";
+		 console.log(dateTimeEvent);
+		 $("#dateTimeInDataDisplayMonth-"+trendActive).html(convertDatetoMonthYearTh(dateTimeEvent));
+		 
+		 
 		 
 	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Second'){
 		 //fixed for test
@@ -196,12 +200,14 @@ function templateFormat(category,series,value) {
 		 paramStartDate=intervalDelFn(dateTimeEvent,'minute','5');
 		 paramEndDate=intervalAddFn(dateTimeEvent,'minute','5');
 		 paramTagList=$(".showPoint>.pointTag-"+trendActive+"").text().substring("1");
-		 
+		 var tooltipUnit = $("#tooltipUnit").val();
+		 tooltipUnit = parseInt(tooltipUnit);
 		 
 
 		 $.ajax({
-				url:"/ais/serviceTrend/readEventDataTrendByEvent/"+paramTagList+"/"+paramStartDate+"/"+paramEndDate+"/event",
-				type:"get",
+				//url:"/ais/serviceTrend/readEventDataTrendByEvent/"+paramTagList+"/"+paramStartDate+"/"+paramEndDate+"/event",
+			 url:"/getLogByTrend.php?tagName="+paramTagList+"&startDateTime="+paramStartDate+"&endDateTime="+paramEndDate+"&event=event&sess_emp_id="+emp_id+"&user_mmplant="+user_mmplant+"&unit="+tooltipUnit+"",	
+			 type:"get",
 				dataType:"json",
 				//async:false,
 				success:function(data){
@@ -229,10 +235,15 @@ function templateFormat(category,series,value) {
 		 paramStartDate=intervalDelFn(dateTimeEvent,'minute','5');
 		 paramEndDate=intervalAddFn(dateTimeEvent,'minute','5');
 		 paramTagList=$(".showPoint>.pointTag-"+trendActive+"").text().substring("1");
-		 
-		 
+		 var tooltipUnit = $("#tooltipUnit").val();
+		 tooltipUnit = parseInt(tooltipUnit);
+		 //user_mmplant
+		//emp_id
+		 console.log(tooltipUnit);
+		 ///getLogByTrend.php?tagName=0173&startDateTime=2014-10-07%2000:00:00&endDateTime=2014-10-07%2023:00:00&event=vpser&sess_emp_id=3&user_mmplant=1&unit=4
 		 $.ajax({
-				url:"/ais/serviceTrend/readEventDataTrendByEvent/"+paramTagList+"/"+paramStartDate+"/"+paramEndDate+"/action",
+				//url:"/ais/serviceTrend/readEventDataTrendByEvent/"+paramTagList+"/"+paramStartDate+"/"+paramEndDate+"/action",
+				url:"/getLogByTrend.php?tagName="+paramTagList+"&startDateTime="+paramStartDate+"&endDateTime="+paramEndDate+"&event=action&sess_emp_id="+emp_id+"&user_mmplant="+user_mmplant+"&unit="+tooltipUnit+"",
 				type:"get",
 				dataType:"json",
 				//async:false,
@@ -281,11 +292,13 @@ function templateFormat(category,series,value) {
 		 paramStartDate=intervalDelFn(dateTimeEvent,'minute','5');
 		 paramEndDate=intervalAddFn(dateTimeEvent,'minute','5');
 		 paramTagList=$(".showPoint>.pointTag-"+trendActive+"").text().substring("1");
-		 
+		 var tooltipUnit = $("#tooltipUnit").val();
+		 tooltipUnit = parseInt(tooltipUnit);
 		 
 		 $.ajax({
-				url:"/ais/serviceTrend/readEventDataTrendByEvent/"+paramTagList+"/"+paramStartDate+"/"+paramEndDate+"/vpser",
-				type:"get",
+				//url:"/ais/serviceTrend/readEventDataTrendByEvent/"+paramTagList+"/"+paramStartDate+"/"+paramEndDate+"/vpser",
+			 url:"/getLogByTrend.php?tagName="+paramTagList+"&startDateTime="+paramStartDate+"&endDateTime="+paramEndDate+"&event=vpser&sess_emp_id="+emp_id+"&user_mmplant="+user_mmplant+"&unit="+tooltipUnit+"",	
+			 type:"get",
 				dataType:"json",
 				//async:false,
 				success:function(data){
@@ -1666,10 +1679,20 @@ function tooltipCustom(paramTrendID){
 	
 	
 	$(document).on("click",".btnScaleTimeCancel",function(event){
-	    //$("#btnScaleTimeArea").click();
-		//$(".btnScaleTimeArea").click();
-		$(".popover").popover('hide');
+
+		$(".btnScaleTimeArea").popover('hide');
+		$(".btnScaleTimeArea").removeClass("clicked");
+		
 	});
+	
+	
+	
+    
+	/*
+	$(document).on("click",".btnScaleTimeArea",function(event){
+		$(this).popover('show');
+	});
+	*/
 	 
 	 function validateTime (paramFromDate,paramToDate,scaleTime){
 		 var txt="";
@@ -1964,8 +1987,17 @@ function tooltipCustom(paramTrendID){
 	 $(document).on("click",".btnOkSetingPoint",function(event){
 		 
 		
+		 
+		 
+		 
 		 var id=this.id.split("-");
 		 id=id[1];
+		 var unitID = id.substring(1, 3);
+		 
+		//for delete other is not selected
+		 $(".paramEmbedArea").empty();
+		 $("#tooltipUnit").remove();
+		 $("body").append('<input type="hidden" value='+unitID+' id="tooltipUnit"  name="tooltipUnit">');
 		// alert(id);
 		 var paramEmbedEvent="";
 		 var dataForTooltipUl="";
@@ -1974,6 +2006,7 @@ function tooltipCustom(paramTrendID){
 			 
 			 // alert(id);
 			 // alert(this.value);
+			 
 			  paramEmbedEvent+="<input type='hidden' id='param"+this.value+"-"+id+"-"+$("#trendTabActive").val()+"' class='paramEvent-"+id+"' value='"+this.value+"'>";
 			  dataForTooltipLi+="<li id=tooltip-"+this.value+"-"+id+"-"+$("#trendTabActive").val()+" class='paramEvent-"+id+"'>"+this.value+":</li>";
 			  
@@ -1985,13 +2018,16 @@ function tooltipCustom(paramTrendID){
 		 //$("#showPoin-"+id+"-"+$("#trendTabActive").val()+">.pointName").text()+
 		 console.log($("#tooltipUl-"+id+"-"+$("#trendTabActive").val()).get());
 		 //console.log( $("ul#tooltip-"+id+"-"+$("#trendTabActive").val()).empty(););
-
-		 dataForTooltipUl+="<div class='tooltipPointName-"+id+"-"+$("#trendTabActive").val()+"'><b>"+$("#showPoint-"+id+"-"+$("#trendTabActive").val()+">.pointName").text()+"</b></div><ul class='tooltipUl-"+id+"-"+$("#trendTabActive").val()+"'>"+dataForTooltipLi+"</ul>";
+		 
+		 dataForTooltipUl+="<div id='"+unitID+"' class='tooltipUnit tooltipPointName-"+id+"-"+$("#trendTabActive").val()+"'><b>"+$("#showPoint-"+id+"-"+$("#trendTabActive").val()+">.pointName").text()+"</b></div><ul class='tooltipUl-"+id+"-"+$("#trendTabActive").val()+"'>"+dataForTooltipLi+"</ul>";
+		 
 		 
 		 $(".tooltipUl-"+id+"-"+$("#trendTabActive").val()).remove();
 		 $(".tooltipPointName-"+id+"-"+$("#trendTabActive").val()).remove();
 		 
-		 $("#tooltip").append(dataForTooltipUl);
+		 //$("#tooltip").append(dataForTooltipUl);
+		 //for delete other is not selected
+		 $("#tooltip").html(dataForTooltipUl);
 		 
 		 if(dataForTooltipLi==""){
 			 $(".tooltipPointName-"+id+"-"+$("#trendTabActive").val()).remove();
@@ -2233,7 +2269,8 @@ function tooltipCustom(paramTrendID){
 			}else if(scaleTime=='Second'){
 				//expandFocus defualt
 				$(".timeFocusExpand").show();
-				$(".setTimeCustomArea").show();
+				//$(".setTimeCustomArea").show();
+				$(".setTimeCustomAreaSecondHidden").hide();
 				$("#expandFocus-"+paramTrendID).val("1 Min");
 				$("#dateInDataDisplayAreaMenute-"+paramTrendID+"").hide();
 				$("#dateInDataDisplayAreaHour-"+paramTrendID+"").hide();
@@ -2288,14 +2325,17 @@ function tooltipCustom(paramTrendID){
 					 //alert(this.id);
 					 var paramTrendID = this.id.split("-");
 					 paramTrendID=paramTrendID[1];
+					 
 					 //alert(paramTrendID);
 					 
 					 if($(this).hasClass("clicked")){
 						 $(this).removeClass("clicked");
 						 $(".k-calendar-container").remove();
 						// $(".popover").popover('hide');
+						 //$(this).popover('hide');
 					 }else{
 						 $(this).addClass("clicked");
+						 //$(this).popover('show');
 						 //$(".popover").popover('show');
 						 setTimeout(function(){
 							 /*
@@ -2544,7 +2584,7 @@ function tooltipCustom(paramTrendID){
 								//console.log(data);
 								if(data==1){
 									
-								unitHtml+="<select name=\"editUnit\" id=\"editUnit\" class=\"form-control input-sm\">";
+								unitHtml+="<select name=\"editUnit\" id=\"editUnit\" class=\"form-control input-sm\" style='display:'>";
 									unitHtml+="<option selected value='All'>All Unit</option>";
 									unitHtml+="<option value='4'>MM04</option>";
 					                unitHtml+="<option value='5'>MM05</option>";
@@ -2552,7 +2592,7 @@ function tooltipCustom(paramTrendID){
 					                unitHtml+="<option value='7'>MM07</option>";
 					            unitHtml+="</select> ";
 								}else{
-								unitHtml+="<select name=\"editUnit\" id=\"editUnit\" class=\"form-control input-sm\">";
+								unitHtml+="<select name=\"editUnit\" id=\"editUnit\" class=\"form-control input-sm\" style='display:'>";
 									unitHtml+="<option selected value='All'>All Unit</option>";
 									unitHtml+="<option value='8'>MM08</option>";
 					                unitHtml+="<option value='9'>MM09</option>";
@@ -2565,7 +2605,7 @@ function tooltipCustom(paramTrendID){
 								}
 							}
 						});
-						$("#listAllUnitArea").html(unitHtml);
+						$("#listAllUnitEditArea").html(unitHtml);
 						
 						var paramTrendID=$("#trendTabActive").val();
 						var paramTrendName=$("#paramTrendNameEmbed-"+paramTrendID).val();

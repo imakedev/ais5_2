@@ -255,13 +255,25 @@
                                 <td>
                                     &nbsp;Data only
                                 </td>
+                                
+                            </tr>
+                            <tr>
+                                <td colspan='2'>
+                                    <button class='btn btn-primary  btn-xs ' id='downloadData' type='button'>
+                                    <i class='fa fa-download'></i>
+                                        Download
+                                    </button>
+                                  
+                                    <button class='btn btn-white btn-xs  ' id='cancelDownloadData' type='button'>
+                                       Cancel
+                                    </button>
+                                </td>
                             </tr>
                             
                         </table>
-                        <button class='btn btn-primary btn-sm  ' id='downloadData' type='button'>
-                            <i class='fa fa-download'></i>
-                           Download
-                        </button>
+                        
+                            
+                          
                         ">
                           <i class="fa fa-download"></i>
                         </button>
@@ -278,7 +290,7 @@
                   
                   
                   
-                    <div class='setTimeCustomArea'>
+                    <div class='setTimeCustomArea setTimeCustomAreaSecondHidden'>
                         <div class='doubleLeftArea'>
                              <a class="btn btn-sm btn-white btn-bitbucket   " id='reduceDay-<?=$_GET['paramTrendID']?>'>
                              <i class="fa fa-angle-double-left   "></i>
@@ -374,8 +386,9 @@
                             </div>
                             
                              <div id='dateInDataDisplayAreaMonth-<?=$_GET['paramTrendID']?>' class='dateInDataDisplayArea  displaynone'>   
-                                
+                                    
                                     <div id='dateTimeInDataDisplayMonth-<?=$_GET['paramTrendID']?>'></div>
+                                     
                             </div>
                             
                             <div id='dateInDataDisplayAreaSecond-<?=$_GET['paramTrendID']?>' class='dateInDataDisplayArea  displaynone'>   

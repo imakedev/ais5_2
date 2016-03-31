@@ -26,8 +26,9 @@ if(($calID!='') and ($calID!='0') and ($calID!=0)){
                             <!-- btn seting grach1 start-->
                             <!-- U05D260 -->
                             
+                            
                             <button id='<?=$id?>'  type="button" style='background: <?=$_GET['colorFlatTheme']?>;color:white;' class="btn  btn-xs btnSetingPoint btnSetingPoint-<?=$_GET['point']?>" data-container="body" 
-                                data-toggle="popover" data-placement="bottom" title="Event Seting"  data-html="true"
+                                data-toggle="popover" data-placement="bottom"  title="Event Seting"  data-html="true"
                                 data-content="
                                  
                                
@@ -112,9 +113,9 @@ if(($calID!='') and ($calID!='0') and ($calID!=0)){
                              
                              <span class='clickHideShowPoint showPoint' id='showPoint-<?=$id?>-<?=$_GET['paramTrendID']?>'>
                               <div class='pointName pointName-<?=$_GET['paramTrendID']?>'>
-                             <?=$_GET['pointname'];?>
+                             U0<?=$_GET['unit_plant']?> <?=$_GET['pointname'];?>
                              </div>
-                              <div class='pointTag pointTag-<?=$_GET['paramTrendID']?>' >,<?=$_GET['tag'];?></div>
+                              <div class='pointTag pointTag-<?=$_GET['paramTrendID']?>' >,U0<?=$_GET['unit_plant']?> <?=$_GET['tag'];?></div>
                              <!-- U04D260 -->
                              <!-- <div class='pointId pointId-<?=$_GET['paramTrendID']?>'>,D<?=$_GET['point']?></div> -->
                              <div class='pointId pointId-<?=$_GET['paramTrendID']?>' >,<?=$id?></div>

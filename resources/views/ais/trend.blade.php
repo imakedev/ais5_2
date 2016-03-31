@@ -8,7 +8,9 @@
     @include('layouts.header')
     @section('content')
 <meta charset="utf-8">
+
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.common.min2.css" />
+
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.rtl.min2.css">
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.silver.min2.css">
 <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.silver.mobile.min.css">
@@ -48,8 +50,8 @@
 
 
     <ul class="nav nav-tabs" id='tabTrendTitle'>
-        
-        <li class="titleTab pull-right" ><a  href="#trendSeting" data-toggle="tab" aria-expanded="false"><b><span class='btnPlus fa fa-plus-circle'></span></b></a></li>
+       
+       <li style='display:none' class="titleTab pull-right" ><a  href="#trendSeting" data-toggle="tab" aria-expanded="false"><b><span class='btnPlus fa fa-plus-circle'></span></b></a></li>
      
        
     
@@ -90,7 +92,7 @@
    <h5 class="modal-title">Edit Point</h5>
       
    </div>
-  <div class="modal-body">
+  <div class="modal-body" style='height: 300px;'>
   	            <div class='row'>
                     <div id="trendNameArea" class="col-xs-10  displaynone " style="display: block;">
                       Trend Name <i class="glyphicon glyphicon-menu-right"></i> 
@@ -98,7 +100,7 @@
                     </div>
                     
                     <div class="col-xs-offset-0 col-xs-2 ">
-                            <div class="displaynone" id="listAllUnitArea" style="display: block;">
+                            <div class="displaynone" id="listAllUnitEditArea" style="display: block;">
                                 <select name="editUnit" id="editUnit" class="form-control input-sm">
                                     <option value="All">All Point</option>
                                     <option value="4">MM04</option>

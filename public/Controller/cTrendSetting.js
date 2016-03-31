@@ -122,10 +122,16 @@ var bindGridPoinList = function(){
 		
 		$.each(data,function(index,indexEntry){
 			//console.log(indexEntry);
+			if(index==0){
+				dropDownListHTML+="<option value='"+indexEntry['B']+"' selected>";
+				dropDownListHTML+=indexEntry['group_name'];
+				dropDownListHTML+="</option>";
+			}else{
+				dropDownListHTML+="<option value='"+indexEntry['B']+"'>";
+				dropDownListHTML+=indexEntry['group_name'];
+				dropDownListHTML+="</option>";
+			}
 			
-			dropDownListHTML+="<option value='"+indexEntry['B']+"'>";
-			dropDownListHTML+=indexEntry['group_name'];
-			dropDownListHTML+="</option>";
 			
 		});
 		dropDownListHTML+="</select>";
@@ -235,13 +241,19 @@ var bindGridPoinList = function(){
 				 $.each(objectPointPrePlot,function(index,indexEntry){
 		
 					 $.each(objectPoint,function(index2,indexEntry2){
-
+						 //alert("1="+$(indexEntry2).val());
+						 //alert("2="+$(indexEntry).val());
 						 if($(indexEntry2).val()==$(indexEntry).val()){
 							 
-							 
+							 //alert($(indexEntry2).val());
 							 console.log("#point-"+$(indexEntry2).val());
 							 
-							 $("#pointEdit-"+$(indexEntry2).val()).attr('checked',true);
+							 var getCalID="";
+							 var getCalIDArray=$(indexEntry2).val().split("-");
+							 getCalID=getCalIDArray[0]+"-"+getCalIDArray[1]+"-"+getCalIDArray[2];
+							// alert(getCalID);
+							 
+							 $("#pointEdit-"+getCalID).attr('checked',true);
 						 }
 						 
 					 });
@@ -271,12 +283,14 @@ var bindGridPoinList = function(){
 				
 				//embed point id for plot graph end	 
 				
-				 
+				
 				
 				$("#editGridPointList").kendoGrid({
 					
+					
+					height: 200,
+					//scrollable: false,
 			        sortable: true,
-			       // height: 300,
 			        dataSource: {
 			        	pageSize: 10,
 			        },
@@ -295,6 +309,7 @@ var bindGridPoinList = function(){
 		
 	}
 	var getPointListFn=function(trendID,unitID){
+		
 		$.ajax({
 			url:"/ais/trendSetting/getPointByTrend/"+trendID+"/"+unitID+"",
 			dataType:'json',
@@ -371,7 +386,11 @@ var bindGridPoinList = function(){
 							 console.log("#point-"+$(indexEntry2).val());
 							 
 							 //$("#point-"+$(indexEntry2).val()).addClass("test");
-							 $("#point-"+$(indexEntry2).val()).attr('checked',true);
+							 var getCalID="";
+							 var getCalIDArray=$(indexEntry2).val().split("-");
+							 getCalID=getCalIDArray[0]+"-"+getCalIDArray[1]+"-"+getCalIDArray[2];
+							 
+							 $("#point-"+getCalID).attr('checked',true);
 							 //point-260-4-6131
 							// console.log($("#point-"+$(indexEntry2).val()));
 						 }
@@ -400,6 +419,11 @@ var bindGridPoinList = function(){
 		
 		$(document).on("click",".choosePoint",function(){
 			
+			
+			$('#pointAll').prop('checked' , false);
+			$('#pointCompare').prop('checked' , false);
+			
+			
 			$(".displayPoint").show();
 			var trendID = this.id.split("-");
 			trendID=trendID[1];
@@ -424,6 +448,7 @@ var bindGridPoinList = function(){
 					//alert(data);
 					//console.log(data);
 					if(data==1){
+					/*
 					unitHtml+="<select class=\"form-control input-sm unit\" id=\"unit-"+trendID+"\" name=\"unit-"+trendID+"\">";
 						unitHtml+="<option selected value='All'>All Unit</option>";
 						unitHtml+="<option value='4'>MM04</option>";
@@ -431,7 +456,21 @@ var bindGridPoinList = function(){
 		                unitHtml+="<option value='6'>MM06</option>";
 		                unitHtml+="<option value='7'>MM07</option>";
 		            unitHtml+="</select> ";
+		            */
+						unitHtml+="<input type='radio' id='unitAll-"+trendID+"' class='unit-"+trendID+"' checked='checked' name='unit-"+trendID+"' value='All'>All Point &nbsp;";
+						unitHtml+="<input type='radio' id='unitMM04-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='4'>MM04 &nbsp;";
+						unitHtml+="<input type='radio' id='unitMM05-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='5'>MM05 &nbsp;";
+						unitHtml+="<input type='radio' id='unitMM06-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='6'>MM06 &nbsp;";
+						unitHtml+="<input type='radio' id='unitMM07-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='7'>MM07 &nbsp;";
 					}else{
+						unitHtml+="<input type='radio' id='unitAll-"+trendID+"' class='unit-"+trendID+"' checked='checked' name='unit-"+trendID+"' value='All'>All Point &nbsp;";
+						unitHtml+="<input type='radio' id='unitMM08-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='8'>MM08 &nbsp;";
+						unitHtml+="<input type='radio' id='unitMM09-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='9'>MM09 &nbsp;";
+						unitHtml+="<input type='radio' id='unitMM010-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='10'>MM10 &nbsp;";
+						unitHtml+="<input type='radio' id='unitMM011-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='11'>MM11 &nbsp;";
+						unitHtml+="<input type='radio' id='unitMM012-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='12'>MM12 &nbsp;";
+						unitHtml+="<input type='radio' id='unitMM013-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='13'>MM13 &nbsp;";
+					/*
 					unitHtml+="<select class=\"form-control input-sm unit\" id=\"unit-"+trendID+"\" name=\"unit-"+trendID+"\">";
 						unitHtml+="<option selected value='All'>All Unit</option>";
 						unitHtml+="<option value='8'>MM08</option>";
@@ -441,6 +480,7 @@ var bindGridPoinList = function(){
 		                unitHtml+="<option value='12'>MM12</option>";
 		                unitHtml+="<option value='13'>MM13</option>";
 		            unitHtml+="</select> ";
+		            */
 		            
 					}
 				}
@@ -455,6 +495,35 @@ var bindGridPoinList = function(){
             },1000);
             
 			 //binding event change select mm
+            $(".unit-"+trendID).off("click");
+			   $(".unit-"+trendID).on("click",function(){
+				  //alert($(this).val());
+				   $("#pointAll").prop("checked",false);
+				   $("#pointCompare").prop("checked",false);
+				   var trendID="";
+					  trendID=$("#paramTrendIDEmbedPrePlot").val();
+				  
+				  /*
+				  alert(trendID);
+				  alert($(this).val());
+				  */
+				 // alert($(this).val());
+				  if("undefined"==$(this).val()){
+					  getPointListFn(trendID,"All");
+				  }else{
+					  getPointListFn(trendID,$(this).val());
+				  }
+				  
+				  
+				  $("#paramUnitEmbed-"+trendID).remove();
+				  var paramPoint="";
+				  paramPoint+="<input type='hidden' id='paramUnitEmbed-"+trendID+"' class='paramUnitEmbed' name='paramUnitEmbed-"+trendID+"' value='"+$(this).val()+"'>";
+				  $("body").append(paramPoint);
+				  
+				  
+			   });
+			   
+            /*
 			   $(".unit").off("change");
 			   $(".unit").on("change",function(){
 				   
@@ -470,7 +539,7 @@ var bindGridPoinList = function(){
 				  
 				  
 			   });
-			  
+			  */
 			   
 			  //binding event plot graph
 			
@@ -479,7 +548,7 @@ var bindGridPoinList = function(){
 			
 		
 			//alert(trendID);
-			var unitID=$("#unit-"+trendID).val();
+			var unitID=$(".unit-"+trendID).val();
 			//alert(unitID);
 		
 			
@@ -506,6 +575,8 @@ var bindGridPoinList = function(){
 			//show element
 			$("#trendNameArea").show();
 			$("#pointCompareArea").show();
+			$("#pointAllArea").show();
+			
 			var htmlBtnPlotGraph="";
 			htmlBtnPlotGraph="<div class='col-xs-12'><buton id=\"btnPlotGraph-"+trendID+"\" class=\"btn btn-primary  btn-sm pull-right btnPlotGraph\">Plot Graph </buton></div>";
 			$("#btnPlotGraphArea").html(htmlBtnPlotGraph);
@@ -544,8 +615,8 @@ var bindGridPoinList = function(){
 				$("#paramTrendIDEmbed-"+trendID).remove();
 				$("body").append("<input type='hidden' id='paramTrendIDEmbed-"+trendID+"' class='paramTrendIDEmbed' value='"+trendID+"'>");
 				
-				
-				$(".paramPointEmbedPrePlot-"+trendID+"").remove();
+				//not delelte paramPointEmbedPrePlot
+				//$(".paramPointEmbedPrePlot-"+trendID+"").remove();
 			   
 			});
 			   
@@ -652,7 +723,10 @@ var bindGridPoinList = function(){
 			   
 			   
 		   });
-		
+		   setTimeout(function(){
+			   $("#btnSearchByGroup").click();
+		   },1000);
+		   
 		   
 		   //TEST GRAPH START
 		  
@@ -690,15 +764,58 @@ var bindGridPoinList = function(){
 		//point compare start
 		 $(document).on("click","#pointCompare",function(){
 
+			     $('#pointAll').prop('checked' , false);
 				 $('input.point').prop('checked' , false);
 				 $(".paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()).remove();
 
 			 
 		 });
 		//point compare end
+		//all point start
+		 $(document).on("click","#pointAll",function(){
+			 
+			 $('#pointCompare').prop('checked' , false);
+			 
+			 $(".paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()).remove();
+			 
+			 	if($("#pointAll").is(':checked')==true){
+			 		
+			 		$('input.point').prop('checked' , true);
+			 		var countPointArray=$("input.point:checked").get();
+			 		 if(countPointArray.length>12){
+						 alert("เลือกได้สูงสุด 12 Point");
+						 return false;
+					 }
+			 		 
+			 		$.each(countPointArray,function(index,indexEntry){
+			 				
+			 				if(index<12){
+			 					
+				 				var paramPoint="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+$(indexEntry).val()+"' name='paramPointEmbedPrePlot-"+$(indexEntry).val()+"' value='"+$(indexEntry).val()+"'>";
+							  	$("body").append(paramPoint);
+							  	
+			 				}
+			 				
+			 		});
+				 
+				 
+			 	}else{
+			 		
+			 		$('input.point').prop('checked' , false);
+			 		$(".paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()).remove();
+			 	 
+			 	}
+
+			 
+		 });
+		//all point start end
+		 
+		 
 		 //embed point id for plot graph start
 		$(document).on("click",".point",function(){
 			// alert($(this).val());
+
+			$('#pointAll').prop('checked' , false);
 			var countPointArray=$("input.point:checked").get();
 			 if(countPointArray.length>12){
 				 alert("ไม่ควรเลือก Point เกิน 12 Point");
@@ -758,7 +875,6 @@ var bindGridPoinList = function(){
 			 if($(this).prop( "checked" )==true){
 				 if($("#pointCompare").is(':checked')==false){
 					  var paramPoint="";
-					 
 						 //alert(pointIDNotFormula);
 					  paramPoint+="<input type='hidden' class='paramPointEmbedPrePlot-"+$("#paramTrendIDEmbedPrePlot").val()+"' id='paramPointEmbedPrePlot-"+pointIDNotFormula+"' name='paramPointEmbedPrePlot-"+pointIDNotFormula+"' value='"+$(this).val()+"'>";
 					  $("body").append(paramPoint);

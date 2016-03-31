@@ -104,7 +104,7 @@
                                 <th class="center" data-field="field10"><b>Max</b></th>
                                 <th class="center" data-field="field11"><b>Min</b></th>
                                 <th class="center" data-field="field12"><b>Tag Index</b></th>
-                                <th class="center" data-field="field13" width="100px"><b></b></th>
+                                <th class="center" data-field="field13" width="70px"><b></b></th>
                             </tr>
                         </thead>
                         <tbody id="gridPointListbody">

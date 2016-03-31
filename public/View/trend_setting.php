@@ -110,25 +110,37 @@ $("#btnReadAjax").click(function(){
 <br style='clear:both'>
 
 <div id='pointArea' class='displayPoint'>
- <div class="col-xs-8  displaynone " id='trendNameArea'>
+ <div class="col-xs-5  displaynone " id='trendNameArea'>
   Trend Name <i class='glyphicon glyphicon-menu-right'></i> <span id='trendName'></span>
  </div>
-  <div class="col-xs-2 displaynone" id='pointCompareArea'>
+  <div class="col-xs-2 displaynone" id='pointAllArea' style='width:98px;'>
+     <input type='checkbox'  name='pointAll' id='pointAll' value="Y" > All Point
+ </div>
+  <div class="col-xs-2 displaynone" id='pointCompareArea' style='width:140px;'>
      <input type='checkbox'  name='pointCompare' id='pointCompare' value="Y"> Point Compare
  </div>
- <div class="col-xs-offset-0 col-xs-2 ">
+ <!-- 
+ <div class="col-xs-5 " id=''>
+     <input type='radio' id='unitAll' class='unit' checked='checked' name='unit' value='All'>All Point
+     <input type='radio' id='unitMM04' class='unit' name='unit' value='4'>MM04
+     <input type='radio' id='unitMM05' class='unit' name='unit' value='5'>MM05
+     <input type='radio' id='unitMM06' class='unit' name='unit' value='6'>MM06
+     <input type='radio' id='unitMM07' class='unit' name='unit' value='7'>MM07
+ </div>
+ -->
+ <div class="col-xs-offset-0 col-xs-4 ">
 
  
         <div id='listAllUnitArea' class='displaynone'>
             <select  class="form-control input-sm " id='unit' name="unit">
-                <option selected value='All'>All Point</option>
-                
             
-                <option  value='4'>MM04</option>
+            <!-- 
+                <option selected value='All'>All Point</option>
+                <option value='4'>MM04</option>
                 <option value='5'>MM05</option>
                 <option value='6'>MM06</option>
                 <option value='7'>MM07</option>
-               
+             -->   
                 
                
             </select> 

@@ -124,7 +124,7 @@ function callReadDataEventPCVBySlideFn(paramPcv,paramUnit,paramEmpId,indexDate){
 		
 		}
 		//Read steam813 end
-		
+	
 	}if(paramPcv=='plantow47'){
 		
 		//Read plantow47 start
@@ -178,7 +178,7 @@ function slideFucusExpressFn(parmStart,paramMax){
 			//console.log(values[handle]);
 			var indexDate = values[handle];
 			
-			callReadDataEventPCVBySlideFn($("#paramPcvEmbed").val(),$("#paramUnitEmbed").val(),$("#paramEmpIdEmbed").val(),indexDate);
+			callReadDataEventPCVBySlideFn($("#paramPcvEmbed").val(),$("#paramUnitEmbed").val(),emp_id,indexDate);
 			//console.log(i);
 			//console.log($("#paramPcvEmbed").val());
 			
