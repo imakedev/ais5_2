@@ -1367,10 +1367,7 @@ var readJsonFilter={
 		 //console.log("-----------2"+jsonFilter);
 		 //return eval("("+jsonFilter+")");
 		 
-	},scaleTypeSecond:function(paramTrendID,paramStartTime,paramEndTime,pointDataId){
-		
-		
-
+	},scaleTypeSecond:function(paramTrendID,paramStartTime,paramEndTime){
 		
 		var jsonData="";
 		 $.ajax({
@@ -1379,11 +1376,27 @@ var readJsonFilter={
 				async:false,
 				dataType:"json",
 				success:function(data){
-							
+							console.log("1data");
+							console.log(data);
 							jsonData+="[";
 							$i=0;
 							$.each(data,function(index,indexEntry){
-							if((toTimestamp(index)>=toTimestamp(startTime)) && (toTimestamp(index)<=toTimestamp(endTime))) {
+								/*
+								console.log("2index");
+								console.log(index);
+								console.log("2index");
+								console.log(paramStartTime);
+								console.log(paramEndTime);
+								console.log("-------");
+								*/
+								/*
+								console.log(index+"="+toTimestamp(index)+">="+toTimestamp(paramStartTime)+"="+paramStartTime);
+								console.log("------------");
+								console.log(index+"="+toTimestamp(index)+"<="+toTimestamp(paramEndTime)+"="+paramEndTime);
+								console.log("------------");
+								console.log("------------");
+								*/
+							if((toTimestamp(index)>=toTimestamp(paramStartTime)) && (toTimestamp(index)<=toTimestamp(paramEndTime))) {
 									
 								if($i==0){
 									jsonData+="{";	
@@ -1391,8 +1404,10 @@ var readJsonFilter={
 									jsonData+=",{";
 								}
 								$j=0;
+								
 								$.each(indexEntry,function(index2,indexEntry2){
-		
+									
+									
 									if($j==0){
 										jsonData+="\""+index2+"\":\""+indexEntry2+"\"";
 									}else{
@@ -1410,6 +1425,7 @@ var readJsonFilter={
 							
 							jsonData+="]";
 							
+							//console.log("jsonData");
 							//console.log(jsonData);
 							//return eval("("+jsonData+")");
 				}
@@ -1930,7 +1946,9 @@ var createFileServiceChart={
 							
 							//if data is succcess start
 							
-										var data2=readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+										//var data2=readJsonFilter.scaleTypeSecond(paramTrendID,"second",paramStartTime,paramEndTime);
+										var endTime = intervalAddFn(paramStartTime,'minute','1');
+										var data2=readJsonFilter.scaleTypeSecond(paramTrendID,paramStartTime,endTime);
 										
 										console.log("data22222");
 										console.log(data2);
@@ -2109,7 +2127,9 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 	 if(paramScaleTime=='Second'){
 		 var endTime = intervalAddFn(startTime,'minute',scale);
 		 //readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
-		 readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+		 //readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,"10",paramTrendID);
 		 /*
 		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
 		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,"10",paramTrendID);
@@ -2170,7 +2190,9 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		
 		 var endTime = intervalAddFn(startTime,'minute',scale);
 		 //readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,point);
-		 readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+		 //readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+		 var data2= readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+		 createTrendChart(getDataByDateSecond(data2,point),point,"10",paramTrendID,$colorIndex);
 		 /*
 		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,point);
 		 createTrendChart(getDataByDateSecond(data2,point),point,"10",paramTrendID,$colorIndex);
@@ -2244,7 +2266,8 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		
 		 paramStep='10';
 		 //data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,pointDataId);
-		 data2=readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+		 //data2=readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+		 data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
 		 setTimeout(function(){
 				createTrendChart(getDataByDateSecond(data2,pointDataId),pointDataId,"10",paramTrendID);
 				var lastObject = data2.pop();
@@ -2295,7 +2318,11 @@ var readJsonHiddenPointAllFn=function(paramTrendID){
 		 var endTime = intervalAddFn(startTime,'minute',scale);
 		 
 		 //readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
-		 readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+		 //readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);	 
+		
+			
 		 /*
 		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
 		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);	 
@@ -2339,11 +2366,10 @@ var readJsonIncreaseStartTimeDisplayFn=function(seek,paramTrendID){
 	 	 var endTime = intervalAddFn(startTime,'minute',scale);
 	 	 
 	 	 //readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
-	 	 readJsonFilter.scaleTypeSecond(paramTrendID,"second");
-	 	 /*
-	 	 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
-		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
-		 */
+	 	 //readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+	 	var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+	 	createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
+	 	
 	 }else{
 		 
 		 var startTime= intervalDelFn(paramStartDateOnProccess,'hour',-seek);
@@ -2377,8 +2403,9 @@ var readJsonReduceDayDisplayFn=function(seek,paramTrendID){
 		 var endTime = intervalAddFn(startTime,'minute',scale);
 		 
 		 //readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
-		 readJsonFilter.scaleTypeSecond(paramTrendID,"second");
-		 
+		 //readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
 		 /*
 		 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
 		 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
@@ -2411,7 +2438,9 @@ var readJsonIncreaseDayDisplayFn=function(seek,paramTrendID){
 		var startTime= intervalDelFn($("#initEndTimeSecond-"+paramTrendID).val(),'minute',scale);
 		var endTime = $("#initEndTimeSecond-"+paramTrendID).val();
 		//readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
-		readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+		//readJsonFilter.scaleTypeSecond(paramTrendID,"second");
+		var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+		createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
 		/*
 		var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime,paramPoint);
 		createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',paramTrendID);
@@ -2457,7 +2486,9 @@ $(document).ready(function(){
 					 var endTime = intervalAddFn(startTime,'minute',scale);
 					 
 					 //readJsonFilter.scaleTypeSecond($("#trendTabActive").val(),startTime,endTime,paramPoint);
-					 readJsonFilter.scaleTypeSecond($("#trendTabActive").val(),"second");
+					 //readJsonFilter.scaleTypeSecond($("#trendTabActive").val(),"second");
+					 var data2=readJsonFilter.scaleTypeSecond(paramTrendID,startTime,endTime);
+					 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',$("#trendTabActive").val());
 					 /*
 					 var data2=readJsonFilter.scaleTypeSecond($("#trendTabActive").val(),startTime,endTime,paramPoint);
 					 createTrendChart(getDataByDateSecond(data2,paramPoint),paramPoint,'10',$("#trendTabActive").val());

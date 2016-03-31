@@ -177,7 +177,7 @@
                                 <label class='col-lg-3 control-label textAlign'>นาที</label>
                                 <div class='col-lg-9 scaleTimeR'>
                                    
-                                       <input type='text' id='minute-<?=$_GET['paramTrendID']?>' value='00' class='form-control input-sm '>
+                                       <input type='text' id='minute-<?=$_GET['paramTrendID']?>' value='02' class='form-control input-sm '>
                                     
                                 </div>
                            </div>

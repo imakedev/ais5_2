@@ -156,7 +156,7 @@ function templateFormat(category,series,value) {
 	        time=time.split(":");
 	        paramFromDate=date[2]+"-"+date[1]+"-"+date[0]+" 00:00:"+parseInt(time[2]);
 			
-			console.log(paramFromDate);
+			//console.log(paramFromDate);
 		 
 		 
 	 }else if($("#paramScaleTime-"+trendActive+"").val()=='Hour'){
