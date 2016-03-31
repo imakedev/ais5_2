@@ -14,7 +14,7 @@
 
 Route::get('/', function () {
    // return view('welcome');
-    return redirect('ais/index');
+    return redirect('ais/trend');
 });
 
 /*
@@ -322,7 +322,6 @@ Route::group(['middleware' => 'web'], function () {
 
 
     //process view start
-    
     Route::get('/ais/processView/getEmpID_userMMplant','processViewController@getEmpID_userMMplant');
     
     //Steam47 START
@@ -388,8 +387,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/ajax/executeCalculation', 'Ajax\CalculationAjax@executeCalculation');
     Route::get('/ajax/readData/{scaleType}/{trendID}', 'Ajax\CalculationAjax@readData');
     Route::get('/ajax/readDataSecond/{trendID}', 'Ajax\CalculationAjax@readDataSecond');
-
-    Route::post('/ajax/testDynamicConnection', 'Ajax\CalculationAjax@testDynamicConnection');
+    
+Route::post('/ajax/testDynamicConnection', 'Ajax\CalculationAjax@testDynamicConnection');
 
 });
 
