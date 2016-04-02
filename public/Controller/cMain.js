@@ -29,7 +29,7 @@ $(document).ajaxStop(function() {
 /* loading end */
 //theme
 var colorFlatTheme=["#10c4b2", "#ff7663", "#ffb74f", "#a2df53", "#10c4b2","#ff63a5","#1cc47b","#10c4b2","#ff7663","#ffb74f","#a2df53","#1c9ec4"];
-/*
+
 $.ajax({
 	url:'/ais/serviceTrend/getColorTrendByUser',
 	dataType:'json',
@@ -55,7 +55,7 @@ $.ajax({
 		}
 	}
 });
-*/
+
 //alert(colorFlatTheme);
 
 //monthName
