@@ -1,14 +1,16 @@
 <!-- TagConfiguration Modal Start -->
 
 <div aria-hidden="true" role="dialog" tabindex="-1" id="modalAddEditTag" class="modal inmodal in" style="display: none;">
+    <input type="hidden" name="modalAddEditTagMode" id="modalAddEditTagMode"/>
+    <input type="hidden" name="modalAddEditTag_user_mmplant" id="modalAddEditTag_user_mmplant" value="{{Session::get('user_mmplant')}}"/>
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
                 <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <h5 class="modal-title">Add New Tag Data</h5>
+                <h5 class="modal-title" id="header_label"></h5>
             </div>
             <div class="modal-body">
-                {!! Form::open(array('url'=>'ais/tagConfiguration/store','class'=>'form-horizontal','method'=>'post')) !!}
+                {!! Form::open(array('url'=>'ais/tagConfiguration/store','class'=>'form-horizontal','method'=>'post','id'=>'tagForm')) !!}
                     <div class='row'>
                         <div class='col-md-6'>
                             <div class="form-group">
@@ -126,9 +128,9 @@
                             <div class="form-group"><label class="col-lg-3 control-label padding5">Point Type</label>
                                 <div class="col-lg-9 padding5">
                                     <select id="tagTitle" name="tagTitle" class="form-control ">
-                                        <option value="Analog">Analog</option>
-                                        <option value="Digital">Digital</option>
-                                        <option value="Station">Station</option>
+                                        <option value="ANALOG">Analog</option>
+                                        <option value="DIGITAL">Digital</option>
+                                        <option value="STATION">Station</option>
                                         <option value="RMSC">RMSC</option>
                                     </select>
                                 </div>
@@ -288,11 +290,12 @@
                     </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-primary" type="button" onclick="validateTag()">Save</button>
                 <button data-dismiss="modal" class="btn btn-white" type="button">Cancel</button>
             </div>
             {!! Form::close() !!}
         </div>
     </div>
 </div>
+
 <!-- Modal End -->

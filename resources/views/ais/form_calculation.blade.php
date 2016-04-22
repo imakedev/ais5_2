@@ -329,10 +329,10 @@
 	               <div class=paramFamulaType>
 	                   Formula type
 	                  <select id="cal_h" name="cal_h" class="form-control input-sm">
+                          <option value="{{Auth::user()->empId}}">My Calculation</option>
                           @if (session()->get('user_priority') >= 254)
-                            <option value="{{Auth::user()->empId}}">Standard</option>
+                              <option value="{{Auth::user()->empId}}">Standard</option>
                           @endif
-                            <option value="{{Auth::user()->empId}}">My Calculation</option>
                         </select>
                        <input type="hidden" id="cal_h_hidden" value="{{ $mmcalculation->H }}" />
 	               </div>
@@ -523,7 +523,6 @@
            <!-- list point end -->
            
 
-                        
           </div>
          <div class="modal-footer">
          <button class="btn btn-primary" type="button" onclick="doAddMmpoint()">Add</button>

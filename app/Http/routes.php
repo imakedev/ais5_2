@@ -69,11 +69,13 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/ais' , ['middleware' => 'auth', function()
     {
-        return redirect('ais/index');
+        //return redirect('ais/index');
+        return redirect('ais/trend');
     }]);
     Route::get('/ais/index' ,['middleware' => 'auth',function()
     {
-        return view('ais.index');
+        //return view('ais.index');
+        return redirect('ais/trend');
     }]);
     /*
     Route::get('/logout' ,['middleware' => 'auth' , function()
@@ -194,6 +196,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('/ais/tagConfiguration', 'TagConfigController@search');
 
+
     Route::post('/ais/tagConfiguration/store', 'TagConfigController@store');
 
     Route::get('/tagConfiguration/deleteSelect', 'TagConfigController@deleteSelect');
@@ -202,7 +205,8 @@ Route::group(['middleware' => 'web'], function () {
 
 
     Route::resource('/ais/pointConfiguration', 'PointConfigController@search');
-
+    Route::resource('/ais/tagList', 'PointConfigController@tagList');
+    Route::resource('/ais/tag/{H}/points', 'PointConfigController@pointOfTag');
     Route::post('/ais/pointConfiguration/store', 'PointConfigController@store');
 
     Route::get('/pointConfiguration/deleteSelect', 'PointConfigController@deleteSelect');
@@ -240,6 +244,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/ajax/addmmpoint/search','Ajax\TrendDesignAjax@searchAddPointMmpoint');
     Route::post('/ajax/addmmpoint/doAdd','Ajax\TrendDesignAjax@doAddPointMmpoint');
     Route::post('/ajax/mmtag/get','Ajax\TrendDesignAjax@getMmTag');
+    Route::post('/ajax/mmtag/validate','Ajax\TagAjax@validateTag');
 
     Route::post('/ajax/constant/search','Ajax\ConstantAjax@search');
     Route::post('/ajax/constant/post','Ajax\ConstantAjax@post');

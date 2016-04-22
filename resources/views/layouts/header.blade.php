@@ -57,10 +57,15 @@
                         <div class="dropdown-messages-box">
                             <div class="media-body ">
                                 <i class="fa fa-gear"></i>
-                                <a href='{{  url('/ais/pointConfiguration')  }}'>Point Configuration</a>
+                                <!--
+                                <a href='  url('/ais/pointConfiguration')  '>Point Configuration</a>
+                                -->
+                                <a href='{{  url('/ais/tagList')  }}'>Point Configuration</a>
                             </div>
                         </div>
                     </li>
+                    <!--
+                    {{--
                     <li class="divider"></li>
                     <li>
                         <div class="dropdown-messages-box">
@@ -70,6 +75,8 @@
                             </div>
                         </div>
                     </li>
+                    --}}
+                    -->
                 </ul>
             </li>
             @endif

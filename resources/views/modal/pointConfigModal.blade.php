@@ -5,7 +5,7 @@
         <div class="modal-content animated flipInY">
             <div class="modal-header">
                 <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <h5 class="modal-title">Add Point Data</h5>
+                <h5 id="modalPointConFigHeader" class="modal-title"></h5>
             </div>
             <div class="modal-body">
                 {!! Form::open(array('url'=>'/ais/pointConfiguration/store','class'=>'form-horizontal','method'=>'post')) !!}
@@ -14,6 +14,7 @@
                         <div class="col-lg-7 padding5">
                             <input id="avg" name="avg" type='checkbox'> เฉลี่ยค่าจากข้อมูลรายวินาที
                             <input id="avgVal" name="avgVal" type='hidden'>
+                            <input id="tagId" name="tagId" type='hidden'>
                         </div>
                     </div>
                     <div class="form-group"><label class="col-lg-3 control-label padding5">Tag Atom</label>

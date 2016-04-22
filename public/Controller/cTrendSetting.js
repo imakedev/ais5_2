@@ -336,7 +336,9 @@ var bindGridPoinList = function(){
 
 					            tableTrendHTML+="<td>";
 					            if(indexEntry['I']!=0){
-					            	tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' class='point' id='point-C"+indexEntry['I']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'  name='point' value='C"+indexEntry['I']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"-"+indexEntry['FORMULA']+"'></div>";	
+					            	//tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' class='point' id='point-C"+indexEntry['I']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'  name='point' value='"+indexEntry['FORMULA']+"'></div>";
+					            	tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' class='point' id='point-C"+indexEntry['I']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'  name='point' value='C"+indexEntry['I']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"-{"+indexEntry['FORMULA']+"'></div>";
+					            	//tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' class='point' id='point-C"+indexEntry['I']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'  name='point' value='"+indexEntry['FORMULA']+"'></div>";	
 					            }else{
 					            	tableTrendHTML+="<div class='listCheckbox listPoint'><input type='checkbox' class='point' id='point-"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'  name='point' value='"+indexEntry['H']+"-"+indexEntry['B']+"-"+indexEntry['ZZ']+"'></div>";
 					            }
@@ -457,13 +459,13 @@ var bindGridPoinList = function(){
 		                unitHtml+="<option value='7'>MM07</option>";
 		            unitHtml+="</select> ";
 		            */
-						unitHtml+="<input type='radio' id='unitAll-"+trendID+"' class='unit-"+trendID+"' checked='checked' name='unit-"+trendID+"' value='All'>All Point &nbsp;";
+						unitHtml+="<input type='radio' id='unitAll-"+trendID+"' class='unit-"+trendID+"' checked='checked' name='unit-"+trendID+"' value='All'>All Unit &nbsp;";
 						unitHtml+="<input type='radio' id='unitMM04-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='4'>MM04 &nbsp;";
 						unitHtml+="<input type='radio' id='unitMM05-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='5'>MM05 &nbsp;";
 						unitHtml+="<input type='radio' id='unitMM06-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='6'>MM06 &nbsp;";
 						unitHtml+="<input type='radio' id='unitMM07-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='7'>MM07 &nbsp;";
 					}else{
-						unitHtml+="<input type='radio' id='unitAll-"+trendID+"' class='unit-"+trendID+"' checked='checked' name='unit-"+trendID+"' value='All'>All Point &nbsp;";
+						unitHtml+="<input type='radio' id='unitAll-"+trendID+"' class='unit-"+trendID+"' checked='checked' name='unit-"+trendID+"' value='All'>All Unit &nbsp;";
 						unitHtml+="<input type='radio' id='unitMM08-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='8'>MM08 &nbsp;";
 						unitHtml+="<input type='radio' id='unitMM09-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='9'>MM09 &nbsp;";
 						unitHtml+="<input type='radio' id='unitMM010-"+trendID+"' class='unit-"+trendID+"' name='unit-"+trendID+"' value='10'>MM10 &nbsp;";
@@ -867,10 +869,36 @@ var bindGridPoinList = function(){
 				 }
 			 }
 			 var pointIDArray = $(this).val().split("-");
+			 var pointIDByCalArray=this.id;
+			 var pointIDByCal="";
+			 var pointIDByCalArray2="";
+			 var pointIDByCal2="";
+			 
 			 var pointID=pointIDArray[0];
 			 var pointIDNotFormula="";
+			 
+			 /*
+			 pointIDByCal=pointIDByCalArray.substring(6,7);
+			 //alert(pointIDByCal);
+			 if(pointIDByCal=="C"){
+				 //7-4-88333
+				 //C512-4-88339
+				 pointIDByCalArray2=pointIDByCalArray.split("-");
+				 pointIDNotFormula2=pointIDByCalArray2[1]+"-"+pointIDByCalArray2[2]+"-"+pointIDByCalArray2[3];
+				 pointIDNotFormula=pointIDNotFormula2;
+				 
+			 }else{
+				 pointIDNotFormula=$(this).val().split("-");
+				 pointIDNotFormula=pointIDNotFormula[0]+"-"+pointIDNotFormula[1]+"-"+pointIDNotFormula[2];
+			 }
+			 */
+			 
 			 pointIDNotFormula=$(this).val().split("-");
 			 pointIDNotFormula=pointIDNotFormula[0]+"-"+pointIDNotFormula[1]+"-"+pointIDNotFormula[2];
+			 
+			 
+			 pointIDNotFormula=ClearTrim(pointIDNotFormula);
+			 //alert(pointIDNotFormula);
 			 
 			 if($(this).prop( "checked" )==true){
 				 if($("#pointCompare").is(':checked')==false){
@@ -885,6 +913,7 @@ var bindGridPoinList = function(){
 				 }else{
 					 $("#paramPointEmbedPrePlot-"+pointIDNotFormula+"").remove();
 				 }
+				 
 			 }
 			 
 			 //console.log("-----");

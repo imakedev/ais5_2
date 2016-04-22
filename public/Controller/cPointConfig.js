@@ -19,7 +19,59 @@ function addBtn() {
     $('#poiUnit').val('');
     $('#poiMax').val('');
     $('#poiMin').val('');
-    $('#modalPointConFig').modal();
+    var tag_id = $("#tag_id").val();
+    var obj={
+        "key":tag_id
+    };
+    $("#tagId").val(tag_id);
+    $.ajax({
+        url: "/ajax/mmtag/get",
+        method: "POST",
+        data: obj
+    }).done(function(dataCallBack2, status, xhr) {
+        console.log(dataCallBack2);
+        var mmtagM = jQuery.parseJSON(dataCallBack2.mmtagM);
+        var strSelect="<select id=\"poiAtom\" name=\"poiAtom\" class=\"form-control \">";
+        /*
+         DIGITAL -> [ Status ]
+         ANALOG -> [ Alarm , Value ]
+         STATION -> [ Auto / Manual , Value , Command , Set Point , Bias , Ratio  ]
+         RMSC -> [ Value ]
+         */
+        if(mmtagM!=null){
+            if(mmtagM.D=='ANALOG'){
+                strSelect=strSelect+"<option value=\"Value\">Value</option>";
+                strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
+            }else if(mmtagM.D=='DIGITAL'){
+                strSelect=strSelect+"<option value=\"Status\">Status</option>";
+            } else if(mmtagM.D=='RMSC'){
+                strSelect=strSelect+"<option value=\"Value\">Value</option>";
+            } else if(mmtagM.D=='STATION'){
+                strSelect=strSelect+"<option value=\"Auto / Manual\">Auto / Manual</option>";
+                strSelect=strSelect+"<option value=\"Value\">Value</option>";
+                strSelect=strSelect+"<option value=\"Command\">Command</option>";
+                strSelect=strSelect+"<option value=\"Set Point\">Set Point</option>";
+                strSelect=strSelect+"<option value=\"Bias\">Bias</option>";
+                strSelect=strSelect+"<option value=\"Ratio\">Ratio</option>";
+            }
+        }else{
+            strSelect=strSelect+"<option value=\"Value\">Value</option>";
+            strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
+        }
+        strSelect=strSelect+"</select>";
+        $("#poiAtomSelect").html(strSelect);
+        //alert(mmtagM.D)
+        //  $("#poiAtom").val();
+        /*
+        if (mmpointM.D!=null) {
+            $('#poiAtom').val(mmpointM.D);
+        }
+        */
+        $("#modalPointConFigHeader").html("Add Point Data");
+        $('#modalPointConFig').modal();
+    });
+
+
 }
 
 /* btn Add in pointConfig */
@@ -28,6 +80,8 @@ function editBtn(index) {
     var obj={
         "key":data[1].childNodes[0].data
     };
+
+    //alert(obj)
     $.ajax({
         url: "/ajax/mmpoint/get",
         method: "POST",
@@ -54,24 +108,39 @@ function editBtn(index) {
         if (mmpointM.G1!=null) {
             $('#poiMin').val(mmpointM.G1);
         }
+        var obj2={
+            "key":mmpointM.H
+        };
         $.ajax({
             url: "/ajax/mmtag/get",
             method: "POST",
-            data: obj
+            data: obj2
         }).done(function(dataCallBack2, status, xhr) {
             console.log(dataCallBack2);
             var mmtagM = jQuery.parseJSON(dataCallBack2.mmtagM);
+            $("#tagId").val(mmtagM.A);
             var strSelect="<select id=\"poiAtom\" name=\"poiAtom\" class=\"form-control \">";
-
+            /*
+            DIGITAL -> [ Status ]
+            ANALOG -> [ Alarm , Value ]
+            STATION -> [ Auto / Manual , Value , Command , Set Point , Bias , Ratio  ]
+            RMSC -> [ Value ]
+            */
             if(mmtagM!=null){
                 if(mmtagM.D=='ANALOG'){
                     strSelect=strSelect+"<option value=\"Value\">Value</option>";
                     strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
                 }else if(mmtagM.D=='DIGITAL'){
                     strSelect=strSelect+"<option value=\"Status\">Status</option>";
-                }else{
+                } else if(mmtagM.D=='RMSC'){
                     strSelect=strSelect+"<option value=\"Value\">Value</option>";
-                    strSelect=strSelect+"<option value=\"Alarm\">Alarm</option>";
+                } else if(mmtagM.D=='STATION'){
+                    strSelect=strSelect+"<option value=\"Auto / Manual\">Auto / Manual</option>";
+                    strSelect=strSelect+"<option value=\"Value\">Value</option>";
+                    strSelect=strSelect+"<option value=\"Command\">Command</option>";
+                    strSelect=strSelect+"<option value=\"Set Point\">Set Point</option>";
+                    strSelect=strSelect+"<option value=\"Bias\">Bias</option>";
+                    strSelect=strSelect+"<option value=\"Ratio\">Ratio</option>";
                 }
             }else{
                 strSelect=strSelect+"<option value=\"Value\">Value</option>";
@@ -84,6 +153,7 @@ function editBtn(index) {
             if (mmpointM.D!=null) {
                 $('#poiAtom').val(mmpointM.D);
             }
+            $("#modalPointConFigHeader").html("Edit Point Data");
             $('#modalPointConFig').modal();
         });
 
@@ -179,4 +249,7 @@ function validateForm() {
     if ($('#empNo').val() == '') {
         isValid = false;
     }
+}
+function goTo(url){
+    window.location.href=url;
 }

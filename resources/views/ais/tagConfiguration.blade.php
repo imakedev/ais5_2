@@ -58,7 +58,9 @@
                     <input type="hidden" id="sortBy_hidden" value="{{session()->get('sortBy')}}"/>
                     <select id="sortBy" name="sortBy">
                         <option value=""></option>
-                        <option value="B">Point Description</option>
+                        <option value="A">Item</option>
+                        <option value="B">Tag Description</option>
+                        <option value="D">Type</option>>
                     </select>
                 </div>
                 <div class="col-md-2" style="margin-top: 8px">
@@ -101,7 +103,7 @@
                                 <input type='checkbox' id="checkAll">
                             </th>
                             <th class="center" data-field="field1"><b>Item</b></th>
-                            <th class="center" data-field="field2"><b>Point&nbsp;Description</b></th>
+                            <th class="center" data-field="field2"><b>Tag&nbsp;Description</b></th>
                             @foreach($columns as $index2 => $column)
                                 <?php $tag_show = 'Tag'.$column; ?>
                                 <td class="settext">{{$tag_show}}</td>

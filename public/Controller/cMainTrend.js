@@ -745,6 +745,7 @@ function getDataByDateSecond(data,point){
             labels: {
                 format: "N0"
             },
+            visible: false,
             
             //majorUnit: 500
         },
@@ -817,7 +818,72 @@ function getDataFromPointEmbedNotCalID(){
 	 
 	 return unitIdPointIdNotCalID;
 }
-function getformulaEmbedFn(paramTrendID){
+
+function getformulaEmbedFn(paramTrendID,pointAll){
+	var formulaEmbed="";
+	var pointID="";
+	var unitID="";
+	var calFomula="";
+	var checkCal="";
+	var queryPointArray="";
+	var queryPointCalArray="";
+	
+	
+	if(pointAll=="All"){
+		var paramPointAndUnitArray=$("#paramPointAllEmbed-"+paramTrendID).val().split(","); 
+	}else{
+		var paramPointAndUnitArray=$("#paramPointEmbed-"+paramTrendID).val().split(","); 
+	}
+	
+	
+	//var paramPointAndUnitArray="D3-4-88331,D4-4-88332,D7-4-88333,DC508-4-88334- U04D1+ U04D2+Enthalpy(U04D2;U04D2)".split(",");
+	$.each(paramPointAndUnitArray,function(index,indexEntry){
+		 //alert(indexEntry);
+		 //D3-4-88331
+		 checkCal="NO";
+		 queryPointCalArray=indexEntry.split("{");
+		 queryPointArray=indexEntry.split("-");
+
+		 if((queryPointCalArray[1]=='undefined') || (queryPointCalArray[1]==undefined)){
+			 checkCal="NO";
+		 }else{
+			 calFomula=queryPointCalArray[1];
+			 checkCal="YES";
+		 }
+		 
+		 
+		 
+
+		 unitID=queryPointArray[1]; 
+		 pointID=queryPointArray[0]; 
+		 /*
+		alert(unitID);
+		alert(pointID);
+		alert(calFomula);
+		*/
+		//alert(checkCal);
+		 
+		 if(index==0){
+			 if(checkCal=='YES'){
+				 formulaEmbed+="\""+calFomula+"\"";
+			 }else{
+				 formulaEmbed+="\"U0"+unitID+""+pointID+"\""; 
+			 }
+		 }else{
+			 if(checkCal=='YES'){
+				 formulaEmbed+=",\""+calFomula+"\"";
+			 }else{
+				 formulaEmbed+=",\"U0"+unitID+""+pointID+"\""; 
+			 }
+		 }
+		
+	});
+	
+	return formulaEmbed;
+}
+
+
+function getformulaEmbedFn_bk(paramTrendID){
 	var formulaEmbed="";
 	var pointID="";
 	var unitID="";
@@ -843,15 +909,13 @@ function getformulaEmbedFn(paramTrendID){
 		 
 		 
 		 //alert(calFomula);
-		 
-		 
+
 		 unitID=queryPointArray[1]; 
 		 pointID=queryPointArray[0]; 
 		 
 		//alert(unitID);
 		//alert(pointID);
-	
-		// alert(checkCal);
+		//alert(checkCal);
 		 
 		 if(index==0){
 			 if(checkCal=='YES'){
@@ -881,9 +945,20 @@ function getformulaEmbedFn(paramTrendID){
 	
 
 
-function getDataFromPointEmbed(returnType){
-
-		var pointData = $("#paramPointEmbed-"+$("#trendTabActive").val()+"").val();
+function getDataFromPointEmbed(returnType,selectPointAll){
+		if(selectPointAll=="All"){
+			
+			var pointData = $("#paramPointAllEmbed-"+$("#trendTabActive").val()+"").val();
+			
+		}else{
+			
+			var pointData = $("#paramPointEmbed-"+$("#trendTabActive").val()+"").val();
+			
+		}
+		
+		
+		
+		
 		//alert(pointData);
 		pointData=pointData.split(",");
 		var pointDataId="";
@@ -1050,6 +1125,7 @@ var readJsonFilter={
 								
 							if((toTimestamp(indexEntry['EvTime'])>=toTimestamp(startTime)) && (toTimestamp(indexEntry['EvTime'])<=toTimestamp(endTime))) {
 								
+								/*
 								if($i<=10){
 									
 								console.log("อยู่ในเงื่อนไข");
@@ -1059,6 +1135,7 @@ var readJsonFilter={
 								console.log("-----");
 								
 								}
+								*/
 								//console.log(toTimestamp(index)+"<="+toTimestamp(endTime));
 								if($i==0){
 									jsonData+="{";	
@@ -1445,12 +1522,14 @@ var createFileServiceChart={
 	createFileByHru:function(paramTrendID,queryPoint,unitIdPointId){
 		
 		var pointDataId= getDataFromPointEmbed("unitIdPointId");
-		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		//var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote","All");
 		var arrayUnitIdPointIdDoubleQuote = JSON.parse("[" + unitIdPointIdDoubleQuote + "]");
+		
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
-		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID)+ "]");
+		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID,"All")+ "]");
 		
 		var obj={
 				
@@ -1505,12 +1584,13 @@ var createFileServiceChart={
 		
 
 		var pointDataId= getDataFromPointEmbed("unitIdPointId");
-		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		//var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote","All");
 		var arrayUnitIdPointIdDoubleQuote = JSON.parse("[" + unitIdPointIdDoubleQuote + "]");
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
-		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID)+ "]");
+		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID,"All")+ "]");
 		
 		
 		var obj={
@@ -1560,12 +1640,13 @@ var createFileServiceChart={
 	createFileByMonthu:function(paramTrendID,unitIdPointId){
 		
 		var pointDataId= getDataFromPointEmbed("unitIdPointId");
-		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		//var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote","All");
 		var arrayUnitIdPointIdDoubleQuote = JSON.parse("[" + unitIdPointIdDoubleQuote + "]");
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
-		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID)+ "]");
+		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID,"All")+ "]");
 		
 		
 		var obj={
@@ -1673,13 +1754,17 @@ var createFileServiceChart={
 	createFileByMinuteu:function(paramTrendID,unitIdPointId){
 		
 		var pointDataId= getDataFromPointEmbed("unitIdPointId");
-		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		//var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote","All");
 		var arrayUnitIdPointIdDoubleQuote = JSON.parse("[" + unitIdPointIdDoubleQuote + "]");
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
 		var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
-		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID)+ "]");
+		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID,"All")+ "]");
 
+		
+		//console.log(getformulaEmbed);
+		
 		
 		var obj={
 				
@@ -1700,19 +1785,24 @@ var createFileServiceChart={
 			data: obj,
 			async:false,
 			success:function(data){
-				//console.log(data);
+				
+			
+				
 				$obj=eval("("+data+")");
 				if($obj=='createJsonSuccess'){
+					
 					/*
 					alert(endDatetimeHisFn(paramToDate));
 					alert(startDateTime5HaGoFn(endDatetimeHisFn(paramToDate)));
 					*/
+					
 					var data2=readJsonFilter.scaleTypeMinute(startDateTime5HaGoFn(endDatetimeHisFn(paramToDate)),endDatetimeHisFn(paramToDate),paramTrendID,"minute");
 			
 					if(data2==""){
 						
 						alert("Data is empty!");
 						return false;
+						
 					}
 					
 					
@@ -1730,6 +1820,7 @@ var createFileServiceChart={
 						var lastObject = data2.pop();
 						//setDefaultPointAndPlan(lastObject,point,paramTrendID);
 						setDefaultPointAndPlan(lastObject,unitIdPointId,paramTrendID);
+						
 					},1000);
 					
 					
@@ -1838,16 +1929,14 @@ var createFileServiceChart={
 	},
 	createFileBySecondu:function(paramTrendID){
 		var pointDataId= getDataFromPointEmbed("unitIdPointId");
-		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		//var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote");
+		var unitIdPointIdDoubleQuote= getDataFromPointEmbed("unitIdPointIdDoubleQuote","All");
 		var arrayUnitIdPointIdDoubleQuote = JSON.parse("[" + unitIdPointIdDoubleQuote + "]");
-		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID)+ "]");
+		var getformulaEmbed=JSON.parse("[" +getformulaEmbedFn(paramTrendID,"All")+ "]");
 		var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
 		
 		//var paramFromDate= $("#paramFromDate-"+paramTrendID+"").val();
 		//var paramToDate=  $("#paramToDate-"+paramTrendID+"").val();
-		
-		
-		
 		//var pointDataId= getDataFromPointEmbed("pointDataId");
 		//var pointDataId= getDataFromPointEmbed("unitIdPointId");
 		//var pointUnitId= $("#paramUnitEmbed-"+paramTrendID+"").val();
@@ -1894,6 +1983,9 @@ var createFileServiceChart={
 		"startTime":paramStartTime,
 		"endTime":paramEndTime,
 		 */
+		console.log("--getformulaEmbed--");
+		
+		console.log(getformulaEmbed);
 		var obj={
 				//"key":["U04D1","DC102"],
 				"key":arrayUnitIdPointIdDoubleQuote,

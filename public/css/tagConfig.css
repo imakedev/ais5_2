@@ -1,3 +1,6 @@
 #gridTagConfigList{
 	width:1500px;
 }
+.have_error{
+	border-color: red;
+}

@@ -10,6 +10,9 @@ var mmPlant=$("#mmPlant").val();
 alert(mmPlant);
 alert(empID);
 */
+function ClearTrim(v){ 
+	 return  v.replace(/ /g, "");
+}
 /* loading start */
 
 function startLoading(){
@@ -28,7 +31,10 @@ $(document).ajaxStop(function() {
 });
 /* loading end */
 //theme
+
 var colorFlatTheme=["#10c4b2", "#ff7663", "#ffb74f", "#a2df53", "#10c4b2","#ff63a5","#1cc47b","#10c4b2","#ff7663","#ffb74f","#a2df53","#1c9ec4"];
+//var colorFlatTheme=["#10c4b2", "#10c4b2", "#10c4b2", "#10c4b2", "#10c4b2","#10c4b2","#10c4b2","#10c4b2","#10c4b2","#10c4b2","#10c4b2","#10c4b2"];
+
 
 $.ajax({
 	url:'/ais/serviceTrend/getColorTrendByUser',
@@ -39,7 +45,78 @@ $.ajax({
 		
 		if((data[0]!='') && (data[0]!=undefined)){
 		colorFlatTheme=[];
-		colorFlatTheme[0]=data[0]['A'];
+		if(data[0]['A']==""){
+			colorFlatTheme[0]="#000000";
+		}else{
+			colorFlatTheme[0]=data[0]['A'];
+		}
+		
+		if(data[0]['B']==""){
+			colorFlatTheme[1]="#000000";
+				}else{
+			colorFlatTheme[1]=data[0]['B'];		
+				}
+		
+		if(data[0]['C']==""){
+			colorFlatTheme[2]="#000000";
+		}else{
+			colorFlatTheme[2]=data[0]['C'];	
+		}
+		
+		if(data[0]['D']==""){
+			colorFlatTheme[3]="#000000";
+		}else{
+			colorFlatTheme[3]=data[0]['D'];	
+		}
+		
+		if(data[0]['E']==""){
+			colorFlatTheme[4]="#000000";
+		}else{
+			colorFlatTheme[4]=data[0]['E'];	
+		}
+		
+		if(data[0]['F']==""){
+			colorFlatTheme[5]="#000000";
+		}else{
+			colorFlatTheme[5]=data[0]['F'];	
+		}
+		
+		if(data[0]['G']==""){
+			colorFlatTheme[6]="#000000";
+		}else{
+			colorFlatTheme[6]=data[0]['G'];	
+		}
+		
+		if(data[0]['H']==""){
+			colorFlatTheme[7]="#000000";
+		}else{
+			colorFlatTheme[7]=data[0]['H'];	
+		}
+		
+		if(data[0]['I']==""){
+			colorFlatTheme[8]="#000000";
+		}else{
+			colorFlatTheme[8]=data[0]['I'];	
+		}
+		
+		if(data[0]['J']==""){
+			colorFlatTheme[9]="#000000";
+		}else{
+			colorFlatTheme[9]=data[0]['J'];	
+		}
+		
+		if(data[0]['K']==""){
+			colorFlatTheme[10]="#000000";
+		}else{
+			colorFlatTheme[10]=data[0]['K'];	
+		}
+		
+		if(data[0]['L']==""){
+			colorFlatTheme[11]="#000000";
+		}else{
+			colorFlatTheme[11]=data[0]['L'];	
+		}
+		/*
 		colorFlatTheme[1]=data[0]['B'];
 		colorFlatTheme[2]=data[0]['C'];
 		colorFlatTheme[3]=data[0]['D'];
@@ -50,8 +127,8 @@ $.ajax({
 		colorFlatTheme[8]=data[0]['I'];
 		colorFlatTheme[9]=data[0]['J'];
 		colorFlatTheme[10]=data[0]['K'];
-		colorFlatTheme[12]=data[0]['L'];
-		
+		colorFlatTheme[11]=data[0]['L'];
+		*/
 		}
 	}
 });
