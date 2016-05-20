@@ -350,11 +350,11 @@
             </div>
             
             	 <!-- kendo ui chart start -->
-                <div class="row grachArea">
+                <div class="row grachArea" >
                     <div class='col-md-9 col-padding0 ' id='boxLeft'> 
                         <div class="demo-section k-content wide " id='trendChartArea-<?=$_GET['paramTrendID']?>'>
                             
-                	        <div id="trendChart-<?=$_GET['paramTrendID']?>" class='heightChart' style="background: center no-repeat url('/js/kendoCommercial/bg/world-map.png');"></div>
+                	        <div id="trendChart-<?=$_GET['paramTrendID']?>" class='heightChart' style="background: center no-repeat url('/js/kendoUI/bg/world-map.png');"></div>
                 	   
                 	    </div>
             	    </div>

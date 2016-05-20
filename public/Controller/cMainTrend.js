@@ -629,27 +629,41 @@ function getDataByDateSecond(data,point){
 // createTrendChart start
 	var createTrendChart =function(dataJson,point,paramStep,paramTrendID,colorIndex){
 		
-		var labelFontSize="5px";
-		if($("#paramScaleTime-"+paramTrendID).val()=="Second"){
-			//labelFontSize="5px sans-serif";
-			labelFontSize="";
-		}else{
-			labelFontSize="";
-		}
-		//alert(labelFontSize);
 		
+		
+		var labelFontSize="12px sans-serif";
+		
+		if($("#paramScaleTime-"+paramTrendID).val()=="Second"){
+			labelFontSize="5px sans-serif";
+			//labelFontSize="";
+		}
+		
+		//alert(labelFontSize);
+		/*
 		console.log("createTrendChart");
 		console.log("point"+point);
 		console.log("paramTrendID"+paramTrendID);
-		
+		*/
+		console.log("paramStep1="+paramStep);
 		if((paramStep==undefined) || (paramStep=='')){
 			paramStep=60;
 		}else{
-			paramStep=paramStep;
+			paramStep=parseInt(paramStep);
 		}
 		//alert(paramStep);
 		
-		$("#trendChartArea-"+paramTrendID+"").html("<div id=\"trendChart-"+paramTrendID+"\" class='heightChart' style=\"background: center no-repeat url('/js/kendoCommercial/bg/world-map.png');\"></div>");
+		/*
+		console.log("start-----------------------");
+		console.log("dataJson="+dataJson);
+		console.log("point="+point);
+		console.log("paramStep2="+paramStep);
+		console.log("paramTrendID="+paramTrendID);
+		console.log("colorIndex="+colorIndex);
+		console.log("end-----------------------");
+		//paramStep=50;
+		*/
+		
+		$("#trendChartArea-"+paramTrendID+"").html("<div id=\"trendChart-"+paramTrendID+"\" class='heightChart' style=\"background: center no-repeat url('/js/kendoUI/bg/world-map.png');\"></div>");
 		
 		var seriesData="";
 		var pointArray=point.split(",");

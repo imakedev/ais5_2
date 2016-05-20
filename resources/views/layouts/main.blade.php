@@ -11,8 +11,8 @@
 
     <!-- kendo ui resource start -->
  
-   <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.common.min.css" />
-   <link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.default.min.css" />
+   <link rel="stylesheet" href="/js/kendoUI/styles/kendo.common.min.css" />
+   <link rel="stylesheet" href="/js/kendoUI/styles/kendo.default.min.css" />
    
 
     <!-- kendo ui resource end -->
@@ -32,7 +32,7 @@
 
     <!-- Mainly scripts -->
     <!-- <script src="js/jquery-2.1.1.js"></script> -->
-    <script src="/js/kendoCommercial/js/jquery.min.js"></script>
+    <script src="/js/kendoUI/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -92,8 +92,8 @@
    <!--  <script src="//kendo.cdn.telerik.com/2015.3.930/js/kendo.all.min.js"></script> -->
   
     
-    <!-- <script src="/js/kendoCommercial/js/kendo.all.min2.js"></script>  -->
-    <script src="/js/kendoCommercial/js/kendo.all.min.js"></script>   
+    <!-- <script src="/js/kendoUI/js/kendo.all.min2.js"></script>  -->
+    <script src="/js/kendoUI/js/kendo.all.min.js"></script>   
 
     <script>
         function confirm_del(){

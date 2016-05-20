@@ -15,7 +15,7 @@
 <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
 
 <!-- kendo ui start -->
-<link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.black.min.css" />
+<link rel="stylesheet" href="/js/kendoUI/styles/kendo.black.min.css" />
 <!-- kendo ui end -->
 <!-- test start 
 <button id='btnExport'>button</button>-->

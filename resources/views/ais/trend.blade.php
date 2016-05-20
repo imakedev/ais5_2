@@ -9,13 +9,13 @@
     @section('content')
 <meta charset="utf-8">
 
-<link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.common.min2.css" />
+<link rel="stylesheet" href="/js/kendoUI/styles/kendo.common.min2.css" />
 
-<link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.rtl.min2.css">
-<link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.silver.min2.css">
-<link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.silver.mobile.min.css">
+<link rel="stylesheet" href="/js/kendoUI/styles/kendo.rtl.min2.css">
+<link rel="stylesheet" href="/js/kendoUI/styles/kendo.silver.min2.css">
+<link rel="stylesheet" href="/js/kendoUI/styles/kendo.silver.mobile.min.css">
 <!-- kendo ui start 
-<link rel="stylesheet" href="/js/kendoCommercial/styles/kendo.black.min.css" />-->
+<link rel="stylesheet" href="/js/kendoUI/styles/kendo.black.min.css" />-->
 <!-- kendo ui end -->
 <link href="/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="/css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
